@@ -406,6 +406,104 @@ class SoxnsoxConfigSeeder extends Seeder
                 'channel_code' => null,
                 'locale_code' => null,
             ],
+            // Social Login - Disabled
+            [
+                'code' => 'customer.settings.social_login.enable_facebook',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'customer.settings.social_login.enable_twitter',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'customer.settings.social_login.enable_google',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'customer.settings.social_login.enable_linkedin',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'customer.settings.social_login.enable_github',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            // Razorpay Payment Gateway (Live Credentials)
+            [
+                'code' => 'sales.payment_methods.razorpay.active',
+                'value' => '1',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.sandbox',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.client_id',
+                'value' => 'rzp_live_Sv7HztStWsQKPE',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.client_secret',
+                'value' => 'jjAs7N9hPz7QdSR5lEPwgkfw',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.test_client_id',
+                'value' => 'rzp_live_Sv7HztStWsQKPE',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.test_client_secret',
+                'value' => 'jjAs7N9hPz7QdSR5lEPwgkfw',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.title',
+                'value' => 'Razorpay (UPI, Cards, NetBanking, Wallets)',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.description',
+                'value' => 'Pay securely using UPI (Google Pay, PhonePe, Paytm), Credit/Debit Cards, or NetBanking.',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.merchant_name',
+                'value' => 'SOX N SOX',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.merchant_desc',
+                'value' => 'Premium Bamboo & Diabetic Socks',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.payment_methods.razorpay.sort',
+                'value' => '1',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
         ];
 
         foreach ($configs as $config) {
