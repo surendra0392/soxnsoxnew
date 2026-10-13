@@ -531,13 +531,13 @@ class SoxnsoxConfigSeeder extends Seeder
             ],
             [
                 'code' => 'sales.carriers.delhivery.api_token',
-                'value' => '',
+                'value' => 'd1319deca2e47247f5326573108fdc997d950d14',
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
             [
                 'code' => 'sales.carriers.delhivery.client_id',
-                'value' => 'SOXNSOX',
+                'value' => '34e717-VYORAENTERPRISES-do',
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
@@ -550,6 +550,24 @@ class SoxnsoxConfigSeeder extends Seeder
             [
                 'code' => 'sales.carriers.delhivery.pickup_pincode',
                 'value' => '500001',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.pickup_location_2',
+                'value' => 'Secondary Warehouse',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.pickup_location_2_pincode',
+                'value' => '110001',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.additional_pickup_locations',
+                'value' => '',
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],

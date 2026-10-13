@@ -50,19 +50,92 @@ class DelhiveryService
     }
 
     /**
-     * Get pickup location / warehouse name.
+     * Get all configured pickup locations with their origin PIN codes.
      */
-    public function getPickupLocation(): string
+    public function getPickupLocations(): array
     {
-        return (string) (core()->getConfigData('sales.carriers.delhivery.pickup_location') ?: 'Primary Warehouse');
+        $locations = [];
+
+        $primaryName = trim((string) core()->getConfigData('sales.carriers.delhivery.pickup_location'));
+        $primaryPin = trim((string) core()->getConfigData('sales.carriers.delhivery.pickup_pincode'));
+        if (! empty($primaryName)) {
+            $locations[$primaryName] = [
+                'name' => $primaryName,
+                'pin' => $primaryPin ?: '500001',
+            ];
+        }
+
+        $secName = trim((string) core()->getConfigData('sales.carriers.delhivery.pickup_location_2'));
+        $secPin = trim((string) core()->getConfigData('sales.carriers.delhivery.pickup_location_2_pincode'));
+        if (! empty($secName)) {
+            $locations[$secName] = [
+                'name' => $secName,
+                'pin' => $secPin ?: '500001',
+            ];
+        }
+
+        $additional = (string) core()->getConfigData('sales.carriers.delhivery.additional_pickup_locations');
+        if (! empty($additional)) {
+            $lines = preg_split("/\r\n|\n|\r/", $additional);
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (empty($line) || ! str_contains($line, ':')) {
+                    continue;
+                }
+                [$name, $pin] = array_map('trim', explode(':', $line, 2));
+                if (! empty($name)) {
+                    $locations[$name] = [
+                        'name' => $name,
+                        'pin' => $pin ?: '500001',
+                    ];
+                }
+            }
+        }
+
+        if (empty($locations)) {
+            $locations['Primary Warehouse'] = [
+                'name' => 'Primary Warehouse',
+                'pin' => '500001',
+            ];
+        }
+
+        return array_values($locations);
     }
 
     /**
-     * Get pickup origin PIN code.
+     * Get pickup location / warehouse name (or matching preferred name).
      */
-    public function getPickupPincode(): string
+    public function getPickupLocation(?string $preferredName = null): string
     {
-        return (string) (core()->getConfigData('sales.carriers.delhivery.pickup_pincode') ?: '500001');
+        $locations = $this->getPickupLocations();
+
+        if ($preferredName) {
+            foreach ($locations as $loc) {
+                if (strcasecmp($loc['name'], trim($preferredName)) === 0) {
+                    return (string) $loc['name'];
+                }
+            }
+        }
+
+        return (string) ($locations[0]['name'] ?? 'Primary Warehouse');
+    }
+
+    /**
+     * Get pickup origin PIN code corresponding to a specific location.
+     */
+    public function getPickupPincode(?string $locationName = null): string
+    {
+        $locations = $this->getPickupLocations();
+
+        if ($locationName) {
+            foreach ($locations as $loc) {
+                if (strcasecmp($loc['name'], trim($locationName)) === 0) {
+                    return (string) $loc['pin'];
+                }
+            }
+        }
+
+        return (string) ($locations[0]['pin'] ?? '500001');
     }
 
     /**
@@ -234,6 +307,10 @@ class DelhiveryService
         }
         $descString = substr(implode(', ', $productsDesc) ?: 'Premium Bamboo Socks', 0, 100);
 
+        $selectedLocation = $overrideData['pickup_location'] ?? null;
+        $pickupLocationName = $this->getPickupLocation($selectedLocation);
+        $pickupPincode = $this->getPickupPincode($pickupLocationName);
+
         $payload = [
             'shipments' => [
                 [
@@ -246,7 +323,7 @@ class DelhiveryService
                     'phone' => preg_replace('/[^0-9]/', '', (string) $shippingAddress->phone),
                     'order' => (string) $order->increment_id,
                     'payment_mode' => $isCod ? 'COD' : 'Prepaid',
-                    'return_pin' => $this->getPickupPincode(),
+                    'return_pin' => $pickupPincode,
                     'return_city' => '',
                     'return_phone' => '',
                     'return_add' => '',
@@ -271,7 +348,7 @@ class DelhiveryService
                 ],
             ],
             'pickup_location' => [
-                'name' => $this->getPickupLocation(),
+                'name' => $pickupLocationName,
             ],
         ];
 
@@ -366,5 +443,48 @@ class DelhiveryService
         }
 
         return null;
+    }
+
+    /**
+     * Verify whether a warehouse / pickup location exists and is registered in Delhivery.
+     */
+    public function verifyPickupLocation(string $name, string $pin): array
+    {
+        if (! $this->isConfigured()) {
+            return [
+                'success' => false,
+                'message' => 'Delhivery API Token is not configured.',
+            ];
+        }
+
+        try {
+            $response = Http::withHeaders($this->getHeaders())
+                ->timeout(8)
+                ->post($this->getBaseUrl().'/api/backend/clientwarehouse/edit/', [
+                    'name' => trim($name),
+                    'pin' => trim($pin),
+                ]);
+
+            $data = $response->json();
+
+            if ($response->successful() && ! empty($data['success'])) {
+                return [
+                    'success' => true,
+                    'message' => "Pickup location '{$name}' is verified and active on Delhivery.",
+                    'data' => $data,
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => $data['message'] ?? $data['error'] ?? 'Warehouse not found or could not be verified on Delhivery.',
+                'data' => $data,
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Verification failed: '.$e->getMessage(),
+            ];
+        }
     }
 }

@@ -36,7 +36,10 @@ class DelhiveryShipmentController extends Controller
             return redirect()->back();
         }
 
-        $result = $this->delhiveryService->createShipment($order, $shipment);
+        $pickupLocation = request('pickup_location');
+        $result = $this->delhiveryService->createShipment($order, $shipment, [
+            'pickup_location' => $pickupLocation,
+        ]);
 
         if (! empty($result['success']) && ! empty($result['waybill'])) {
             $shipment->update([

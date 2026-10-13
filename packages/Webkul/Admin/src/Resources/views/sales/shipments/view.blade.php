@@ -14,6 +14,8 @@
             <div class="flex items-center gap-x-2.5">
                 @php
                     $isDelhiveryActive = (bool) core()->getConfigData('sales.carriers.delhivery.active');
+                    $delhiveryService = app(\Webkul\Shipping\Services\DelhiveryService::class);
+                    $pickupLocations = $delhiveryService->getPickupLocations();
                 @endphp
 
                 @if ($isDelhiveryActive)
@@ -21,10 +23,27 @@
                         <form
                             action="{{ route('admin.sales.shipments.delhivery.create', $shipment->id) }}"
                             method="POST"
-                            class="inline"
+                            class="inline-flex items-center gap-2"
                             onsubmit="return confirm('Book shipment on Delhivery and generate AWB number?');"
                         >
                             @csrf
+
+                            @if (count($pickupLocations) > 1)
+                                <select
+                                    name="pickup_location"
+                                    class="custom-select text-xs font-semibold py-1.5 px-2.5 rounded border border-gray-300 bg-white text-gray-700 shadow-sm focus:border-amber-500 focus:outline-none"
+                                    title="Select Dispatch Pickup Location"
+                                >
+                                    @foreach ($pickupLocations as $loc)
+                                        <option value="{{ $loc['name'] }}">
+                                            📍 {{ $loc['name'] }} (PIN: {{ $loc['pin'] }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <input type="hidden" name="pickup_location" value="{{ $pickupLocations[0]['name'] ?? '' }}">
+                            @endif
+
                             <button
                                 type="submit"
                                 class="primary-button flex items-center gap-1.5 !bg-[#f29a38] !border-[#f29a38] hover:!bg-[#d98220]"
