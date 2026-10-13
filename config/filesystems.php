@@ -33,21 +33,19 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
-            'serve' => true,
             'throw' => false,
         ],
 
         'private' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
             'throw' => false,
         ],
 
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'url' => (env('APP_URL') && ! str_contains(env('APP_URL'), 'localhost') ? rtrim(env('APP_URL'), '/') : '').'/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
