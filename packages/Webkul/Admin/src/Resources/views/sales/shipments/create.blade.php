@@ -61,17 +61,55 @@
                             <div class="grid grid-cols-2 gap-x-5">
                                 <!-- Carrier Name -->
                                 <x-admin::form.control-group>
-                                    <x-admin::form.control-group.label>
+                                    <x-admin::form.control-group.label class="required">
                                         @lang('admin::app.sales.shipments.create.carrier-name')
                                     </x-admin::form.control-group.label>
 
-                                    <x-admin::form.control-group.control
-                                        type="text"
-                                        id="shipment[carrier_title]"
-                                        name="shipment[carrier_title]"
-                                        :label="trans('admin::app.sales.shipments.create.carrier-name')"
-                                        :placeholder="trans('admin::app.sales.shipments.create.carrier-name')"
-                                    />
+                                    <div class="space-y-2">
+                                        <select
+                                            id="shipment_carrier_title"
+                                            v-model="carrierTitle"
+                                            class="custom-select w-full rounded-md border bg-white px-3 py-2.5 text-sm font-normal text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400"
+                                        >
+                                            <optgroup label="Popular Indian Carriers">
+                                                <option value="Delhivery">Delhivery</option>
+                                                <option value="Blue Dart">Blue Dart</option>
+                                                <option value="DTDC">DTDC</option>
+                                                <option value="Shiprocket">Shiprocket</option>
+                                                <option value="India Post">India Post (Speed Post)</option>
+                                                <option value="Xpressbees">Xpressbees</option>
+                                                <option value="Shadowfax">Shadowfax</option>
+                                                <option value="Ekart Logistics">Ekart Logistics</option>
+                                                <option value="Smartr Logistics">Smartr Logistics</option>
+                                                <option value="Ecom Express">Ecom Express</option>
+                                                <option value="The Professional Couriers">The Professional Couriers</option>
+                                            </optgroup>
+                                            <optgroup label="International & Others">
+                                                <option value="FedEx">FedEx</option>
+                                                <option value="DHL Express">DHL Express</option>
+                                                <option value="Self Pickup">Self Pickup / Local Courier</option>
+                                                <option value="Other">Other (Enter Manually)...</option>
+                                            </optgroup>
+                                        </select>
+
+                                        <!-- Hidden input to pass selected carrier title with form -->
+                                        <input
+                                            type="hidden"
+                                            name="shipment[carrier_title]"
+                                            :value="carrierTitle === 'Other' ? customCarrierTitle : carrierTitle"
+                                        />
+
+                                        <!-- Custom input if "Other" is selected -->
+                                        <div v-if="carrierTitle === 'Other'" class="pt-1">
+                                            <input
+                                                type="text"
+                                                v-model="customCarrierTitle"
+                                                placeholder="Enter courier name..."
+                                                class="w-full rounded-md border px-3 py-2.5 text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400"
+                                                autofocus
+                                            />
+                                        </div>
+                                    </div>
 
                                     <x-admin::form.control-group.error control-name="carrier_name" />
                                 </x-admin::form.control-group>
@@ -292,7 +330,9 @@
 
         data() {
             return {
-                source: "",
+                source: "{{ $order->channel->inventory_sources->first()?->id ?? 1 }}",
+                carrierTitle: "Delhivery",
+                customCarrierTitle: "",
             };
         },
 
