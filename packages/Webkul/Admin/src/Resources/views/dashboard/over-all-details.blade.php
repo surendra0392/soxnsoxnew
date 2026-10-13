@@ -19,14 +19,14 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5">
                 <!-- Total Sales -->
                 <div class="relative overflow-hidden rounded-[14px] bg-white border border-slate-200 p-4 flex flex-col justify-between hover:border-slate-300 transition-all shadow-sm group">
-                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#83B740]/5 blur-xl group-hover:bg-[#83B740]/10 transition-all pointer-events-none"></div>
+                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#2ca7a3]/5 blur-xl group-hover:bg-[#2ca7a3]/10 transition-all pointer-events-none"></div>
 
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-500">
                             @lang('admin::app.dashboard.index.total-sales')
                         </span>
 
-                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#205132]/5 border border-[#205132]/10 p-2 text-[#205132]">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#133b63]/5 border border-[#133b63]/10 p-2 text-[#133b63]">
                             <span class="icon-sales text-xl"></span>
                         </div>
                     </div>
@@ -52,14 +52,14 @@
 
                 <!-- Total Orders -->
                 <div class="relative overflow-hidden rounded-[14px] bg-white border border-slate-200 p-4 flex flex-col justify-between hover:border-slate-300 transition-all shadow-sm group">
-                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#83B740]/5 blur-xl group-hover:bg-[#83B740]/10 transition-all pointer-events-none"></div>
+                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#2ca7a3]/5 blur-xl group-hover:bg-[#2ca7a3]/10 transition-all pointer-events-none"></div>
 
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-500">
                             @lang('admin::app.dashboard.index.total-orders')
                         </span>
 
-                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#205132]/5 border border-[#205132]/10 p-2 text-[#205132]">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#133b63]/5 border border-[#133b63]/10 p-2 text-[#133b63]">
                             <span class="icon-cart text-xl"></span>
                         </div>
                     </div>
@@ -85,14 +85,14 @@
 
                 <!-- Total Customers -->
                 <div class="relative overflow-hidden rounded-[14px] bg-white border border-slate-200 p-4 flex flex-col justify-between hover:border-slate-300 transition-all shadow-sm group">
-                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#83B740]/5 blur-xl group-hover:bg-[#83B740]/10 transition-all pointer-events-none"></div>
+                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#2ca7a3]/5 blur-xl group-hover:bg-[#2ca7a3]/10 transition-all pointer-events-none"></div>
 
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-500">
                             @lang('admin::app.dashboard.index.total-customers')
                         </span>
 
-                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#205132]/5 border border-[#205132]/10 p-2 text-[#205132]">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#133b63]/5 border border-[#133b63]/10 p-2 text-[#133b63]">
                             <span class="icon-customer text-xl"></span>
                         </div>
                     </div>
@@ -118,14 +118,14 @@
 
                 <!-- Average sales -->
                 <div class="relative overflow-hidden rounded-[14px] bg-white border border-slate-200 p-4 flex flex-col justify-between hover:border-slate-300 transition-all shadow-sm group">
-                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#83B740]/5 blur-xl group-hover:bg-[#83B740]/10 transition-all pointer-events-none"></div>
+                    <div class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-[#2ca7a3]/5 blur-xl group-hover:bg-[#2ca7a3]/10 transition-all pointer-events-none"></div>
 
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-500">
                             @lang('admin::app.dashboard.index.average-sale')
                         </span>
 
-                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#205132]/5 border border-[#205132]/10 p-2 text-[#205132]">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-[12px] bg-[#133b63]/5 border border-[#133b63]/10 p-2 text-[#133b63]">
                             <span class="icon-report text-xl"></span>
                         </div>
                     </div>

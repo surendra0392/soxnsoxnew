@@ -51,8 +51,8 @@
                                     <span
                                         class="icon-uncheckbox cursor-pointer rounded-md text-2xl text-slate-400 hover:text-slate-600"
                                         :class="[
-                                            applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked !text-[#205132]' : (
-                                                applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial !text-[#205132]' : ''
+                                            applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked !text-[#133b63]' : (
+                                                applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial !text-[#133b63]' : ''
                                             ),
                                         ]"
                                     >
@@ -71,7 +71,7 @@
                                     @{{ column.label }}
 
                                     <i
-                                        class="align-text-bottom text-base text-[#205132]"
+                                        class="align-text-bottom text-base text-[#133b63]"
                                         :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
                                         v-if="column.index == applied.sort.column"
                                     ></i>
@@ -121,7 +121,7 @@
                                             v-model="applied.massActions.indices"
                                         >
 
-                                        <span class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl text-slate-400 peer-checked:!text-[#205132]">
+                                        <span class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl text-slate-400 peer-checked:!text-[#133b63]">
                                         </span>
                                     </label>
                                 </p>

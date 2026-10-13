@@ -2,17 +2,17 @@
 {!! view_render_event('bagisto.shop.checkout.cart.summary.estimate_shipping.before') !!}
 
 <x-shop::accordion
-    class="overflow-hidden rounded-2xl border border-elior-border/80 bg-[#FAF8F5]/40"
+    class="overflow-hidden rounded-2xl border border-soxnsox-border/80 bg-[#f8fafc]/40"
     :is-active="false"
 >
-    <x-slot:header class="p-4 font-semibold text-xs sm:text-sm text-elior-charcoal hover:text-elior-botanical transition-colors cursor-pointer flex items-center justify-between">
+    <x-slot:header class="p-4 font-semibold text-xs sm:text-sm text-soxnsox-charcoal hover:text-soxnsox-teal transition-colors cursor-pointer flex items-center justify-between">
         <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-elior-botanical text-[18px]">local_shipping</span>
+            <i class="fa-solid fa-truck-fast text-soxnsox-teal text-base"></i>
             <span>@lang('shop::app.checkout.cart.summary.estimate-shipping.title')</span>
         </div>
     </x-slot>
 
-    <x-slot:content class="p-4 pt-1 border-t border-elior-border/60">
+    <x-slot:content class="p-4 pt-1 border-t border-soxnsox-border/60">
         <v-estimate-tax-shipping
             :cart="cart"
             @processed="setCart"
@@ -25,14 +25,14 @@
 @pushOnce('scripts')
     <script type="text/x-template" id="v-estimate-tax-shipping-template">
         <div class="space-y-3.5">
-            <p class="text-xs text-elior-muted leading-relaxed">
+            <p class="text-xs text-soxnsox-muted leading-relaxed">
                 @lang('shop::app.checkout.cart.summary.estimate-shipping.info')
             </p>
 
             <form @submit.prevent="calculateShipping" class="space-y-3">
                 <!-- Country -->
                 <div class="space-y-1">
-                    <label class="block text-xs font-semibold text-elior-charcoal">
+                    <label class="block text-xs font-semibold text-soxnsox-charcoal">
                         @lang('shop::app.checkout.cart.summary.estimate-shipping.country')
                     </label>
 
@@ -40,7 +40,7 @@
                         name="country"
                         v-model="selectedCountry"
                         @change="onCountryChange"
-                        class="w-full h-10 px-3 rounded-xl border border-elior-border bg-white text-xs text-elior-charcoal focus:border-elior-botanical focus:ring-1 focus:ring-elior-botanical outline-none"
+                        class="w-full h-10 px-3 rounded-xl border border-soxnsox-border bg-white text-xs text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-1 focus:ring-soxnsox-teal outline-none"
                     >
                         <option value="">
                             @lang('shop::app.checkout.cart.summary.estimate-shipping.select-country')
@@ -57,7 +57,7 @@
 
                 <!-- State -->
                 <div class="space-y-1">
-                    <label class="block text-xs font-semibold text-elior-charcoal">
+                    <label class="block text-xs font-semibold text-soxnsox-charcoal">
                         @lang('shop::app.checkout.cart.summary.estimate-shipping.state')
                     </label>
 
@@ -67,7 +67,7 @@
                         v-model="selectedState"
                         :disabled="!selectedCountry"
                         @change="calculateShipping"
-                        class="w-full h-10 px-3 rounded-xl border border-elior-border bg-white text-xs text-elior-charcoal focus:border-elior-botanical focus:ring-1 focus:ring-elior-botanical outline-none disabled:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full h-10 px-3 rounded-xl border border-soxnsox-border bg-white text-xs text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-1 focus:ring-soxnsox-teal outline-none disabled:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         <option value="">
                             @lang('shop::app.checkout.cart.summary.estimate-shipping.select-state')
@@ -89,13 +89,13 @@
                         :disabled="!selectedCountry"
                         @change="calculateShipping"
                         :placeholder="selectedCountry ? 'Enter state' : 'Select country first'"
-                        class="w-full h-10 px-3 rounded-xl border border-elior-border bg-white text-xs text-elior-charcoal focus:border-elior-botanical focus:ring-1 focus:ring-elior-botanical outline-none disabled:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full h-10 px-3 rounded-xl border border-soxnsox-border bg-white text-xs text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-1 focus:ring-soxnsox-teal outline-none disabled:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
                     />
                 </div>
 
                 <!-- Postcode -->
                 <div class="space-y-1">
-                    <label class="block text-xs font-semibold text-elior-charcoal">
+                    <label class="block text-xs font-semibold text-soxnsox-charcoal">
                         @lang('shop::app.checkout.cart.summary.estimate-shipping.postcode')
                     </label>
 
@@ -106,7 +106,7 @@
                         :disabled="!selectedCountry"
                         @change="calculateShipping"
                         :placeholder="selectedCountry ? 'e.g. 500072' : 'Select country first'"
-                        class="w-full h-10 px-3 rounded-xl border border-elior-border bg-white text-xs text-elior-charcoal focus:border-elior-botanical focus:ring-1 focus:ring-elior-botanical outline-none disabled:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full h-10 px-3 rounded-xl border border-soxnsox-border bg-white text-xs text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-1 focus:ring-soxnsox-teal outline-none disabled:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
                     />
                 </div>
 
@@ -116,14 +116,11 @@
                         type="button"
                         @click="calculateShipping"
                         :disabled="isCalculating || !selectedCountry || !selectedState"
-                        class="elior-btn-primary h-10 flex-1 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+                        class="soxnsox-btn-primary h-10 flex-1 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                         <span v-if="! isCalculating">Calculate Shipping</span>
                         <span v-else class="flex items-center gap-2">
-                            <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
+                            <i class="fa-solid fa-spinner fa-spin text-sm text-white"></i>
                             <span>Calculating...</span>
                         </span>
                     </button>
@@ -133,18 +130,18 @@
                         v-if="selectedCountry || selectedState || postcode || rates.length"
                         @click="resetShipping"
                         :disabled="isCalculating"
-                        class="h-10 px-3.5 rounded-xl border border-elior-border bg-white text-xs font-semibold text-elior-slate hover:text-red-600 hover:border-red-300 hover:bg-red-50/50 transition-all flex items-center justify-center gap-1.5 shrink-0"
+                        class="h-10 px-3.5 rounded-xl border border-soxnsox-border bg-white text-xs font-semibold text-soxnsox-slate hover:text-red-600 hover:border-red-300 hover:bg-red-50/50 transition-all flex items-center justify-center gap-1.5 shrink-0"
                         title="Clear estimate"
                     >
-                        <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+                        <i class="fa-solid fa-rotate-right text-xs"></i>
                         <span>Clear</span>
                     </button>
                 </div>
             </form>
 
             <!-- Calculated Shipping Results -->
-            <div class="space-y-2 pt-2 border-t border-elior-border/60" v-if="rates.length">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-elior-muted">
+            <div class="space-y-2 pt-2 border-t border-soxnsox-border/60" v-if="rates.length">
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-soxnsox-muted">
                     Available Rates
                 </p>
 
@@ -153,25 +150,25 @@
                         v-for="rate in rates"
                         :key="rate.method"
                         class="p-3 rounded-xl border-2 bg-white flex items-center justify-between gap-3 cursor-pointer transition-all"
-                        :class="selectedMethod === rate.method ? 'border-elior-botanical bg-[#FAF8F5]' : 'border-elior-border/70 hover:border-elior-botanical/50'"
+                        :class="selectedMethod === rate.method ? 'border-soxnsox-teal bg-[#f8fafc]' : 'border-soxnsox-border/70 hover:border-soxnsox-teal/50'"
                         @click="applyShippingRate(rate.method)"
                     >
                         <div class="flex items-center gap-2.5">
                             <div 
                                 class="h-4 w-4 rounded-full border-2 flex items-center justify-center text-[10px]"
-                                :class="selectedMethod === rate.method ? 'border-elior-botanical bg-elior-botanical text-white' : 'border-elior-border'"
+                                :class="selectedMethod === rate.method ? 'border-soxnsox-teal bg-soxnsox-teal text-white' : 'border-soxnsox-border'"
                             >
-                                <span v-if="selectedMethod === rate.method">✓</span>
+                                <i v-if="selectedMethod === rate.method" class="fa-solid fa-check text-[9px]"></i>
                             </div>
-                            <span class="text-xs font-semibold text-elior-charcoal">
+                            <span class="text-xs font-semibold text-soxnsox-charcoal">
                                 @{{ rate.method_title }}
                             </span>
                         </div>
 
-                        <span class="font-bold text-xs text-[#163923]" v-if="parseFloat(rate.price || rate.base_price || 0) > 0">
+                        <span class="font-bold text-xs text-[#133b63]" v-if="parseFloat(rate.price || rate.base_price || 0) > 0">
                             @{{ rate.base_formatted_price }}
                         </span>
-                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#EBF3EE] text-[#205132]" v-else>
+                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#e9f2fa] text-[#1d5b8f]" v-else>
                             FREE
                         </span>
                     </div>

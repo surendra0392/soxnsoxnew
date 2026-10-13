@@ -26,10 +26,10 @@
                     class="grid md:hidden"
                     href="{{ route('shop.customers.account.orders.index') }}"
                 >
-                    <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
+                    <i class="fa-solid fa-arrow-left text-lg text-soxnsox-charcoal"></i>
                 </a>
 
-                <h2 class="text-2xl font-medium ltr:ml-2.5 rtl:mr-2.5 max-md:text-xl max-sm:text-base md:ltr:ml-0 md:rtl:mr-0">
+                <h2 class="font-display text-2xl font-extrabold text-[#133b63] ltr:ml-2.5 rtl:mr-2.5 max-md:text-xl max-sm:text-base md:ltr:ml-0 md:rtl:mr-0">
                     @lang('shop::app.customers.account.orders.view.page-title', ['order_id' => $order->increment_id])
                 </h2>
             </div>
@@ -91,7 +91,7 @@
 
         @if ($hasCustomerRestrictedItem)
             <div class="mt-4 flex items-start gap-3 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-                <span class="icon-warning mt-0.5 text-lg"></span>
+                <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-0.5 text-base"></i>
 
                 <div>
                     <p class="font-semibold">
@@ -946,7 +946,7 @@
 
                                                 <a href="{{ route('shop.customers.account.orders.print-invoice', $invoice->id) }}">
                                                     <div class="flex items-center gap-1 font-medium text-black">
-                                                        <span class="icon-download text-sm font-semibold"></span>
+                                                        <i class="fa-solid fa-download text-xs"></i>
 
                                                         @lang('shop::app.customers.account.orders.view.invoices.print')
                                                     </div>
@@ -1215,8 +1215,8 @@
                                         </label>
 
                                         <a href="{{ route('shop.customers.account.orders.print-invoice', $invoice->id) }}">
-                                            <div class="flex items-center gap-1 font-semibold">
-                                                <span class="icon-download text-2xl"></span>
+                                            <div class="flex items-center gap-1.5 font-semibold">
+                                                <i class="fa-solid fa-download text-base"></i>
 
                                                 @lang('shop::app.customers.account.orders.view.invoices.print')
                                             </div>

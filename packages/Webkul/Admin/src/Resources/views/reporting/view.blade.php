@@ -183,8 +183,8 @@
                                 <span
                                     class="text-base leading-none"
                                     :class="{
-                                        'icon-sort-up text-[#205132]': sortColumn === column.key && sortDirection === 'asc',
-                                        'icon-sort-down text-[#205132]': sortColumn === column.key && sortDirection === 'desc',
+                                        'icon-sort-up text-[#133b63]': sortColumn === column.key && sortDirection === 'asc',
+                                        'icon-sort-down text-[#133b63]': sortColumn === column.key && sortDirection === 'desc',
                                         'icon-sort-up-down text-gray-400': sortColumn !== column.key,
                                     }"
                                 ></span>
@@ -202,7 +202,7 @@
                                 <a
                                     v-if="column.link && record[column.link]"
                                     :href="record[column.link]"
-                                    class="text-[#205132] transition-all hover:underline"
+                                    class="text-[#133b63] transition-all hover:underline"
                                 >
                                     @{{ record[column.key] }}
                                 </a>

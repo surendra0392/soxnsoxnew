@@ -1,6 +1,6 @@
 @component('shop::emails.layout')
     <div style="margin-bottom: 34px;">
-        <p style="font-weight: bold;font-size: 20px;color: #163923;line-height: 24px;margin-bottom: 24px">
+        <p style="font-weight: bold;font-size: 20px;color: #133B63;line-height: 24px;margin-bottom: 24px">
             @lang('shop::app.emails.dear', ['customer_name' => $gdprRequest->customer->name]), 👋
         </p>
     </div>

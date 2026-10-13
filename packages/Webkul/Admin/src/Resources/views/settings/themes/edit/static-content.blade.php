@@ -53,7 +53,7 @@
                             <p @click="switchEditor('v-html-editor-theme', 1)">
                                 <div
                                     class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition"
-                                    :class="{'-mb-px border-b-2 border-[#205132]': inittialEditor == 'v-html-editor-theme'}"
+                                    :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-html-editor-theme'}"
                                 >
                                     @lang('admin::app.settings.themes.edit.html')
                                 </div>
@@ -63,7 +63,7 @@
                             <p @click="switchEditor('v-css-editor-theme', 0);">
                                 <div
                                     class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition"
-                                    :class="{'-mb-px border-b-2 border-[#205132]': inittialEditor == 'v-css-editor-theme'}"
+                                    :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-css-editor-theme'}"
                                 >
                                     @lang('admin::app.settings.themes.edit.css')
                                 </div>
@@ -73,7 +73,7 @@
                             <p @click="switchEditor('v-static-content-previewer', 0);">
                                 <div
                                     class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition"
-                                    :class="{'-mb-px border-b-2 border-[#205132]': inittialEditor == 'v-static-content-previewer'}"
+                                    :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-static-content-previewer'}"
                                 >
                                     @lang('admin::app.settings.themes.edit.preview')
                                 </div>

@@ -127,7 +127,7 @@
                 width: 100%;
                 border-collapse: collapse;
                 margin-bottom: 18px;
-                border-bottom: 2px solid #205132;
+                border-bottom: 2px solid #1d5b8f;
                 padding-bottom: 12px;
             }
 
@@ -141,7 +141,7 @@
                 font-size: 24px;
                 font-weight: bold;
                 letter-spacing: 2px;
-                color: #205132;
+                color: #1d5b8f;
                 text-transform: uppercase;
                 margin-bottom: 3px;
             }
@@ -160,7 +160,7 @@
             .invoice-title {
                 font-size: 20px;
                 font-weight: bold;
-                color: #205132;
+                color: #1d5b8f;
                 text-transform: uppercase;
                 letter-spacing: 1.5px;
                 margin-bottom: 4px;
@@ -227,7 +227,7 @@
 
             .address-box.billing {
                 margin-right: 8px;
-                border-left: 3px solid #205132;
+                border-left: 3px solid #1d5b8f;
             }
 
             .address-box.shipping {
@@ -240,7 +240,7 @@
                 font-weight: bold;
                 text-transform: uppercase;
                 letter-spacing: 0.8px;
-                color: #205132;
+                color: #1d5b8f;
                 margin-bottom: 6px;
                 border-bottom: 1px solid #eaf0eb;
                 padding-bottom: 4px;
@@ -279,7 +279,7 @@
             }
 
             .items-table th {
-                background-color: #205132;
+                background-color: #1d5b8f;
                 color: #ffffff;
                 font-size: 9px;
                 font-weight: bold;
@@ -287,7 +287,7 @@
                 letter-spacing: 0.8px;
                 padding: 8px 10px;
                 text-align: left;
-                border: 1px solid #205132;
+                border: 1px solid #1d5b8f;
             }
 
             .items-table td {
@@ -359,7 +359,7 @@
             }
 
             .grand-total-row {
-                background-color: #205132 !important;
+                background-color: #1d5b8f !important;
                 color: #ffffff !important;
                 font-weight: bold !important;
             }
@@ -393,8 +393,8 @@
             $customLogoPath = core()->getConfigData('sales.invoice_settings.pdf_print_outs.logo');
             if ($customLogoPath && Storage::disk('public')->exists($customLogoPath)) {
                 $logoBase64 = 'data:image/png;base64,' . base64_encode(Storage::disk('public')->get($customLogoPath));
-            } elseif (file_exists(public_path('images/brand/elior_logo_horizontal.png'))) {
-                $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('images/brand/elior_logo_horizontal.png')));
+            } elseif (file_exists(public_path('images/brand/soxnsox_logo_horizontal.png'))) {
+                $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('images/brand/soxnsox_logo_horizontal.png')));
             } elseif (file_exists(public_path('storage/admin/logo.png'))) {
                 $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('storage/admin/logo.png')));
             } elseif (file_exists(public_path('storage/channel/1/logo.png'))) {
@@ -407,11 +407,11 @@
             <tr>
                 <td style="width: 58%;">
                     @if ($logoBase64)
-                        <img src="{{ $logoBase64 }}" style="max-height: 48px; max-width: 220px; margin-bottom: 6px; display: block;" alt="ELIOR" />
+                        <img src="{{ $logoBase64 }}" style="max-height: 48px; max-width: 220px; margin-bottom: 6px; display: block;" alt="SOXNSOX" />
                     @else
-                        <div class="brand-title">{{ core()->getConfigData('general.design.admin_logo.title') ?? 'ELIOR' }}</div>
+                        <div class="brand-title">{{ core()->getConfigData('general.design.admin_logo.title') ?? 'SOXNSOX' }}</div>
                     @endif
-                    <div class="brand-subtitle">Pure by Nature, Made for You • Official Tax Invoice</div>
+                    <div class="brand-subtitle">India's Premier Bamboo &amp; Diabetic Socks &mdash; Official Tax Invoice</div>
                 </td>
                 <td class="invoice-badge" style="width: 42%;">
                     <div class="invoice-title">@lang('shop::app.customers.account.orders.invoice-pdf.invoice')</div>
@@ -436,7 +436,7 @@
                 </td>
                 <td>
                     <div class="meta-label">Seller / Store</div>
-                    <div class="meta-value">{{ core()->getConfigData('sales.shipping.origin.store_name') ?: 'Elior Official Store' }}</div>
+                    <div class="meta-value">{{ core()->getConfigData('sales.shipping.origin.store_name') ?: 'Soxnsox Official Store' }}</div>
                 </td>
                 <td>
                     <div class="meta-label">Currency</div>
@@ -592,7 +592,7 @@
                                 {!! core()->formatPrice($item->price, $orderCurrencyCode) !!}
                             @endif
                         </td>
-                        <td class="text-center" style="font-weight: 600; color: #205132;">
+                        <td class="text-center" style="font-weight: 600; color: #1d5b8f;">
                             {{ $item->qty }}
                         </td>
                         <td class="text-right" style="font-weight: bold; color: #173622;">
@@ -703,7 +703,7 @@
                         <tr>
                             <td>@lang('shop::app.customers.account.orders.invoice-pdf.discount')</td>
                             <td>:</td>
-                            <td style="color: #205132;">-{!! core()->formatPrice($invoice->discount_amount, $orderCurrencyCode) !!}</td>
+                            <td style="color: #1d5b8f;">-{!! core()->formatPrice($invoice->discount_amount, $orderCurrencyCode) !!}</td>
                         </tr>
                     @endif
 
@@ -718,8 +718,8 @@
 
         <!-- Footer Notice -->
         <div class="footer-notes">
-            This is a computer-generated tax invoice and does not require a physical signature. For support or order inquiries, contact <strong>{{ core()->getSenderEmailDetails()['email'] ?? 'support@elior.com' }}</strong>.<br>
-            Thank you for shopping with Elior. Pure by Nature, Made for You.
+            This is a computer-generated tax invoice and does not require a physical signature. For support or order inquiries, contact <strong>{{ core()->getSenderEmailDetails()['email'] ?? 'support@soxnsox.com' }}</strong>.<br>
+            Thank you for shopping with Soxnsox. Pure by Nature, Made for You.
         </div>
     </body>
 </html>

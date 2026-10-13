@@ -40,7 +40,7 @@
                             </p>
 
                             <p
-                                class="cursor-pointer text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-[#133b63] transition-all hover:underline"
                                 @click="activeAddressForm = 'billing'; selectedAddressForEdit = null; $refs.updateCreateModal.open()"
                                 v-if="! cart.billing_address"
                             >
@@ -99,7 +99,7 @@
 
                                     <!-- Edit Action -->
                                     <p
-                                        class="cursor-pointer text-[#205132] transition-all hover:underline"
+                                        class="cursor-pointer text-[#133b63] transition-all hover:underline"
                                         @click="
                                             selectedAddressForEdit = address;
                                             activeAddressForm = 'billing';
@@ -151,7 +151,7 @@
                                     </p>
 
                                     <p
-                                        class="cursor-pointer text-[#205132] transition-all hover:underline"
+                                        class="cursor-pointer text-[#133b63] transition-all hover:underline"
                                         @click="
                                             activeAddressForm = 'shipping';
                                             selectedAddressForEdit = null;
@@ -214,7 +214,7 @@
 
                                             <!-- Edit Action -->
                                             <p
-                                                class="cursor-pointer text-[#205132] transition-all hover:underline"
+                                                class="cursor-pointer text-[#133b63] transition-all hover:underline"
                                                 @click="
                                                     selectedAddressForEdit = address;
                                                     activeAddressForm = 'shipping';

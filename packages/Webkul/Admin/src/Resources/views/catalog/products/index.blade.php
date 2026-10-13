@@ -9,7 +9,7 @@
                 @lang('admin::app.catalog.products.index.title')
             </h1>
             <p class="mt-0.5 text-xs text-slate-500">
-                Manage your botanical powder catalog, pricing, inventory stock, and product attributes.
+                Manage your bamboo socks catalog, pricing, inventory stock, and product attributes.
             </p>
         </div>
 
@@ -25,10 +25,7 @@
                         type="button"
                         class="primary-button"
                     >
-                        <svg class="h-4 w-4 mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
+                        <i class="fa-solid fa-plus text-xs mr-1"></i>
                         @lang('admin::app.catalog.products.index.create-btn')
                     </button>
                 </v-create-product-form>
@@ -91,8 +88,8 @@
                                 <span
                                     class="icon-uncheckbox cursor-pointer rounded-md text-2xl"
                                     :class="[
-                                        applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:text-[#205132]' : (
-                                            applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:text-[#205132]' : ''
+                                        applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:text-[#133b63]' : (
+                                            applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:text-[#133b63]' : ''
                                         ),
                                     ]"
                                 >
@@ -106,7 +103,7 @@
                                     <span
                                         class="after:content-['/'] last:after:content-['']"
                                         :class="{
-                                            'font-bold text-[#205132]': applied.sort.column == column,
+                                            'font-bold text-[#133b63]': applied.sort.column == column,
                                             'cursor-pointer hover:text-slate-900': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
                                         }"
                                         @click="
@@ -119,7 +116,7 @@
                             </span>
 
                             <i
-                                class="align-text-bottom text-base text-[#205132] ltr:ml-1.5 rtl:mr-1.5"
+                                class="align-text-bottom text-base text-[#133b63] ltr:ml-1.5 rtl:mr-1.5"
                                 :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
                                 v-if="columnGroup.includes(applied.sort.column)"
                             ></i>
@@ -169,7 +166,7 @@
                                     >
 
                                     <label
-                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                         :for="`mass_action_select_record_${record.product_id}`"
                                     ></label>
                                 @endif
@@ -306,7 +303,7 @@
                                 >
 
                                 <label
-                                    class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                    class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                     :for="`mass_action_select_record_${record.product_id}`"
                                 ></label>
                             @endif
@@ -458,7 +455,7 @@
                     @change="toggle"
                     :disabled="isLoading"
                 >
-                <div class="peer h-5 w-9 cursor-pointer rounded-full bg-slate-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#205132] peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#205132]/20 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full" :class="{'opacity-50': isLoading}"></div>
+                <div class="peer h-5 w-9 cursor-pointer rounded-full bg-slate-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#133b63] peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#133b63]/20 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full" :class="{'opacity-50': isLoading}"></div>
                 <span class="ml-2 text-xs text-gray-600" v-text="label"></span>
             </label>
         </script>

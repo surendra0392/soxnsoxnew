@@ -26,9 +26,9 @@
 
 @php
     $productFlat = $product->product_flats->where('channel', core()->getCurrentChannel()->code)->where('locale', app()->getLocale())->first() ?: $product->product_flats->first();
-    $seoTitle = trim($productFlat?->meta_title ?: ($product->meta_title ?: '')) ?: $product->name . ' | ELIOR Botanicals';
+    $seoTitle = trim($productFlat?->meta_title ?: ($product->meta_title ?: '')) ?: $product->name . ' | SOX N SOX Bamboo Socks';
     $seoDesc  = trim($productFlat?->meta_description ?: ($product->meta_description ?: '')) ?: \Illuminate\Support\Str::limit(strip_tags($product->description), 160, '');
-    $seoKeys  = trim($productFlat?->meta_keywords ?: ($product->meta_keywords ?: '')) ?: 'botanical powders, superfoods, plant nutrition, ELIOR';
+    $seoKeys  = trim($productFlat?->meta_keywords ?: ($product->meta_keywords ?: '')) ?: 'bamboo socks, diabetic socks, seamless socks, arch support, SOXNSOX';
     $productBaseImage = product_image()->getProductBaseImage($product);
 @endphp
 
@@ -40,11 +40,65 @@
 
     <meta name="keywords" content="{{ $seoKeys }}"/>
 
-    @if (core()->getConfigData('catalog.rich_snippets.products.enable'))
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+@php
+    $nonRootCategories = $product->categories->filter(fn ($c) => $c->id != 1);
+    $primaryCategory = $nonRootCategories->last() ?? $nonRootCategories->first() ?? $product->categories->first();
+    $primaryCatSlug = $primaryCategory?->slug ?? 'socks';
+    $productViewUrl = route('shop.products.view', ['category' => $primaryCatSlug, 'slug' => $product->url_key]);
+@endphp
+
+    <link rel="canonical" href="{{ $productViewUrl }}" />
+
+    @if (core()->getConfigData('catalog.rich_snippets.products.enable') ?? true)
         <script type="application/ld+json">
             {!! app('Webkul\Product\Helpers\SEO')->getProductJsonLd($product) !!}
         </script>
     @endif
+
+    @php
+        $breadcrumbItems = [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => route('shop.home.index'),
+            ],
+        ];
+
+        if ($primaryCategory && $primaryCategory->id != 1) {
+            $breadcrumbItems[] = [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $primaryCategory->name,
+                'item' => route('shop.category.view', $primaryCategory->slug),
+            ];
+            $breadcrumbItems[] = [
+                '@type' => 'ListItem',
+                'position' => 3,
+                'name' => $product->name,
+                'item' => $productViewUrl,
+            ];
+        } else {
+            $breadcrumbItems[] = [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $product->name,
+                'item' => $productViewUrl,
+            ];
+        }
+
+        $breadcrumbJsonLd = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $breadcrumbItems,
+        ];
+    @endphp
+
+    <script type="application/ld+json">
+        {!! json_encode($breadcrumbJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
 
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -58,13 +112,21 @@
 
     <meta property="og:type" content="og:product" />
 
+    <meta property="og:site_name" content="{{ core()->getCurrentChannel()->name ?? 'SOX N SOX' }}" />
+
     <meta property="og:title" content="{{ $seoTitle }}" />
 
     <meta property="og:image" content="{{ $productBaseImage['medium_image_url'] }}" />
 
     <meta property="og:description" content="{{ $seoDesc }}" />
 
-    <meta property="og:url" content="{{ route('shop.product_or_category.index', $product->url_key) }}" />
+    <meta property="og:url" content="{{ $productViewUrl }}" />
+
+    <meta property="product:price:amount" content="{{ $product->getTypeInstance()->getMinimalPrice() }}" />
+
+    <meta property="product:price:currency" content="{{ core()->getCurrentCurrencyCode() }}" />
+
+    <meta property="product:availability" content="in stock" />
 @endPush
 
 <!-- Page Layout -->
@@ -90,9 +152,9 @@
     </v-product>
 
     <!-- Information Section (Desktop Tabs) -->
-    <div class="site-container mt-16 lg:mt-24 border-t border-elior-border/70 pt-10 max-1180:hidden">
+    <div class="site-container mt-12 lg:mt-16 border-t border-soxnsox-border/70 pt-8 max-lg:hidden reveal-on-scroll">
         <x-shop::tabs
-            position="center"
+            position="left"
             ref="productTabs"
         >
             <!-- Description Tab -->
@@ -104,9 +166,36 @@
                 :title="trans('shop::app.products.view.description')"
                 :is-selected="true"
             >
-                <div class="max-w-4xl mx-auto mt-10 space-y-6">
-                    <div class="prose prose-stone max-w-none text-elior-slate leading-relaxed font-sans text-sm sm:text-base [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-elior-charcoal [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:font-serif [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-elior-charcoal [&_h3]:mt-6 [&_h3]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-2 [&_li]:text-sm [&_p]:text-sm [&_p]:leading-relaxed">
+                <div class="w-full mt-8 sm:mt-10 space-y-8">
+                    <div class="product-description-content text-slate-600 leading-relaxed font-sans text-sm sm:text-base [&_h2]:font-display [&_h2]:text-2xl sm:[&_h2]:text-3xl [&_h2]:font-extrabold [&_h2]:text-[#133b63] [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-xl sm:[&_h3]:text-2xl [&_h3]:font-bold [&_h3]:text-[#133b63] [&_h3]:mt-6 [&_h3]:mb-3 [&_h3:first-of-type]:mt-0 [&_h5]:font-display [&_h5]:text-xs [&_h5]:font-extrabold [&_h5]:uppercase [&_h5]:tracking-wider [&_h5]:text-[#2ca7a3] [&_h5]:mt-8 [&_h5]:mb-3.5 [&_h5]:flex [&_h5]:items-center [&_h5]:gap-2.5 [&_h5]:after:h-px [&_h5]:after:flex-1 [&_h5]:after:bg-slate-200/80 [&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_p]:text-slate-600 [&_p]:mb-4 [&_ul]:grid [&_ul]:grid-cols-1 sm:[&_ul]:grid-cols-2 [&_ul]:gap-3 [&_ul]:my-4 [&_ul]:list-none [&_ul]:pl-0 [&_li]:flex [&_li]:items-center [&_li]:gap-3 [&_li]:p-3.5 [&_li]:rounded-xl [&_li]:bg-[#f8fafc] [&_li]:border [&_li]:border-slate-200/80 [&_li]:text-xs sm:[&_li]:text-sm [&_li]:font-semibold [&_li]:text-[#133b63] [&_li]:hover:border-[#2ca7a3]/60 [&_li]:hover:bg-white [&_li]:hover:shadow-sm [&_li]:transition-all [&_li]:duration-200 [&_li]:before:content-['✓'] [&_li]:before:flex [&_li]:before:h-6 [&_li]:before:w-6 [&_li]:before:shrink-0 [&_li]:before:items-center [&_li]:before:justify-center [&_li]:before:rounded-full [&_li]:before:bg-teal-50 [&_li]:before:text-[#2ca7a3] [&_li]:before:font-extrabold [&_li]:before:text-xs [&_li]:before:border [&_li]:before:border-[#2ca7a3]/30 [&_hr]:border-slate-200/70 [&_hr]:my-4">
                         {!! $product->description !!}
+                    </div>
+
+                    <!-- Bamboo Craft & Technology Highlight Strip -->
+                    <div class="mt-10 pt-8 border-t border-slate-200/80">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="p-5 rounded-2xl bg-[#f8fafc] border border-slate-200/80 flex flex-col items-center text-center space-y-2 hover:border-[#2ca7a3]/40 hover:bg-white hover:shadow-sm transition-all duration-200">
+                                <div class="h-10 w-10 rounded-full bg-teal-50 text-[#2ca7a3] flex items-center justify-center text-sm border border-[#2ca7a3]/20">
+                                    <i class="fa-solid fa-leaf"></i>
+                                </div>
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-[#133b63]">100% Bamboo Cotton</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">Silky soft thermo-regulating fibers naturally wick sweat and keep feet 2–3°C cooler.</p>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-[#f8fafc] border border-slate-200/80 flex flex-col items-center text-center space-y-2 hover:border-[#2ca7a3]/40 hover:bg-white hover:shadow-sm transition-all duration-200">
+                                <div class="h-10 w-10 rounded-full bg-teal-50 text-[#2ca7a3] flex items-center justify-center text-sm border border-[#2ca7a3]/20">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-[#133b63]">Seamless Toe Weave</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">Hand-linked flat toe seam eliminates ridge friction, irritation, hotspots, and blisters.</p>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-[#f8fafc] border border-slate-200/80 flex flex-col items-center text-center space-y-2 hover:border-[#2ca7a3]/40 hover:bg-white hover:shadow-sm transition-all duration-200">
+                                <div class="h-10 w-10 rounded-full bg-teal-50 text-[#2ca7a3] flex items-center justify-center text-sm border border-[#2ca7a3]/20">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-[#133b63]">Podiatrist Approved</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">Hypoallergenic, non-binding gentle fit engineered for sensitive skin and diabetic care.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </x-shop::tabs.item>
@@ -121,36 +210,36 @@
                     :title="trans('shop::app.products.view.additional-information')"
                     :is-selected="false"
                 >
-                    <div class="max-w-3xl mx-auto mt-10">
-                        <div class="rounded-2xl border border-elior-border/80 bg-white overflow-hidden shadow-elior-subtle">
+                    <div class="w-full mt-8 sm:mt-10">
+                        <div class="rounded-2xl border border-soxnsox-border/80 bg-white overflow-hidden shadow-soxnsox-subtle">
                             <table class="w-full text-left text-sm">
-                                <tbody class="divide-y divide-elior-border/60">
-                                    <tr class="hover:bg-[#FAF8F5]/50 transition-colors">
-                                        <th class="py-3.5 px-6 font-medium text-elior-charcoal w-1/3 bg-[#FAF8F5]/30">SKU</th>
-                                        <td class="py-3.5 px-6 text-elior-muted font-mono text-xs">{{ $product->sku }}</td>
+                                <tbody class="divide-y divide-soxnsox-border/60">
+                                    <tr class="hover:bg-[#f8fafc]/50 transition-colors">
+                                        <th class="py-3.5 px-6 font-medium text-soxnsox-charcoal w-1/3 bg-[#f8fafc]/30">SKU</th>
+                                        <td class="py-3.5 px-6 text-soxnsox-muted font-mono text-xs">{{ $product->sku }}</td>
                                     </tr>
 
                                     @if ($product->weight)
-                                        <tr class="hover:bg-[#FAF8F5]/50 transition-colors">
-                                            <th class="py-3.5 px-6 font-medium text-elior-charcoal w-1/3 bg-[#FAF8F5]/30">Net Weight</th>
-                                            <td class="py-3.5 px-6 text-elior-muted">{{ $formattedProductWeight }}</td>
+                                        <tr class="hover:bg-[#f8fafc]/50 transition-colors">
+                                            <th class="py-3.5 px-6 font-medium text-soxnsox-charcoal w-1/3 bg-[#f8fafc]/30">Net Weight</th>
+                                            <td class="py-3.5 px-6 text-soxnsox-muted">{{ $formattedProductWeight }}</td>
                                         </tr>
                                     @endif
 
                                     @foreach ($customAttributeValues as $customAttributeValue)
                                         @if (! empty($customAttributeValue['value']))
-                                            <tr class="hover:bg-[#FAF8F5]/50 transition-colors">
-                                                <th class="py-3.5 px-6 font-medium text-elior-charcoal w-1/3 bg-[#FAF8F5]/30">
+                                            <tr class="hover:bg-[#f8fafc]/50 transition-colors">
+                                                <th class="py-3.5 px-6 font-medium text-soxnsox-charcoal w-1/3 bg-[#f8fafc]/30">
                                                     {{ $customAttributeValue['label'] }}
                                                 </th>
-                                                <td class="py-3.5 px-6 text-elior-muted">
+                                                <td class="py-3.5 px-6 text-soxnsox-muted">
                                                     @if ($customAttributeValue['type'] == 'file')
                                                         <a
                                                             href="{{ Storage::url($product[$customAttributeValue['code']]) }}"
                                                             download="{{ $customAttributeValue['label'] }}"
-                                                            class="inline-flex items-center gap-1.5 text-elior-botanical hover:underline font-medium"
+                                                            class="inline-flex items-center gap-1.5 text-soxnsox-teal hover:underline font-medium"
                                                         >
-                                                            <span class="icon-download text-lg"></span>
+                                                            <i class="fa-solid fa-download text-sm"></i>
                                                             <span>Download</span>
                                                         </a>
                                                     @elseif ($customAttributeValue['type'] == 'image')
@@ -159,7 +248,7 @@
                                                             download="{{ $customAttributeValue['label'] }}"
                                                         >
                                                             <img
-                                                                class="h-8 w-8 rounded object-cover border border-elior-border"
+                                                                class="h-8 w-8 rounded object-cover border border-soxnsox-border"
                                                                 src="{{ Storage::url($customAttributeValue['value']) }}"
                                                                 alt="Attribute image"
                                                             />
@@ -185,22 +274,22 @@
                 title="Shipping & Dispatch"
                 :is-selected="false"
             >
-                <div class="max-w-3xl mx-auto mt-10 space-y-5 text-sm text-elior-slate leading-relaxed">
-                    <div class="p-6 rounded-2xl bg-[#FAF8F5] border border-elior-border/70 space-y-3">
-                        <h4 class="font-serif text-lg font-bold text-elior-charcoal">Botanical Freshness & Dispatch</h4>
-                        <p class="text-elior-muted text-xs sm:text-sm">
-                            Each botanical powder batch is milled and packed in airtight, protective pouches or jars to preserve living enzymes and delicate phytocompounds. Orders are dispatched within 24–48 hours directly from our certified packaging facility.
+                <div class="w-full mt-8 sm:mt-10 space-y-5 text-sm text-[#133b63] leading-relaxed">
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+                        <h4 class="text-lg font-bold text-[#133b63]">Eco-Friendly Packaging &amp; Dispatch</h4>
+                        <p class="text-[#6b7280] text-xs sm:text-sm">
+                            Every pair of SOX N SOX bamboo socks is carefully packaged in sustainable, protective packaging to preserve fiber softness, hygiene, and elasticity. Orders are dispatched within 24–48 hours across India.
                         </p>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                        <div class="p-5 rounded-xl bg-white border border-elior-border/70 shadow-elior-subtle space-y-1.5">
-                            <p class="font-semibold text-xs uppercase tracking-wider text-elior-charcoal">Standard Delivery</p>
-                            <p class="text-xs text-elior-muted">Delivered via priority air courier in 3–5 business days across domestic pin codes.</p>
+                        <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <p class="font-bold text-xs uppercase tracking-wider text-[#133b63]">Standard Delivery</p>
+                            <p class="text-xs text-[#6b7280]">Delivered via express courier in 3–5 business days across all Indian pin codes.</p>
                         </div>
-                        <div class="p-5 rounded-xl bg-white border border-elior-border/70 shadow-elior-subtle space-y-1.5">
-                            <p class="font-semibold text-xs uppercase tracking-wider text-elior-charcoal">Airtight Packaging</p>
-                            <p class="text-xs text-elior-muted">UV-resistant, food-grade resealable barrier pouches for maximum shelf stability.</p>
+                        <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm space-y-1.5">
+                            <p class="font-bold text-xs uppercase tracking-wider text-[#133b63]">Hygienic Packaging</p>
+                            <p class="text-xs text-[#6b7280]">Individually packed in clean, dust-proof eco-packs ensuring sterile freshness right out of the box.</p>
                         </div>
                     </div>
                 </div>
@@ -214,7 +303,7 @@
                     :title="trans('shop::app.products.view.review')"
                     :is-selected="false"
                 >
-                    <div class="max-w-4xl mx-auto mt-10">
+                    <div class="w-full mt-8 sm:mt-10">
                         @include('shop::products.view.reviews')
                     </div>
                 </x-shop::tabs.item>
@@ -223,20 +312,20 @@
     </div>
 
     <!-- Information Section (Mobile Accordions) -->
-    <div class="site-container mt-10 grid gap-3 1180:hidden">
+    <div class="site-container mt-10 grid gap-3 lg:hidden">
         <!-- Description Accordion -->
         <x-shop::accordion
-            class="rounded-xl border border-elior-border bg-white overflow-hidden"
+            class="rounded-xl border border-soxnsox-border bg-white overflow-hidden"
             :is-active="true"
         >
-            <x-slot:header class="bg-[#FAF8F5] !py-3.5 !px-5">
-                <p class="text-sm font-semibold uppercase tracking-wider text-elior-charcoal font-serif">
+            <x-slot:header class="bg-[#f8fafc] !py-3.5 !px-5">
+                <p class="text-sm font-semibold uppercase tracking-wider text-[#133b63] font-display">
                     @lang('shop::app.products.view.description')
                 </p>
             </x-slot>
 
             <x-slot:content class="p-5">
-                <div class="prose prose-stone text-xs sm:text-sm text-elior-muted leading-relaxed">
+                <div class="product-description-content text-slate-600 leading-relaxed font-sans text-xs sm:text-sm [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:text-[#133b63] [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-[#133b63] [&_h3]:mt-5 [&_h3]:mb-2 [&_h3:first-of-type]:mt-0 [&_h5]:font-display [&_h5]:text-xs [&_h5]:font-extrabold [&_h5]:uppercase [&_h5]:tracking-wider [&_h5]:text-[#2ca7a3] [&_h5]:mt-6 [&_h5]:mb-2.5 [&_h5]:flex [&_h5]:items-center [&_h5]:gap-2 [&_h5]:after:h-px [&_h5]:after:flex-1 [&_h5]:after:bg-slate-200/80 [&_p]:text-xs sm:[&_p]:text-sm [&_p]:leading-relaxed [&_p]:text-slate-600 [&_p]:mb-3 [&_ul]:grid [&_ul]:grid-cols-1 sm:[&_ul]:grid-cols-2 [&_ul]:gap-2.5 [&_ul]:my-3 [&_ul]:list-none [&_ul]:pl-0 [&_li]:flex [&_li]:items-center [&_li]:gap-2.5 [&_li]:p-3 [&_li]:rounded-xl [&_li]:bg-[#f8fafc] [&_li]:border [&_li]:border-slate-200/80 [&_li]:text-xs [&_li]:font-semibold [&_li]:text-[#133b63] [&_li]:before:content-['✓'] [&_li]:before:flex [&_li]:before:h-5 [&_li]:before:w-5 [&_li]:before:shrink-0 [&_li]:before:items-center [&_li]:before:justify-center [&_li]:before:rounded-full [&_li]:before:bg-teal-50 [&_li]:before:text-[#2ca7a3] [&_li]:before:font-extrabold [&_li]:before:text-[10px] [&_li]:before:border [&_li]:before:border-[#2ca7a3]/30 [&_hr]:border-slate-200/70 [&_hr]:my-3">
                     {!! $product->description !!}
                 </div>
             </x-slot>
@@ -245,33 +334,33 @@
         <!-- Additional Information Accordion -->
         @if (count($attributeData) || $product->weight || $product->sku)
             <x-shop::accordion
-                class="rounded-xl border border-elior-border bg-white overflow-hidden"
+                class="rounded-xl border border-soxnsox-border bg-white overflow-hidden"
                 :is-active="false"
             >
-                <x-slot:header class="bg-[#FAF8F5] !py-3.5 !px-5">
-                    <p class="text-sm font-semibold uppercase tracking-wider text-elior-charcoal font-serif">
+                <x-slot:header class="bg-[#f8fafc] !py-3.5 !px-5">
+                    <p class="text-sm font-semibold uppercase tracking-wider text-[#133b63] font-display">
                         @lang('shop::app.products.view.additional-information')
                     </p>
                 </x-slot>
 
                 <x-slot:content class="p-5">
-                    <div class="space-y-2.5 text-xs text-elior-muted">
-                        <div class="flex justify-between py-1.5 border-b border-elior-border/40">
-                            <span class="font-medium text-elior-charcoal">SKU</span>
+                    <div class="space-y-2.5 text-xs text-soxnsox-muted">
+                        <div class="flex justify-between py-1.5 border-b border-soxnsox-border/40">
+                            <span class="font-medium text-soxnsox-charcoal">SKU</span>
                             <span class="font-mono">{{ $product->sku }}</span>
                         </div>
 
                         @if ($product->weight)
-                            <div class="flex justify-between py-1.5 border-b border-elior-border/40">
-                                <span class="font-medium text-elior-charcoal">Net Weight</span>
+                            <div class="flex justify-between py-1.5 border-b border-soxnsox-border/40">
+                                <span class="font-medium text-soxnsox-charcoal">Net Weight</span>
                                 <span>{{ $formattedProductWeight }}</span>
                             </div>
                         @endif
 
                         @foreach ($customAttributeValues as $customAttributeValue)
                             @if (! empty($customAttributeValue['value']))
-                                <div class="flex justify-between py-1.5 border-b border-elior-border/40">
-                                    <span class="font-medium text-elior-charcoal">{{ $customAttributeValue['label'] }}</span>
+                                <div class="flex justify-between py-1.5 border-b border-soxnsox-border/40">
+                                    <span class="font-medium text-soxnsox-charcoal">{{ $customAttributeValue['label'] }}</span>
                                     <span>{{ $customAttributeValue['value'] ?? '-' }}</span>
                                 </div>
                             @endif
@@ -283,17 +372,17 @@
 
         <!-- Shipping Accordion -->
         <x-shop::accordion
-            class="rounded-xl border border-elior-border bg-white overflow-hidden"
+            class="rounded-xl border border-soxnsox-border bg-white overflow-hidden"
             :is-active="false"
         >
-            <x-slot:header class="bg-[#FAF8F5] !py-3.5 !px-5">
-                <p class="text-sm font-semibold uppercase tracking-wider text-elior-charcoal font-serif">
+            <x-slot:header class="bg-[#f8fafc] !py-3.5 !px-5">
+                <p class="text-sm font-semibold uppercase tracking-wider text-[#133b63] font-display">
                     Shipping & Dispatch
                 </p>
             </x-slot>
 
-            <x-slot:content class="p-5 text-xs text-elior-muted space-y-2">
-                <p>Orders are milled, fresh-sealed, and dispatched within 24–48 hours.</p>
+            <x-slot:content class="p-5 text-xs text-soxnsox-muted space-y-2">
+                <p>Orders are crafted, quality-checked, and dispatched within 24–48 hours.</p>
                 <p>Standard delivery takes 3–5 business days with live courier tracking.</p>
             </x-slot>
         </x-shop::accordion>
@@ -301,14 +390,14 @@
         <!-- Reviews Accordion -->
         @if ($isReviewEnabled)
             <x-shop::accordion
-                class="rounded-xl border border-elior-border bg-white overflow-hidden"
+                class="rounded-xl border border-soxnsox-border bg-white overflow-hidden"
                 :is-active="false"
             >
                 <x-slot:header
-                    class="bg-[#FAF8F5] !py-3.5 !px-5"
+                    class="bg-[#f8fafc] !py-3.5 !px-5"
                     id="review-accordian-button"
                 >
-                    <p class="text-sm font-semibold uppercase tracking-wider text-elior-charcoal font-serif">
+                    <p class="text-sm font-semibold uppercase tracking-wider text-[#133b63] font-display">
                         @lang('shop::app.products.view.review')
                     </p>
                 </x-slot>
@@ -321,7 +410,11 @@
     </div>
 
     <!-- Related Products Associations -->
-    <div class="site-container mt-16 lg:mt-24 border-t border-elior-border/70 pt-12 pb-16">
+    <div class="site-container mt-12 lg:mt-16">
+        <div class="border-t border-soxnsox-border/70"></div>
+    </div>
+
+    <div class="pb-12 reveal-on-scroll">
         <v-product-associations></v-product-associations>
     </div>
 
@@ -352,31 +445,31 @@
                         v-model="is_buy_now"
                     >
 
-                    <div class="site-container py-6 lg:py-10">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+                    <div class="site-container py-4 lg:py-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                             <!-- Left Column: Gallery Blade Inclusion -->
-                            <div class="lg:col-span-6 xl:col-span-7 flex justify-center lg:justify-start w-full">
+                            <div class="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-start w-full">
                                 @include('shop::products.view.gallery')
                             </div>
 
                             <!-- Right Column: Product Purchasing Details -->
-                            <div class="lg:col-span-6 xl:col-span-5 space-y-6 w-full">
+                            <div class="lg:col-span-6 xl:col-span-6 space-y-5 lg:space-y-6 w-full">
                                 {!! view_render_event('bagisto.shop.products.name.before', ['product' => $product]) !!}
 
                                 <!-- Top Meta / Category Pill & Wishlist -->
                                 <div class="flex items-center justify-between gap-3">
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <span class="elior-badge-botanical text-[10px] tracking-wider uppercase">
+                                        <span class="soxnsox-badge-bamboo text-[10px] tracking-wider uppercase">
                                             @if ($product->categories->where('id', '!=', 1)->first())
                                                 {{ $product->categories->where('id', '!=', 1)->first()->name }}
                                             @else
-                                                Botanical Harvest
+                                                Bamboo Socks
                                             @endif
                                         </span>
 
                                         @if ($product->new)
-                                            <span class="elior-badge-terracotta text-[10px] tracking-wider uppercase">
-                                                New Batch
+                                            <span class="soxnsox-badge-amber text-[10px] tracking-wider uppercase">
+                                                New Arrival
                                             </span>
                                         @endif
                                     </div>
@@ -384,20 +477,22 @@
                                     @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
                                         <button
                                             type="button"
-                                            class="flex h-10 w-10 items-center justify-center rounded-full border border-[#e5decb] bg-white text-[#163923] hover:text-red-500 hover:border-red-200 transition-all duration-200 shadow-sm"
+                                            class="flex h-10 w-10 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#133b63] hover:text-red-500 hover:border-red-200 transition-all duration-200 shadow-sm"
                                             aria-label="@lang('shop::app.products.view.add-to-wishlist')"
                                             :class="isWishlist ? 'text-red-600 border-red-200 bg-red-50/50' : ''"
                                             @click="addToWishlist"
                                         >
-                                            <span :class="isWishlist ? 'icon-heart-fill text-xl' : 'icon-heart text-xl'"></span>
+                                            <i :class="isWishlist ? 'fa-solid fa-heart text-lg text-rose-500' : 'fa-regular fa-heart text-lg'"></i>
                                         </button>
                                     @endif
                                 </div>
 
                                 <!-- Product Title -->
-                                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#163923] leading-[1.12]" v-pre>
+                                <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#133b63] leading-[1.12]" v-pre>
                                     {{ $product->name }}
                                 </h1>
+
+                                <div class="soxnsox-decorative-line mt-2.5"></div>
 
                                 {!! view_render_event('bagisto.shop.products.name.after', ['product' => $product]) !!}
 
@@ -417,7 +512,7 @@
                                             :total="$totalRatings"
                                             ::rating="true"
                                         />
-                                        <span class="text-xs text-[#677a6d] underline underline-offset-2">
+                                        <span class="text-xs text-[#6b7280] underline underline-offset-2">
                                             ({{ $totalRatings }} {{ $totalRatings == 1 ? 'Review' : 'Reviews' }})
                                         </span>
                                     </div>
@@ -428,15 +523,15 @@
                                 <!-- Pricing & Stock Status -->
                                 {!! view_render_event('bagisto.shop.products.price.before', ['product' => $product]) !!}
 
-                                <div class="flex flex-wrap items-baseline gap-4 pt-1 border-b border-[#e5decb] pb-5">
-                                    <div class="text-3xl font-bold text-[#163923] flex items-center gap-3">
+                                <div class="flex flex-wrap items-baseline gap-4 pt-1 border-b border-[#e5e7eb] pb-5">
+                                    <div class="font-display text-3xl font-extrabold text-[#133b63] flex items-center gap-3">
                                         {!! $product->getTypeInstance()->getPriceHtml() !!}
                                     </div>
 
                                     <!-- Stock Availability Badge -->
                                     @if ($product->isSaleable(1))
-                                        <span class="elior-badge-botanical text-[11px] font-bold tracking-wider uppercase">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-[#205132] animate-pulse mr-1.5"></span>
+                                        <span class="soxnsox-badge-teal text-[11px] font-bold tracking-wider uppercase">
+                                            <span class="h-1.5 w-1.5 rounded-full bg-[#2ca7a3] animate-pulse mr-1.5"></span>
                                             In Stock
                                         </span>
                                     @else
@@ -447,16 +542,16 @@
                                     @endif
 
                                     @if (\Webkul\Tax\Facades\Tax::isInclusiveTaxProductPrices())
-                                        <span class="text-xs text-elior-muted">
+                                        <span class="text-xs text-soxnsox-muted">
                                             (@lang('shop::app.products.view.tax-inclusive'))
                                         </span>
                                     @endif
                                 </div>
 
                                 @if (count($product->getTypeInstance()->getCustomerGroupPricingOffers()))
-                                    <div class="grid gap-1.5 text-xs text-elior-muted">
+                                    <div class="grid gap-1.5 text-xs text-soxnsox-muted">
                                         @foreach ($product->getTypeInstance()->getCustomerGroupPricingOffers() as $offer)
-                                            <p class="[&>*]:text-elior-charcoal">
+                                            <p class="[&>*]:text-soxnsox-charcoal">
                                                 {!! $offer !!}
                                             </p>
                                         @endforeach
@@ -469,7 +564,7 @@
                                 {!! view_render_event('bagisto.shop.products.short_description.before', ['product' => $product]) !!}
 
                                 @if ($product->short_description)
-                                    <div class="text-sm leading-relaxed text-elior-muted">
+                                    <div class="text-sm leading-relaxed text-soxnsox-muted">
                                         {!! $product->short_description !!}
                                     </div>
                                 @endif
@@ -510,11 +605,12 @@
 
                                             <button
                                                 type="submit"
-                                                class="elior-btn-primary h-12 flex-1 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-elior-card disabled:opacity-50 disabled:cursor-not-allowed"
+                                                class="soxnsox-btn-primary soxnsox-btn-shimmer h-12 flex-1 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-soxnsox-card active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                                                 :disabled="! {{ $product->isSaleable(1) ? 'true' : 'false' }} || isStoring.addToCart"
                                                 @click="is_buy_now=0;"
                                             >
                                                 <span v-if="isStoring.addToCart" class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                                                <i v-else class="fa-solid fa-bag-shopping text-sm"></i>
                                                 <span>@lang('shop::app.products.view.add-to-cart')</span>
                                             </button>
 
@@ -522,7 +618,7 @@
                                         @else
                                             <button
                                                 type="button"
-                                                class="elior-btn-primary h-12 flex-1 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2"
+                                                class="soxnsox-btn-primary soxnsox-btn-shimmer h-12 flex-1 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all duration-300"
                                                 @click="$refs.contactUsModal.open()"
                                             >
                                                 @lang('shop::app.components.layouts.footer.contact-us')
@@ -537,11 +633,12 @@
                                         @if (core()->getConfigData('catalog.products.storefront.buy_now_button_display'))
                                             <button
                                                 type="submit"
-                                                class="elior-btn-outline h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                class="soxnsox-btn-outline soxnsox-btn-shimmer h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                                                 :disabled="! {{ $product->isSaleable(1) ? 'true' : 'false' }} || isStoring.buyNow"
                                                 @click="is_buy_now=1;"
                                             >
-                                                <span v-if="isStoring.buyNow" class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-elior-charcoal border-t-transparent"></span>
+                                                <span v-if="isStoring.buyNow" class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-soxnsox-charcoal border-t-transparent"></span>
+                                                <i v-else class="fa-solid fa-bolt text-amber-500 text-sm"></i>
                                                 <span>@lang('shop::app.products.view.buy-now')</span>
                                             </button>
                                         @endif
@@ -559,10 +656,10 @@
                                     <div class="pt-1 flex items-center justify-start">
                                         <button
                                             type="button"
-                                            class="inline-flex items-center gap-2 text-xs font-medium text-elior-muted hover:text-elior-botanical transition-colors cursor-pointer"
+                                            class="inline-flex items-center gap-2 text-xs font-medium text-soxnsox-muted hover:text-soxnsox-teal transition-colors cursor-pointer"
                                             @click="is_buy_now=0; addToCompare({{ $product->id }})"
                                         >
-                                            <span class="icon-compare text-lg"></span>
+                                            <i class="fa-solid fa-code-compare text-sm"></i>
                                             <span>@lang('shop::app.products.view.compare')</span>
                                         </button>
                                     </div>
@@ -572,23 +669,23 @@
 
                                 {!! view_render_event('bagisto.shop.products.view.additional_actions.after', ['product' => $product]) !!}
 
-                                <!-- Editorial Botanical Trust Indicators -->
-                                <div class="grid grid-cols-2 gap-3 pt-6 border-t border-[#e5decb] text-xs text-[#163923] font-medium">
-                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-[#e5decb] shadow-sm">
-                                        <span class="text-[#205132] text-sm"><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
-                                        <span>Single-Origin Botanicals</span>
+                                <!-- Editorial Bamboo Trust Indicators -->
+                                <div class="grid grid-cols-2 gap-3 pt-6 border-t border-slate-200 text-xs text-[#133b63] font-semibold">
+                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+                                        <i class="fa-solid fa-leaf text-[#2ca7a3] text-sm"></i>
+                                        <span>100% Pure Bamboo</span>
                                     </div>
-                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-[#e5decb] shadow-sm">
-                                        <span class="text-[#205132] text-sm"><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">ac_unit</span></span>
-                                        <span>Cold-Dehydrated &lt; 42°C</span>
+                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+                                        <i class="fa-solid fa-heart-pulse text-[#f29a38] text-sm"></i>
+                                        <span>Diabetic &amp; Sensitive Fit</span>
                                     </div>
-                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-[#e5decb] shadow-sm">
-                                        <span class="text-[#205132] text-sm"><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">bolt</span></span>
-                                        <span>100% Whole Plants</span>
+                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+                                        <i class="fa-solid fa-circle-check text-[#1d5b8f] text-sm"></i>
+                                        <span>Seamless Blister Defense</span>
                                     </div>
-                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-[#e5decb] shadow-sm">
-                                        <span class="text-[#205132] text-sm"><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">shield</span></span>
-                                        <span>Zero Synthetic Fillers</span>
+                                    <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+                                        <i class="fa-solid fa-wind text-[#2ca7a3] text-sm"></i>
+                                        <span>Anti-Odor &amp; Moisture Wicking</span>
                                     </div>
                                 </div>
                             </div>
@@ -693,7 +790,7 @@
                         <div class="mt-6 flex justify-end">
                             <button
                                 type="submit"
-                                class="primary-button rounded-2xl px-8 py-3 max-sm:rounded-lg max-sm:px-6 max-sm:py-2"
+                                class="primary-button rounded-full px-8 py-3 max-sm:px-6 max-sm:py-2"
                             >
                                 @lang('shop::app.products.view.contact-us.submit')
                             </button>
@@ -960,10 +1057,15 @@
                                 }
                             });
                         },
-                        { threshold: 0.1 }
+                        {
+                            rootMargin: '250px',
+                            threshold: 0,
+                        }
                     );
 
-                    observer.observe(this.$refs.carouselWrapper);
+                    if (this.$refs.carouselWrapper) {
+                        observer.observe(this.$refs.carouselWrapper);
+                    }
                 }
             });
         </script>

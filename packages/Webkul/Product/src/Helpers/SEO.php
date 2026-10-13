@@ -16,12 +16,20 @@ class SEO
      */
     public function getProductJsonLd($product)
     {
+        $nonRootCats = $product->categories->filter(fn ($c) => $c->id != 1);
+        $primaryCat = $nonRootCats->last() ?? $nonRootCats->first();
+        $catSlug = $primaryCat?->slug ?? 'socks';
+
         $data = [
             '@context' => 'https://schema.org/',
             '@type' => 'Product',
             'name' => $product->name,
             'description' => htmlspecialchars(trim(strip_tags($product->description))),
-            'url' => route('shop.product_or_category.index', $product->url_key),
+            'url' => route('shop.products.view', ['category' => $catSlug, 'slug' => $product->url_key]),
+            'brand' => [
+                '@type' => 'Brand',
+                'name' => 'SOX N SOX',
+            ],
         ];
 
         if (core()->getConfigData('catalog.rich_snippets.products.show_sku')) {
@@ -41,11 +49,17 @@ class SEO
         }
 
         if (core()->getConfigData('catalog.rich_snippets.products.show_reviews')) {
-            $data['review'] = $this->getProductReviews($product);
+            $reviews = $this->getProductReviews($product);
+            if (! empty($reviews)) {
+                $data['review'] = $reviews;
+            }
         }
 
         if (core()->getConfigData('catalog.rich_snippets.products.show_ratings')) {
-            $data['aggregateRating'] = $this->getProductAggregateRating($product);
+            $ratingData = $this->getProductAggregateRating($product);
+            if (! empty($ratingData['reviewCount']) && $ratingData['reviewCount'] > 0) {
+                $data['aggregateRating'] = $ratingData;
+            }
         }
 
         if (core()->getConfigData('catalog.rich_snippets.products.show_offers')) {
@@ -148,11 +162,22 @@ class SEO
      */
     public function getProductOffers($product)
     {
+        $nonRootCats = $product->categories->filter(fn ($c) => $c->id != 1);
+        $primaryCat = $nonRootCats->last() ?? $nonRootCats->first();
+        $catSlug = $primaryCat?->slug ?? 'socks';
+
         return [
             '@type' => 'Offer',
             'priceCurrency' => core()->getCurrentCurrencyCode(),
-            'price' => $product->getTypeInstance()->getMinimalPrice(),
+            'price' => (float) $product->getTypeInstance()->getMinimalPrice(),
+            'priceValidUntil' => now()->addYear()->format('Y-12-31'),
             'availability' => 'https://schema.org/InStock',
+            'itemCondition' => 'https://schema.org/NewCondition',
+            'url' => route('shop.products.view', ['category' => $catSlug, 'slug' => $product->url_key]),
+            'seller' => [
+                '@type' => 'Organization',
+                'name' => 'SOX N SOX',
+            ],
         ];
     }
 

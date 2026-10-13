@@ -77,6 +77,7 @@ class HomeController extends Controller
                 'name',
                 'email',
                 'contact',
+                'looking_for',
                 'message',
             ])));
 

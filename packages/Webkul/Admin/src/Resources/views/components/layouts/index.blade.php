@@ -34,7 +34,7 @@
     >
     <meta
         name="generator"
-        content="ELIOR"
+        content="SOXNSOX"
     >
 
     @stack('meta')
@@ -51,21 +51,22 @@
         rel="stylesheet"
     />
 
-    @if ($favicon = core()->getConfigData('general.design.admin_logo.favicon'))
-        <link
-            type="image/x-icon"
-            href="{{ Storage::url($favicon) }}"
-            rel="shortcut icon"
-            sizes="16x16"
-        >
-    @else
-        <link
-            type="image/x-icon"
-            href="{{ bagisto_asset('images/favicon.ico') }}"
-            rel="shortcut icon"
-            sizes="16x16"
-        />
-    @endif
+    <!-- Font Awesome 6 Free & Lucide Icons Providers -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    @php
+        $adminFavicon = core()->getConfigData('general.design.admin_logo.favicon');
+        $adminFaviconUrl = ($adminFavicon && file_exists(public_path('storage/' . $adminFavicon)))
+            ? asset('storage/' . $adminFavicon)
+            : (file_exists(public_path('favicon.png')) ? asset('favicon.png') : asset('favicon.ico'));
+        $adminFaviconIco = file_exists(public_path('favicon.ico')) ? asset('favicon.ico') : $adminFaviconUrl;
+    @endphp
+
+    <link rel="icon" type="image/x-icon" href="{{ $adminFaviconIco }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ $adminFaviconUrl }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ $adminFaviconUrl }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ $adminFaviconIco }}" />
 
     <link
         rel="preconnect"
@@ -89,10 +90,10 @@
             --nexus-surface: #FFFFFF;
             --nexus-surface-hover: #F1F5F9;
             --nexus-border: rgba(0, 0, 0, 0.08);
-            --nexus-border-focus: #205132;
-            --nexus-primary: #205132;
-            --nexus-primary-hover: #163923;
-            --nexus-accent: #83B740;
+            --nexus-border-focus: #133b63;
+            --nexus-primary: #133b63;
+            --nexus-primary-hover: #0d2847;
+            --nexus-accent: #2ca7a3;
             --nexus-text-primary: #0F172A;
             --nexus-text-secondary: #64748B;
             --nexus-text-muted: #94A3B8;
@@ -126,18 +127,18 @@
 
         /* Color Overrides: Brand Palette */
         .bg-brand,
-        .bg-[#205132] {
-            background-color: #205132 !important;
+        .bg-[#133b63] {
+            background-color: #133b63 !important;
         }
 
         .text-brand,
-        .text-[#205132] {
-            color: #205132 !important;
+        .text-[#133b63] {
+            color: #133b63 !important;
         }
 
         .border-brand,
-        .border-[#205132] {
-            border-color: #205132 !important;
+        .border-[#133b63] {
+            border-color: #133b63 !important;
         }
 
         /* Action Buttons */
@@ -145,7 +146,7 @@
         button.primary-button,
         a.primary-button,
         .btn-primary {
-            background: linear-gradient(135deg, #205132 0%, #163923 100%) !important;
+            background: linear-gradient(135deg, #133b63 0%, #0d2847 100%) !important;
             color: #FFFFFF !important;
             border-radius: 12px !important;
             font-weight: 600 !important;
@@ -215,14 +216,14 @@
         }
 
         input:focus, select:focus, textarea:focus {
-            border-color: #205132 !important;
+            border-color: #133b63 !important;
             box-shadow: 0 0 0 3px rgba(32, 81, 50, 0.15) !important;
         }
 
         input[type="checkbox"]:checked,
         input[type="radio"]:checked {
-            background-color: #205132 !important;
-            border-color: #205132 !important;
+            background-color: #133b63 !important;
+            border-color: #133b63 !important;
         }
 
         /* Flatpickr input padding guard across all admin forms */
@@ -333,7 +334,7 @@
                 <!-- Copyright Footer -->
                 <div class="mt-auto">
                     <div class="border-t border-slate-200 bg-[#F8FAFC] py-3 text-center text-xs sm:text-sm text-slate-500">
-                        &copy; {{ date('Y') }} <strong>{{ config('app.name', 'ELIOR Botanical Nutrition') }}</strong> — <span class="text-[#205132] font-semibold">Pure by Nature, Made for You</span>. All rights reserved.
+                        &copy; {{ date('Y') }} <strong>{{ config('app.name', 'SOXNSOX') }}</strong> — <span class="text-[#133b63] font-semibold">India's Premier Bamboo & Diabetic Socks</span>. All rights reserved.
                     </div>
                 </div>
             </div>
@@ -349,6 +350,32 @@
     {!! view_render_event('bagisto.admin.layout.vue-app-mount.before') !!}
 
     <script>
+        window.getSoxnsoxAvatar = function(name, size, rounded) {
+            size = size || 80;
+            rounded = rounded !== false;
+            name = (name || 'U').trim();
+            const initial = name.charAt(0).toUpperCase() || 'U';
+            const palette = [
+                '#133b63', '#2ca7a3', '#d97706', '#059669',
+                '#7c3aed', '#2563eb', '#dc2626', '#db2777',
+                '#ea580c', '#0891b2', '#4f46e5', '#0d9488'
+            ];
+            let hash = 0;
+            const lower = name.toLowerCase();
+            for (let i = 0; i < lower.length; i++) {
+                hash = lower.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const color = palette[Math.abs(hash) % palette.length];
+            const rx = rounded ? '50%' : '20%';
+            const fontSize = Math.round(size * 0.48);
+            const encodedColor = encodeURIComponent(color);
+            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${size} ${size}' width='${size}' height='${size}'><rect width='${size}' height='${size}' rx='${rx}' fill='${encodedColor}'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Plus Jakarta Sans, -apple-system, sans-serif' font-size='${fontSize}' font-weight='700'>${initial}</text></svg>`;
+        };
+
+        if (typeof app !== 'undefined' && app.config) {
+            app.config.globalProperties.getSoxnsoxAvatar = window.getSoxnsoxAvatar;
+        }
+
         /**
          * Load event, the purpose of using the event is to mount the application
          * after all of our `Vue` components which is present in blade file have
@@ -357,6 +384,9 @@
          */
         window.addEventListener("load", function(event) {
             app.mount("#app");
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         });
     </script>
 

@@ -264,7 +264,8 @@ class Product extends Model implements ProductContract
      */
     public function related_products(): BelongsToMany
     {
-        return $this->belongsToMany(static::class, 'product_relations', 'parent_id', 'child_id');
+        return $this->belongsToMany(static::class, 'product_relations', 'parent_id', 'child_id')
+            ->whereNull('products.parent_id');
     }
 
     /**
@@ -272,7 +273,8 @@ class Product extends Model implements ProductContract
      */
     public function up_sells(): BelongsToMany
     {
-        return $this->belongsToMany(static::class, 'product_up_sells', 'parent_id', 'child_id');
+        return $this->belongsToMany(static::class, 'product_up_sells', 'parent_id', 'child_id')
+            ->whereNull('products.parent_id');
     }
 
     /**
@@ -280,7 +282,8 @@ class Product extends Model implements ProductContract
      */
     public function cross_sells(): BelongsToMany
     {
-        return $this->belongsToMany(static::class, 'product_cross_sells', 'parent_id', 'child_id');
+        return $this->belongsToMany(static::class, 'product_cross_sells', 'parent_id', 'child_id')
+            ->whereNull('products.parent_id');
     }
 
     /**
@@ -509,6 +512,14 @@ class Product extends Model implements ProductContract
     {
         return core()->getSingletonInstance(AttributeRepository::class)
             ->getFamilyAttributes($this->attribute_family);
+    }
+
+    /**
+     * Get the product storefront URL.
+     */
+    public function getUrlAttribute(): string
+    {
+        return $this->url_key ? url('shop/'.$this->url_key) : '';
     }
 
     /**

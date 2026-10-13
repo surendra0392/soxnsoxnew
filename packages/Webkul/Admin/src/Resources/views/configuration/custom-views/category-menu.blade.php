@@ -4,7 +4,7 @@
     <x-admin::modal class="[&>*>*>.box-shadow]:!max-w-[1000px]">
         <x-slot:toggle>
             <button type="button">
-                <p class="text-sm text-[#205132] transition-all hover:underline">
+                <p class="text-sm text-[#133b63] transition-all hover:underline">
                     @lang('admin::app.configuration.index.general.design.menu-category.preview-default')
                 </p>
             </button>
@@ -29,7 +29,7 @@
     <x-admin::modal class="[&>*>*>.box-shadow]:!max-w-[1000px]">
         <x-slot:toggle>
             <button type="button">
-                <p class="text-sm text-[#205132] transition-all hover:underline">
+                <p class="text-sm text-[#133b63] transition-all hover:underline">
                     @lang('admin::app.configuration.index.general.design.menu-category.preview-sidebar')
                 </p>
             </button>

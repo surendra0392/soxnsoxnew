@@ -1,7 +1,7 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="title" content="@lang('shop::app.customers.signup-form.page-title') | ELIOR" />
-    <meta name="description" content="Create your ELIOR account to discover fresh whole-food botanical powders and manage your daily rituals." />
+    <meta name="title" content="@lang('shop::app.customers.signup-form.page-title') | SOXNSOX" />
+    <meta name="description" content="Create your SOX N SOX customer account to manage orders, saved addresses, and enjoy faster footwear checkout." />
 @endPush
 
 <x-shop::layouts
@@ -11,25 +11,27 @@
 >
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.signup-form.page-title') | ELIOR
+        @lang('shop::app.customers.signup-form.page-title') | SOXNSOX
     </x-slot>
 
-    <div class="bg-elior-cream min-h-[calc(100vh-80px)]">
+    <div class="bg-[#f5f7fa] min-h-[calc(100vh-80px)]">
         <main class="site-container py-12 sm:py-16">
             <!-- Form Container Card -->
-            <div class="max-w-lg mx-auto rounded-3xl border border-elior-border/80 bg-white p-8 sm:p-10 shadow-elior-subtle space-y-6">
+            <div class="max-w-lg mx-auto rounded-3xl border border-slate-200 bg-white p-8 sm:p-10 shadow-sm space-y-6">
                 <!-- Header -->
                 <div class="space-y-2 text-center">
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EBF3EE] text-elior-botanical text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
-                        <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
-                        <span>Join ELIOR</span>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#e9f2fa] text-[#1d5b8f] text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
+                        <i class="fa-solid fa-user-plus text-xs"></i>
+                        <span>Join SOX N SOX</span>
                     </div>
 
-                    <h1 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-elior-charcoal">
+                    <h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-[#133b63]">
                         @lang('shop::app.customers.signup-form.page-title')
                     </h1>
 
-                    <p class="text-xs sm:text-sm text-elior-muted leading-relaxed">
+                    <div class="soxnsox-decorative-line-center mt-2.5"></div>
+
+                    <p class="text-xs sm:text-sm text-[#6b7280] leading-relaxed pt-1">
                         @lang('shop::app.customers.signup-form.form-signup-text')
                     </p>
                 </div>
@@ -45,13 +47,13 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- First Name -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                     @lang('shop::app.customers.signup-form.first-name')
                                 </x-shop::form.control-group.label>
 
                                 <x-shop::form.control-group.control
                                     type="text"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                     name="first_name"
                                     rules="required"
                                     :value="old('first_name')"
@@ -66,13 +68,13 @@
 
                             <!-- Last Name -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                     @lang('shop::app.customers.signup-form.last-name')
                                 </x-shop::form.control-group.label>
 
                                 <x-shop::form.control-group.control
                                     type="text"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                     name="last_name"
                                     rules="required"
                                     :value="old('last_name')"
@@ -88,13 +90,13 @@
 
                         <!-- Email -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                 @lang('shop::app.customers.signup-form.email')
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
                                 type="email"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                 name="email"
                                 rules="required|email"
                                 :value="old('email')"
@@ -109,13 +111,13 @@
 
                         <!-- Password -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                 @lang('shop::app.customers.signup-form.password')
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
                                 type="password"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                 id="password"
                                 name="password"
                                 rules="required|min:6"
@@ -131,13 +133,13 @@
 
                         <!-- Confirm Password -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                 @lang('shop::app.customers.signup-form.confirm-pass')
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
                                 type="password"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                 id="password_confirmation"
                                 name="password_confirmation"
                                 rules="confirmed:@password"
@@ -153,12 +155,12 @@
 
                         <!-- Subscribe to Newsletter -->
                         @if (core()->getConfigData('customer.settings.create_new_account_options.news_letter'))
-                            <div class="flex items-center gap-2 pt-1 text-xs text-elior-slate">
+                            <div class="flex items-center gap-2 pt-1 text-xs text-[#6b7280]">
                                 <input
                                     type="checkbox"
                                     name="is_subscribed"
                                     id="is-subscribed"
-                                    class="h-4 w-4 rounded border-elior-border text-elior-botanical focus:ring-elior-botanical cursor-pointer"
+                                    class="h-4 w-4 rounded border-slate-200 text-[#1d5b8f] focus:ring-[#1d5b8f] cursor-pointer"
                                 >
                                 <label for="is-subscribed" class="cursor-pointer select-none">
                                     @lang('shop::app.customers.signup-form.subscribe-to-newsletter')
@@ -177,11 +179,11 @@
                         <!-- Submit Button -->
                         <div class="pt-2">
                             <button
-                                class="elior-btn-primary h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-elior-card"
+                                class="soxnsox-btn-primary soxnsox-btn-shimmer active:scale-95 h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-sm transition-all"
                                 type="submit"
                             >
                                 <span>@lang('shop::app.customers.signup-form.button-title')</span>
-                                <span class="icon-arrow-right text-xs"></span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </button>
                         </div>
                     </div>
@@ -192,11 +194,11 @@
                 {!! view_render_event('bagisto.shop.customers.signup.after') !!}
 
                 <!-- Sign In Link -->
-                <div class="pt-4 border-t border-elior-border/60 text-center text-xs text-elior-muted">
+                <div class="pt-4 border-t border-slate-200 text-center text-xs text-[#6b7280]">
                     <span>@lang('shop::app.customers.signup-form.account-exists')</span>
                     <a
                         href="{{ route('shop.customer.session.index') }}"
-                        class="ml-1 text-elior-botanical hover:text-elior-botanicalDark font-semibold transition-colors"
+                        class="ml-1 text-[#1d5b8f] hover:text-[#133b63] font-semibold transition-colors"
                     >
                         @lang('shop::app.customers.signup-form.sign-in-button')
                     </a>

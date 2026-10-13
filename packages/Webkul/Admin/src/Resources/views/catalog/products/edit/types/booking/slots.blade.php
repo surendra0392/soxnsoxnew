@@ -121,7 +121,7 @@
                         </div>
 
                         <p
-                            class="text-right text-[#205132] transition-all cursor-pointer place-content-start hover:underline"
+                            class="text-right text-[#133b63] transition-all cursor-pointer place-content-start hover:underline"
                             @click="currentIndex=dayIndex;toggle()"
                         >
                             @lang('admin::app.catalog.products.edit.types.booking.slots.action.add')
@@ -150,7 +150,7 @@
                             <div class="flex items-center gap-4 ltr:mr-11 rtl:ml-11">
                                 <!-- Add Slots Button -->
                                 <div
-                                    class="font-medium text-[#205132] cursor-pointer w-fit"
+                                    class="font-medium text-[#133b63] cursor-pointer w-fit"
                                     @click="add"
                                 >
                                     @lang('admin::app.catalog.products.edit.types.booking.slots.add')

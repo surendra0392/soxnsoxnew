@@ -2,7 +2,7 @@
 
 <div class="grid grid-cols-1 gap-6">
     <div class="flex gap-3">
-        <span class="icon-calendar text-2xl"></span>
+        <i class="fa-regular fa-calendar text-2xl text-soxnsox-charcoal"></i>
 
         <div class="grid grid-cols-1 gap-1.5 text-sm font-medium">
             <p class="text-[#6E6E6E]">

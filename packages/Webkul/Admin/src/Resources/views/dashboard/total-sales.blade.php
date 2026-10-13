@@ -36,7 +36,7 @@
                         </span>
 
                         <!-- Total Orders -->
-                        <span class="inline-flex items-center rounded-full bg-[#205132]/10 px-2 py-0.5 text-xs font-semibold text-[#205132] font-mono border border-[#205132]/20">
+                        <span class="inline-flex items-center rounded-full bg-[#133b63]/10 px-2 py-0.5 text-xs font-semibold text-[#133b63] font-mono border border-[#133b63]/20">
                             @{{ "@lang('admin::app.dashboard.index.order')".replace(':total_orders', report.statistics.total_orders.current ?? 0) }}
                         </span>
                     </div>
@@ -73,7 +73,7 @@
                     return [{
                         data: this.report.statistics.over_time.map(({ total }) => total),
                         barThickness: 6,
-                        backgroundColor: '#83B740',
+                        backgroundColor: '#2ca7a3',
                         borderRadius: 3,
                     }];
                 }

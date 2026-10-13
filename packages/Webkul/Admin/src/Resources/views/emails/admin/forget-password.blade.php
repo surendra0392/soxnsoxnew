@@ -1,15 +1,15 @@
 @component('admin::emails.layout')
 <div style="margin-bottom: 34px;">
-    <p style="font-weight: bold;font-size: 20px;color: #163923;line-height: 24px;margin-bottom: 24px">
+    <p style="font-weight: bold;font-size: 20px;color: #0d2847;line-height: 24px;margin-bottom: 24px">
         @lang('admin::app.emails.dear', ['admin_name' => $userName]), 👋
     </p>
 
-    <p style="font-size: 16px;color: #205132;line-height: 24px;">
+    <p style="font-size: 16px;color: #133b63;line-height: 24px;">
         @lang('admin::app.emails.admin.forgot-password.greeting')
     </p>
 </div>
 
-<p style="font-size: 16px;color: #205132;line-height: 24px;margin-bottom: 40px">
+<p style="font-size: 16px;color: #133b63;line-height: 24px;margin-bottom: 40px">
     @lang('admin::app.emails.admin.forgot-password.description')
 </p>
 

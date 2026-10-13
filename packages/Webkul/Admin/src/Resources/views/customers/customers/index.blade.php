@@ -35,10 +35,7 @@
                         class="primary-button"
                         @click="$refs.createCustomerComponent.openModal()"
                     >
-                        <svg class="h-4 w-4 mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
+                        <i class="fa-solid fa-plus text-xs mr-1"></i>
                         @lang('admin::app.customers.customers.index.create.create-btn')
                     </button>
                 @endif
@@ -97,8 +94,8 @@
                                 <span
                                     class="icon-uncheckbox cursor-pointer rounded-md text-2xl"
                                     :class="[
-                                        applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:text-[#205132]' : (
-                                            applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:text-[#205132]' : ''
+                                        applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:text-[#133b63]' : (
+                                            applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:text-[#133b63]' : ''
                                         ),
                                     ]"
                                 >
@@ -112,7 +109,7 @@
                                     <span
                                         class="after:content-['/'] last:after:content-['']"
                                         :class="{
-                                            'font-bold text-[#205132]': applied.sort.column == column,
+                                            'font-bold text-[#133b63]': applied.sort.column == column,
                                             'cursor-pointer hover:text-slate-900': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
                                         }"
                                         @click="
@@ -125,7 +122,7 @@
                             </span>
 
                             <i
-                                class="align-text-bottom text-base text-[#205132] ltr:ml-1.5 rtl:mr-1.5"
+                                class="align-text-bottom text-base text-[#133b63] ltr:ml-1.5 rtl:mr-1.5"
                                 :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
                                 v-if="columnGroup.includes(applied.sort.column)"
                             ></i>
@@ -169,23 +166,18 @@
                             >
 
                             <label
-                                class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                 :for="`mass_action_select_record_${record.customer_id}`"
                             >
                             </label>
                         @endif
 
-                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#205132]/10 text-[#205132] font-bold text-sm border border-[#205132]/20 overflow-hidden shadow-2xs">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden border border-slate-200/80 shadow-2xs">
                             <img
-                                v-if="record.image_url"
-                                :src="record.image_url"
+                                :src="record.avatar_url || record.image_url || getSoxnsoxAvatar(record.full_name, 40)"
                                 class="h-full w-full object-cover"
                                 :alt="record.full_name"
                             />
-                            <span v-else-if="record.full_name">
-                                @{{ record.full_name.charAt(0).toUpperCase() }}
-                            </span>
-                            <span v-else class="icon-customer text-base text-[#205132]"></span>
                         </div>
 
                         <div class="flex flex-col gap-0.5">

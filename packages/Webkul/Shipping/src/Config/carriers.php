@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'elior' => [
-        'code'        => 'elior',
-        'title'       => 'Elior Shipping',
+    'soxnsox' => [
+        'code' => 'soxnsox',
+        'title' => 'Soxnsox Shipping',
         'description' => 'Dynamic Shipping Engine',
-        'active'      => true,
-        'class'       => 'Webkul\Shipping\Carriers\EliorShipping',
+        'active' => true,
+        'class' => 'Webkul\Shipping\Carriers\SoxnsoxShipping',
     ],
 ];

@@ -1,14 +1,14 @@
 @component('shop::emails.layout')
     <div style="margin-bottom: 34px;">
-        <span style="font-size: 22px;font-weight: 600;color: #163923;">
+        <span style="font-size: 22px;font-weight: 600;color: #133B63;">
             @lang('shop::app.eu_withdrawal.emails.guest_link.title')
         </span> <br>
 
-        <p style="font-size: 16px;color: #205132;line-height: 24px;">
+        <p style="font-size: 16px;color: #374151;line-height: 24px;">
             @lang('shop::app.emails.dear', ['customer_name' => $toEmail]), 👋
         </p>
 
-        <p style="font-size: 16px;color: #205132;line-height: 24px;">
+        <p style="font-size: 16px;color: #374151;line-height: 24px;">
             @lang('shop::app.eu_withdrawal.emails.guest_link.intro', ['order_id' => $orderIncrementId])
         </p>
     </div>

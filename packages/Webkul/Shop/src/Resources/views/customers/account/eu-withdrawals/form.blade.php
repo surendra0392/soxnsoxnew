@@ -19,7 +19,7 @@
                 class="grid md:hidden"
                 href="{{ route('shop.customers.account.orders.view', $order->id) }}"
             >
-                <span class="text-2xl icon-arrow-left rtl:icon-arrow-right"></span>
+                <i class="fa-solid fa-arrow-left text-lg text-soxnsox-charcoal"></i>
             </a>
 
             <h2 class="text-2xl font-medium max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
@@ -29,7 +29,7 @@
 
         {{-- Statutory effect notice --}}
         <div class="mt-6 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-            <span class="icon-warning mt-0.5 text-xl leading-none"></span>
+            <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-0.5 text-base leading-none"></i>
 
             <div>
                 <p class="font-medium">

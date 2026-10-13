@@ -29,6 +29,7 @@ class ContactRequest extends FormRequest
             'name' => 'string|required',
             'email' => 'string|required',
             'contact' => new PhoneNumber,
+            'looking_for' => 'nullable|string',
             'message' => 'required',
         ]);
     }

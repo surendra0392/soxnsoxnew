@@ -22,11 +22,12 @@ class Page
      */
     public function afterUpdate($page)
     {
-        \Spatie\ResponseCache\Facades\ResponseCache::forget('/');
+        ResponseCache::forget('/');
 
         foreach (core()->getAllLocales() as $locale) {
             if ($pageTranslation = $page->translate($locale->code)) {
-                \Spatie\ResponseCache\Facades\ResponseCache::forget('/page/' . $pageTranslation->url_key);
+                ResponseCache::forget('/page/'.$pageTranslation->url_key);
+                ResponseCache::forget('/'.$pageTranslation->url_key);
             }
         }
     }
@@ -41,11 +42,12 @@ class Page
     {
         $page = $this->pageRepository->find($pageId);
 
-        \Spatie\ResponseCache\Facades\ResponseCache::forget('/');
+        ResponseCache::forget('/');
 
         foreach (core()->getAllLocales() as $locale) {
             if ($pageTranslation = $page->translate($locale->code)) {
-                \Spatie\ResponseCache\Facades\ResponseCache::forget('/page/' . $pageTranslation->url_key);
+                ResponseCache::forget('/page/'.$pageTranslation->url_key);
+                ResponseCache::forget('/'.$pageTranslation->url_key);
             }
         }
     }

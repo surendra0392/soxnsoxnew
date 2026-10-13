@@ -5,41 +5,27 @@
 
     <div class="flex h-[100vh] items-center justify-center px-4">
         <div class="flex w-full max-w-[420px] flex-col items-center gap-6">
+            @php
+                $adminLogo = core()->getConfigData('general.design.admin_logo.logo_image');
+                $adminLogoUrl = ($adminLogo && file_exists(public_path('storage/' . $adminLogo)))
+                    ? asset('storage/' . $adminLogo)
+                    : (file_exists(public_path('logo.png')) ? asset('logo.png') : ($adminLogo ? Storage::url($adminLogo) : bagisto_asset('images/logo.png')));
+            @endphp
+
             <!-- Logo -->
-            @if ($logo = core()->getConfigData('general.design.admin_logo.logo_image'))
-                <img
-                    class="h-10 w-[110px]"
-                    src="{{ Storage::url($logo) }}"
-                    alt="{{ config('app.name') }}"
-                />
-            @else
-                <img
-                    class="w-max"
-                    src="{{ bagisto_asset('images/logo.svg') }}"
-                    alt="{{ config('app.name') }}"
-                />
-            @endif
+            <img
+                class="h-10 w-auto object-contain max-w-[200px]"
+                src="{{ $adminLogoUrl }}"
+                alt="{{ config('app.name') }}"
+            />
 
             <!-- Card -->
             <div class="box-shadow w-full overflow-hidden rounded-xl bg-white">
                 <!-- Header -->
                 <div class="flex flex-col items-center gap-2 px-8 pt-8 text-center">
                     <!-- Lock Badge -->
-                    <div class="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-[#205132]/10">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.8"
-                            stroke="currentColor"
-                            class="h-7 w-7 text-[#205132]"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
-                            />
-                        </svg>
+                    <div class="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-[#133b63]/10">
+                        <i class="fa-solid fa-lock text-2xl text-[#133b63]"></i>
                     </div>
 
                     <p class="text-xl font-bold text-gray-800">
@@ -102,7 +88,7 @@
 
                     <button
                         type="button"
-                        class="text-sm font-medium text-gray-500 transition-all hover:text-[#205132]"
+                        class="text-sm font-medium text-gray-500 transition-all hover:text-[#133b63]"
                         onclick="event.preventDefault(); document.getElementById('adminLogout').submit();"
                     >
                         @lang('admin::app.users.verify.back')
@@ -113,8 +99,8 @@
             <!-- Powered By -->
             <div class="text-sm font-normal">
                 @lang('admin::app.users.sessions.powered-by-description', [
-                    'bagisto' => '<a class="text-[#205132] hover:underline" href="https://bagisto.com/en/">Bagisto</a>',
-                    'webkul' => '<a class="text-[#205132] hover:underline" href="https://webkul.com/">Webkul</a>',
+                    'bagisto' => '<a class="text-[#133b63] hover:underline" href="https://bagisto.com/en/">Bagisto</a>',
+                    'webkul' => '<a class="text-[#133b63] hover:underline" href="https://webkul.com/">Webkul</a>',
                 ])
             </div>
         </div>

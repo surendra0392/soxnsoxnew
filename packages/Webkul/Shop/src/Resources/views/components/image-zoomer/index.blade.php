@@ -17,7 +17,8 @@
                     leave-to-class="opacity-0"
                 >
                     <div
-                        class="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm transition-opacity"
+                        class="fixed inset-0 transition-opacity"
+                        style="position: fixed; inset: 0; z-index: 9998; background-color: rgba(12, 31, 51, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
                         @click="toggle"
                     ></div>
                 </transition>
@@ -32,7 +33,8 @@
                     leave-to-class="opacity-0 scale-95 translate-y-4"
                 >
                     <div
-                        class="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+                        class="fixed inset-0 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+                        style="position: fixed; inset: 0; z-index: 9999;"
                         @click.self="toggle"
                     >
                         <!-- Modal Frame with Visible Overflow for Close Button -->
@@ -42,32 +44,32 @@
                             aria-modal="true"
                         >
                             <!-- Modal Card Body -->
-                            <div class="relative z-10 w-full rounded-3xl bg-white border border-[#e5decb] shadow-2xl p-5 sm:p-7 flex flex-col items-center gap-4">
+                            <div class="relative z-10 w-full rounded-3xl bg-white border border-[#e5e7eb] shadow-2xl p-5 sm:p-7 flex flex-col items-center gap-4">
                                 <!-- Main Image Stage -->
                                 <div
                                     ref="mediaContainer"
-                                    class="relative w-full h-[60vh] sm:h-[68vh] flex items-center justify-center overflow-hidden rounded-2xl bg-[#faf8f5]"
+                                    class="relative w-full h-[60vh] sm:h-[68vh] flex items-center justify-center overflow-hidden rounded-2xl bg-[#f8fafc]"
                                 >
                                     <!-- Left Navigation Arrow -->
                                     <button
                                         type="button"
-                                        class="absolute left-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/90 border border-[#e5decb] text-[#163923] hover:bg-[#205132] hover:text-white transition-all shadow-md cursor-pointer"
+                                        class="absolute left-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/90 border border-[#e5e7eb] text-[#133b63] hover:bg-[#1d5b8f] hover:text-white transition-all shadow-md cursor-pointer"
                                         v-if="attachments.length >= 2"
                                         @click="navigate(currentIndex -= 1)"
                                         aria-label="Previous image"
                                     >
-                                        <span class="icon-arrow-left text-xl font-bold"></span>
+                                        <i class="fa-solid fa-chevron-left text-base"></i>
                                     </button>
 
                                     <!-- Right Navigation Arrow -->
                                     <button
                                         type="button"
-                                        class="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/90 border border-[#e5decb] text-[#163923] hover:bg-[#205132] hover:text-white transition-all shadow-md cursor-pointer"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/90 border border-[#e5e7eb] text-[#133b63] hover:bg-[#1d5b8f] hover:text-white transition-all shadow-md cursor-pointer"
                                         v-if="attachments.length >= 2"
                                         @click="navigate(currentIndex += 1)"
                                         aria-label="Next image"
                                     >
-                                        <span class="icon-arrow-right text-xl font-bold"></span>
+                                        <i class="fa-solid fa-chevron-right text-base"></i>
                                     </button>
 
                                     <!-- Slides Container -->
@@ -90,6 +92,7 @@
                                         <template v-if="attachment.type === 'image'">
                                             <img
                                                 :src="attachment.url"
+                                                alt="Enlarged sock view"
                                                 class="max-h-full max-w-full object-contain select-none transition-transform duration-200 ease-out"
                                                 :class="{
                                                     'cursor-zoom-in': ! isZooming,
@@ -117,12 +120,13 @@
                                         <button
                                             type="button"
                                             class="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border-2 transition-all cursor-pointer"
-                                            :class="currentIndex === index + 1 ? 'border-[#205132] ring-2 ring-[#205132]/20' : 'border-[#e5decb] opacity-60 hover:opacity-100'"
+                                            :class="currentIndex === index + 1 ? 'border-[#1d5b8f] ring-2 ring-[#1d5b8f]/20' : 'border-[#e5e7eb] opacity-60 hover:opacity-100'"
                                             @click="navigate(currentIndex = index + 1)"
                                             :key="index"
                                         >
                                             <img
                                                 :src="attachment.url"
+                                                alt="Sock thumbnail"
                                                 class="h-full w-full object-cover"
                                                 v-if="attachment.type === 'image'"
                                             />
@@ -140,11 +144,11 @@
                             <button
                                 type="button"
                                 class="absolute flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full shadow-2xl transition-all duration-200 hover:scale-110 focus:outline-none cursor-pointer"
-                                style="top: -14px; right: -14px; background-color: #163923; color: #ffffff; border: 2.5px solid #ffffff; z-index: 9999; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);"
+                                style="top: -14px; right: -14px; background-color: #133b63; color: #ffffff; border: 2.5px solid #ffffff; z-index: 9999; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);"
                                 aria-label="Close zoomed view"
                                 @click="toggle"
                             >
-                                <svg class="w-5 h-5 text-white stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                <i class="fa-solid fa-xmark text-white text-base"></i>
                             </button>
                         </div>
                     </div>
@@ -217,7 +221,25 @@
                 };
             },
 
+            mounted() {
+                window.addEventListener('keydown', this.handleKeydown);
+            },
+
+            beforeUnmount() {
+                window.removeEventListener('keydown', this.handleKeydown);
+
+                if (this.isOpen) {
+                    document.body.style.overflow = '';
+                }
+            },
+
             methods: {
+                handleKeydown(e) {
+                    if (e.key === 'Escape' && this.isOpen) {
+                        this.close();
+                    }
+                },
+
                 toggle() {
                     this.isOpen = ! this.isOpen;
 

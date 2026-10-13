@@ -190,11 +190,22 @@ abstract class AbstractType
 
         $product->categories()->sync($data['categories']);
 
-        $product->up_sells()->sync($data['up_sells'] ?? []);
+        $filterParentProductIds = function ($ids) {
+            if (empty($ids)) {
+                return [];
+            }
 
-        $product->cross_sells()->sync($data['cross_sells'] ?? []);
+            return Product::whereIn('id', (array) $ids)
+                ->whereNull('parent_id')
+                ->pluck('id')
+                ->toArray();
+        };
 
-        $product->related_products()->sync($data['related_products'] ?? []);
+        $product->up_sells()->sync($filterParentProductIds($data['up_sells'] ?? []));
+
+        $product->cross_sells()->sync($filterParentProductIds($data['cross_sells'] ?? []));
+
+        $product->related_products()->sync($filterParentProductIds($data['related_products'] ?? []));
 
         $this->productInventoryRepository->saveInventories($data, $product);
 

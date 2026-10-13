@@ -1,12 +1,13 @@
 <svg width="180" height="42" viewBox="0 0 180 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Botanical Leaf Icon -->
-  <g transform="translate(4, 5)">
-    <circle cx="16" cy="16" r="16" fill="#205132" />
-    <path d="M16 6C16 6 10 12 10 18C10 21.3137 12.6863 24 16 24C19.3137 24 22 21.3137 22 18C22 12 16 6 16 6Z" fill="#c9a25a" opacity="0.9" />
-    <path d="M16 8V22M16 14L12 11M16 17L20 14" stroke="#FAF8F5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Bamboo & Comfort Sock Modern Icon -->
+  <g transform="translate(3, 4)">
+    <rect width="34" height="34" rx="10" fill="#133b63" />
+    <!-- Stylized Sock / Bamboo Curve -->
+    <path d="M11 9H17C18.1046 9 19 9.89543 19 11V18L23.2 22.2C24.4 23.4 24.4 25.3 23.2 26.5C22 27.7 20.1 27.7 18.9 26.5L14 21.6C13.4 21 13 20.2 13 19.3V11C13 9.89543 12.1046 9 11 9Z" fill="#2ca7a3" />
+    <circle cx="21" cy="13" r="2.5" fill="#f29a38" />
   </g>
-  <!-- ELIOR Wordmark -->
-  <text x="44" y="24" font-family="'DM Serif Display', 'Playfair Display', Georgia, serif" font-size="22" font-weight="700" fill="#205132" letter-spacing="1.5">ELIOR</text>
+  <!-- Brand Wordmark -->
+  <text x="45" y="24" font-family="'Poppins', 'Segoe UI', -apple-system, sans-serif" font-size="20" font-weight="800" fill="#133b63" letter-spacing="0.5">SOX<tspan fill="#f29a38">N</tspan>SOX</text>
   <!-- Subtitle -->
-  <text x="45" y="34" font-family="'Plus Jakarta Sans', 'Poppins', sans-serif" font-size="7.5" font-weight="600" fill="#5A6B5C" letter-spacing="2.2">BOTANICAL NUTRITION</text>
+  <text x="46" y="34" font-family="'Poppins', 'Segoe UI', -apple-system, sans-serif" font-size="7" font-weight="700" fill="#2ca7a3" letter-spacing="2.2">PURE BAMBOO SOCKS</text>
 </svg>

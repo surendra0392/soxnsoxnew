@@ -38,7 +38,7 @@
                         <p class="font-semibold mb-3 text-gray-800">Add CMS Pages</p>
                         <div class="max-h-[150px] overflow-y-auto space-y-2 pr-2">
                             <label v-for="(page, index) in cmsPages" :key="'cms_' + page.value" class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" :value="{ type: 'cms', id: page.value, title: page.title }" v-model="pendingSelections.cms" class="rounded border-gray-300 text-[#205132] focus:ring-[#205132]/20">
+                                <input type="checkbox" :value="{ type: 'cms', id: page.value, title: page.title }" v-model="pendingSelections.cms" class="rounded border-gray-300 text-[#133b63] focus:ring-[#133b63]/20">
                                 <span class="text-sm text-gray-600">@{{ page.title }}</span>
                             </label>
                         </div>
@@ -50,7 +50,7 @@
                         <p class="font-semibold mb-3 text-gray-800">Add Categories</p>
                         <div class="max-h-[150px] overflow-y-auto space-y-2 pr-2">
                             <label v-for="(cat, index) in categories" :key="'cat_' + cat.value" class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" :value="{ type: 'category', id: cat.value, title: cat.title }" v-model="pendingSelections.category" class="rounded border-gray-300 text-[#205132] focus:ring-[#205132]/20">
+                                <input type="checkbox" :value="{ type: 'category', id: cat.value, title: cat.title }" v-model="pendingSelections.category" class="rounded border-gray-300 text-[#133b63] focus:ring-[#133b63]/20">
                                 <span class="text-sm text-gray-600" v-html="cat.title"></span>
                             </label>
                         </div>
@@ -63,11 +63,11 @@
                         <div class="flex gap-4 items-end">
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-gray-500 mb-1">Title</label>
-                                <input type="text" v-model="customLink.title" class="w-full px-3 py-2 border rounded-md focus:border-[#205132] focus:ring-1 focus:ring-[#205132]/20 text-sm">
+                                <input type="text" v-model="customLink.title" class="w-full px-3 py-2 border rounded-md focus:border-[#133b63] focus:ring-1 focus:ring-[#133b63]/20 text-sm">
                             </div>
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-gray-500 mb-1">URL</label>
-                                <input type="text" v-model="customLink.url" placeholder="https://" class="w-full px-3 py-2 border rounded-md focus:border-[#205132] focus:ring-1 focus:ring-[#205132]/20 text-sm">
+                                <input type="text" v-model="customLink.url" placeholder="https://" class="w-full px-3 py-2 border rounded-md focus:border-[#133b63] focus:ring-1 focus:ring-[#133b63]/20 text-sm">
                             </div>
                             <button type="button" @click="addCustomLink" class="px-4 py-2 bg-gray-800 text-white rounded text-sm hover:bg-gray-700 transition-colors">Add to Menu</button>
                         </div>
@@ -95,7 +95,7 @@
                                     </div>
                                     
                                     <div class="flex items-center gap-3">
-                                        <span v-if="element.type === 'custom'" class="text-xs text-[#205132] truncate max-w-[200px]">@{{ element.url }}</span>
+                                        <span v-if="element.type === 'custom'" class="text-xs text-[#133b63] truncate max-w-[200px]">@{{ element.url }}</span>
                                         <button type="button" @click="removeItem(index)" class="text-red-500 hover:text-red-700 p-1">
                                             <span class="icon-delete text-lg"></span>
                                         </button>

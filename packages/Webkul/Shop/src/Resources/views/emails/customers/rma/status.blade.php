@@ -1,19 +1,19 @@
 @component('shop::emails.layout')
     <div style="margin-bottom: 34px;">
         <!-- Title -->
-        <span style="font-size: 22px;font-weight: 600;color: #163923">
+        <span style="font-size: 22px;font-weight: 600;color: #133B63">
             @lang('shop::app.rma.mail.status.title')
         </span>
         
         <br>
 
         <!-- Customer Name -->
-        <p style="font-size: 16px;color: #205132;line-height: 24px;">
+        <p style="font-size: 16px;color: #374151;line-height: 24px;">
             @lang('shop::app.rma.mail.status.heading', ['name' => $rma->order->customer->name]),👋
         </p>
 
         <!-- RMA ID -->
-        <p style="font-size: 16px;color: #205132;line-height: 24px;">
+        <p style="font-size: 16px;color: #374151;line-height: 24px;">
             @lang('shop::app.rma.mail.status.your-rma-id')
             @lang('shop::app.rma.mail.status.status-change', [
                 'id' => '<a href="' . route('shop.customers.account.rma.view', $rma->id) . '" style="color: #0041FF; font-weight: bold;">#' . $rma->id . '</a>',
@@ -25,7 +25,7 @@
             <div style="line-height: 25px;">
                 <div style="font-size: 16px; font-weight: bold; color: #242424;">
                     @lang('shop::app.rma.mail.status.status') :
-                    <span style="font-size: 16px; color: #205132; line-height: 24px;">
+                    <span style="font-size: 16px; color: #374151; line-height: 24px;">
                        {{ $rma->status->title }}
                     </span>
                 </div>

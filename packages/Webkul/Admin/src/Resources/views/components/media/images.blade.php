@@ -41,15 +41,15 @@
                 <template v-if="allowMultiple || images.length == 0">
                     <!-- AI Image Generation Button -->
                     <label
-                        class="grid h-[120px] max-h-[120px] min-h-[110px] w-full min-w-[110px] max-w-[120px] cursor-pointer items-center justify-items-center rounded border border-dashed border-[#205132]/20 transition-all hover:border-[#205132]"
+                        class="grid h-[120px] max-h-[120px] min-h-[110px] w-full min-w-[110px] max-w-[120px] cursor-pointer items-center justify-items-center rounded border border-dashed border-[#133b63]/20 transition-all hover:border-[#133b63]"
                         :style="{'max-width': this.width, 'max-height': this.height}"
                         v-if="ai.enabled"
                         @click="resetAIModal(); $refs.magicAIImageModal.open()"
                     >
                         <div class="flex flex-col items-center">
-                            <span class="icon-magic text-2xl text-[#205132]"></span>
+                            <span class="icon-magic text-2xl text-[#133b63]"></span>
 
-                            <p class="grid text-center text-sm font-semibold text-[#205132]">
+                            <p class="grid text-center text-sm font-semibold text-[#133b63]">
                                 @lang('admin::app.components.media.images.ai-add-image-btn')
                                 
                                 <span class="text-xs">
@@ -282,7 +282,7 @@
                                         <div class="grid grid-cols-4 gap-5">
                                             <div
                                                 class="relative grid max-h-[120px] min-w-[120px] cursor-pointer justify-items-center overflow-hidden rounded border-[3px] border-transparent transition-all hover:opacity-80"
-                                                :class="{'!border-[#205132]': image.selected}"
+                                                :class="{'!border-[#133b63]': image.selected}"
                                                 v-for="image in ai.images"
                                                 @click="image.selected = ! image.selected"
                                             >
@@ -312,7 +312,7 @@
                                                 </template>
 
                                                 <template v-else>
-                                                    <span class="icon-magic text-[#205132]"></span>
+                                                    <span class="icon-magic text-[#133b63]"></span>
                                                     
                                                     @lang('admin::app.components.media.images.ai-generation.generate')
                                                 </template>
@@ -332,7 +332,7 @@
                                                 </template>
 
                                                 <template v-else>
-                                                    <span class="icon-magic text-2xl text-[#205132]"></span>
+                                                    <span class="icon-magic text-2xl text-[#133b63]"></span>
                                                     
                                                     @lang('admin::app.components.media.images.ai-generation.regenerate')
                                                 </template>

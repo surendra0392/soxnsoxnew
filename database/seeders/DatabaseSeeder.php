@@ -17,16 +17,17 @@ class DatabaseSeeder extends Seeder
         // 1. Run Base Bagisto Core Architecture & System Seeders
         $this->call(BagistoDatabaseSeeder::class);
 
-        // 2. Run ELIOR Botanical Storefront Configuration & Content Seeders
-        $this->call(EliorConfigSeeder::class);
-        $this->call(EliorGSTSeeder::class);
+        // 2. Run SOX N SOX Storefront Configuration & Content Seeders
+        $this->call(SoxnsoxConfigSeeder::class);
+        $this->call(SoxnsoxGSTSeeder::class);
         $this->call(ShippingSeeder::class);
-        $this->call(EliorCatalogSeeder::class);
-        $this->call(EliorPromotionSeeder::class);
-        $this->call(EliorHeroSliderSeeder::class);
-        $this->call(EliorCMSSeeder::class);
-        $this->call(RecipeSeeder::class);
-        $this->call(EliorMenuSeeder::class);
-        $this->call(EliorThemeCustomizationSeeder::class);
+        $this->call(SoxnsoxCatalogSeeder::class);
+        $this->call(SoxnsoxPromotionSeeder::class);
+        $this->call(SoxnsoxHeroSliderSeeder::class);
+        $this->call(SoxnsoxCMSSeeder::class);
+        $this->call(SoxnsoxMenuSeeder::class);
+        $this->call(SoxnsoxThemeCustomizationSeeder::class);
+        $this->call(SoxnsoxBlogSeeder::class);
+        $this->call(SoxnsoxSEOSeeder::class);
     }
 }

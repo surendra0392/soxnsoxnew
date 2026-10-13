@@ -3,7 +3,7 @@
         <button class="flex w-full max-w-[200px] cursor-pointer items-center justify-between gap-4 rounded-lg border border-zinc-200 bg-white py-2 text-sm transition-all hover:border-gray-400 focus:border-gray-400 max-md:py-2 max-sm:py-1.5 ltr:pl-4 ltr:pr-3 max-md:ltr:pl-2.5 max-md:ltr:pr-2.5 rtl:pl-3 rtl:pr-4 max-md:rtl:pl-2.5 max-md:rtl:pr-2.5">
             <span v-text="applied.pagination.perPage"></span>
 
-            <span class="icon-arrow-down text-2xl"></span>
+            <i class="fa-solid fa-chevron-down text-xs text-gray-500"></i>
         </button>
     </x-slot>
 

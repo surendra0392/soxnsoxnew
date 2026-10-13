@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Admin\Exports\ProductDataGridExport;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Core\Facades\ElasticSearch;
 use Webkul\DataGrid\DataGrid;
 use Webkul\Product\Helpers\Product;
@@ -66,21 +67,22 @@ class ProductDataGrid extends DataGrid
                 'product_flat.visible_individually',
                 'af.name as attribute_family',
             )
-            ->addSelect(DB::raw('SUM(DISTINCT '.$tablePrefix.'product_inventories.qty) as quantity'))
+            ->addSelect(DB::raw('(SELECT COALESCE(SUM('.$tablePrefix.'product_inventories.qty), 0) FROM '.$tablePrefix.'product_inventories WHERE '.$tablePrefix.'product_inventories.product_id = '.$tablePrefix.'product_flat.product_id OR '.$tablePrefix.'product_inventories.product_id IN (SELECT '.$tablePrefix.'child_products.id FROM '.$tablePrefix.'products as '.$tablePrefix.'child_products WHERE '.$tablePrefix.'child_products.parent_id = '.$tablePrefix.'product_flat.product_id)) as quantity'))
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'product_images.id) as images_count'))
             ->leftJoin('product_attribute_values as pav_featured', function ($leftJoin) {
-                $featuredAttrId = app(\Webkul\Attribute\Repositories\AttributeRepository::class)->findOneWhere(['code' => 'featured'])->id ?? 0;
+                $featuredAttrId = app(AttributeRepository::class)->findOneWhere(['code' => 'featured'])->id ?? 0;
                 $leftJoin->on('product_flat.product_id', '=', 'pav_featured.product_id')
                     ->where('pav_featured.attribute_id', $featuredAttrId);
             })
             ->leftJoin('product_attribute_values as pav_best_sellers', function ($leftJoin) {
-                $bestSellersAttrId = app(\Webkul\Attribute\Repositories\AttributeRepository::class)->findOneWhere(['code' => 'best_sellers'])->id ?? 0;
+                $bestSellersAttrId = app(AttributeRepository::class)->findOneWhere(['code' => 'best_sellers'])->id ?? 0;
                 $leftJoin->on('product_flat.product_id', '=', 'pav_best_sellers.product_id')
                     ->where('pav_best_sellers.attribute_id', $bestSellersAttrId);
             })
             ->addSelect('pav_featured.boolean_value as featured')
             ->addSelect('pav_best_sellers.boolean_value as best_sellers')
             ->where('product_flat.locale', app()->getLocale())
+            ->where('product_flat.visible_individually', 1)
             ->groupBy('product_flat.product_id');
 
         $this->addFilter('product_id', 'product_flat.product_id');

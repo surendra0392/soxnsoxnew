@@ -24,10 +24,7 @@
                     class="primary-button"
                     @click="$refs.selectCustomerComponent.openDrawer()"
                 >
-                    <svg class="h-4 w-4 mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
+                    <i class="fa-solid fa-plus text-xs mr-1"></i>
                     @lang('admin::app.sales.orders.index.create-btn')
                 </button>
             @endif
@@ -70,7 +67,7 @@
                                     <span
                                         class="after:content-['/'] last:after:content-['']"
                                         :class="{
-                                            'font-bold text-[#205132]': applied.sort.column == column,
+                                            'font-bold text-[#133b63]': applied.sort.column == column,
                                             'cursor-pointer hover:text-slate-900': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
                                         }"
                                         @click="
@@ -83,7 +80,7 @@
                             </span>
 
                             <i
-                                class="align-text-bottom text-base text-[#205132] ltr:ml-1.5 rtl:mr-1.5"
+                                class="align-text-bottom text-base text-[#133b63] ltr:ml-1.5 rtl:mr-1.5"
                                 :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
                                 v-if="columnGroup.includes(applied.sort.column)"
                             >
@@ -171,12 +168,10 @@
 
                         <a 
                             :href="'{{ route('admin.sales.orders.view', ':id') }}'.replace(':id', record.id)"
-                            class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:text-[#205132] hover:border-[#205132]/40 hover:bg-[#205132]/5 shadow-2xs transition-all"
+                            class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:text-[#133b63] hover:border-[#133b63]/40 hover:bg-[#133b63]/5 shadow-2xs transition-all"
                             title="@lang('admin::app.sales.orders.index.datagrid.view')"
                         >
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
                         </a>
                     </div>
                 </div>

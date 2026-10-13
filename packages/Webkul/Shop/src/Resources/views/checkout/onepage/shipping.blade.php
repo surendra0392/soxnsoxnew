@@ -24,13 +24,13 @@
 
             <template v-else>
                 <!-- Shipping Step Card -->
-                <div class="rounded-3xl border border-[#e5decb] bg-white p-6 sm:p-8 shadow-sm space-y-6">
-                    <div class="flex items-center justify-between border-b border-[#e5decb]/60 pb-4">
+                <div class="rounded-3xl border border-[#e5e7eb] bg-white p-6 sm:p-8 shadow-sm space-y-6">
+                    <div class="flex items-center justify-between border-b border-[#e5e7eb]/60 pb-4">
                         <div class="flex items-center gap-3">
-                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#205132] text-white text-xs font-bold font-mono shadow-xs">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#1d5b8f] text-white text-xs font-bold font-mono shadow-xs">
                                 02
                             </span>
-                            <h2 class="font-serif text-xl sm:text-2xl font-bold text-[#163923]">
+                            <h2 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
                                 @lang('shop::app.checkout.onepage.shipping.shipping-method')
                             </h2>
                         </div>
@@ -55,38 +55,36 @@
                                 >
 
                                 <label 
-                                    class="flex items-center justify-between gap-4 cursor-pointer rounded-2xl border-2 border-elior-border bg-white p-5 peer-checked:border-elior-botanical peer-checked:bg-[#FAF8F5] peer-checked:ring-1 peer-checked:ring-elior-botanical transition-all hover:border-elior-botanical/50"
+                                    class="flex items-center justify-between gap-4 cursor-pointer rounded-2xl border-2 border-soxnsox-border bg-white p-5 peer-checked:border-soxnsox-teal peer-checked:bg-[#f8fafc] peer-checked:ring-1 peer-checked:ring-soxnsox-teal transition-all hover:border-soxnsox-teal/50"
                                     :for="rate.method"
                                 >
                                     <div class="flex items-center gap-3.5">
                                         <div 
-                                            class="h-5 w-5 rounded-full border-2 border-elior-border flex items-center justify-center transition-colors"
-                                            :class="{'!border-elior-botanical !bg-elior-botanical text-white': selectedMethod === rate.method}"
+                                            class="h-5 w-5 rounded-full border-2 border-soxnsox-border flex items-center justify-center transition-colors"
+                                            :class="{'!border-soxnsox-teal !bg-soxnsox-teal text-white': selectedMethod === rate.method}"
                                         >
-                                            <svg v-if="selectedMethod === rate.method" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                            </svg>
+                                            <i v-if="selectedMethod === rate.method" class="fa-solid fa-check text-[10px] text-white"></i>
                                         </div>
 
                                         <div class="space-y-0.5">
-                                            <p class="text-sm font-bold text-elior-charcoal">
+                                            <p class="text-sm font-bold text-soxnsox-charcoal">
                                                 @{{ rate.method_title }}
                                             </p>
                                             
-                                            <p class="text-xs text-elior-muted leading-relaxed" v-if="rate.method_description">
+                                            <p class="text-xs text-soxnsox-muted leading-relaxed" v-if="rate.method_description">
                                                 @{{ rate.method_description }}
                                             </p>
-                                            <p class="text-xs text-[#205132] font-medium" v-else>
+                                            <p class="text-xs text-[#1d5b8f] font-medium" v-else>
                                                 Calculated automatically for your delivery address
                                             </p>
                                         </div>
                                     </div>
 
                                     <div class="text-right shrink-0">
-                                        <span class="font-serif text-base font-bold text-[#163923]" v-if="parseFloat(rate.price || rate.base_price || 0) > 0">
+                                        <span class="font-display text-base font-extrabold text-[#133b63]" v-if="parseFloat(rate.price || rate.base_price || 0) > 0">
                                             @{{ rate.base_formatted_price }}
                                         </span>
-                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#EBF3EE] text-xs font-bold text-[#205132] uppercase tracking-wider" v-else>
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#e9f2fa] text-xs font-bold text-[#1d5b8f] uppercase tracking-wider" v-else>
                                             FREE
                                         </span>
                                     </div>

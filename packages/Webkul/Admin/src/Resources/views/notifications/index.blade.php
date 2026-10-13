@@ -41,7 +41,7 @@
                         <div class="journal-scroll flex overflow-auto border-b border-slate-200/80 bg-slate-50/50 px-2">
                             <div
                                 class="flex cursor-pointer items-center gap-2 border-b-2 px-4 py-3.5 text-xs transition-colors hover:text-slate-900"
-                                :class="status == data.status ? 'border-[#205132] font-semibold text-[#205132]' : 'border-transparent text-slate-600 hover:bg-slate-100/50'"
+                                :class="status == data.status ? 'border-[#133b63] font-semibold text-[#133b63]' : 'border-transparent text-slate-600 hover:bg-slate-100/50'"
                                 v-for="data in orderType"
                                 @click="status=data.status; getNotification()"
                             >
@@ -51,7 +51,7 @@
 
                                 <span
                                     class="rounded-full px-2 py-0.5 text-[11px] font-bold"
-                                    :class="status == data.status ? 'bg-[#205132] text-white' : 'bg-slate-200 text-slate-700'"
+                                    :class="status == data.status ? 'bg-[#133b63] text-white' : 'bg-slate-200 text-slate-700'"
                                 >
                                     @{{ data.status_count ?? '0' }}
                                 </span>
@@ -179,7 +179,7 @@
                             },
 
                             completed : {
-                                icon: 'icon-done bg-emerald-100 text-[#205132]',
+                                icon: 'icon-done bg-emerald-100 text-[#133b63]',
                                 message: '@lang('admin::app.notifications.order-status-messages.completed')',
                                 status: 'completed'
                             },

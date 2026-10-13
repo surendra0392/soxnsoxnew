@@ -45,10 +45,10 @@
                                 class="grid md:hidden"
                                 href="{{ route('shop.customers.account.index') }}"
                             >
-                                <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
+                                <i class="fa-solid fa-arrow-left text-lg text-soxnsox-charcoal"></i>
                             </a>
 
-                            <h2 class="text-2xl font-medium max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
+                            <h2 class="font-display text-2xl font-extrabold text-[#133b63] max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
                                 @lang('shop::app.customers.account.wishlist.page-title')
                             </h2>
                         </div>
@@ -56,7 +56,7 @@
                         {!! view_render_event('bagisto.shop.customers.account.wishlist.delete_all.before') !!}
 
                         <div
-                            class="secondary-button border-zinc-200 px-5 py-3 font-normal max-md:rounded-lg max-md:py-2 max-sm:py-1.5 max-sm:text-sm"
+                            class="secondary-button border-zinc-200 px-5 py-3 font-normal rounded-full max-md:py-2 max-sm:py-1.5 max-sm:text-sm"
                             @click="removeAll"
                             v-if="wishlistItems.length"
                         >
@@ -114,7 +114,7 @@
                                 <div>
                                     {!! view_render_event('bagisto.shop.customers.account.wishlist.image.before') !!}
 
-                                    <a :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', wishlist.product.url_key)">
+                                    <a :href="'{{ route('shop.products.view', ':slug') }}'.replace(':slug', wishlist.product.url_key)">
                                         <!-- Wishlist Item Image -->
                                         <img
                                             class="h-28 max-h-28 w-28 max-w-28 rounded-xl max-md:h-20 max-md:max-h-20 max-md:w-20 max-md:max-w-20"
@@ -132,10 +132,14 @@
                                             @{{ wishlist.product.name }}
                                         </p>
 
-                                        <span
+                                        <button
+                                            type="button"
                                             @click="remove"
-                                            class="icon-bin hidden text-2xl max-md:block"
-                                        ></span>
+                                            class="hidden text-red-500 max-md:block"
+                                            aria-label="Remove"
+                                        >
+                                            <i class="fa-regular fa-trash-can text-lg"></i>
+                                        </button>
                                     </div>
 
                                     <!--Wishlist Item attributes -->
@@ -151,13 +155,10 @@
                                                 >
                                                     @lang('shop::app.customers.account.wishlist.see-details')
 
-                                                    <span
-                                                        class="text-2xl"
-                                                        :class="{
-                                                            'icon-arrow-up': wishlist.option_show,
-                                                            'icon-arrow-down': ! wishlist.option_show
-                                                        }"
-                                                    ></span>
+                                                    <i
+                                                        class="fa-solid text-xs transition-transform duration-200"
+                                                        :class="wishlist.option_show ? 'fa-chevron-up' : 'fa-chevron-down'"
+                                                    ></i>
                                                 </p>
                                             </div>
 
@@ -225,7 +226,7 @@
                                         @if (core()->getConfigData('sales.checkout.shopping_cart.cart_page'))
                                             <!--Wishlist Item Move-to-cart-->
                                             <x-shop::button
-                                                class="primary-button max-h-10 w-max rounded-2xl px-6 py-1.5 text-center text-base max-md:px-4 max-md:py-1.5 max-md:text-sm"
+                                                class="primary-button max-h-10 w-max rounded-full px-6 py-1.5 text-center text-base max-md:px-4 max-md:py-1.5 max-md:text-sm"
                                                 :title="trans('shop::app.customers.account.wishlist.move-to-cart')"
                                                 ::loading="movingToCart"
                                                 ::disabled="movingToCart"

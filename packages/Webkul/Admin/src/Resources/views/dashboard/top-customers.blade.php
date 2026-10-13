@@ -38,17 +38,12 @@
                     >
                         <div class="flex items-center gap-3 min-w-0">
                             <!-- Profile avatar or placeholder icon -->
-                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#205132] to-[#83B740] text-white font-semibold text-xs ring-1 ring-slate-200 overflow-hidden">
+                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full ring-1 ring-slate-200 overflow-hidden shadow-2xs">
                                 <img
-                                    v-if="customer.image_url"
-                                    :src="customer.image_url"
+                                    :src="customer.avatar_url || customer.image_url || getSoxnsoxAvatar(customer.full_name, 36)"
                                     class="h-full w-full object-cover"
                                     :alt="customer.full_name"
                                 />
-                                <span v-else-if="customer.full_name">
-                                    @{{ customer.full_name.charAt(0).toUpperCase() }}
-                                </span>
-                                <span v-else class="icon-customer text-base text-white"></span>
                             </div>
 
                             <div class="flex flex-col min-w-0">
@@ -63,7 +58,7 @@
                         </div>
 
                         <div class="flex flex-col items-end flex-shrink-0">
-                            <p class="text-xs font-bold font-mono text-[#205132]">
+                            <p class="text-xs font-bold font-mono text-[#133b63]">
                                 @{{ customer.formatted_total }}
                             </p>
 

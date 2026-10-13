@@ -213,7 +213,7 @@
                                 class="flex flex-col items-center"
                                 v-if="isLoading"
                             >
-                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#205132]"></div>
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#133b63]"></div>
                             </div>
 
                             <!-- Backup Codes State -->

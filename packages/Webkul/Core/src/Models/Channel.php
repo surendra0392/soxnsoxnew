@@ -115,6 +115,10 @@ class Channel extends TranslatableModel implements ChannelContract
             return;
         }
 
+        if (file_exists(public_path('storage/'.$this->logo))) {
+            return asset('storage/'.$this->logo);
+        }
+
         return Storage::url($this->logo);
     }
 
@@ -133,6 +137,10 @@ class Channel extends TranslatableModel implements ChannelContract
     {
         if (! $this->favicon) {
             return;
+        }
+
+        if (file_exists(public_path('storage/'.$this->favicon))) {
+            return asset('storage/'.$this->favicon);
         }
 
         return Storage::url($this->favicon);

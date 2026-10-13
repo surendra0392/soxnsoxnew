@@ -23,23 +23,29 @@
 
 @pushOnce('scripts')
     <style>
-        .elior-action-btn {
-            background-color: #ffffff !important;
-            border: 1px solid #e5decb !important;
-            color: #163923 !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        .soxnsox-action-btn {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(226, 232, 240, 0.9) !important;
+            color: #133b63 !important;
+            box-shadow: 0 4px 12px rgba(19, 59, 99, 0.08) !important;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
-        .elior-action-btn:hover {
-            background-color: #163923 !important;
-            border-color: #163923 !important;
+        .soxnsox-action-btn:hover {
+            background: #133b63 !important;
+            border-color: #133b63 !important;
             color: #ffffff !important;
-            transform: scale(1.1) !important;
-            box-shadow: 0 6px 16px rgba(22, 57, 35, 0.25) !important;
+            transform: scale(1.12) !important;
+            box-shadow: 0 8px 20px rgba(19, 59, 99, 0.25) !important;
         }
-        .elior-action-btn:hover svg {
+        .soxnsox-action-btn:hover svg {
             stroke: #ffffff !important;
         }
-        .elior-action-btn:hover span {
+        .soxnsox-action-btn:hover i {
+            color: #ffffff !important;
+        }
+        .soxnsox-action-btn:hover span {
             color: #ffffff !important;
         }
     </style>
@@ -50,22 +56,25 @@
     >
         <!-- Grid Card -->
         <div
-            class="group relative flex flex-col justify-between w-full rounded-2xl bg-white border border-[#e5decb] p-3.5 sm:p-4 transition-all duration-300 hover:border-[#205132]/60 hover:shadow-[0_12px_32px_rgba(22,57,35,0.09)] hover:-translate-y-1"
+            class="group relative flex flex-col justify-between w-full rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 transition-all duration-500 ease-out hover:border-[#2ca7a3] hover:shadow-[0_24px_50px_-12px_rgba(19,59,99,0.18)] hover:-translate-y-2 overflow-hidden"
             v-if="mode != 'list'"
         >
+            <!-- Top Subtle Gradient Glow on Hover -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#2ca7a3] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+
             <div>
-                <!-- Image Stage -->
-                <div class="relative w-full aspect-square overflow-hidden rounded-xl bg-[#f4f0e6]">
+                <!-- Image Stage with Light Shimmer Sheen on Hover -->
+                <div class="relative w-full aspect-square overflow-hidden bg-[#f8fafc] shrink-0 before:absolute before:inset-0 before:-translate-x-full group-hover:before:translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:transition-transform before:duration-1000 before:pointer-events-none before:z-[3]">
                     {!! view_render_event('bagisto.shop.components.products.card.image.before') !!}
 
                     <!-- Product Image -->
                     <a
-                        :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', product.url_key)"
+                        :href="product.url || ('{{ route('shop.products.view', [':cat', ':slug']) }}'.replace(':cat', product.category_slug || 'socks').replace(':slug', product.url_key))"
                         :aria-label="product.name"
                         class="block w-full h-full"
                     >
                         <x-shop::media.images.lazy
-                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
                             ::src="product.base_image?.medium_image_url"
                             ::srcset="product.base_image ? `
                                 ${product.base_image.small_image_url} 150w,
@@ -82,118 +91,137 @@
 
                     {!! view_render_event('bagisto.shop.components.products.card.image.after') !!}
 
-                    <!-- Brand Badges (Explicitly Locked to Top-Left) -->
+                    <!-- Brand Badges (Top-Left) -->
                     <div
-                        class="absolute flex flex-col gap-1 z-[2] pointer-events-none"
-                        style="top: 0.75rem; left: 0.75rem; right: auto;"
+                        class="absolute flex flex-col gap-1.5 z-[2] pointer-events-none"
+                        style="top: 0.85rem; left: 0.85rem; right: auto;"
                     >
                         <span
-                            class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.16em] shadow-md"
-                            style="background-color: #163923; color: #f4f0e6; border: 1px solid rgba(32, 81, 50, 0.3);"
+                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md"
+                            style="background: linear-gradient(135deg, #f29a38 0%, #e07a2f 100%); box-shadow: 0 4px 12px rgba(242,154,56,0.35);"
                             v-if="product.on_sale"
                         >
-                            Special Harvest
+                            <i class="fa-solid fa-fire text-[8px]"></i>
+                            Special Offer
                         </span>
 
                         <span
-                            class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.16em] shadow-md"
-                            style="background-color: #205132; color: #ffffff;"
+                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md"
+                            style="background: linear-gradient(135deg, #2ca7a3 0%, #1e8380 100%); box-shadow: 0 4px 12px rgba(44,167,163,0.35);"
                             v-else-if="product.is_new"
                         >
-                            New Botanical
+                            <i class="fa-solid fa-leaf text-[8px]"></i>
+                            100% Bamboo
+                        </span>
+
+                        <span
+                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-sm border border-slate-200/80 backdrop-blur-md"
+                            v-else
+                        >
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#2ca7a3] animate-pulse"></span>
+                            Premium
                         </span>
                     </div>
 
-                    <!-- Quick Floating Actions (Explicitly Locked to Top-Right - Interactive Invert on Hover) -->
+                    <!-- Quick Floating Actions (Top-Right) -->
                     <div
-                        class="absolute flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200 z-[2] max-lg:opacity-100"
-                        style="top: 0.75rem; right: 0.75rem; left: auto;"
+                        class="absolute flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 z-[2] max-lg:opacity-100"
+                        style="top: 0.85rem; right: 0.85rem; left: auto;"
                     >
                         @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
                             <button
                                 type="button"
-                                class="elior-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
+                                class="soxnsox-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
                                 aria-label="@lang('shop::app.components.products.card.add-to-wishlist')"
-                                :class="product.is_wishlist ? '!text-red-500' : ''"
+                                :class="product.is_wishlist ? '!text-rose-500 !bg-rose-50 !border-rose-200' : ''"
                                 @click="addToWishlist()"
                             >
-                                <span :class="product.is_wishlist ? 'icon-heart-fill' : 'icon-heart'" class="text-sm"></span>
+                                <i :class="product.is_wishlist ? 'fa-solid fa-heart text-xs text-rose-500' : 'fa-regular fa-heart text-xs'"></i>
                             </button>
                         @endif
 
                         @if (core()->getConfigData('catalog.products.settings.compare_option'))
                             <button
                                 type="button"
-                                class="elior-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
+                                class="soxnsox-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
                                 aria-label="@lang('shop::app.components.products.card.add-to-compare')"
                                 title="@lang('shop::app.components.products.card.add-to-compare')"
                                 @click="addToCompare(product.id)"
                             >
-                                <span class="icon-compare text-sm"></span>
+                                <i class="fa-solid fa-code-compare text-xs"></i>
                             </button>
                         @endif
 
                         <button
                             type="button"
-                            class="elior-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
+                            class="soxnsox-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
                             aria-label="Quick View"
                             title="Quick View"
                             @click="openQuickView()"
                         >
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <i class="fa-solid fa-eye text-xs text-[#133b63]"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Product Information Section (Clean, Comfortable Gap Under Image) -->
-                <div class="mt-4 sm:mt-4.5 flex flex-col gap-1">
+                <!-- Product Information Section -->
+                <div class="p-4 sm:p-5 flex flex-col gap-2">
                     {!! view_render_event('bagisto.shop.components.products.card.name.before') !!}
 
-                    <!-- Eyebrow: Category on LEFT & Net Weight on RIGHT (Side-by-Side) -->
-                    <div class="flex items-center justify-between gap-2 text-[10px] pt-0.5">
-                        <span v-if="product.category_name" class="font-bold uppercase tracking-[0.16em] text-[#c9a25a] line-clamp-1">
+                    <!-- Eyebrow: Category & Micro Rating Badge -->
+                    <div class="flex items-center justify-between gap-2 text-[10px]">
+                        <span v-if="product.category_name" class="font-extrabold uppercase tracking-[0.14em] text-[#2ca7a3] line-clamp-1">
                             @{{ product.category_name }}
                         </span>
-                        <span v-else class="font-bold uppercase tracking-[0.16em] text-[#c9a25a]">
-                            Botanical Formulation
+                        <span v-else class="font-extrabold uppercase tracking-[0.14em] text-[#2ca7a3]">
+                            Pure Bamboo
                         </span>
 
-                        <span v-if="product.formatted_weight" class="font-semibold text-[11px] text-[#677a6d] shrink-0">
-                            @{{ product.formatted_weight }}
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200/60 text-amber-700 font-bold text-[10px] shrink-0">
+                            <i class="fa-solid fa-star text-[9px] text-[#f29a38]"></i><span>4.9</span>
                         </span>
                     </div>
 
                     <!-- Title -->
-                    <h3 class="font-serif text-[15px] sm:text-base font-bold text-[#163923] group-hover:text-[#205132] transition-colors line-clamp-2 leading-snug tracking-tight mt-1">
-                        <a :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', product.url_key)">
+                    <h3 class="font-display text-[15px] sm:text-base font-bold text-[#133b63] group-hover:text-[#2ca7a3] transition-colors leading-snug tracking-tight min-h-[2.5rem] sm:min-h-[2.75rem]">
+                        <a :href="product.url || ('{{ route('shop.products.view', [':cat', ':slug']) }}'.replace(':cat', product.category_slug || 'socks').replace(':slug', product.url_key))">
                             @{{ product.name }}
                         </a>
                     </h3>
 
                     {!! view_render_event('bagisto.shop.components.products.card.name.after') !!}
 
+                    <!-- Feature Micro-Chips -->
+                    <div class="flex items-center gap-1.5">
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium">
+                            <i class="fa-solid fa-feather text-[9px] text-[#2ca7a3]"></i> Soft
+                        </span>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium">
+                            <i class="fa-solid fa-shield-halved text-[9px] text-[#2ca7a3]"></i> Seamless
+                        </span>
+                    </div>
+
                     <!-- Pricing Strip -->
                     {!! view_render_event('bagisto.shop.components.products.card.price.before') !!}
 
-                    <div class="flex items-center gap-2 pt-1.5">
+                    <div class="flex items-baseline gap-2 pt-0.5">
                         <template v-if="product.special_price">
-                            <span class="text-base font-bold text-[#163923] tracking-tight">
+                            <span class="text-lg font-extrabold text-[#133b63] tracking-tight">
                                 @{{ product.special_price }}
                             </span>
-                            <span class="text-xs text-[#677a6d] line-through font-normal">
+                            <span class="text-xs text-slate-400 line-through font-normal">
                                 @{{ product.regular_price }}
                             </span>
                             <span
                                 v-if="product.discount_percent > 0"
-                                class="text-[9px] font-bold tracking-wider text-[#205132] px-2 py-0.5 rounded-full ml-auto"
-                                style="background-color: rgba(32, 81, 50, 0.1); border: 1px solid rgba(32, 81, 50, 0.2); color: #205132;"
+                                class="text-[10px] font-extrabold tracking-wider text-[#2ca7a3] px-2 py-0.5 rounded-full ml-auto bg-[#e6f8f7] border border-[#2ca7a3]/30"
                             >
                                 @{{ product.discount_percent }}% OFF
                             </span>
                         </template>
                         <template v-else>
-                            <span class="text-base font-bold text-[#163923] tracking-tight">
-                                @{{ product.regular_price || product.min_price }}
+                            <span class="text-lg font-extrabold text-[#133b63] tracking-tight">
+                                @{{ product.formatted_price || product.regular_price || product.min_price }}
                             </span>
                         </template>
                     </div>
@@ -203,18 +231,24 @@
             </div>
 
             <!-- Action Button -->
-            <div class="mt-4 pt-3 border-t border-[#e5decb]/60">
+            <div class="px-4 pb-4 sm:px-5 sm:pb-5">
                 @if (core()->getConfigData('sales.checkout.shopping_cart.cart_page'))
                     {!! view_render_event('bagisto.shop.components.products.card.add_to_cart.before') !!}
 
                     <button
-                        class="elior-btn-primary w-full py-2.5 px-4 text-xs font-bold uppercase tracking-[0.14em] rounded-xl flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98] disabled:opacity-50"
+                        class="soxnsox-btn-shimmer w-full h-11 text-xs font-bold uppercase tracking-[0.12em] rounded-full flex items-center justify-center gap-2 transition-all duration-300 active:scale-95 disabled:opacity-50 text-white shadow-md hover:shadow-xl hover:brightness-105"
+                        style="background: linear-gradient(135deg, #f29a38 0%, #e07a2f 100%); box-shadow: 0 4px 14px rgba(242,154,56,0.3);"
                         :disabled="! product.is_saleable || isAddingToCart"
                         @click="addToCart()"
                     >
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        <i class="fa-solid fa-bag-shopping text-xs transition-transform duration-300 group-hover:scale-110" v-if="! isAddingToCart"></i>
+                        <svg v-else class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
                         <span v-if="! product.is_saleable">Out of Stock</span>
-                        <span v-else-if="! isAddingToCart">Add To Cart</span>
+                        <span v-else-if="product.type === 'configurable'">Select Options</span>
+                        <span v-else-if="! isAddingToCart">Add To Bag</span>
                         <span v-else>Adding...</span>
                     </button>
 
@@ -225,19 +259,23 @@
 
         <!-- List Card -->
         <div
-            class="group relative flex gap-6 p-4 sm:p-5 rounded-2xl bg-white border border-[#e5decb] transition-all duration-300 hover:border-[#205132]/60 hover:shadow-[0_12px_32px_rgba(22,57,35,0.09)] max-sm:flex-wrap items-center"
+            class="group relative flex gap-6 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 transition-all duration-500 ease-out hover:border-[#2ca7a3] hover:shadow-[0_20px_45px_-10px_rgba(19,59,99,0.14)] hover:-translate-y-1 max-sm:flex-wrap items-center overflow-hidden"
             v-else
         >
-            <!-- Image Stage -->
-            <div class="relative w-full max-w-[200px] aspect-square overflow-hidden rounded-xl bg-[#f4f0e6] shrink-0">
+            <!-- Top Subtle Gradient Glow on Hover -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#2ca7a3] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+
+            <!-- Image Stage with Light Shimmer Sheen on Hover -->
+            <div class="relative w-full max-w-[180px] sm:max-w-[200px] aspect-square overflow-hidden rounded-xl sm:rounded-2xl bg-[#f8fafc] shrink-0 before:absolute before:inset-0 before:-translate-x-full group-hover:before:translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:transition-transform before:duration-1000 before:pointer-events-none before:z-[3]">
                 {!! view_render_event('bagisto.shop.components.products.card.image.before') !!}
 
                 <a
-                    :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', product.url_key)"
+                    :href="product.url || ('{{ route('shop.products.view', [':cat', ':slug']) }}'.replace(':cat', product.category_slug || 'socks').replace(':slug', product.url_key))"
+                    :aria-label="product.name"
                     class="block w-full h-full"
                 >
                     <x-shop::media.images.lazy
-                        class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                         ::src="product.base_image?.medium_image_url"
                         ::key="product.id"
                         ::index="product.id"
@@ -254,19 +292,21 @@
                     style="top: 0.75rem; left: 0.75rem; right: auto;"
                 >
                     <span
-                        class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.16em] shadow-md"
-                        style="background-color: #163923; color: #f4f0e6; border: 1px solid rgba(32, 81, 50, 0.3);"
+                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md"
+                        style="background: linear-gradient(135deg, #f29a38 0%, #e07a2f 100%);"
                         v-if="product.on_sale"
                     >
-                        Special Harvest
+                        <i class="fa-solid fa-fire text-[8px]"></i>
+                        Special Offer
                     </span>
 
                     <span
-                        class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.16em] shadow-md"
-                        style="background-color: #205132; color: #ffffff;"
+                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md"
+                        style="background: linear-gradient(135deg, #2ca7a3 0%, #1e8380 100%);"
                         v-else-if="product.is_new"
                     >
-                        New Botanical
+                        <i class="fa-solid fa-leaf text-[8px]"></i>
+                        100% Bamboo
                     </span>
                 </div>
             </div>
@@ -274,45 +314,54 @@
             <!-- List Details -->
             <div class="flex flex-1 flex-col justify-between h-full space-y-3">
                 <div class="space-y-1.5">
-                    <!-- Eyebrow: Category on LEFT & Net Weight on RIGHT (Side-by-Side) -->
+                    <!-- Eyebrow: Category & Reviews -->
                     <div class="flex items-center justify-between gap-2 text-[10px]">
-                        <span v-if="product.category_name" class="font-bold uppercase tracking-[0.16em] text-[#c9a25a]">
+                        <span v-if="product.category_name" class="font-extrabold uppercase tracking-[0.14em] text-[#2ca7a3]">
                             @{{ product.category_name }}
                         </span>
-                        <span v-else class="font-bold uppercase tracking-[0.16em] text-[#c9a25a]">
-                            Botanical Formulation
+                        <span v-else class="font-extrabold uppercase tracking-[0.14em] text-[#2ca7a3]">
+                            Pure Bamboo
                         </span>
 
-                        <span v-if="product.formatted_weight" class="font-semibold text-[11px] text-[#677a6d]">
-                            @{{ product.formatted_weight }}
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200/60 text-amber-700 font-bold text-[10px] shrink-0">
+                            <i class="fa-solid fa-star text-[9px] text-[#f29a38]"></i><span>4.9 (Verified)</span>
                         </span>
                     </div>
 
-                    <h3 class="font-serif text-lg sm:text-xl font-bold text-[#163923] group-hover:text-[#205132] transition-colors leading-snug">
-                        <a :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', product.url_key)">
+                    <h3 class="font-display text-lg sm:text-xl font-bold text-[#133b63] group-hover:text-[#2ca7a3] transition-colors leading-snug">
+                        <a :href="product.url || ('{{ route('shop.products.view', [':cat', ':slug']) }}'.replace(':cat', product.category_slug || 'socks').replace(':slug', product.url_key))">
                             @{{ product.name }}
                         </a>
                     </h3>
 
-                    <p v-if="product.short_description" class="text-xs text-[#677a6d] line-clamp-2 leading-relaxed">
+                    <p v-if="product.short_description" class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                         @{{ product.short_description }}
                     </p>
+
+                    <div class="flex items-center gap-1.5 pt-1">
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium">
+                            <i class="fa-solid fa-feather text-[9px] text-[#2ca7a3]"></i> Soft
+                        </span>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium">
+                            <i class="fa-solid fa-shield-halved text-[9px] text-[#2ca7a3]"></i> Seamless
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Price and Cart Button Row -->
-                <div class="pt-3 border-t border-[#e5decb]/60 flex items-center justify-between gap-4">
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-4">
                     <div class="flex items-baseline gap-2">
                         <template v-if="product.special_price">
-                            <span class="text-lg font-bold text-[#163923]">
+                            <span class="text-xl font-extrabold text-[#133b63]">
                                 @{{ product.special_price }}
                             </span>
-                            <span class="text-xs text-[#677a6d] line-through font-normal">
+                            <span class="text-xs text-slate-400 line-through font-normal">
                                 @{{ product.regular_price }}
                             </span>
                         </template>
                         <template v-else>
-                            <span class="text-lg font-bold text-[#163923]">
-                                @{{ product.regular_price || product.min_price }}
+                            <span class="text-xl font-extrabold text-[#133b63]">
+                                @{{ product.formatted_price || product.regular_price || product.min_price }}
                             </span>
                         </template>
                     </div>
@@ -320,13 +369,15 @@
                     <div class="flex items-center gap-2">
                         @if (core()->getConfigData('sales.checkout.shopping_cart.cart_page'))
                             <button
-                                class="elior-btn-primary py-2.5 px-6 text-xs font-bold uppercase tracking-[0.14em] rounded-xl flex items-center gap-2"
+                                class="soxnsox-btn-shimmer h-11 px-6 text-xs font-bold uppercase tracking-[0.12em] rounded-full flex items-center gap-2 text-white shadow-md hover:shadow-xl hover:brightness-105 transition-all duration-300 active:scale-95"
+                                style="background: linear-gradient(135deg, #f29a38 0%, #e07a2f 100%); box-shadow: 0 4px 14px rgba(242,154,56,0.3);"
                                 :disabled="! product.is_saleable || isAddingToCart"
                                 @click="addToCart()"
                             >
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                                <i class="fa-solid fa-bag-shopping text-xs"></i>
                                 <span v-if="! product.is_saleable">Out of Stock</span>
-                                <span v-else-if="! isAddingToCart">Add To Cart</span>
+                                <span v-else-if="product.type === 'configurable'">Select Options</span>
+                                <span v-else-if="! isAddingToCart">Add To Bag</span>
                                 <span v-else>Adding...</span>
                             </button>
                         @endif
@@ -334,35 +385,35 @@
                         @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
                             <button
                                 type="button"
-                                class="elior-action-btn flex h-9 w-9 items-center justify-center rounded-full shadow-sm"
+                                class="soxnsox-action-btn flex h-9 w-9 items-center justify-center rounded-full shadow-sm"
                                 aria-label="@lang('shop::app.components.products.card.add-to-wishlist')"
-                                :class="product.is_wishlist ? '!text-red-500' : ''"
+                                :class="product.is_wishlist ? '!text-rose-500 !bg-rose-50 !border-rose-200' : ''"
                                 @click="addToWishlist()"
                             >
-                                <span :class="product.is_wishlist ? 'icon-heart-fill' : 'icon-heart'" class="text-sm"></span>
+                                <i :class="product.is_wishlist ? 'fa-solid fa-heart text-xs text-rose-500' : 'fa-regular fa-heart text-xs'"></i>
                             </button>
                         @endif
 
                         @if (core()->getConfigData('catalog.products.settings.compare_option'))
                             <button
                                 type="button"
-                                class="elior-action-btn flex h-9 w-9 items-center justify-center rounded-full shadow-sm"
+                                class="soxnsox-action-btn flex h-9 w-9 items-center justify-center rounded-full shadow-sm"
                                 aria-label="@lang('shop::app.components.products.card.add-to-compare')"
                                 title="@lang('shop::app.components.products.card.add-to-compare')"
                                 @click="addToCompare(product.id)"
                             >
-                                <span class="icon-compare text-sm"></span>
+                                <i class="fa-solid fa-code-compare text-xs"></i>
                             </button>
                         @endif
 
                         <button
                             type="button"
-                            class="elior-action-btn flex h-9 w-9 items-center justify-center rounded-full shadow-sm"
+                            class="soxnsox-action-btn flex h-9 w-9 items-center justify-center rounded-full shadow-sm"
                             aria-label="Quick View"
                             title="Quick View"
                             @click="openQuickView()"
                         >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <i class="fa-solid fa-eye text-xs text-[#133b63]"></i>
                         </button>
                     </div>
                 </div>
@@ -456,6 +507,11 @@
                 },
 
                 addToCart() {
+                    if (this.product.type === 'configurable') {
+                        this.openQuickView();
+                        return;
+                    }
+
                     this.isAddingToCart = true;
 
                     this.$axios.post('{{ route("shop.api.checkout.cart.store") }}', {

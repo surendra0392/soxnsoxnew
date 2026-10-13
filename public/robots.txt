@@ -10,13 +10,15 @@ Disallow: *?*mode=
 
 Allow: /
 Allow: /products
-Allow: /botanical-powders
-Allow: /functional-blends
-Allow: /culinary-ingredients
-Allow: /wellness-essentials
+Allow: /medical-socks
+Allow: /men
+Allow: /women
+Allow: /children
 Allow: /page/*
 Allow: /contact-us
+Allow: /blog
+Allow: /blog/*
 Allow: /storage/
 
 Content-Signal: search=yes, ai-train=no, ai-input=no
-Sitemap: http://elior.test/sitemap.xml
+Sitemap: https://soxnsox.in/sitemap.xml

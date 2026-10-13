@@ -40,7 +40,7 @@ return [
         Webkul\Product\Providers\ModuleServiceProvider::class,
         Webkul\Razorpay\Providers\ModuleServiceProvider::class,
         Webkul\RMA\Providers\ModuleServiceProvider::class,
-        Webkul\Recipe\Providers\ModuleServiceProvider::class,
+        Webkul\Blog\Providers\ModuleServiceProvider::class,
         Webkul\Rule\Providers\ModuleServiceProvider::class,
         Webkul\Sales\Providers\ModuleServiceProvider::class,
         Webkul\Shipping\Providers\ModuleServiceProvider::class,

@@ -82,7 +82,7 @@
 
                                                         <a
                                                             href="{{ Storage::url($attribute['option_label']) }}"
-                                                            class="text-[#205132] hover:underline"
+                                                            class="text-[#133b63] hover:underline"
                                                             download="{{ File::basename($attribute['option_label']) }}"
                                                         >
                                                             {{ File::basename($attribute['option_label']) }}
@@ -387,7 +387,7 @@
                             <p class="font-semibold text-gray-600">
                                 <a
                                     href="{{ route('admin.sales.orders.view', $order->id) }}"
-                                    class="text-[#205132]"
+                                    class="text-[#133b63]"
                                 >
                                     #{{ $order->increment_id }}
                                 </a>

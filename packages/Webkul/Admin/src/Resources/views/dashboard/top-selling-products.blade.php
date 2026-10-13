@@ -64,7 +64,7 @@
                                     @{{ item.formatted_price }}
                                 </p>
 
-                                <p class="text-xs font-bold font-mono text-[#205132]">
+                                <p class="text-xs font-bold font-mono text-[#133b63]">
                                     @{{ item.formatted_revenue }}
                                 </p>
                             </div>

@@ -16,23 +16,23 @@
     </div>
 
     <!-- Main Card Container -->
-    <div class="flex-1 w-full rounded-3xl border border-elior-border/80 bg-white p-6 sm:p-8 shadow-elior-subtle space-y-6">
-        <div class="flex items-center justify-between border-b border-elior-border/60 pb-4">
+    <div class="flex-1 w-full rounded-3xl border border-soxnsox-border/80 bg-white p-6 sm:p-8 shadow-soxnsox-subtle space-y-6">
+        <div class="flex items-center justify-between border-b border-soxnsox-border/60 pb-4">
             <div class="flex items-center gap-3">
                 <!-- Back Button -->
                 <a
-                    class="flex h-8 w-8 items-center justify-center rounded-lg border border-elior-border text-elior-charcoal hover:bg-black/5 transition-colors"
+                    class="flex h-8 w-8 items-center justify-center rounded-lg border border-soxnsox-border text-soxnsox-charcoal hover:bg-black/5 transition-colors"
                     href="{{ route('shop.customers.account.profile.index') }}"
                 >
-                    <span class="icon-arrow-left text-sm"></span>
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </a>
 
                 <div>
-                    <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EBF3EE] text-elior-botanical text-[9px] font-semibold tracking-wider uppercase">
-                        <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e9f2fa] text-[#2ca7a3] text-[9px] font-semibold tracking-wider uppercase">
+                        <i class="fa-solid fa-feather text-[10px]"></i>
                         <span>Settings</span>
                     </div>
-                    <h1 class="font-serif text-xl sm:text-2xl font-bold text-elior-charcoal">
+                    <h1 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
                         @lang('shop::app.customers.account.profile.edit.edit-profile')
                     </h1>
                 </div>
@@ -70,7 +70,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- First Name -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.first-name')
                         </x-shop::form.control-group.label>
 
@@ -78,7 +78,7 @@
                             type="text"
                             name="first_name"
                             rules="required"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             :value="old('first_name') ?? $customer->first_name"
                             :label="trans('shop::app.customers.account.profile.edit.first-name')"
                             :placeholder="trans('shop::app.customers.account.profile.edit.first-name')"
@@ -89,7 +89,7 @@
 
                     <!-- Last Name -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.last-name')
                         </x-shop::form.control-group.label>
 
@@ -97,7 +97,7 @@
                             type="text"
                             name="last_name"
                             rules="required"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             :value="old('last_name') ?? $customer->last_name"
                             :label="trans('shop::app.customers.account.profile.edit.last-name')"
                             :placeholder="trans('shop::app.customers.account.profile.edit.last-name')"
@@ -113,7 +113,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Email -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.email')
                         </x-shop::form.control-group.label>
 
@@ -121,7 +121,7 @@
                             type="text"
                             name="email"
                             rules="required|email"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             :value="old('email') ?? $customer->email"
                             :label="trans('shop::app.customers.account.profile.edit.email')"
                             :placeholder="trans('shop::app.customers.account.profile.edit.email')"
@@ -132,7 +132,7 @@
 
                     <!-- Phone -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isPhoneNumberRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="{{ core()->isPhoneNumberRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.phone')
                         </x-shop::form.control-group.label>
 
@@ -140,7 +140,7 @@
                             type="text"
                             name="phone"
                             rules="{{ core()->isPhoneNumberRequired() ? 'required' : '' }}|phone"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             :value="old('phone') ?? $customer->phone"
                             :label="trans('shop::app.customers.account.profile.edit.phone')"
                             :placeholder="trans('shop::app.customers.account.profile.edit.phone')"
@@ -154,14 +154,14 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Gender -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isGenderRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="{{ core()->isGenderRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.gender')
                         </x-shop::form.control-group.label>
 
                         <x-shop::form.control-group.control
                             type="select"
                             name="gender"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             rules="{{ core()->isGenderRequired() ? 'required' : '' }}"
                             :value="old('gender') ?? $customer->gender"
                             :label="trans('shop::app.customers.account.profile.edit.gender')"
@@ -177,14 +177,14 @@
 
                     <!-- DOB -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isDOBRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="{{ core()->isDOBRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.dob')
                         </x-shop::form.control-group.label>
 
                         <x-shop::form.control-group.control
                             type="date"
                             name="date_of_birth"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             rules="{{ core()->isDOBRequired() ? 'required' : '' }}"
                             :value="old('date_of_birth') ?? $customer->date_of_birth"
                             :label="trans('shop::app.customers.account.profile.edit.dob')"
@@ -196,11 +196,11 @@
                 </div>
 
                 <!-- Password Change Section Header -->
-                <div class="pt-4 border-t border-elior-border/60">
-                    <h3 class="font-serif text-base font-bold text-elior-charcoal">
+                <div class="pt-4 border-t border-soxnsox-border/60">
+                    <h3 class="font-display text-base font-bold text-[#133b63]">
                         Change Password
                     </h3>
-                    <p class="text-xs text-elior-muted">
+                    <p class="text-xs text-soxnsox-muted">
                         Leave blank if you do not want to change your current password.
                     </p>
                 </div>
@@ -209,14 +209,14 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Current Password -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.current-password')
                         </x-shop::form.control-group.label>
 
                         <x-shop::form.control-group.control
                             type="password"
                             name="current_password"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             :label="trans('shop::app.customers.account.profile.edit.current-password')"
                             :placeholder="trans('shop::app.customers.account.profile.edit.current-password')"
                         />
@@ -226,7 +226,7 @@
 
                     <!-- New Password -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                        <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.new-password')
                         </x-shop::form.control-group.label>
 
@@ -234,7 +234,7 @@
                             type="password"
                             name="new_password"
                             rules="min:6"
-                            class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             :label="trans('shop::app.customers.account.profile.edit.new-password')"
                             :placeholder="trans('shop::app.customers.account.profile.edit.new-password')"
                         />
@@ -245,7 +245,7 @@
 
                 <!-- Confirm New Password -->
                 <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                    <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                         @lang('shop::app.customers.account.profile.edit.confirm-password')
                     </x-shop::form.control-group.label>
 
@@ -253,7 +253,7 @@
                         type="password"
                         name="new_password_confirmation"
                         rules="confirmed:@new_password"
-                        class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                        class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                         :label="trans('shop::app.customers.account.profile.edit.confirm-password')"
                         :placeholder="trans('shop::app.customers.account.profile.edit.confirm-password')"
                     />
@@ -262,12 +262,12 @@
                 </x-shop::form.control-group>
 
                 <!-- Newsletter Subscription Checkbox -->
-                <div class="flex items-center gap-2 pt-1 text-xs text-elior-slate">
+                <div class="flex items-center gap-2 pt-1 text-xs text-soxnsox-slate">
                     <input
                         type="checkbox"
                         name="subscribed_to_news_letter"
                         id="is-subscribed"
-                        class="h-4 w-4 rounded border-elior-border text-elior-botanical focus:ring-elior-botanical cursor-pointer"
+                        class="h-4 w-4 rounded border-soxnsox-border text-soxnsox-teal focus:ring-soxnsox-teal cursor-pointer"
                         @checked($customer->subscribed_to_news_letter)
                     >
                     <label for="is-subscribed" class="cursor-pointer select-none">
@@ -279,10 +279,10 @@
                 <div class="pt-4">
                     <button
                         type="submit"
-                        class="elior-btn-primary h-11 px-8 text-xs uppercase tracking-widest font-semibold inline-flex items-center gap-2 shadow-elior-card"
+                        class="soxnsox-btn-primary h-11 px-8 text-xs uppercase tracking-widest font-semibold inline-flex items-center gap-2 shadow-soxnsox-card"
                     >
                         <span>@lang('shop::app.customers.account.profile.edit.save')</span>
-                        <span class="icon-arrow-right text-xs"></span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </div>
             </div>

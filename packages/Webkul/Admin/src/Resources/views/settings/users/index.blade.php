@@ -21,10 +21,7 @@
                         type="button"
                         class="primary-button"
                     >
-                        <svg class="h-4 w-4 mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
+                        <i class="fa-solid fa-plus text-xs mr-1"></i>
                         @lang('admin::app.settings.users.index.create.title')
                     </button>
                 @endif
@@ -59,10 +56,7 @@
                             class="primary-button"
                             @click="resetForm();$refs.userUpdateOrCreateModal.open()"
                         >
-                            <svg class="h-4 w-4 mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
+                            <i class="fa-solid fa-plus text-xs mr-1"></i>
                             @lang('admin::app.settings.users.index.create.title')
                         </button>
                     @endif
@@ -98,7 +92,7 @@
                                     <span
                                         class="after:content-['/'] last:after:content-['']"
                                         :class="{
-                                            'text-[#205132] font-bold': applied.sort.column == columnGroup,
+                                            'text-[#133b63] font-bold': applied.sort.column == columnGroup,
                                             'cursor-pointer hover:text-slate-900': available.columns.find(columnTemp => columnTemp.index === columnGroup)?.sortable,
                                         }"
                                         @click="
@@ -111,7 +105,7 @@
 
                                 <!-- Filter Arrow Icon -->
                                 <i
-                                    class="align-text-bottom text-base text-[#205132] ltr:ml-1.5 rtl:mr-1.5"
+                                    class="align-text-bottom text-base text-[#133b63] ltr:ml-1.5 rtl:mr-1.5"
                                     :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
                                     v-if="columnGroup.includes(applied.sort.column)"
                                 ></i>
@@ -170,7 +164,7 @@
                                         class="profile-info-icon"
                                         v-else
                                     >
-                                        <button class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#205132] text-sm font-semibold leading-6 text-white transition-all hover:bg-[#1b432a] focus:bg-[#163823] shadow-sm">
+                                        <button class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#133b63] text-sm font-semibold leading-6 text-white transition-all hover:bg-[#1b432a] focus:bg-[#163823] shadow-sm">
                                             @{{ record.user_name[0].toUpperCase() }}
                                         </button>
                                     </div>

@@ -1,71 +1,73 @@
 {!! view_render_event('bagisto.shop.layout.features.before') !!}
 
-<section class="border-t border-[#e5decb] py-20 lg:py-28" style="background-color: #f4f0e6 !important;">
+<section class="border-t border-slate-200/80 py-16 lg:py-24 bg-[#f5f7fa] reveal-on-scroll">
     <div class="site-container">
         {{-- Section Header --}}
-        <div class="text-center mb-14 lg:mb-16">
-            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase mb-5" style="background-color: #e8f2ec !important; color: #205132 !important; border: 1px solid rgba(32, 81, 50, 0.2) !important;">
-                <svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                Our Promise
-            </span>
-            <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold leading-tight" style="color: #163923 !important;">
-                The ELIOR Standard
+        <div class="text-center mb-12 lg:mb-16 reveal-on-scroll reveal-up">
+            <div class="mb-3">
+                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase bg-[#2ca7a3]/10 text-[#2ca7a3] border border-[#2ca7a3]/25 shadow-xs">
+                    <i class="fa-solid fa-check text-[#2ca7a3] text-xs"></i>
+                    The SOX N SOX Promise
+                </span>
+            </div>
+            <h2 class="font-display text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#133b63] leading-tight soxnsox-heading-accent !block">
+                Engineered For Unmatched Foot Health
             </h2>
-            <p class="mt-3 text-sm md:text-base max-w-xl mx-auto leading-relaxed" style="color: #677a6d !important;">
-                Every formulation upholds four non-negotiable pillars of purity, transparency, and botanical integrity.
+            <p class="mt-4 text-sm md:text-base max-w-xl mx-auto text-[#6b7280] leading-relaxed">
+                Every pair upholds four non-negotiable standards of pure bamboo yarn, therapeutic design, and everyday durability.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 reveal-stagger">
             <!-- Pillar 1 -->
-            <div class="flex flex-col space-y-4 p-8 lg:p-8 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300" style="background-color: #ffffff !important; border: 1px solid #e5decb !important;">
-                <div class="flex h-14 w-14 items-center justify-center rounded-full font-serif text-lg font-bold" style="background-color: #e8f2ec !important; color: #205132 !important;">
+            <div class="group relative flex flex-col space-y-4 p-8 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-[#2ca7a3]/50 transition-all duration-300">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e6f8f7] text-[#2ca7a3] font-bold text-lg group-hover:scale-110 group-hover:bg-[#2ca7a3] group-hover:text-white transition-all duration-300 shadow-sm">
                     01
                 </div>
-                <h4 class="font-serif text-xl font-semibold" style="color: #163923 !important;">
-                    100% Whole Food
+                <h4 class="text-xl font-bold text-[#133b63] group-hover:text-[#2ca7a3] transition-colors">
+                    100% Pure Bamboo
                 </h4>
-                <p class="text-sm leading-relaxed" style="color: #677a6d !important;">
-                    Pure dehydrated botanical powders with zero synthetic carriers, bulking maltodextrins, or artificial additives.
+                <p class="text-sm leading-relaxed text-[#6b7280]">
+                    Naturally hypoallergenic, silky-smooth bamboo yarn that is 2x softer and significantly cooler than conventional cotton.
                 </p>
             </div>
 
             <!-- Pillar 2 -->
-            <div class="flex flex-col space-y-4 p-8 lg:p-8 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300" style="background-color: #ffffff !important; border: 1px solid #e5decb !important;">
-                <div class="flex h-14 w-14 items-center justify-center rounded-full font-serif text-lg font-bold" style="background-color: #e8f2ec !important; color: #205132 !important;">
+            <div class="group relative flex flex-col space-y-4 p-8 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-[#f29a38]/50 transition-all duration-300">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fff4e8] text-[#f29a38] font-bold text-lg group-hover:scale-110 group-hover:bg-[#f29a38] group-hover:text-white transition-all duration-300 shadow-sm">
                     02
                 </div>
-                <h4 class="font-serif text-xl font-semibold" style="color: #163923 !important;">
-                    Cold Dehydration
+                <h4 class="text-xl font-bold text-[#133b63] group-hover:text-[#f29a38] transition-colors">
+                    Doctor-Approved Diabetic Fit
                 </h4>
-                <p class="text-sm leading-relaxed" style="color: #677a6d !important;">
-                    Low-temperature dehydration preserves active phytonutrients, vibrant natural pigmentation, and enzymatic integrity.
+                <p class="text-sm leading-relaxed text-[#6b7280]">
+                    Zero-compression non-elastic top cuffs prevent constricting rings and encourage healthy leg blood circulation all day.
                 </p>
             </div>
 
             <!-- Pillar 3 -->
-            <div class="flex flex-col space-y-4 p-8 lg:p-8 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300" style="background-color: #ffffff !important; border: 1px solid #e5decb !important;">
-                <div class="flex h-14 w-14 items-center justify-center rounded-full font-serif text-lg font-bold" style="background-color: #e8f2ec !important; color: #205132 !important;">
+            <div class="group relative flex flex-col space-y-4 p-8 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-[#1d5b8f]/50 transition-all duration-300">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e9f2fa] text-[#1d5b8f] font-bold text-lg group-hover:scale-110 group-hover:bg-[#1d5b8f] group-hover:text-white transition-all duration-300 shadow-sm">
                     03
                 </div>
-                <h4 class="font-serif text-xl font-semibold" style="color: #163923 !important;">
-                    Clean-Label Standard
+                <h4 class="text-xl font-bold text-[#133b63] group-hover:text-[#1d5b8f] transition-colors">
+                    Seamless Blister Defense
                 </h4>
-                <p class="text-sm leading-relaxed" style="color: #677a6d !important;">
-                    Transparent batch sourcing from sustainable growers. Non-GMO, 100% plant-based, and third-party purity verified.
+                <p class="text-sm leading-relaxed text-[#6b7280]">
+                    Hand-linked flat toe seams eliminate ridge pressure and rubbing, shielding sensitive feet and neuropaths from blisters.
                 </p>
             </div>
 
             <!-- Pillar 4 -->
-            <div class="flex flex-col space-y-4 p-8 lg:p-8 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300" style="background-color: #ffffff !important; border: 1px solid #e5decb !important;">
-                <div class="flex h-14 w-14 items-center justify-center rounded-full font-serif text-lg font-bold" style="background-color: #e8f2ec !important; color: #205132 !important;">
+            <div class="group relative flex flex-col space-y-4 p-8 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-[#2ca7a3]/50 transition-all duration-300">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e6f8f7] text-[#2ca7a3] font-bold text-lg group-hover:scale-110 group-hover:bg-[#2ca7a3] group-hover:text-white transition-all duration-300 shadow-sm">
                     04
                 </div>
-                <h4 class="font-serif text-xl font-semibold" style="color: #163923 !important;">
-                    Culinary Rituals
+                <h4 class="text-xl font-bold text-[#133b63] group-hover:text-[#2ca7a3] transition-colors">
+                    Odor &amp; Moisture Control
                 </h4>
-                <p class="text-sm leading-relaxed" style="color: #677a6d !important;">
-                    Micro-milled for effortless dissolvability in daily tonics, morning oats, botanical lattes, and functional smoothies.
+                <p class="text-sm leading-relaxed text-[#6b7280]">
+                    Natural bio-agent Bamboo Kun eliminates 99.8% of foot odor bacteria while micro-pores rapidly wick away perspiration.
                 </p>
             </div>
         </div>
@@ -73,64 +75,61 @@
 </section>
 
 {{-- ── Pre-Footer CTA Banner ─────────────────────────────────────────── --}}
-<section class="relative overflow-hidden py-20 lg:py-24" style="background-color: #163923 !important; border-top: 1px solid rgba(229, 222, 203, 0.2) !important;">
-    {{-- Subtle decorative gradient overlay --}}
-    <div class="absolute inset-0 bg-gradient-to-br from-[#205132]/40 via-transparent to-[#c9a25a]/15 pointer-events-none"></div>
-    <div class="absolute top-0 right-0 w-72 h-72 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" style="background-color: rgba(32, 81, 50, 0.3) !important;"></div>
-    <div class="absolute bottom-0 left-0 w-56 h-56 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none" style="background-color: rgba(201, 162, 90, 0.2) !important;"></div>
+<section class="relative overflow-hidden py-20 lg:py-24 bg-gradient-to-br from-[#133b63] via-[#1d5b8f] to-[#133b63] text-white reveal-on-scroll">
+    {{-- Decorative glow circles --}}
+    <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#2ca7a3]/20 blur-3xl pointer-events-none animate-soxnsox-pulse-glow"></div>
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-[#f29a38]/20 blur-3xl pointer-events-none animate-soxnsox-pulse-glow" style="animation-delay: 2.5s;"></div>
 
-    <div class="site-container relative z-10">
+    <div class="site-container relative z-10 reveal-on-scroll reveal-scale">
         <div class="flex flex-col items-center text-center max-w-2xl mx-auto space-y-7">
             {{-- Tagline pill --}}
-            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase" style="background-color: rgba(201, 162, 90, 0.18) !important; color: #c9a25a !important; border: 1px solid rgba(201, 162, 90, 0.4) !important;">
-                <svg class="w-3.5 h-3.5 text-[#c9a25a] inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                Start Your Botanical Journey
+            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase bg-white/10 text-[#f29a38] border border-[#f29a38]/30 backdrop-blur-sm">
+                <i class="fa-solid fa-bolt text-[#f29a38] text-xs"></i>
+                Step Into Pure Bamboo Comfort
             </span>
 
             {{-- Headline --}}
-            <h2 class="font-serif text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight" style="color: #ffffff !important;">
-                Nourish Your Body With
-                <span style="color: #c9a25a !important;">Pure Botanicals</span>
+            <h2 class="text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-white tracking-tight" style="line-height: 1.2 !important;">
+                Experience The Softest Socks <br class="hidden sm:inline">
+                <span class="text-[#f29a38]">You'll Ever Wear</span>
             </h2>
 
             {{-- Sub-copy --}}
-            <p class="text-sm md:text-base leading-relaxed max-w-lg" style="color: rgba(244, 240, 230, 0.85) !important;">
-                Explore our curated collection of cold-dehydrated whole food powders — sustainably sourced, clean-label certified, and designed for your daily wellness rituals.
+            <p class="text-sm md:text-base leading-relaxed max-w-lg text-white/85">
+                Engineered with ultra-soft bamboo yarn, seamless toe construction, and doctor-approved diabetic comfort. Feel the difference from the very first step.
             </p>
 
             {{-- Dual CTAs --}}
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-3">
                 <a
-                    href="{{ route('shop.home.index') }}/products"
-                    class="group inline-flex items-center gap-2 px-8 py-4 text-xs font-bold tracking-[0.15em] uppercase rounded-full transition-all duration-300"
-                    style="background: linear-gradient(135deg, #c9a25a 0%, #b08a43 100%) !important; color: #ffffff !important; box-shadow: 0 10px 25px -5px rgba(201, 162, 90, 0.4);"
+                    href="{{ route('shop.product_or_category.index', 'products') }}"
+                    class="group soxnsox-btn-shimmer inline-flex items-center gap-2 px-8 py-4 text-xs font-bold tracking-[0.15em] uppercase rounded-full bg-[#f29a38] hover:bg-[#e08927] text-white shadow-xl shadow-[#f29a38]/30 hover:shadow-[#f29a38]/50 hover:-translate-y-0.5 active:scale-95 transition-all duration-300"
                 >
-                    Shop All Formulations
-                    <svg class="w-4 h-4 text-white inline-block transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    <span>Shop All Socks</span>
+                    <i class="fa-solid fa-arrow-right text-xs text-white transition-transform group-hover:translate-x-1"></i>
                 </a>
                 <a
-                    href="{{ url('/page/quality') }}"
-                    class="group inline-flex items-center gap-2 px-8 py-4 text-xs font-bold tracking-[0.15em] uppercase rounded-full transition-all duration-300"
-                    style="background-color: transparent !important; color: #f4f0e6 !important; border: 1px solid rgba(244, 240, 230, 0.4) !important;"
+                    href="/#why-bamboo"
+                    class="group soxnsox-btn-shimmer inline-flex items-center gap-2 px-8 py-4 text-xs font-bold tracking-[0.15em] uppercase rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:-translate-y-0.5 active:scale-95 transition-all duration-300"
                 >
-                    Our Quality Standard
-                    <svg class="w-4 h-4 text-[#c9a25a] inline-block transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                    <span>Why Bamboo Fiber?</span>
+                    <i class="fa-solid fa-shield-halved text-sm text-[#2ca7a3] transition-transform group-hover:translate-x-1"></i>
                 </a>
             </div>
 
             {{-- Trust micro-badges --}}
-            <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 pt-5 text-[11px] tracking-[0.12em] uppercase font-semibold" style="color: rgba(244, 240, 230, 0.75) !important;">
-                <span class="inline-flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5 text-[#c9a25a] inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
-                    Free Shipping ₹499+
+            <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 pt-5 text-[11px] tracking-[0.12em] uppercase font-bold text-white/80">
+                <span class="inline-flex items-center gap-2 hover:text-white transition-colors">
+                    <i class="fa-solid fa-truck-fast text-[#f29a38] text-sm"></i>
+                    Free Shipping Across India &gt; ₹499
                 </span>
-                <span class="inline-flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5 text-[#c9a25a] inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                    100% Plant-Based
+                <span class="inline-flex items-center gap-2 hover:text-white transition-colors">
+                    <i class="fa-solid fa-leaf text-[#2ca7a3] text-sm"></i>
+                    100% Pure Bamboo
                 </span>
-                <span class="inline-flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5 text-[#c9a25a] inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                    Clean-Label Certified
+                <span class="inline-flex items-center gap-2 hover:text-white transition-colors">
+                    <i class="fa-solid fa-user-doctor text-[#f29a38] text-sm"></i>
+                    Doctor-Approved Diabetic Fit
                 </span>
             </div>
         </div>

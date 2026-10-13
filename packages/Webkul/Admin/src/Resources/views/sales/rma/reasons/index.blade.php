@@ -76,7 +76,7 @@
                                 >
 
                                 <label
-                                    class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                    class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                     :for="`mass_action_select_record_${record.id}`"
                                 >
                                 </label>

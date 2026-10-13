@@ -528,12 +528,24 @@ abstract class DataGrid
     {
         $this->dispatchEvent('process_request.paginated.before', $this);
 
+        $perPage = (int) ($requestedPagination['per_page'] ?? $this->itemsPerPage);
+        $page = (int) ($requestedPagination['page'] ?? 1);
+
         $this->paginator = $this->queryBuilder->paginate(
-            $requestedPagination['per_page'] ?? $this->itemsPerPage,
+            $perPage,
             ['*'],
             'page',
-            $requestedPagination['page'] ?? 1
+            $page
         );
+
+        if ($this->paginator->total() > 0 && $this->paginator->currentPage() > $this->paginator->lastPage()) {
+            $this->paginator = $this->queryBuilder->paginate(
+                $perPage,
+                ['*'],
+                'page',
+                $this->paginator->lastPage()
+            );
+        }
 
         $this->dispatchEvent('process_request.paginated.after', $this);
     }

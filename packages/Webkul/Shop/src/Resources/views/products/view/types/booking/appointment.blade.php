@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 gap-6">
     @if ($bookingProduct->appointment_slot)
         <div class="flex gap-3">
-            <span class="icon-calendar text-2xl"></span>
+            <i class="fa-regular fa-calendar text-2xl text-soxnsox-charcoal"></i>
 
             <div class="grid grid-cols-1 gap-1.5 text-sm font-medium">
                 <p class="text-[#6E6E6E]">
@@ -20,7 +20,7 @@
             @inject ('bookingSlotHelper', 'Webkul\BookingProduct\Helpers\AppointmentSlot')
 
             <div class="flex gap-3">
-                <span class="icon-calendar text-2xl"></span>
+                <i class="fa-regular fa-calendar text-2xl text-soxnsox-charcoal"></i>
 
                 <div class="grid grid-cols-1 gap-4">
                     <div class="grid grid-cols-1 gap-1.5 text-sm font-medium">
@@ -56,11 +56,11 @@
             >
                 @lang('shop::app.products.view.type.booking.appointment.see-details')
 
-                <span
-                    class="text-xl font-bold"
-                    :class="{'icon-arrow-up': showDaysAvailability, 'icon-arrow-down': ! showDaysAvailability}"
+                <i
+                    class="text-sm"
+                    :class="{'fa-solid fa-chevron-up': showDaysAvailability, 'fa-solid fa-chevron-down': ! showDaysAvailability}"
                 >
-                </span>
+                </i>
             </p>
 
             <!-- Option Details -->

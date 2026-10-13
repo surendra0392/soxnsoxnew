@@ -36,7 +36,7 @@
                 carousel. `sizes="100vw"` declares the actual rendered width
                 (the img has `w-screen`) so the browser picks the smallest
                 srcset variant that satisfies viewport_px × DPR — mobile
-                412 × 1.75 ≈ 721 → 768w small variant. The inline `style`
+                412 × 1.75 ≈ 721 -> 768w small variant. The inline `style`
                 supplies width/aspect-ratio so the LCP element can paint
                 before the Tailwind CSS bundle finishes parsing on slow
                 mobile CPU.
@@ -81,7 +81,7 @@
                         ::src="image.image"
                         ::srcset="image.image + ' 1920w, ' + image.image.replace('storage', 'cache/large') + ' 1280w,' + image.image.replace('storage', 'cache/medium') + ' 1024w, ' + image.image.replace('storage', 'cache/small') + ' 768w'"
                         sizes="100vw"
-                        ::alt="image?.title || 'Carousel Image ' + (index + 1)"
+                        ::alt="image?.title || 'SOX N SOX Premium Bamboo Socks - Slide ' + (index + 1)"
                         tabindex="0"
                         ::fetchpriority="index === 0 ? 'high' : 'low'"
                         ::decoding="index === 0 ? 'sync' : 'async'"
@@ -90,33 +90,35 @@
             </div>
 
             <!-- Navigation -->
-            <span
-                class="icon-arrow-left absolute left-2.5 top-1/2 -mt-[22px] hidden w-auto rounded-full bg-black/80 p-3 text-2xl font-bold text-white opacity-30 transition-all md:inline-block"
+            <button
+                type="button"
+                class="absolute left-2.5 top-1/2 -mt-[22px] hidden h-11 w-11 items-center justify-center rounded-full bg-black/80 text-white opacity-30 transition-all md:inline-flex"
                 :class="{
                     'cursor-not-allowed': direction == 'ltr' && currentIndex == 0,
                     'cursor-pointer hover:opacity-100': direction == 'ltr' ? currentIndex > 0 : currentIndex <= 0
                 }"
-                role="button"
                 aria-label="@lang('shop::components.carousel.previous')"
                 tabindex="0"
                 v-if="images?.length >= 2"
                 @click="navigate('prev')"
             >
-            </span>
+                <i class="fa-solid fa-chevron-left text-lg"></i>
+            </button>
 
-            <span
-                class="icon-arrow-right absolute right-2.5 top-1/2 -mt-[22px] hidden w-auto rounded-full bg-black/80 p-3 text-2xl font-bold text-white opacity-30 transition-all md:inline-block"
+            <button
+                type="button"
+                class="absolute right-2.5 top-1/2 -mt-[22px] hidden h-11 w-11 items-center justify-center rounded-full bg-black/80 text-white opacity-30 transition-all md:inline-flex"
                 :class="{
                     'cursor-not-allowed': direction == 'rtl' && currentIndex == 0,
                     'cursor-pointer hover:opacity-100': direction == 'rtl' ? currentIndex < 0 : currentIndex >= 0
                 }"
-                role="button"
                 aria-label="@lang('shop::components.carousel.next')"
                 tabindex="0"
                 v-if="images?.length >= 2"
                 @click="navigate('next')"
             >
-            </span>
+                <i class="fa-solid fa-chevron-right text-lg"></i>
+            </button>
 
             <!-- Pagination -->
             <div class="absolute bottom-5 left-0 flex w-full justify-center max-md:bottom-3.5 max-sm:bottom-2.5">

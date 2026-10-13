@@ -30,7 +30,7 @@
                         <x-slot:toggle>
                             <button
                                 type="button"
-                                class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[10px] border border-slate-200 bg-white px-3 py-1.5 text-center leading-6 text-slate-700 transition-all hover:border-slate-300 focus:border-[#205132]"
+                                class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[10px] border border-slate-200 bg-white px-3 py-1.5 text-center leading-6 text-slate-700 transition-all hover:border-slate-300 focus:border-[#133b63]"
                             >
                                 <span class="font-mono text-sm font-semibold">
                                     @{{ applied.pagination.perPage }}
@@ -56,7 +56,7 @@
 
                     <input
                         type="text"
-                        class="inline-flex min-h-[38px] max-w-12 appearance-none items-center justify-center gap-x-1 rounded-[10px] border border-slate-200 bg-white px-2 py-1.5 text-center font-mono text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 focus:border-[#205132] focus:ring-2 focus:ring-[#205132]/20 focus:outline-none"
+                        class="inline-flex min-h-[38px] max-w-12 appearance-none items-center justify-center gap-x-1 rounded-[10px] border border-slate-200 bg-white px-2 py-1.5 text-center font-mono text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20 focus:outline-none"
                         :value="available.meta.current_page"
                         @change="changePage(parseInt($event.target.value))"
                     >

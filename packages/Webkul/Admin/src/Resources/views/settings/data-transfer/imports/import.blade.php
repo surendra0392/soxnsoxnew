@@ -95,47 +95,17 @@
                                     class="flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold transition-all duration-300"
                                     :class="stepNodeClass(index)"
                                 >
-                                    <!-- Drawn rather than set from the icon font: the font's tick carries its own padding, which leaves it sitting off-centre once it is reversed out of a filled disc. -->
-                                    <svg
-                                        class="h-5 w-5"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="3"
+                                    <i
+                                        class="fa-solid fa-check text-base"
                                         aria-hidden="true"
                                         v-if="index < currentStep"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M5 13l4 4L19 7"
-                                        ></path>
-                                    </svg>
+                                    ></i>
 
-                                    <svg
-                                        class="h-4 w-4 animate-spin"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
+                                    <i
+                                        class="fa-solid fa-spinner fa-spin text-sm"
                                         aria-hidden="true"
                                         v-else-if="index === currentStep && isWorking"
-                                    >
-                                        <circle
-                                            class="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            stroke-width="4"
-                                        ></circle>
-
-                                        <path
-                                            class="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                        ></path>
-                                    </svg>
+                                    ></i>
 
                                     <span v-else>@{{ index + 1 }}</span>
                                 </span>
@@ -181,18 +151,18 @@
 
                     <!-- Validating -->
                     <div
-                        class="grid w-full gap-2 rounded-sm border border-[#205132]/20 bg-[#205132]/10 p-3"
+                        class="grid w-full gap-2 rounded-sm border border-[#133b63]/20 bg-[#133b63]/10 p-3"
                         v-else-if="importResource.state == 'validating'"
                     >
                         <p class="flex items-center gap-2">
-                            <i class="icon-information rounded-full bg-[#205132]/20 text-2xl text-[#205132]"></i>
+                            <i class="icon-information rounded-full bg-[#133b63]/20 text-2xl text-[#133b63]"></i>
 
                             @lang('admin::app.settings.data-transfer.imports.import.validating-info')
                         </p>
 
-                        <div class="h-5 w-full rounded-sm bg-[#205132]/20">
+                        <div class="h-5 w-full rounded-sm bg-[#133b63]/20">
                             <div
-                                class="h-5 rounded-sm bg-[#205132] transition-all duration-300"
+                                class="h-5 rounded-sm bg-[#133b63] transition-all duration-300"
                                 :style="{ 'width': validationPercent + '%' }"
                             ></div>
                         </div>
@@ -325,18 +295,18 @@
 
                     <!-- Downloading Images -->
                     <div
-                        class="grid w-full gap-2 rounded-sm border border-[#205132]/20 bg-[#205132]/10 p-3"
+                        class="grid w-full gap-2 rounded-sm border border-[#133b63]/20 bg-[#133b63]/10 p-3"
                         v-else-if="importResource.state == 'downloading'"
                     >
                         <p class="flex items-center gap-2">
-                            <i class="icon-information rounded-full bg-[#205132]/20 text-2xl text-[#205132]"></i>
+                            <i class="icon-information rounded-full bg-[#133b63]/20 text-2xl text-[#133b63]"></i>
 
                             @lang('admin::app.settings.data-transfer.imports.import.downloading-info')
                         </p>
 
-                        <div class="h-5 w-full rounded-sm bg-[#205132]/20">
+                        <div class="h-5 w-full rounded-sm bg-[#133b63]/20">
                             <div
-                                class="h-5 rounded-sm bg-[#205132] transition-all duration-300"
+                                class="h-5 rounded-sm bg-[#133b63] transition-all duration-300"
                                 :style="{ 'width': imageProgress.progress + '%' }"
                             ></div>
                         </div>
@@ -627,7 +597,7 @@
                         }
 
                         if (index === this.currentStep) {
-                            return 'border-[#205132] text-[#205132]';
+                            return 'border-[#133b63] text-[#133b63]';
                         }
 
                         return 'border-gray-300 text-gray-400';

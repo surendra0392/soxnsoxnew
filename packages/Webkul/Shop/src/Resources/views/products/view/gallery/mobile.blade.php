@@ -1,12 +1,12 @@
 <div
-    class="overflow-hidden 1180:hidden rounded-2xl border border-elior-border/70 bg-[#FAF8F5] p-2"
+    class="overflow-hidden lg:hidden rounded-2xl border border-soxnsox-border/70 bg-[#f8fafc] p-2"
     v-if="isMediaLoading"
 >
     <div class="shimmer aspect-square w-full rounded-xl bg-zinc-200"></div>
 </div>
 
 <div
-    class="scrollbar-hide flex w-full overflow-hidden 1180:hidden rounded-2xl border border-elior-border/80 bg-[#FAF8F5] p-2 shadow-elior-subtle"
+    class="scrollbar-hide flex w-full overflow-hidden lg:hidden rounded-2xl border border-soxnsox-border/80 bg-[#f8fafc] p-2 shadow-soxnsox-subtle"
     v-else
 >
     <v-product-carousel
@@ -68,7 +68,7 @@
                 <div
                     v-for="(media, index) in options"
                     class="h-1.5 w-1.5 cursor-pointer rounded-full transition-all duration-300"
-                    :class="{ 'bg-elior-botanical w-4': index === Math.abs(currentIndex), 'opacity-40 bg-elior-charcoal': index !== Math.abs(currentIndex) }"
+                    :class="{ 'bg-soxnsox-teal w-4': index === Math.abs(currentIndex), 'opacity-40 bg-soxnsox-charcoal': index !== Math.abs(currentIndex) }"
                     role="button"
                 >
                 </div>

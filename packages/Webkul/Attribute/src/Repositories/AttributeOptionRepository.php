@@ -21,6 +21,14 @@ class AttributeOptionRepository extends Repository
      */
     public function create(array $data)
     {
+        $defaultLocale = core()->getDefaultLocaleCodeFromDefaultChannel();
+
+        if (empty($data[$defaultLocale]['label']) && ! empty($data['admin_name'])) {
+            $data[$defaultLocale] = array_merge($data[$defaultLocale] ?? [], [
+                'label' => $data['admin_name'],
+            ]);
+        }
+
         $option = parent::create($data);
 
         $this->uploadSwatchImage($data, $option->id);
@@ -34,6 +42,14 @@ class AttributeOptionRepository extends Repository
      */
     public function update(array $data, $id)
     {
+        $defaultLocale = core()->getDefaultLocaleCodeFromDefaultChannel();
+
+        if (empty($data[$defaultLocale]['label']) && ! empty($data['admin_name'])) {
+            $data[$defaultLocale] = array_merge($data[$defaultLocale] ?? [], [
+                'label' => $data['admin_name'],
+            ]);
+        }
+
         $option = parent::update($data, $id);
 
         $this->uploadSwatchImage($data, $id);

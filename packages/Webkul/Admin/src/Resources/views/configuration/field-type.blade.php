@@ -228,7 +228,7 @@
                         :checked="parseInt(value || 0)"
                     >
 
-                    <div class="peer h-5 w-9 cursor-pointer rounded-full bg-slate-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#205132] peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#205132]/20 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full"></div>
+                    <div class="peer h-5 w-9 cursor-pointer rounded-full bg-slate-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#133b63] peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#133b63]/20 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full"></div>
                 </label>
             </template>
         

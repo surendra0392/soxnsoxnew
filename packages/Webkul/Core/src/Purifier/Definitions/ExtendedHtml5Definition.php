@@ -20,6 +20,36 @@ class ExtendedHtml5Definition implements Definition
             'id' => 'Text',
         ]);
 
+        $definition->addElement('section', 'Block', 'Flow', 'Common', [
+            'class' => 'Class',
+            'id' => 'Text',
+        ]);
+
+        $definition->addElement('article', 'Block', 'Flow', 'Common', [
+            'class' => 'Class',
+            'id' => 'Text',
+        ]);
+
+        $definition->addElement('header', 'Block', 'Flow', 'Common', [
+            'class' => 'Class',
+            'id' => 'Text',
+        ]);
+
+        $definition->addElement('footer', 'Block', 'Flow', 'Common', [
+            'class' => 'Class',
+            'id' => 'Text',
+        ]);
+
+        $definition->addElement('nav', 'Block', 'Flow', 'Common', [
+            'class' => 'Class',
+            'id' => 'Text',
+        ]);
+
+        $definition->addElement('aside', 'Block', 'Flow', 'Common', [
+            'class' => 'Class',
+            'id' => 'Text',
+        ]);
+
         $definition->addElement('button', 'Inline', 'Flow', 'Common', [
             'class' => 'Class',
             'type' => 'Enum#button,submit,reset',

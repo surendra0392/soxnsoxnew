@@ -59,6 +59,10 @@ class AttributeRepository extends Repository
             AttributeTypeEnum::MULTISELECT->value,
         ])) {
             foreach ($options as $optionInputs) {
+                if (isset($optionInputs['position']) && ! isset($optionInputs['sort_order'])) {
+                    $optionInputs['sort_order'] = $optionInputs['position'];
+                }
+
                 $this->attributeOptionRepository->create(array_merge([
                     'attribute_id' => $attribute->id,
                 ], $optionInputs));
@@ -95,14 +99,24 @@ class AttributeRepository extends Repository
         }
 
         foreach ($data['options'] as $optionId => $optionInputs) {
-            $isNew = $optionInputs['isNew'] == 'true';
+            if (isset($optionInputs['position']) && ! isset($optionInputs['sort_order'])) {
+                $optionInputs['sort_order'] = $optionInputs['position'];
+            }
+
+            $isNew = (! empty($optionInputs['isNew']) && in_array($optionInputs['isNew'], [true, 1, '1', 'true'], true))
+                || str_starts_with((string) $optionId, 'options_')
+                || str_starts_with((string) $optionId, 'option_');
 
             if ($isNew) {
+                if (! empty($optionInputs['isDelete']) && in_array($optionInputs['isDelete'], [true, 1, '1', 'true'], true)) {
+                    continue;
+                }
+
                 $this->attributeOptionRepository->create(array_merge([
                     'attribute_id' => $attribute->id,
                 ], $optionInputs));
             } else {
-                $isDelete = $optionInputs['isDelete'] == 'true';
+                $isDelete = ! empty($optionInputs['isDelete']) && in_array($optionInputs['isDelete'], [true, 1, '1', 'true'], true);
 
                 if ($isDelete) {
                     $this->attributeOptionRepository->delete($optionId);
@@ -123,6 +137,18 @@ class AttributeRepository extends Repository
      */
     public function validateUserInput($data)
     {
+        if (isset($data['default_value']) && $data['default_value'] === '') {
+            $data['default_value'] = null;
+        }
+
+        $defaultLocale = core()->getDefaultLocaleCodeFromDefaultChannel();
+
+        if (empty($data[$defaultLocale]['name']) && ! empty($data['admin_name'])) {
+            $data[$defaultLocale] = array_merge($data[$defaultLocale] ?? [], [
+                'name' => $data['admin_name'],
+            ]);
+        }
+
         if (! empty($data['is_configurable'])) {
             $data['value_per_channel'] = $data['value_per_locale'] = 0;
         }
@@ -143,7 +169,7 @@ class AttributeRepository extends Repository
             AttributeTypeEnum::MULTISELECT->value,
             AttributeTypeEnum::BOOLEAN->value,
         ])) {
-            unset($data['value_per_locale']);
+            $data['value_per_locale'] = 0;
         }
 
         return $data;
@@ -209,6 +235,10 @@ class AttributeRepository extends Repository
      */
     public function getFamilyAttributes($attributeFamily)
     {
+        if (! $attributeFamily) {
+            return collect();
+        }
+
         if (array_key_exists($attributeFamily->id, $this->attributes)) {
             return $this->attributes[$attributeFamily->id];
         }

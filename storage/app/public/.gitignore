@@ -10,6 +10,9 @@
 !channel/**
 !category/
 !category/**
+!blogs/
+!blogs/**
 !.gitignore
+
 
 

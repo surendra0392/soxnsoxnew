@@ -110,8 +110,8 @@
                                 <x-admin::form.control-group.label class="flex justify-between items-center w-full">
                                     <span>@lang('admin::app.settings.taxes.rates.create.state')</span>
                                     <div class="flex gap-2">
-                                        <a href="#" @click.prevent="selectAllStates" class="text-[#205132] hover:underline text-xs cursor-pointer">Select All</a>
-                                        <a href="#" @click.prevent="deselectAllStates" class="text-[#205132] hover:underline text-xs cursor-pointer">Deselect All</a>
+                                        <a href="#" @click.prevent="selectAllStates" class="text-[#133b63] hover:underline text-xs cursor-pointer">Select All</a>
+                                        <a href="#" @click.prevent="deselectAllStates" class="text-[#133b63] hover:underline text-xs cursor-pointer">Deselect All</a>
                                     </div>
                                 </x-admin::form.control-group.label>
 

@@ -91,10 +91,25 @@ Breadcrumbs::for('compare', function (BreadcrumbTrail $trail) {
     $trail->push(trans('shop::app.compare.product-compare'), route('shop.compare.index'));
 });
 
+// Home > Category
+Breadcrumbs::for('category', function (BreadcrumbTrail $trail, $entity) {
+    $trail->parent('home');
+    $trail->push($entity->name ?? '', route('shop.category.view', $entity->slug));
+});
+
 // Home > Product
 Breadcrumbs::for('product', function (BreadcrumbTrail $trail, $entity) {
     $trail->parent('home');
-    $trail->push($entity->name ?? '', route('shop.product_or_category.index', $entity->url_key));
+
+    $cats = $entity->categories->filter(fn ($c) => $c->id != 1);
+    $primaryCategory = $cats->last() ?? $cats->first();
+
+    if ($primaryCategory) {
+        $trail->push($primaryCategory->name, route('shop.category.view', $primaryCategory->slug));
+    }
+
+    $primaryCatSlug = $primaryCategory?->slug ?? 'socks';
+    $trail->push($entity->name ?? '', route('shop.products.view', ['category' => $primaryCatSlug, 'slug' => $entity->url_key]));
 });
 
 // Home > RMA

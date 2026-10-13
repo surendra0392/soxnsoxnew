@@ -25,7 +25,7 @@
 
                     <a
                         href="{{ route('admin.reporting.customers.view', ['type' => 'top-customer-groups']) }}"
-                        class="cursor-pointer text-sm text-[#205132] transition-all hover:underline"
+                        class="cursor-pointer text-sm text-[#133b63] transition-all hover:underline"
                     >
                         @lang('admin::app.reporting.customers.index.view-details')
                     </a>

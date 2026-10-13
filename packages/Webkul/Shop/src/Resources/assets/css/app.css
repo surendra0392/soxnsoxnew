@@ -431,11 +431,80 @@ img.lazy {
     }
 
     .primary-button {
-        @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl text-white bg-navyBlue border border-navyBlue px-8 py-4 max-w-max cursor-pointer transition-all hover:opacity-[0.9];
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-radius: 9999px;
+        padding: 0.875rem 2rem;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #ffffff;
+        background: linear-gradient(135deg, #f29a38 0%, #e07a2f 100%);
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(242, 154, 56, 0.35);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .primary-button:hover {
+        background: linear-gradient(135deg, #f7a950 0%, #f29a38 100%);
+        box-shadow: 0 8px 24px -2px rgba(242, 154, 56, 0.5);
+        transform: translateY(-2px);
+    }
+
+    .primary-button:active {
+        transform: scale(0.96);
     }
 
     .secondary-button {
-        @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl bg-white text-navyBlue border border-navyBlue px-8 py-4 max-w-max cursor-pointer transition-all hover:bg-[#050e3a0d];
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-radius: 9999px;
+        padding: 0.875rem 2rem;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #133b63;
+        background-color: #ffffff;
+        border: 2px solid #133b63;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .secondary-button:hover {
+        background-color: #133b63;
+        color: #ffffff;
+        box-shadow: 0 8px 20px -4px rgba(19, 59, 99, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .secondary-button:active {
+        transform: scale(0.96);
+    }
+
+    .soxnsox-decorative-line {
+        height: 4px;
+        width: 64px;
+        border-radius: 9999px;
+        background: linear-gradient(to right, #2ca7a3 0%, #f29a38 100%);
+        margin-top: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .soxnsox-decorative-line-center {
+        height: 4px;
+        width: 64px;
+        border-radius: 9999px;
+        background: linear-gradient(to right, #2ca7a3 0%, #f29a38 100%);
+        margin: 0.5rem auto 0.75rem auto;
     }
 
     .shimmer {
@@ -506,35 +575,37 @@ img.lazy {
         height: 100vh;
     }
 
-    /* ELIOR Design System Utilities — Official Brand Palette: #205132, #c9a25a, #f4f0e6, #ffffff */
-    .elior-heading-display {
+    /* SOXNSOX Vibrant Award-Winning Design System — Official Brand Palette:
+       #133b63 (Midnight Navy), #1d5b8f (Ocean Blue), #2ca7a3 (Electric Teal), 
+       #f29a38 (Radiant Tangerine/Amber), #f5f7fa (Ice Canvas), #6b7280 (Slate Grey) */
+    .soxnsox-heading-display {
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.025em;
         line-height: 1.15;
     }
 
-    .elior-heading-serif {
+    .soxnsox-heading-serif {
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
-        letter-spacing: -0.01em;
+        letter-spacing: -0.015em;
     }
 
-    .elior-eyebrow {
+    .soxnsox-eyebrow {
         font-family: 'Poppins', sans-serif;
         font-size: 0.6875rem;
         font-weight: 700;
         letter-spacing: 0.22em;
         text-transform: uppercase;
-        color: #205132;
+        color: #2ca7a3;
     }
 
-    .elior-btn-primary {
+    .soxnsox-btn-primary {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.875rem 1.75rem;
-        background-color: #205132;
+        padding: 0.875rem 2rem;
+        background: linear-gradient(135deg, #f29a38 0%, #e68522 100%);
         color: #ffffff;
         font-size: 0.75rem;
         font-weight: 700;
@@ -543,21 +614,22 @@ img.lazy {
         border-radius: 9999px;
         border: none;
         cursor: pointer;
-        transition: all 0.25s ease;
+        box-shadow: 0 8px 24px -4px rgba(242, 154, 56, 0.42);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .elior-btn-primary:hover {
-        background-color: #163923;
-        box-shadow: 0 8px 20px rgba(32, 81, 50, 0.25);
-        transform: translateY(-1px);
+    .soxnsox-btn-primary:hover {
+        background: linear-gradient(135deg, #f7a950 0%, #f29a38 100%);
+        box-shadow: 0 12px 30px -4px rgba(242, 154, 56, 0.55);
+        transform: translateY(-2px);
     }
 
-    .elior-btn-secondary {
+    .soxnsox-btn-secondary {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.875rem 1.75rem;
-        background: linear-gradient(135deg, #c9a25a 0%, #b08a43 100%);
+        padding: 0.875rem 2rem;
+        background: linear-gradient(135deg, #1d5b8f 0%, #133b63 100%);
         color: #ffffff;
         font-size: 0.75rem;
         font-weight: 700;
@@ -566,23 +638,47 @@ img.lazy {
         border-radius: 9999px;
         border: none;
         cursor: pointer;
-        box-shadow: 0 6px 18px rgba(201, 162, 90, 0.35);
-        transition: all 0.25s ease;
+        box-shadow: 0 8px 24px -4px rgba(29, 91, 143, 0.38);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .elior-btn-secondary:hover {
-        background: linear-gradient(135deg, #d6b677 0%, #c9a25a 100%);
-        box-shadow: 0 8px 24px rgba(201, 162, 90, 0.45);
-        transform: translateY(-1px);
+    .soxnsox-btn-secondary:hover {
+        background: linear-gradient(135deg, #246da8 0%, #1d5b8f 100%);
+        box-shadow: 0 12px 30px -4px rgba(29, 91, 143, 0.5);
+        transform: translateY(-2px);
     }
 
-    .elior-btn-outline {
+    .soxnsox-btn-teal {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.875rem 1.75rem;
-        border: 1.5px solid #205132;
-        color: #205132;
+        padding: 0.875rem 2rem;
+        background: linear-gradient(135deg, #2ca7a3 0%, #208a86 100%);
+        color: #ffffff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border-radius: 9999px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 8px 24px -4px rgba(44, 167, 163, 0.38);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .soxnsox-btn-teal:hover {
+        background: linear-gradient(135deg, #36b8b4 0%, #2ca7a3 100%);
+        box-shadow: 0 12px 30px -4px rgba(44, 167, 163, 0.5);
+        transform: translateY(-2px);
+    }
+
+    .soxnsox-btn-outline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.875rem 2rem;
+        border: 2px solid #1d5b8f;
+        color: #1d5b8f;
         background-color: transparent;
         font-size: 0.75rem;
         font-weight: 700;
@@ -593,17 +689,19 @@ img.lazy {
         transition: all 0.25s ease;
     }
 
-    .elior-btn-outline:hover {
-        background-color: #205132;
+    .soxnsox-btn-outline:hover {
+        background-color: #1d5b8f;
         color: #ffffff;
+        box-shadow: 0 8px 20px -4px rgba(29, 91, 143, 0.35);
+        transform: translateY(-1px);
     }
 
-    .elior-btn-ghost {
+    .soxnsox-btn-ghost {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding: 0.625rem 1.25rem;
-        color: #163923;
+        color: #133b63;
         font-size: 0.75rem;
         font-weight: 600;
         letter-spacing: 0.05em;
@@ -611,11 +709,11 @@ img.lazy {
         transition: color 0.2s ease;
     }
 
-    .elior-btn-ghost:hover {
-        color: #205132;
+    .soxnsox-btn-ghost:hover {
+        color: #2ca7a3;
     }
 
-    .elior-badge-botanical {
+    .soxnsox-badge-teal {
         display: inline-flex;
         align-items: center;
         padding: 0.25rem 0.75rem;
@@ -624,11 +722,12 @@ img.lazy {
         font-weight: 700;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        background-color: #e8f2ec;
-        color: #205132;
+        background-color: #e6f8f7;
+        color: #208a86;
+        border: 1px solid rgba(44, 167, 163, 0.25);
     }
 
-    .elior-badge-terracotta {
+    .soxnsox-badge-orange {
         display: inline-flex;
         align-items: center;
         padding: 0.25rem 0.75rem;
@@ -637,43 +736,86 @@ img.lazy {
         font-weight: 700;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        background-color: #f5eedd;
-        color: #c9a25a;
+        background-color: #fef5ea;
+        color: #d67f1f;
+        border: 1px solid rgba(242, 154, 56, 0.25);
     }
 
-    .elior-card {
+    .soxnsox-badge-blue {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        background-color: #e9f2fa;
+        color: #1d5b8f;
+        border: 1px solid rgba(29, 91, 143, 0.25);
+    }
+
+    .soxnsox-badge-navy {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        background-color: #133b63;
+        color: #ffffff;
+    }
+
+    .soxnsox-card {
         background-color: #ffffff;
-        border: 1px solid #e5decb;
-        border-radius: 12px;
-        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .elior-card:hover {
-        border-color: rgba(32, 81, 50, 0.4);
-        box-shadow: 0 10px 30px -5px rgba(32, 81, 50, 0.08);
+    .soxnsox-card:hover {
+        border-color: rgba(44, 167, 163, 0.4);
+        box-shadow: 0 16px 36px -8px rgba(19, 59, 99, 0.12);
+        transform: translateY(-3px);
     }
 
-    .elior-input {
+    .soxnsox-glass {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .soxnsox-glass-dark {
+        background: rgba(19, 59, 99, 0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .soxnsox-input {
         width: 100%;
-        padding: 0.75rem 1rem;
+        padding: 0.75rem 1.25rem;
         background-color: #ffffff;
-        border: 1px solid #e5decb;
+        border: 1px solid #e5e7eb;
         border-radius: 9999px;
-        color: #163923;
+        color: #133b63;
         font-size: 0.875rem;
         outline: none;
-        transition: border-color 0.2s ease;
+        transition: all 0.2s ease;
     }
 
-    .elior-input:focus {
-        border-color: #205132;
-        box-shadow: 0 0 0 2px rgba(32, 81, 50, 0.15);
+    .soxnsox-input:focus {
+        border-color: #2ca7a3;
+        box-shadow: 0 0 0 3px rgba(44, 167, 163, 0.2);
     }
 
     /* Unified Site Container */
     .site-container {
         width: 100%;
-        max-width: 80rem;
+        max-width: 82rem;
         margin-left: auto;
         margin-right: auto;
         padding-left: 1.5rem;
@@ -694,37 +836,213 @@ img.lazy {
         }
     }
 
-    /* ELIOR Primary Navigation Links */
-    .elior-nav-link {
+    /* SOXNSOX Primary Navigation Links */
+    .soxnsox-nav-link {
         position: relative;
-        font-size: 0.75rem;
+        font-size: 0.8125rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.15em;
-        color: #163923;
-        padding: 0.375rem 0;
+        letter-spacing: 0.12em;
+        color: #133b63;
+        padding: 0.5rem 0;
         text-decoration: none;
-        transition: color 0.2s ease;
+        transition: all 0.2s ease;
     }
 
-    .elior-nav-link:hover {
-        color: #205132;
+    .soxnsox-nav-link:hover {
+        color: #1d5b8f;
     }
 
-    .elior-nav-link-active {
-        color: #205132 !important;
+    .soxnsox-nav-link-active {
+        color: #1d5b8f !important;
         font-weight: 700 !important;
     }
 
-    .elior-nav-link-active::after {
+    .soxnsox-nav-link-active::after {
         content: '';
         position: absolute;
-        bottom: -2px;
+        bottom: 0;
         left: 0;
         right: 0;
-        height: 2px;
-        background-color: #205132;
+        height: 3px;
+        background: linear-gradient(90deg, #1d5b8f, #2ca7a3);
         border-radius: 9999px;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SOX N SOX HIGH-END ANIMATION & TRANSITION SYSTEM
+       ══════════════════════════════════════════════════════════════ */
+
+    /* 1. Base Keyframe Animations */
+    @keyframes soxnsoxFloat {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+    @keyframes soxnsoxFloatSlow {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-12px) rotate(2deg);
+        }
+    }
+
+    @keyframes soxnsoxPulseGlow {
+        0%, 100% {
+            opacity: 0.55;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.95;
+            transform: scale(1.06);
+        }
+    }
+
+    @keyframes soxnsoxTwinkle {
+        0%, 100% {
+            opacity: 0.8;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    }
+
+    .animate-soxnsox-float {
+        animation: soxnsoxFloat 4s ease-in-out infinite;
+    }
+
+    .animate-soxnsox-float-slow {
+        animation: soxnsoxFloatSlow 6s ease-in-out infinite;
+    }
+
+    .animate-soxnsox-pulse-glow {
+        animation: soxnsoxPulseGlow 3.5s ease-in-out infinite;
+    }
+
+    /* 2. Button Shimmer Light-Sweep Hover Effect */
+    .soxnsox-btn-shimmer {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .soxnsox-btn-shimmer::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -60%;
+        width: 40%;
+        height: 200%;
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(25deg) translateX(-150%);
+        transition: transform 0.8s ease;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .soxnsox-btn-shimmer:hover::before {
+        transform: rotate(25deg) translateX(550%);
+    }
+
+    /* 3. Image Hover Shimmer & Zoom */
+    .soxnsox-image-shimmer {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .soxnsox-image-shimmer::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            105deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 35%,
+            rgba(255, 255, 255, 0.22) 50%,
+            rgba(255, 255, 255, 0) 65%,
+            transparent 100%
+        );
+        transform: translateX(-100%);
+        transition: transform 0.75s ease-out;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    .group:hover .soxnsox-image-shimmer::after,
+    .soxnsox-image-shimmer:hover::after {
+        transform: translateX(100%);
+    }
+
+    /* 4. Scroll Reveal Classes */
+    .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+    }
+
+    .reveal-on-scroll.reveal-down {
+        transform: translateY(-28px);
+    }
+
+    .reveal-on-scroll.reveal-left {
+        transform: translateX(-32px);
+    }
+
+    .reveal-on-scroll.reveal-right {
+        transform: translateX(32px);
+    }
+
+    .reveal-on-scroll.reveal-scale {
+        transform: scale(0.92);
+    }
+
+    .reveal-on-scroll.is-revealed {
+        opacity: 1 !important;
+        transform: translate(0, 0) scale(1) !important;
+    }
+
+    /* Staggered Children Animations */
+    .reveal-stagger > * {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        will-change: opacity, transform;
+    }
+
+    .reveal-stagger.is-revealed > *:nth-child(1) { transition-delay: 0.05s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(2) { transition-delay: 0.15s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(3) { transition-delay: 0.25s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(4) { transition-delay: 0.35s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(5) { transition-delay: 0.45s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(6) { transition-delay: 0.55s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(7) { transition-delay: 0.65s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(8) { transition-delay: 0.75s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+    .reveal-stagger.is-revealed > *:nth-child(n+9) { transition-delay: 0.85s; opacity: 1 !important; transform: translate(0, 0) scale(1) !important; }
+
+    /* Respect reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+        .reveal-on-scroll,
+        .reveal-stagger > *,
+        .animate-soxnsox-float,
+        .animate-soxnsox-float-slow,
+        .animate-soxnsox-pulse-glow {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 <x-admin::layouts.anonymous>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('admin::app.users.reset-password.title') — {{ config('app.name', 'ELIOR') }}
+        @lang('admin::app.users.reset-password.title') — {{ config('app.name', 'SOXNSOX') }}
     </x-slot>
 
     @push('styles')
@@ -28,7 +28,7 @@
             overflow: hidden;
         }
 
-        .elior-pill-input-simple {
+        .soxnsox-pill-input-simple {
             width: 100% !important;
             height: 48px !important;
             border-radius: 9999px !important;
@@ -37,22 +37,22 @@
             padding-left: 1.5rem !important;
             padding-right: 1.5rem !important;
             font-size: 0.9375rem !important;
-            color: #FAF8F5 !important;
+            color: #f5f7fa !important;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .elior-pill-input-simple::placeholder {
+        .soxnsox-pill-input-simple::placeholder {
             color: rgba(212, 244, 220, 0.45) !important;
         }
 
-        .elior-pill-input-simple:focus {
+        .soxnsox-pill-input-simple:focus {
             border-color: #C3E7C9 !important;
             background-color: rgba(16, 68, 58, 0.85) !important;
             box-shadow: 0 0 0 4px rgba(195, 231, 201, 0.22) !important;
             outline: none !important;
         }
 
-        .elior-mint-btn {
+        .soxnsox-mint-btn {
             background: linear-gradient(135deg, #D8F6DF 0%, #AEE6BD 100%);
             color: #124B3F;
             font-weight: 700;
@@ -62,7 +62,7 @@
             border: none;
         }
 
-        .elior-mint-btn:hover {
+        .soxnsox-mint-btn:hover {
             background: linear-gradient(135deg, #E6FAEC 0%, #BFF0CC 100%);
             transform: translateY(-1px);
             box-shadow: 0 14px 28px -4px rgba(174, 230, 189, 0.6);
@@ -108,7 +108,7 @@
                 <div class="relative z-10 flex items-center justify-start">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A241E]/80 border border-[#43A08C]/50 text-xs font-semibold text-[#D4F4DC] shadow-md backdrop-blur-sm">
                         <span class="w-2 h-2 rounded-full bg-[#4EBA88] animate-pulse"></span>
-                        <span class="tracking-wide text-[11px] sm:text-xs">ELIOR Security Reset</span>
+                        <span class="tracking-wide text-[11px] sm:text-xs">SOXNSOX Security Reset</span>
                     </div>
                 </div>
             </div>
@@ -119,16 +119,14 @@
                 <!-- Top Utility Bar -->
                 <div class="flex items-center justify-between pb-4">
                     <a href="{{ route('shop.home.index') }}" class="font-serif text-2xl font-bold text-white tracking-wide">
-                        Elior
+                        Soxnsox
                     </a>
 
                     <a 
                         href="{{ route('admin.session.create') }}"
                         class="text-xs font-semibold text-[#D4F4DC] hover:text-white transition-colors inline-flex items-center gap-1.5"
                     >
-                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m15 18-6-6 6-6"/>
-                        </svg>
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
                         <span>Back to Sign In</span>
                     </a>
                 </div>
@@ -162,12 +160,12 @@
 
                             <x-admin::form.control-group.control
                                 type="email"
-                                class="elior-pill-input-simple" 
+                                class="soxnsox-pill-input-simple" 
                                 id="email"
                                 name="email" 
                                 rules="required|email" 
                                 :label="trans('admin::app.users.reset-password.email')"
-                                placeholder="name@elior.com"
+                                placeholder="name@soxnsox.com"
                                 :value="old('email')"
                             />
 
@@ -182,7 +180,7 @@
 
                             <x-admin::form.control-group.control
                                 type="password"
-                                class="elior-pill-input-simple" 
+                                class="soxnsox-pill-input-simple" 
                                 id="password"
                                 name="password" 
                                 rules="required|min:6" 
@@ -202,7 +200,7 @@
 
                             <x-admin::form.control-group.control
                                 type="password"
-                                class="elior-pill-input-simple" 
+                                class="soxnsox-pill-input-simple" 
                                 id="password_confirmation"
                                 name="password_confirmation"
                                 rules="confirmed:@password" 
@@ -218,13 +216,10 @@
                         <div class="pt-3">
                             <button
                                 type="submit"
-                                class="elior-mint-btn h-12 w-full text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 cursor-pointer"
+                                class="soxnsox-mint-btn h-12 w-full text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 cursor-pointer"
                             >
                                 <span>@lang('admin::app.users.reset-password.submit-btn')</span>
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M5 12h14"/>
-                                    <path d="m12 5 7 7-7 7"/>
-                                </svg>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </button>
                         </div>
                     </x-admin::form>
@@ -233,9 +228,7 @@
                 <!-- Bottom Security Encryption Notice -->
                 <div class="pt-4 text-center text-xs text-white/50 space-y-1">
                     <div class="inline-flex items-center gap-1.5 justify-center">
-                        <svg class="w-3.5 h-3.5 text-[#B8E3BF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        </svg>
+                        <i class="fa-solid fa-shield-halved text-[#B8E3BF] text-xs"></i>
                         <span>Protected by Argon2id Salted Hash Key Protocol</span>
                     </div>
                 </div>

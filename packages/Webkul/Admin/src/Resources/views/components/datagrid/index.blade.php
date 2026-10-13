@@ -251,6 +251,10 @@
 
                             this.available.meta = meta;
 
+                            if (meta.current_page && meta.current_page !== this.applied.pagination.page) {
+                                this.applied.pagination.page = meta.current_page;
+                            }
+
                             this.isLoading = false;
                         });
                 },

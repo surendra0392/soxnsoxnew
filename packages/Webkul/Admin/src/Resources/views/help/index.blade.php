@@ -10,21 +10,21 @@
                 'info'  => trans('admin::app.help.index.cloud-hosting-info'),
                 'url'   => 'https://bagisto.com/en/cloud/',
                 'host'  => 'bagisto.com/cloud',
-                'icon'  => 'M4.5 10.5a4.5 4.5 0 0 1 8.9-1A3.5 3.5 0 1 1 14 16.5H6a3.5 3.5 0 0 1-1.5-6.67Z',
+                'icon'  => 'fa-solid fa-cloud',
             ],
             [
                 'title' => trans('admin::app.help.index.support'),
                 'info'  => trans('admin::app.help.index.support-info'),
                 'url'   => 'https://bagisto.com/en/support/',
                 'host'  => 'bagisto.com/support',
-                'icon'  => 'M12 3a9 9 0 0 0-9 9v4a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H5a7 7 0 0 1 14 0h-1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a2 2 0 0 0 2-2v-4a9 9 0 0 0-9-9Z',
+                'icon'  => 'fa-solid fa-headset',
             ],
             [
                 'title' => trans('admin::app.help.index.paid-services'),
                 'info'  => trans('admin::app.help.index.paid-services-info'),
                 'url'   => 'https://bagisto.com/en/contacts/',
                 'host'  => 'bagisto.com/services',
-                'icon'  => 'M14.7 6.3a3 3 0 0 0-4 4l-7 7L5 19l7-7a3 3 0 0 0 4-4l-2 2-1.4-1.4 2-2ZM5.5 18a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1Z',
+                'icon'  => 'fa-solid fa-wrench',
             ],
         ];
 
@@ -34,21 +34,21 @@
                 'info'  => trans('admin::app.help.index.extensions-info'),
                 'url'   => 'https://bagisto.com/en/extensions/',
                 'host'  => 'bagisto.com/extensions',
-                'icon'  => 'M10 3h4v2a2 2 0 0 0 4 0V3h2a1 1 0 0 1 1 1v3h-2a2 2 0 0 0 0 4h2v6a1 1 0 0 1-1 1h-6v-2a2 2 0 0 0-4 0v2H4a1 1 0 0 1-1-1v-6h2a2 2 0 0 0 0-4H3V4a1 1 0 0 1 1-1h6Z',
+                'icon'  => 'fa-solid fa-puzzle-piece',
             ],
             [
                 'title' => trans('admin::app.help.index.docs'),
                 'info'  => trans('admin::app.help.index.docs-info'),
                 'url'   => 'https://devdocs.bagisto.com/',
                 'host'  => 'devdocs.bagisto.com',
-                'icon'  => 'M4 4a2 2 0 0 1 2-2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm9 0v4h4M8 13h8M8 17h5',
+                'icon'  => 'fa-solid fa-book',
             ],
             [
                 'title' => trans('admin::app.help.index.api-docs'),
                 'info'  => trans('admin::app.help.index.api-docs-info'),
                 'url'   => 'https://api-docs.bagisto.com/',
                 'host'  => 'api-docs.bagisto.com',
-                'icon'  => 'm9 8-4 4 4 4m6-8 4 4-4 4M14 5l-4 14',
+                'icon'  => 'fa-solid fa-code',
             ],
         ];
     @endphp
@@ -93,12 +93,10 @@
     </div>
 
     <!-- Contact CTA -->
-    <div class="flex flex-wrap items-center justify-between gap-5 rounded-[14px] bg-gradient-to-r from-[#205132] to-[#163923] px-7 py-6 shadow-md border border-[#205132]">
+    <div class="flex flex-wrap items-center justify-between gap-5 rounded-[14px] bg-gradient-to-r from-[#133b63] to-[#0d2847] px-7 py-6 shadow-md border border-[#133b63]">
         <div class="flex items-center gap-4">
             <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-white">
-                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8A8.38 8.38 0 0 1 12.5 3a8.38 8.38 0 0 1 8.5 8.5Z"></path>
-                </svg>
+                <i class="fa-solid fa-comment-dots text-xl"></i>
             </span>
 
             <div class="grid gap-0.5">
@@ -116,13 +114,11 @@
             href="https://bagisto.com/en/contacts/"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 font-semibold text-[#205132] transition-all hover:bg-slate-100 shadow-sm"
+            class="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 font-semibold text-[#133b63] transition-all hover:bg-slate-100 shadow-sm"
         >
             @lang('admin::app.help.index.cta-btn')
 
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M13 6l6 6-6 6"></path>
-            </svg>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
         </a>
     </div>
 

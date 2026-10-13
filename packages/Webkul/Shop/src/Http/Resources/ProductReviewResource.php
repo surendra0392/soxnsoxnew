@@ -23,7 +23,7 @@ class ProductReviewResource extends JsonResource
             'comment' => $this->comment,
             'rating' => $this->rating,
             'images' => $this->images,
-            'profile' => $this->customer?->image_url,
+            'profile' => $this->customer?->avatar_url ?? ($this->name ? soxnsox_avatar($this->name) : null),
             'created_at' => $this->created_at->format('M d, Y'),
         ];
     }

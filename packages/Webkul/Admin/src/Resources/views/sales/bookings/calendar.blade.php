@@ -40,7 +40,7 @@
                             :class="[
                                 event.status === 'pending' ? 'border-amber-500 bg-amber-50/90 hover:bg-amber-100' :
                                 event.status === 'completed' ? 'border-emerald-500 bg-emerald-50/90 hover:bg-emerald-100' :
-                                event.status === 'closed' ? 'border-[#205132] bg-[#205132]/10/90 hover:bg-[#205132]/10' :
+                                event.status === 'closed' ? 'border-[#133b63] bg-[#133b63]/10/90 hover:bg-[#133b63]/10' :
                                 event.status === 'canceled' ? 'border-rose-500 bg-rose-50/90 hover:bg-rose-100' :
                                 'border-emerald-500 bg-emerald-50/90 hover:bg-emerald-100',
                                 event.time_difference ? 'p-2' : 'px-2 py-1'
@@ -52,7 +52,7 @@
                                     :class="[
                                         event.status === 'pending' ? 'bg-amber-500' :
                                         event.status === 'completed' ? 'bg-emerald-500' :
-                                        event.status === 'closed' ? 'bg-[#205132]/100' :
+                                        event.status === 'closed' ? 'bg-[#133b63]/100' :
                                         event.status === 'canceled' ? 'bg-rose-500' :
                                         'bg-emerald-500',
                                     ]"
@@ -86,7 +86,7 @@
                 <x-slot:header>
                     <div class="flex w-full items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
-                            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#205132]/10 text-[#205132]">
+                            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#133b63]/10 text-[#133b63]">
                                 <span class="icon-calendar text-2xl"></span>
                             </span>
 
@@ -106,7 +106,7 @@
                             :class="[
                                 event.status === 'pending' ? 'bg-amber-100 text-amber-700' :
                                 event.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-                                event.status === 'closed' ? 'bg-[#205132]/10 text-[#205132]' :
+                                event.status === 'closed' ? 'bg-[#133b63]/10 text-[#133b63]' :
                                 event.status === 'canceled' ? 'bg-rose-100 text-rose-700' :
                                 'bg-emerald-100 text-emerald-700',
                             ]"
@@ -116,7 +116,7 @@
                                 :class="[
                                     event.status === 'pending' ? 'bg-amber-500' :
                                     event.status === 'completed' ? 'bg-emerald-500' :
-                                    event.status === 'closed' ? 'bg-[#205132]/100' :
+                                    event.status === 'closed' ? 'bg-[#133b63]/100' :
                                     event.status === 'canceled' ? 'bg-rose-500' :
                                     'bg-emerald-500',
                                 ]"
@@ -401,7 +401,7 @@
         }
 
         .bagisto-calendar .vuecal__heading.today .weekday-label span {
-            color: #205132;
+            color: #133b63;
         }
 
         .dark .bagisto-calendar .vuecal__heading.today .weekday-label span {

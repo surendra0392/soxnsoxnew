@@ -37,6 +37,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'url_key' => $this->url_key,
+            'url' => route('shop.products.view', $this->url_key),
             'base_image' => product_image()->getProductBaseImage($this),
             'images' => product_image()->getGalleryImages($this),
             'is_new' => (bool) $this->new,

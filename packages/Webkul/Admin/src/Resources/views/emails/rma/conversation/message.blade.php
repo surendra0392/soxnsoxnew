@@ -1,12 +1,12 @@
 @component('admin::emails.layout')
     <!-- Title -->
     <div style="margin-bottom: 34px;">
-        <span style="font-size: 22px; font-weight: 600; color: #163923;">
+        <span style="font-size: 22px; font-weight: 600; color: #0d2847;">
             @lang('admin::app.emails.rma.conversation.title')
         </span><br>
 
         <!-- Heading -->
-        <p style="font-size: 16px; color: #205132; line-height: 24px;">
+        <p style="font-size: 16px; color: #133b63; line-height: 24px;">
             @lang('admin::app.emails.rma.conversation.heading', ['name' => core()->getAdminEmailDetails()['name']]),👋
         </p>
 

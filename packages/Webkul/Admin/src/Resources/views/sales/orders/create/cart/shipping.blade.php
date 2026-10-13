@@ -58,7 +58,7 @@
                                     </p>
                                 </div>
 
-                                <p class="text-base text-[#205132]">
+                                <p class="text-base text-[#133b63]">
                                     @{{ rate.base_formatted_price }}
                                 </p>
                             </div>

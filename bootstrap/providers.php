@@ -3,6 +3,7 @@
 use App\Providers\AppServiceProvider;
 use Webkul\Admin\Providers\AdminServiceProvider;
 use Webkul\Attribute\Providers\AttributeServiceProvider;
+use Webkul\Blog\Providers\BlogServiceProvider;
 use Webkul\BookingProduct\Providers\BookingProductServiceProvider;
 use Webkul\CartRule\Providers\CartRuleServiceProvider;
 use Webkul\CatalogRule\Providers\CatalogRuleServiceProvider;
@@ -31,7 +32,6 @@ use Webkul\PhonePe\Providers\PhonePeServiceProvider;
 use Webkul\Product\Providers\ProductServiceProvider;
 use Webkul\Razorpay\Providers\RazorpayServiceProvider;
 use Webkul\RMA\Providers\RMAServiceProvider;
-use Webkul\Recipe\Providers\RecipeServiceProvider;
 use Webkul\Rule\Providers\RuleServiceProvider;
 use Webkul\Sales\Providers\SalesServiceProvider;
 use Webkul\Shipping\Providers\ShippingServiceProvider;
@@ -83,7 +83,7 @@ return [
     ProductServiceProvider::class,
     RMAServiceProvider::class,
     RazorpayServiceProvider::class,
-    RecipeServiceProvider::class,
+    BlogServiceProvider::class,
     RuleServiceProvider::class,
     SalesServiceProvider::class,
     ShippingServiceProvider::class,

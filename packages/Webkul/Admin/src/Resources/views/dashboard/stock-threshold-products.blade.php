@@ -73,7 +73,7 @@
                             <!-- View More Icon -->
                             <a
                                 :href="'{{ route('admin.catalog.products.edit', ':replace') }}'.replace(':replace', product.id)"
-                                class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-[#205132] hover:bg-[#205132] hover:text-white transition-all"
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-[#133b63] hover:bg-[#133b63] hover:text-white transition-all"
                             >
                                 <span class="icon-sort-right rtl:icon-sort-left text-lg"></span>
                             </a>

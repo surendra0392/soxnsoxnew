@@ -2,8 +2,11 @@
 
 @php
     $channel = core()->getCurrentChannel();
-    $logoConfig = core()->getConfigData('general.design.admin_logo.logo_image');
-    $logoUrl = $channel->logo_url ?: ($logoConfig ? \Illuminate\Support\Facades\Storage::url($logoConfig) : null);
+    $logoUrl = ($channel->logo && file_exists(public_path('storage/' . $channel->logo)))
+        ? asset('storage/' . $channel->logo)
+        : (file_exists(public_path('logo.png'))
+            ? asset('logo.png')
+            : ($channel->logo_url ?: null));
 @endphp
 
 <div class="site-container flex min-h-[92px] items-center justify-between">
@@ -14,21 +17,21 @@
         <a
             href="{{ route('shop.home.index') }}"
             class="flex items-center py-2 group"
-            aria-label="ELIOR - Botanical Nutrition"
+            aria-label="SOXNSOX - Bamboo Socks"
         >
             @if ($logoUrl)
                 <img
                     src="{{ $logoUrl }}"
-                    alt="{{ config('app.name', 'ELIOR') }}"
-                    class="h-10 md:h-12 w-auto object-contain max-w-[200px] transition-transform duration-300 group-hover:scale-[1.02]"
+                    alt="SOX N SOX - India's Premier Bamboo &amp; Diabetic Socks"
+                    class="h-10 md:h-12 w-auto object-contain max-w-[220px] transition-transform duration-300 group-hover:scale-[1.02]"
                 />
             @else
                 <div class="flex flex-col">
-                    <span class="font-serif text-3xl lg:text-4xl font-bold tracking-tight text-elior-charcoal group-hover:text-elior-botanical transition-colors">
-                        ELIOR
+                    <span class="font-display text-2xl lg:text-3xl font-extrabold tracking-tight text-[#133b63] group-hover:text-[#1d5b8f] transition-colors">
+                        SOX<span class="text-[#f29a38]">N</span>SOX
                     </span>
-                    <span class="text-[9px] tracking-[0.32em] uppercase text-elior-muted -mt-0.5 font-sans font-semibold">
-                        Botanical Nutrition
+                    <span class="text-[9px] tracking-[0.28em] uppercase text-[#2ca7a3] -mt-0.5 font-sans font-bold">
+                        Bamboo Socks
                     </span>
                 </div>
             @endif
@@ -37,95 +40,76 @@
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
     </div>
 
-    <!-- Center: Primary Navigation (6 Core ELIOR Architecture Items) -->
+    <!-- Center: Primary Navigation (SOXNSOX Multi-Page Architecture) -->
     <div class="hidden lg:flex items-center gap-x-8">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.before') !!}
 
-        <nav class="flex items-center gap-7 lg:gap-8" aria-label="Primary Navigation">
-            @php
-                $categoryView = core()->getConfigData('general.design.categories.category_view');
-            @endphp
+        <nav class="flex items-center gap-6 lg:gap-8" aria-label="Primary Navigation">
+            <!-- 1. Products with Dropdown Menu -->
+            <div class="relative group py-2">
+                <a
+                    href="{{ route('shop.products.index') }}"
+                    class="soxnsox-nav-link flex items-center gap-1.5 {{ (request()->is('shop*') || request()->is('products*') || request()->routeIs('shop.category.view') || request()->routeIs('shop.products.view*')) ? 'soxnsox-nav-link-active' : '' }}"
+                >
+                    <span>Products</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:text-[#f29a38] group-hover:rotate-180 transition-transform duration-200"></i>
+                </a>
 
-            @if ($categoryView === 'custom')
-                @php
-                    $customMenuItems = json_decode(core()->getConfigData('general.design.categories.custom_menu_items') ?: '[]', true);
-                    
-                    $catIds = collect($customMenuItems)->where('type', 'category')->pluck('id')->toArray();
-                    $cmsIds = collect($customMenuItems)->where('type', 'cms')->pluck('id')->toArray();
-                    
-                    $categories = empty($catIds) ? collect() : app(\Webkul\Category\Repositories\CategoryRepository::class)->findWhereIn('id', $catIds)->keyBy('id');
-                    $cmsPages = empty($cmsIds) ? collect() : app(\Webkul\CMS\Repositories\PageRepository::class)->query()
-                        ->select('cms_pages.*', 'cms_page_translations.url_key')
-                        ->join('cms_page_translations', 'cms_pages.id', '=', 'cms_page_translations.cms_page_id')
-                        ->whereIn('cms_page_translations.url_key', $cmsIds)
-                        ->where('cms_page_translations.locale', core()->getRequestedLocaleCode())
-                        ->get()
-                        ->keyBy('url_key');
-                @endphp
-
-                @foreach ($customMenuItems as $item)
-                    @if ($item['type'] === 'cms' && isset($cmsPages[$item['id']]))
-                        @php $pageTranslation = $cmsPages[$item['id']]->translate(core()->getRequestedLocaleCode()); @endphp
-                        @if ($pageTranslation)
-                            <a href="{{ route('shop.cms.page', $pageTranslation->url_key) }}" class="text-xs uppercase tracking-[0.14em] font-semibold {{ request()->is('page/'.$pageTranslation->url_key.'*') || request()->is($pageTranslation->url_key.'*') ? 'text-elior-botanical font-bold' : 'text-elior-charcoal hover:text-elior-botanical' }} transition-colors">
-                                {{ $item['title'] ?? $pageTranslation->page_title }}
-                            </a>
-                        @endif
-                    @elseif ($item['type'] === 'category' && isset($categories[$item['id']]))
-                        @php $categoryTranslation = $categories[$item['id']]->translate(core()->getRequestedLocaleCode()); @endphp
-                        @if ($categoryTranslation)
-                            @php $categoryUrl = $categoryTranslation->url_path ?: $categoryTranslation->slug; @endphp
-                            <a href="{{ $categoryUrl ? route('shop.product_or_category.index', $categoryUrl) : '#' }}" class="text-xs uppercase tracking-[0.14em] font-semibold {{ request()->is($categoryUrl.'*') ? 'text-elior-botanical font-bold' : 'text-elior-charcoal hover:text-elior-botanical' }} transition-colors">
-                                {!! $item['title'] ?? $categoryTranslation->name !!}
-                            </a>
-                        @endif
-                    @elseif ($item['type'] === 'custom')
-                        @php
-                            $targetPath = trim(parse_url($item['url'], PHP_URL_PATH) ?? '', '/');
-                            $isCustomActive = request()->fullUrlIs($item['url'].'*') || ($targetPath && request()->is($targetPath.'*'));
-                        @endphp
-                        <a href="{{ $item['url'] }}" class="text-xs uppercase tracking-[0.14em] font-semibold {{ $isCustomActive ? 'text-elior-botanical font-bold' : 'text-elior-charcoal hover:text-elior-botanical' }} transition-colors">
-                            {{ $item['title'] }}
+                <!-- Dropdown Card (Expanded width with single-line typography) -->
+                <div class="soxnsox-products-dropdown absolute left-0 top-full pt-2 z-50">
+                    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-3.5 space-y-1">
+                        <a href="{{ route('shop.products.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-[#133b63] hover:bg-[#e9f2fa] hover:text-[#1d5b8f] transition-colors group/item">
+                            <span class="whitespace-nowrap">All Socks &amp; Products</span>
+                            <i class="fa-solid fa-arrow-right text-[10px] text-[#2ca7a3] transition-transform group-hover/item:translate-x-0.5"></i>
                         </a>
-                    @endif
-                @endforeach
-            @else
-                @php
-                    $themeCustomizations = app(\Webkul\Theme\Repositories\ThemeCustomizationRepository::class)->get();
-                    $headerNav = $themeCustomizations->where('name', 'ELIOR Header Navigation')->first();
-                @endphp
-                @if ($headerNav && isset($headerNav->options['html']))
-                    <!-- Rendered Nav -->
-                    {!! str_replace(
-                        [
-                            'href="/?_route=shop.home.index" class="elior-nav-link"',
-                            'href="/page/about-us" class="elior-nav-link"',
-                            'href="/page/quality" class="elior-nav-link"',
-                            'href="/products" class="elior-nav-link"',
-                            'href="/page/recipes" class="elior-nav-link"',
-                            'href="/recipes" class="elior-nav-link"',
-                            'href="/contact-us" class="elior-nav-link"'
-                        ],
-                        [
-                            'href="/" class="elior-nav-link ' . ((request()->routeIs('shop.home.index') && request()->is('/')) ? 'elior-nav-link-active' : '') . '"',
-                            'href="/page/about-us" class="elior-nav-link ' . (request()->is('page/about-us*') ? 'elior-nav-link-active' : '') . '"',
-                            'href="/page/quality" class="elior-nav-link ' . (request()->is('page/quality*') ? 'elior-nav-link-active' : '') . '"',
-                            'href="/products" class="elior-nav-link ' . ((request()->is('products*') || request()->routeIs('shop.product_or_category.index')) ? 'elior-nav-link-active' : '') . '"',
-                            'href="/recipes" class="elior-nav-link ' . (request()->is('recipes*') ? 'elior-nav-link-active' : '') . '"',
-                            'href="/recipes" class="elior-nav-link ' . (request()->is('recipes*') ? 'elior-nav-link-active' : '') . '"',
-                            'href="/contact-us" class="elior-nav-link ' . ((request()->routeIs('shop.home.contact_us*') || request()->is('contact-us*')) ? 'elior-nav-link-active' : '') . '"'
-                        ],
-                        $headerNav->options['html']
-                    ) !!}
-                @endif
-            @endif
+                        <div class="border-t border-slate-100 my-1"></div>
+                        @php
+                            $headerCategories = app(\Webkul\Category\Repositories\CategoryRepository::class)->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
+                        @endphp
+                        @foreach ($headerCategories as $category)
+                            <a href="{{ route('shop.category.view', $category->slug) }}" class="soxnsox-dropdown-item flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#133b63] hover:bg-[#e6f8f7] hover:text-[#2ca7a3] transition-all group/item">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover/item:bg-[#2ca7a3] group-hover/item:scale-125 transition-all flex-shrink-0"></span>
+                                <span class="whitespace-nowrap transition-transform group-hover/item:translate-x-0.5">{{ $category->name }}</span>
+                            </a>
+                            @if ($category->children && $category->children->count())
+                                @foreach ($category->children as $subCategory)
+                                    <a href="{{ route('shop.category.view', $subCategory->slug) }}" class="soxnsox-dropdown-item flex items-center gap-2 px-3.5 py-1.5 pl-6 rounded-xl text-xs font-medium text-slate-600 hover:bg-[#e6f8f7] hover:text-[#2ca7a3] transition-all group/item">
+                                        <span class="w-1 h-1 rounded-full bg-slate-300 group-hover/item:bg-[#2ca7a3] transition-all flex-shrink-0"></span>
+                                        <span class="whitespace-nowrap transition-transform group-hover/item:translate-x-0.5">{{ $subCategory->name }}</span>
+                                    </a>
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. About Us -->
+            <a href="{{ route('shop.cms.page', 'about-us') }}" class="soxnsox-nav-link {{ (request()->is('page/about-us*') || request()->is('about-us*')) ? 'soxnsox-nav-link-active' : '' }}">
+                About Us
+            </a>
+
+            <!-- 3. Why Choose Us -->
+            <a href="{{ route('shop.cms.page', 'why-choose-us') }}" class="soxnsox-nav-link {{ (request()->is('page/why-choose-us*') || request()->is('why-choose-us*')) ? 'soxnsox-nav-link-active' : '' }}">
+                Why Choose Us
+            </a>
+
+            <!-- 4. How It Works -->
+            <a href="{{ route('shop.cms.page', 'how-it-works') }}" class="soxnsox-nav-link {{ (request()->is('page/how-it-works*') || request()->is('how-it-works*')) ? 'soxnsox-nav-link-active' : '' }}">
+                How It Works
+            </a>
+
+            <!-- 5. Contact Us -->
+            <a href="{{ route('shop.home.contact_us') }}" class="soxnsox-nav-link {{ (request()->routeIs('shop.home.contact_us') || request()->is('contact-us*') || request()->is('page/contact-us*')) ? 'soxnsox-nav-link-active' : '' }}">
+                Contact Us
+            </a>
         </nav>
 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.after') !!}
     </div>
 
-    <!-- Right Utility Icons & Search Popover -->
-    <div class="flex items-center gap-x-3 lg:gap-x-4 text-elior-charcoal">
+    <!-- Right Utility Icons & Search Popover (8px Spacing) -->
+    <div class="soxnsox-header-actions flex items-center gap-2 text-soxnsox-charcoal">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.before') !!}
 
         <!-- Search Icon Dropdown Popover -->
@@ -133,14 +117,14 @@
             <x-slot:toggle>
                 <button
                     type="button"
-                    class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full text-[#163923] hover:bg-black/5 hover:text-[#205132] transition-colors focus:outline-none"
+                    class="soxnsox-header-action-btn flex h-9 w-9 sm:h-9 sm:w-9 items-center justify-center rounded-full text-[#133b63] hover:bg-[#e9f2fa] hover:text-[#1d5b8f] transition-colors focus:outline-none"
                     aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.search')"
                 >
-                    <span class="icon-search text-2xl" role="presentation"></span>
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
                 </button>
             </x-slot>
 
-            <x-slot:content class="w-[340px] sm:w-[420px] p-5 bg-white rounded-2xl border border-elior-border shadow-2xl">
+            <x-slot:content class="w-[340px] sm:w-[420px] p-5 bg-white rounded-2xl border border-soxnsox-border shadow-2xl">
                 <form
                     action="{{ route('shop.search.index') }}"
                     class="relative flex items-center"
@@ -153,8 +137,8 @@
                         @lang('shop::app.components.layouts.header.desktop.bottom.search')
                     </label>
 
-                    <div class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center text-elior-muted">
-                        <span class="icon-search text-base"></span>
+                    <div class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center text-soxnsox-muted">
+                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
                     </div>
 
                     <input
@@ -163,10 +147,10 @@
                         name="query"
                         value="{{ request('query') }}"
                         toolparamdescription="{{ trans('shop::app.components.layouts.webmcp.search-products-query') }}"
-                        class="w-full h-11 pl-10 pr-11 text-xs text-elior-charcoal placeholder:text-elior-muted/70 bg-[#FAF8F5] border border-elior-border rounded-xl focus:bg-white focus:border-elior-botanical focus:ring-1 focus:ring-elior-botanical transition-all outline-none"
+                        class="w-full h-11 pl-10 pr-11 text-xs text-[#133b63] placeholder:text-[#6b7280]/70 bg-[#f5f7fa] border border-soxnsox-border rounded-xl focus:bg-white focus:border-[#2ca7a3] focus:ring-2 focus:ring-[#2ca7a3]/20 transition-all outline-none"
                         minlength="{{ core()->getConfigData('catalog.products.search.min_query_length') }}"
                         maxlength="{{ core()->getConfigData('catalog.products.search.max_query_length') }}"
-                        placeholder="Search botanical powders, ingredients..."
+                        placeholder="Search socks, diabetic, athletic, pack of 6..."
                         aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.search-text')"
                         aria-required="true"
                         pattern="[^\\]+"
@@ -189,7 +173,7 @@
                 <!-- Quick / Popular Tags -->
                 @php
                     $themeCustomizations = app(\Webkul\Theme\Repositories\ThemeCustomizationRepository::class)->get();
-                    $popularTags = $themeCustomizations->where('name', 'ELIOR Popular Search Tags')->first();
+                    $popularTags = $themeCustomizations->where('name', 'SOXNSOX Popular Search Tags')->first();
                 @endphp
                 @if ($popularTags && isset($popularTags->options['html']))
                     {!! $popularTags->options['html'] !!}
@@ -205,9 +189,9 @@
             <a
                 href="{{ route('shop.compare.index') }}"
                 aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.compare')"
-                class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full text-[#163923] hover:bg-black/5 hover:text-[#205132] transition-colors focus:outline-none"
+                class="soxnsox-header-action-btn flex h-9 w-9 sm:h-9 sm:w-9 items-center justify-center rounded-full text-[#133b63] hover:bg-[#e9f2fa] hover:text-[#1d5b8f] transition-colors focus:outline-none"
             >
-                <span class="icon-compare text-2xl" role="presentation"></span>
+                <i class="fa-solid fa-code-compare text-lg"></i>
             </a>
         @endif
 
@@ -226,29 +210,43 @@
         <!-- User profile dropdown -->
         <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
             <x-slot:toggle>
-                <button
-                    type="button"
-                    class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full text-[#163923] hover:bg-black/5 hover:text-[#205132] transition-colors focus:outline-none"
-                    aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.profile')"
-                >
-                    <span class="icon-users text-2xl" role="presentation"></span>
-                </button>
+                @auth('customer')
+                    <button
+                        type="button"
+                        class="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden ring-2 ring-slate-200 hover:ring-[#133b63] transition-all focus:outline-none"
+                        aria-label="{{ auth()->guard('customer')->user()->first_name }}"
+                    >
+                        <img
+                            src="{{ auth()->guard('customer')->user()->avatar_url }}"
+                            alt="{{ auth()->guard('customer')->user()->first_name }}"
+                            class="h-full w-full object-cover"
+                        />
+                    </button>
+                @else
+                    <button
+                        type="button"
+                        class="soxnsox-header-action-btn flex h-9 w-9 sm:h-9 sm:w-9 items-center justify-center rounded-full text-[#133b63] hover:bg-[#e9f2fa] hover:text-[#1d5b8f] transition-colors focus:outline-none"
+                        aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.profile')"
+                    >
+                        <i class="fa-regular fa-user text-lg"></i>
+                    </button>
+                @endauth
             </x-slot>
 
-            <x-slot:content class="p-4 rounded-elior bg-white border border-elior-border shadow-elior-card">
+            <x-slot:content class="p-4 rounded-soxnsox bg-white border border-soxnsox-border shadow-soxnsox-card">
                 <!-- Guest Dropdown -->
                 @guest('customer')
                     <div class="grid gap-2">
-                        <p class="text-base font-serif font-semibold text-elior-charcoal">
+                        <p class="text-base font-display font-bold text-[#133b63]">
                             @lang('shop::app.components.layouts.header.desktop.bottom.welcome-guest')
                         </p>
 
-                        <p class="text-xs text-elior-muted">
+                        <p class="text-xs text-soxnsox-muted">
                             @lang('shop::app.components.layouts.header.desktop.bottom.dropdown-text')
                         </p>
                     </div>
 
-                    <div class="my-3 border-t border-elior-border"></div>
+                    <div class="my-3 border-t border-soxnsox-border"></div>
 
                     {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.customers_action.before') !!}
 
@@ -257,14 +255,14 @@
 
                         <a
                             href="{{ route('shop.customer.session.create') }}"
-                            class="elior-btn-primary !px-4 !py-2 text-[11px]"
+                            class="soxnsox-btn-primary !px-4 !py-2 text-[11px]"
                         >
                             @lang('shop::app.components.layouts.header.desktop.bottom.sign-in')
                         </a>
 
                         <a
                             href="{{ route('shop.customers.register.index') }}"
-                            class="elior-btn-outline !px-4 !py-2 text-[11px]"
+                            class="soxnsox-btn-outline !px-4 !py-2 text-[11px]"
                         >
                             @lang('shop::app.components.layouts.header.desktop.bottom.sign-up')
                         </a>
@@ -286,31 +284,38 @@
 
                 <!-- Customers Dropdown -->
                 @auth('customer')
-                    <div class="grid gap-2.5 p-1 pb-0">
-                        <p class="text-lg font-serif font-bold text-elior-charcoal" v-pre>
-                            @lang('shop::app.components.layouts.header.desktop.bottom.welcome')’
-                            {{ auth()->guard('customer')->user()->first_name }}
-                        </p>
-
-                        <p class="text-xs text-elior-muted">
-                            @lang('shop::app.components.layouts.header.desktop.bottom.dropdown-text')
-                        </p>
+                    <div class="flex items-center gap-3 p-1 pb-1">
+                        <div class="h-10 w-10 shrink-0 overflow-hidden rounded-full ring-1 ring-slate-200 shadow-2xs">
+                            <img
+                                src="{{ auth()->guard('customer')->user()->avatar_url }}"
+                                alt="{{ auth()->guard('customer')->user()->first_name }}"
+                                class="h-full w-full object-cover"
+                            />
+                        </div>
+                        <div class="min-w-0" v-pre>
+                            <p class="text-sm font-display font-bold text-[#133b63] truncate">
+                                @lang('shop::app.components.layouts.header.desktop.bottom.welcome')’ {{ auth()->guard('customer')->user()->first_name }}
+                            </p>
+                            <p class="text-xs text-soxnsox-muted truncate">
+                                {{ auth()->guard('customer')->user()->email }}
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="my-3 border-t border-elior-border"></div>
+                    <div class="my-3 border-t border-soxnsox-border"></div>
 
                     <div class="grid gap-1 pb-1">
                         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.profile_dropdown.links.before') !!}
 
                         <a
-                            class="px-3 py-1.5 text-xs font-medium text-elior-charcoal hover:text-elior-botanical hover:bg-black/5 rounded-md transition-colors"
+                            class="px-3 py-1.5 text-xs font-medium text-soxnsox-charcoal hover:text-soxnsox-teal hover:bg-black/5 rounded-md transition-colors"
                             href="{{ route('shop.customers.account.profile.index') }}"
                         >
                             @lang('shop::app.components.layouts.header.desktop.bottom.profile')
                         </a>
 
                         <a
-                            class="px-3 py-1.5 text-xs font-medium text-elior-charcoal hover:text-elior-botanical hover:bg-black/5 rounded-md transition-colors"
+                            class="px-3 py-1.5 text-xs font-medium text-soxnsox-charcoal hover:text-soxnsox-teal hover:bg-black/5 rounded-md transition-colors"
                             href="{{ route('shop.customers.account.orders.index') }}"
                         >
                             @lang('shop::app.components.layouts.header.desktop.bottom.orders')
@@ -318,7 +323,7 @@
 
                         @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
                             <a
-                                class="px-3 py-1.5 text-xs font-medium text-elior-charcoal hover:text-elior-botanical hover:bg-black/5 rounded-md transition-colors"
+                                class="px-3 py-1.5 text-xs font-medium text-soxnsox-charcoal hover:text-soxnsox-teal hover:bg-black/5 rounded-md transition-colors"
                                 href="{{ route('shop.customers.account.wishlist.index') }}"
                             >
                                 @lang('shop::app.components.layouts.header.desktop.bottom.wishlist')

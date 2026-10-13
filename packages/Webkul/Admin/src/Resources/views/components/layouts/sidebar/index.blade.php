@@ -9,15 +9,15 @@
                 >
                     <a
                         href="{{ $menuItem->getUrl() }}"
-                        class="flex gap-3 p-2.5 items-center cursor-pointer rounded-[12px] transition-all {{ $menuItem->isActive() == 'active' ? 'bg-[#205132]/10 text-[#205132] border border-[#205132]/20 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent font-medium' }} peer"
+                        class="flex gap-3 p-2.5 items-center cursor-pointer rounded-[12px] transition-all {{ $menuItem->isActive() == 'active' ? 'bg-[#133b63]/10 text-[#133b63] border border-[#133b63]/20 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent font-medium' }} peer"
                     >
-                        <span class="{{ $menuItem->getIcon() }} text-xl {{ $menuItem->isActive() ? 'text-[#205132]' : 'text-slate-500'}}"></span>
+                        <span class="{{ $menuItem->getIcon() }} text-xl {{ $menuItem->isActive() ? 'text-[#133b63]' : 'text-slate-500'}}"></span>
 
-                        <p class="whitespace-nowrap text-sm group-[.sidebar-collapsed]/container:hidden flex-1 {{ $menuItem->isActive() ? 'text-[#205132] font-semibold' : 'text-slate-700'}}">
+                        <p class="whitespace-nowrap text-sm group-[.sidebar-collapsed]/container:hidden flex-1 {{ $menuItem->isActive() ? 'text-[#133b63] font-semibold' : 'text-slate-700'}}">
                             {{ $menuItem->getName() }}
                         </p>
                         @if ($menuItem->haveChildren())
-                            <span class="icon-sort-right text-lg group-[.sidebar-collapsed]/container:hidden {{ $menuItem->isActive() ? 'text-[#205132]' : 'text-slate-500'}}"></span>
+                            <span class="icon-sort-right text-lg group-[.sidebar-collapsed]/container:hidden {{ $menuItem->isActive() ? 'text-[#133b63]' : 'text-slate-500'}}"></span>
                         @endif
                     </a>
 
@@ -32,7 +32,7 @@
                             @foreach ($menuItem->getChildren() as $subMenuItem)
                                 <a
                                     href="{{ $subMenuItem->getUrl() }}"
-                                    class="{{ $subMenuItem->haveChildren() ? 'font-medium' : '' }} text-xs sm:text-sm {{ $subMenuItem->isActive() ? 'text-[#205132] font-semibold bg-[#205132]/10 rounded-lg px-2.5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 px-2.5 rounded-lg' }} whitespace-nowrap py-1.5 transition-all group-[.sidebar-collapsed]/container:px-4 group-[.sidebar-collapsed]/container:py-2 group-[.inactive]/item:px-4 group-[.inactive]/item:py-2"
+                                    class="{{ $subMenuItem->haveChildren() ? 'font-medium' : '' }} text-xs sm:text-sm {{ $subMenuItem->isActive() ? 'text-[#133b63] font-semibold bg-[#133b63]/10 rounded-lg px-2.5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 px-2.5 rounded-lg' }} whitespace-nowrap py-1.5 transition-all group-[.sidebar-collapsed]/container:px-4 group-[.sidebar-collapsed]/container:py-2 group-[.inactive]/item:px-4 group-[.inactive]/item:py-2"
                                 >
                                     {{ $subMenuItem->getName() }}
                                 </a>
@@ -42,7 +42,7 @@
                                         @foreach ($subMenuItem->getChildren() as $subSubMenuItem)
                                             <a
                                                 href="{{ $subSubMenuItem->getUrl() }}"
-                                                class="text-xs {{ $subSubMenuItem->isActive() ? 'text-[#205132] font-semibold' : 'text-slate-500 hover:text-slate-900' }} whitespace-nowrap py-1 px-2 transition-all"
+                                                class="text-xs {{ $subSubMenuItem->isActive() ? 'text-[#133b63] font-semibold' : 'text-slate-500 hover:text-slate-900' }} whitespace-nowrap py-1 px-2 transition-all"
                                             >
                                                 {{ $subSubMenuItem->getName() }}
                                             </a>

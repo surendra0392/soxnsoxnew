@@ -27,7 +27,7 @@ class ContactUs extends Mailable
                     core()->getAdminEmailDetails()['name']
                 ),
             ],
-            subject: trans('shop::app.emails.contact-us.inquiry-from').' '.$this->contactUs['name'].' '.trans('shop::app.emails.contact-us.contact-from'),
+            subject: trans('shop::app.emails.contact-us.inquiry-from').' '.$this->contactUs['name'].(! empty($this->contactUs['looking_for']) ? ' ('.$this->contactUs['looking_for'].')' : '').' '.trans('shop::app.emails.contact-us.contact-from'),
         );
     }
 

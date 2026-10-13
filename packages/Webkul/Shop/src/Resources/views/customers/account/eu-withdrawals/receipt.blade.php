@@ -72,9 +72,9 @@
         <div class="flex items-center gap-3">
             <span class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-full {{ $statusContext['hero_bg'] }}">
                 @if ($isDeclined)
-                    <span class="text-2xl font-bold leading-none">&times;</span>
+                    <i class="fa-solid fa-circle-xmark text-2xl text-red-600"></i>
                 @else
-                    <span class="text-2xl icon-check-box"></span>
+                    <i class="fa-solid fa-circle-check text-2xl text-emerald-600"></i>
                 @endif
             </span>
 
@@ -93,7 +93,7 @@
             type="button"
             data-eu-print
             data-eu-print-title="@lang('shop::app.eu_withdrawal.confirmation.page_title')"
-            class="secondary-button border-zinc-200 px-4 py-2 text-sm font-normal max-md:rounded-lg print:hidden"
+            class="secondary-button border-zinc-200 px-4 py-2 text-sm font-normal rounded-full print:hidden"
         >
             @lang('shop::app.eu_withdrawal.confirmation.print')
         </button>
@@ -134,10 +134,7 @@
                         data-eu-clipboard-message="@lang('shop::app.eu_withdrawal.confirmation.reference_copied')"
                         class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md text-zinc-500 transition-all hover:bg-zinc-200 hover:text-zinc-900"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
+                        <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </dd>
             </div>
@@ -203,7 +200,9 @@
 
         <ol class="mt-4 space-y-3 text-sm">
             <li class="flex gap-3">
-                <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700 icon-check-box"></span>
+                <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
+                    <i class="fa-solid fa-check text-xs"></i>
+                </span>
 
                 <div>
                     <p class="font-medium text-zinc-900">
@@ -218,9 +217,13 @@
 
             <li class="flex gap-3">
                 @if ($withdrawal->confirmation_sent_at)
-                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700 icon-check-box"></span>
+                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </span>
                 @else
-                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full border border-zinc-300 text-zinc-400 icon-radio-unselect"></span>
+                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full border border-zinc-300 text-zinc-400">
+                        <i class="fa-regular fa-circle text-[10px]"></i>
+                    </span>
                 @endif
 
                 <div>
@@ -242,7 +245,9 @@
             
             <li class="flex gap-3">
                 @if ($withdrawal->refunded_at)
-                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700 icon-check-box"></span>
+                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </span>
 
                     <div>
                         <p class="font-medium text-zinc-900">
@@ -255,7 +260,7 @@
                     </div>
                 @elseif ($withdrawal->declined_at)
                     <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-red-100 text-red-700">
-                        <span class="text-base font-bold leading-none">&times;</span>
+                        <i class="fa-solid fa-xmark text-xs font-bold leading-none"></i>
                     </span>
 
                     <div class="flex-1">
@@ -278,7 +283,9 @@
                         </p>
                     </div>
                 @else
-                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full border border-zinc-300 text-zinc-400 icon-radio-unselect"></span>
+                    <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full border border-zinc-300 text-zinc-400">
+                        <i class="fa-regular fa-circle text-[10px]"></i>
+                    </span>
 
                     <div>
                         <p class="font-medium text-zinc-900">
@@ -303,9 +310,9 @@
     <div class="mt-6 print:hidden">
         <a
             href="{{ route('shop.customers.account.orders.view', $withdrawal->order_id) }}"
-            class="inline-flex items-center gap-1 text-sm text-navyBlue hover:underline"
+            class="inline-flex items-center gap-1.5 text-sm text-navyBlue hover:underline"
         >
-            <span class="icon-arrow-left rtl:icon-arrow-right"></span>
+            <i class="fa-solid fa-arrow-left rtl:rotate-180 text-sm"></i>
 
             @lang('shop::app.customers.account.orders.title')
         </a>

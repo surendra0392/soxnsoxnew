@@ -81,7 +81,7 @@ class Customer extends Authenticatable implements CustomerContract
      *
      * @var array
      */
-    protected $appends = ['image_url'];
+    protected $appends = ['image_url', 'avatar_url'];
 
     /**
      * Send the password reset notification.
@@ -101,6 +101,14 @@ class Customer extends Authenticatable implements CustomerContract
     public function getImageUrlAttribute()
     {
         return $this->image_url();
+    }
+
+    /**
+     * Get avatar url for the customer profile (falls back to deterministic initial avatar SVG).
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        return $this->image ? Storage::url($this->image) : soxnsox_avatar($this->name);
     }
 
     /**

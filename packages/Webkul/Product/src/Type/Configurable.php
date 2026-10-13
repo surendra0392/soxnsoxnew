@@ -50,6 +50,9 @@ class Configurable extends AbstractType
         'short_description',
         'description',
         'price',
+        'special_price',
+        'special_price_from',
+        'special_price_to',
         'weight',
         'status',
         'tax_category_id',
@@ -202,6 +205,9 @@ class Configurable extends AbstractType
             'sku' => $sku,
             'name' => 'Variant '.implode(' ', $superAttributes),
             'price' => 0,
+            'special_price' => null,
+            'special_price_from' => null,
+            'special_price_to' => null,
             'weight' => 0,
             'status' => 1,
             'tax_category_id' => '',
@@ -228,6 +234,10 @@ class Configurable extends AbstractType
 
         $this->productImageRepository->upload($data, $variant, 'images');
 
+        if (isset($data['customer_group_prices'])) {
+            $this->productCustomerGroupPriceRepository->saveCustomerGroupPrices($data, $variant);
+        }
+
         return $variant;
     }
 
@@ -250,6 +260,10 @@ class Configurable extends AbstractType
         $this->productImageRepository->upload($data, $variant, 'images');
 
         $variant->channels()->sync($variant->parent->channels->pluck('id')->toArray());
+
+        if (isset($data['customer_group_prices'])) {
+            $this->productCustomerGroupPriceRepository->saveCustomerGroupPrices($data, $variant);
+        }
 
         return $variant;
     }

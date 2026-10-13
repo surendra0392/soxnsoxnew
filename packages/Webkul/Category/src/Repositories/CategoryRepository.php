@@ -118,7 +118,9 @@ class CategoryRepository extends Repository
         $this->uploadImages($data, $category, 'banner_path');
 
         if (isset($data['attributes'])) {
-            $category->filterableAttributes()->sync($data['attributes']);
+            $category->filterableAttributes()->sync(
+                array_values(array_unique(array_filter(array_map('intval', (array) $data['attributes']))))
+            );
         }
 
         return $category;
@@ -143,7 +145,9 @@ class CategoryRepository extends Repository
         $this->uploadImages($data, $category, 'banner_path');
 
         if (isset($data['attributes'])) {
-            $category->filterableAttributes()->sync($data['attributes']);
+            $category->filterableAttributes()->sync(
+                array_values(array_unique(array_filter(array_map('intval', (array) $data['attributes']))))
+            );
         }
 
         return $category;

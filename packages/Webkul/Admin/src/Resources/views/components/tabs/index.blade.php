@@ -20,7 +20,7 @@
                 <div
                     v-for="tab in tabs"
                     class="cursor-pointer px-3 pb-3 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-all"
-                    :class="{'!border-[#205132] border-b-2 !text-[#205132] font-bold': tab.isActive }"
+                    :class="{'!border-[#133b63] border-b-2 !text-[#133b63] font-bold': tab.isActive }"
                     @click="change(tab)"
                 >
                     @{{ tab.title }}

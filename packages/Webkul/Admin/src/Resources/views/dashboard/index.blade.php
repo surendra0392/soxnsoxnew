@@ -10,7 +10,7 @@
                 <h1 class="text-2xl font-bold !leading-tight text-slate-900 font-heading" v-pre>
                     @lang('admin::app.dashboard.index.user-name', ['user_name' => auth()->guard('admin')->user()->name])
                 </h1>
-                <span class="inline-flex items-center gap-1 rounded-full bg-[#205132]/10 px-2.5 py-0.5 text-xs font-semibold text-[#205132] border border-[#205132]/20 font-mono">
+                <span class="inline-flex items-center gap-1 rounded-full bg-[#133b63]/10 px-2.5 py-0.5 text-xs font-semibold text-[#133b63] border border-[#133b63]/20 font-mono">
                     Overview
                 </span>
             </div>
@@ -120,7 +120,7 @@
                         <x-slot:toggle>
                             <button
                                 type="button"
-                                class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[12px] border border-slate-200 bg-white px-3.5 py-2 text-center text-sm leading-6 text-slate-800 transition-all hover:border-slate-300 focus:border-[#205132]"
+                                class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[12px] border border-slate-200 bg-white px-3.5 py-2 text-center text-sm leading-6 text-slate-800 transition-all hover:border-slate-300 focus:border-[#133b63]"
                             >
                                 @{{ channels.find(channel => channel.code == filters.channel).name }}
                                 
@@ -131,7 +131,7 @@
                         <x-slot:menu class="!p-1.5 !bg-white !border !border-slate-200 !rounded-[14px] shadow-xl">
                             <x-admin::dropdown.menu.item
                                 v-for="channel in channels"
-                                ::class="{'!bg-[#205132]/10 !text-[#205132] !font-semibold': channel.code == filters.channel}"
+                                ::class="{'!bg-[#133b63]/10 !text-[#133b63] !font-semibold': channel.code == filters.channel}"
                                 class="!rounded-lg text-sm text-slate-700 hover:!text-slate-900 hover:!bg-slate-100"
                                 @click="filters.channel = channel.code"
                             >
@@ -143,7 +143,7 @@
 
                 <x-admin::flat-picker.date class="!w-[155px]" ::allow-input="false">
                     <input
-                        class="flex min-h-[40px] w-full rounded-[12px] border border-slate-200 bg-white !pl-3.5 !pr-9 rtl:!pr-3.5 rtl:!pl-9 py-2 text-xs sm:text-sm font-medium text-slate-800 transition-all hover:border-slate-300 focus:border-[#205132]"
+                        class="flex min-h-[40px] w-full rounded-[12px] border border-slate-200 bg-white !pl-3.5 !pr-9 rtl:!pr-3.5 rtl:!pl-9 py-2 text-xs sm:text-sm font-medium text-slate-800 transition-all hover:border-slate-300 focus:border-[#133b63]"
                         v-model="filters.start"
                         placeholder="@lang('admin::app.dashboard.index.start-date')"
                     />
@@ -151,7 +151,7 @@
 
                 <x-admin::flat-picker.date class="!w-[155px]" ::allow-input="false">
                     <input
-                        class="flex min-h-[40px] w-full rounded-[12px] border border-slate-200 bg-white !pl-3.5 !pr-9 rtl:!pr-3.5 rtl:!pl-9 py-2 text-xs sm:text-sm font-medium text-slate-800 transition-all hover:border-slate-300 focus:border-[#205132]"
+                        class="flex min-h-[40px] w-full rounded-[12px] border border-slate-200 bg-white !pl-3.5 !pr-9 rtl:!pr-3.5 rtl:!pl-9 py-2 text-xs sm:text-sm font-medium text-slate-800 transition-all hover:border-slate-300 focus:border-[#133b63]"
                         v-model="filters.end"
                         placeholder="@lang('admin::app.dashboard.index.end-date')"
                     />

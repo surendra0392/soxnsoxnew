@@ -15,7 +15,7 @@
 
             @if (session('lookup_sent'))
                 <div class="mt-6 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
-                    <span class="icon-check-box mt-0.5 text-xl leading-none"></span>
+                    <i class="fa-solid fa-circle-check mt-0.5 text-lg leading-none text-emerald-600"></i>
 
                     <p>@lang('shop::app.eu_withdrawal.lookup.sent_notice')</p>
                 </div>

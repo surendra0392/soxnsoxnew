@@ -1,7 +1,7 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="title" content="@lang('shop::app.customers.reset-password.title') | ELIOR" />
-    <meta name="description" content="Set a new password for your ELIOR botanical nutrition account." />
+    <meta name="title" content="@lang('shop::app.customers.reset-password.title') | SOXNSOX" />
+    <meta name="description" content="Set a new password for your SOXNSOX account to continue shopping premium bamboo socks." />
 @endPush
 
 <x-shop::layouts
@@ -11,23 +11,25 @@
 >
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.reset-password.title') | ELIOR
+        @lang('shop::app.customers.reset-password.title') | SOXNSOX
     </x-slot>
 
-    <div class="bg-elior-cream min-h-[calc(100vh-80px)]">
+    <div class="bg-[#f5f7fa] min-h-[calc(100vh-80px)]">
         <main class="site-container py-12 sm:py-16">
             <!-- Form Container Card -->
-            <div class="max-w-md mx-auto rounded-3xl border border-elior-border/80 bg-white p-8 sm:p-10 shadow-elior-subtle space-y-6">
+            <div class="max-w-md mx-auto rounded-3xl border border-soxnsox-border/80 bg-white p-8 sm:p-10 shadow-soxnsox-subtle space-y-6">
                 <!-- Header -->
                 <div class="space-y-2 text-center">
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EBF3EE] text-elior-botanical text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
-                        <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#e9f2fa] text-[#1d5b8f] text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
+                        <i class="fa-solid fa-lock text-xs"></i>
                         <span>New Password</span>
                     </div>
 
-                    <h1 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-elior-charcoal">
+                    <h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-[#133b63]">
                         @lang('shop::app.customers.reset-password.title')
                     </h1>
+
+                    <div class="soxnsox-decorative-line-center"></div>
                 </div>
 
                 {!! view_render_event('bagisto.shop.customers.reset_password.before') !!}
@@ -45,13 +47,13 @@
                     <div class="space-y-4">
                         <!-- Email -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                 @lang('shop::app.customers.reset-password.email')
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
                                 type="email"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                 id="email"
                                 name="email"
                                 rules="required|email"
@@ -67,13 +69,13 @@
 
                         <!-- Password -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                 @lang('shop::app.customers.reset-password.password')
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
                                 type="password"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                 name="password"
                                 rules="required|min:6"
                                 value=""
@@ -89,13 +91,13 @@
 
                         <!-- Confirm Password -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                 @lang('shop::app.customers.reset-password.confirm-password')
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
                                 type="password"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                 name="password_confirmation"
                                 rules="confirmed:@password"
                                 value=""
@@ -111,11 +113,11 @@
                         <!-- Submit Button -->
                         <div class="pt-2">
                             <button
-                                class="elior-btn-primary h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-elior-card"
+                                class="soxnsox-btn-primary soxnsox-btn-shimmer h-12 w-full text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 shadow-soxnsox-card active:scale-95 transition-all duration-300"
                                 type="submit"
                             >
                                 <span>@lang('shop::app.customers.reset-password.submit-btn-title')</span>
-                                <span class="icon-arrow-right text-xs"></span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </button>
                         </div>
                     </div>

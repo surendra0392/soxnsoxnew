@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Marketing\Jobs\UpdateCreateSearchTerm as UpdateCreateSearchTermJob;
+use Webkul\Product\Helpers\ConfigurableOption;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shop\Helpers\CatalogApiCache;
 use Webkul\Shop\Http\Resources\ProductCardResource;
@@ -79,14 +80,30 @@ class ProductController extends APIController
      */
     protected function getProducts(string $searchEngine, string $query)
     {
+        $params = array_merge(request()->query(), [
+            'query' => $query,
+            'channel_id' => core()->getCurrentChannel()->id,
+            'status' => 1,
+            'visible_individually' => 1,
+        ]);
+
+        if (! empty($params['category_id'])) {
+            $rootCategoryId = core()->getCurrentChannel()->root_category_id;
+
+            if ($params['category_id'] == $rootCategoryId) {
+                unset($params['category_id']);
+            } elseif ($category = $this->categoryRepository->find($params['category_id'])) {
+                $categoryIds = $category->descendantsAndSelf($params['category_id'])->pluck('id')->toArray();
+
+                if (! empty($categoryIds)) {
+                    $params['category_id'] = implode(',', $categoryIds);
+                }
+            }
+        }
+
         return $this->productRepository
             ->setSearchEngine($searchEngine)
-            ->getAll(array_merge(request()->query(), [
-                'query' => $query,
-                'channel_id' => core()->getCurrentChannel()->id,
-                'status' => 1,
-                'visible_individually' => 1,
-            ]));
+            ->getAll($params);
     }
 
     /**
@@ -128,9 +145,46 @@ class ProductController extends APIController
     {
         $product = $this->productRepository->findOrFail($id);
 
+        $limit = core()->getConfigData('catalog.products.product_view_page.no_of_related_products') ?: 4;
+        $channelCode = core()->getCurrentChannel()->code;
+
         $relatedProducts = $product->related_products()
-            ->take(core()->getConfigData('catalog.products.product_view_page.no_of_related_products'))
+            ->whereNull('products.parent_id')
+            ->whereHas('product_flats', function ($q) use ($channelCode) {
+                $q->where('status', 1)->where('channel', $channelCode);
+            })
+            ->take($limit)
             ->get();
+
+        if ($relatedProducts->isEmpty()) {
+            $categoryIds = $product->categories->pluck('id')->toArray();
+
+            $fallbackQuery = $this->productRepository
+                ->where('products.id', '!=', $product->id)
+                ->whereNull('products.parent_id')
+                ->whereHas('product_flats', function ($q) use ($channelCode) {
+                    $q->where('status', 1)->where('channel', $channelCode);
+                });
+
+            if (! empty($categoryIds)) {
+                $fallbackQuery->whereHas('categories', function ($q) use ($categoryIds) {
+                    $q->whereIn('categories.id', $categoryIds);
+                });
+            }
+
+            $relatedProducts = $fallbackQuery->take($limit)->get();
+
+            if ($relatedProducts->isEmpty()) {
+                $relatedProducts = $this->productRepository
+                    ->where('products.id', '!=', $product->id)
+                    ->whereNull('products.parent_id')
+                    ->whereHas('product_flats', function ($q) use ($channelCode) {
+                        $q->where('status', 1)->where('channel', $channelCode);
+                    })
+                    ->take($limit)
+                    ->get();
+            }
+        }
 
         return ProductCardResource::collection($relatedProducts);
     }
@@ -144,10 +198,37 @@ class ProductController extends APIController
     {
         $product = $this->productRepository->findOrFail($id);
 
+        $limit = core()->getConfigData('catalog.products.product_view_page.no_of_up_sells_products') ?: 4;
+        $channelCode = core()->getCurrentChannel()->code;
+
         $upSellProducts = $product->up_sells()
-            ->take(core()->getConfigData('catalog.products.product_view_page.no_of_up_sells_products'))
+            ->whereNull('products.parent_id')
+            ->whereHas('product_flats', function ($q) use ($channelCode) {
+                $q->where('status', 1)->where('channel', $channelCode);
+            })
+            ->take($limit)
             ->get();
 
         return ProductCardResource::collection($upSellProducts);
+    }
+
+    /**
+     * Get configurable options configuration for a product.
+     */
+    public function configurableConfig(int $id): JsonResponse
+    {
+        $product = $this->productRepository->findOrFail($id);
+
+        if ($product->type !== 'configurable') {
+            return response()->json([
+                'data' => null,
+            ]);
+        }
+
+        $config = app(ConfigurableOption::class)->getConfigurationConfig($product);
+
+        return response()->json([
+            'data' => $config,
+        ]);
     }
 }

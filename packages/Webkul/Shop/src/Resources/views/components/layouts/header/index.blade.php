@@ -1,21 +1,21 @@
 {!! view_render_event('bagisto.shop.layout.header.before') !!}
 
-<div class="max-lg:hidden">
+<div class="relative z-50 max-lg:hidden">
     <x-shop::layouts.header.desktop.top />
 </div>
 
-<header class="sticky top-0 z-40 border-b border-[#e5decb] shadow-sm" style="background-color: #f4f0e6 !important; background: #f4f0e6 !important;">
+<header class="sticky top-0 z-40 border-b border-soxnsox-border/80 bg-white/95 backdrop-blur-md shadow-soxnsox-subtle transition-all duration-300">
     <v-header-switcher>
         <!-- Desktop Header Shimmer -->
         <div class="flex flex-wrap max-lg:hidden">
-            <div class="mx-auto flex min-h-[90px] w-full max-w-7xl items-center justify-between px-6 lg:px-12">
+            <div class="mx-auto flex min-h-[84px] w-full max-w-7xl items-center justify-between px-6 lg:px-12">
                 <!-- Left: Logo -->
                 <div class="flex flex-col">
-                    <span class="font-serif text-3xl font-bold tracking-tight text-[#163923]">
-                        ELIOR
+                    <span class="font-display text-2xl lg:text-3xl font-extrabold tracking-tight text-[#133b63]">
+                        SOX<span class="text-[#f29a38]">N</span>SOX
                     </span>
-                    <span class="text-[9px] tracking-[0.32em] uppercase text-[#677a6d] -mt-0.5 font-sans font-semibold">
-                        Botanical Nutrition
+                    <span class="text-[9px] tracking-[0.28em] uppercase text-[#2ca7a3] -mt-0.5 font-sans font-bold">
+                        Bamboo Socks
                     </span>
                 </div>
 
@@ -39,11 +39,11 @@
         </div>
 
         <!-- Mobile Header Shimmer -->
-        <div class="flex flex-wrap gap-4 px-4 pb-4 pt-4 shadow-sm lg:hidden bg-[#f4f0e6]">
+        <div class="flex flex-wrap gap-4 px-4 pb-4 pt-4 shadow-sm lg:hidden bg-white">
             <div class="flex w-full items-center justify-between">
                 <div class="flex items-center gap-3">
                     <span class="shimmer block h-6 w-6 rounded" role="presentation"></span>
-                    <span class="font-serif text-2xl font-bold text-elior-charcoal">ELIOR</span>
+                    <span class="font-display text-2xl font-black text-[#133b63]">SOX<span class="text-[#f29a38]">N</span>SOX</span>
                 </div>
                 <div class="flex items-center gap-4">
                     <span class="shimmer block h-6 w-6 rounded" role="presentation"></span>

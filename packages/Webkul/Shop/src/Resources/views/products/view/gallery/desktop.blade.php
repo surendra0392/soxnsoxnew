@@ -1,100 +1,55 @@
 <!-- For large screens (desktop) -->
-<div class="sticky top-28 flex h-max gap-5 lg:gap-6 max-1180:hidden w-full max-w-[580px]">
-    <!-- Product Image and Videos Thumbnails Slider (Only if multiple media items exist) -->
-    <div 
-        class="flex flex-col items-center gap-2.5 min-w-[80px] max-w-[80px] max-h-[540px]"
-        v-if="lengthOfMedia > 1"
-    >
-        <!-- Arrow Up -->
-        <button
-            type="button"
-            class="flex h-7 w-7 items-center justify-center rounded-full text-elior-muted hover:text-elior-botanical hover:bg-black/5 transition-colors focus:outline-none"
-            aria-label="@lang('shop::app.components.products.carousel.previous')"
-            @click="swipeDown"
-        >
-            <span class="icon-arrow-up text-lg"></span>
-        </button>
-
-        <!-- Swiper Container -->
-        <div
-            ref="swiperContainer"
-            class="flex flex-col max-h-[460px] gap-2.5 overflow-auto scroll-smooth scrollbar-hide py-1"
-        >
-            <template v-for="(media, index) in [...media.images, ...media.videos]">
-                <div
-                    v-if="media.type == 'videos'"
-                    :class="`relative aspect-square w-[76px] h-[76px] cursor-pointer rounded-xl overflow-hidden border transition-all duration-200 ${isActiveMedia(index) ? 'border-2 border-elior-botanical ring-2 ring-elior-botanical/20' : 'border-elior-border/70 hover:border-elior-botanical/50'}`"
-                    @click="change(media, index)"
-                    tabindex="0"
-                >
-                    <video
-                        class="w-full h-full object-cover"
-                        alt="{{ $product->name }}"
-                    >
-                        <source
-                            :src="media.video_url"
-                            type="video/mp4"
-                        />
-                    </video>
-                </div>
-
-                <div
-                    v-else
-                    :class="`relative aspect-square w-[76px] h-[76px] cursor-pointer rounded-xl overflow-hidden border bg-[#FAF8F5] transition-all duration-200 ${isActiveMedia(index) ? 'border-2 border-elior-botanical ring-2 ring-elior-botanical/20' : 'border-elior-border/70 hover:border-elior-botanical/50'}`"
-                    tabindex="0"
-                    @click="change(media, index)"
-                >
-                    <img
-                        class="w-full h-full object-cover"
-                        :src="media.small_image_url"
-                        alt="{{ $product->name }}"
-                        width="76"
-                        height="76"
-                        loading="lazy"
-                    />
-                </div>
-            </template>
-        </div>
-
-        <!-- Arrow Down -->
-        <button
-            type="button"
-            class="flex h-7 w-7 items-center justify-center rounded-full text-elior-muted hover:text-elior-botanical hover:bg-black/5 transition-colors focus:outline-none"
-            aria-label="@lang('shop::app.components.products.carousel.next')"
-            @click="swipeTop"
-        >
-            <span class="icon-arrow-down text-lg"></span>
-        </button>
-    </div>
-
+<div class="sticky top-28 flex flex-col h-max gap-4 max-lg:hidden w-full">
     <!-- Main Product Stage Display -->
-    <div class="flex-1 w-full">
+    <div class="w-full">
         <!-- Shimmer Placeholder -->
         <div
-            class="aspect-square w-full max-w-[520px] rounded-2xl bg-zinc-100 shimmer border border-elior-border/70"
+            class="aspect-square w-full rounded-2xl bg-zinc-100 shimmer border border-soxnsox-border/70"
             v-show="isMediaLoading"
         ></div>
 
         <!-- Actual Main Media Frame -->
         <div
-            class="relative aspect-square w-full max-w-[520px] rounded-2xl bg-[#FAF8F5] border border-elior-border/80 overflow-hidden shadow-elior-subtle p-3 flex items-center justify-center group"
+            class="relative aspect-square w-full rounded-2xl bg-[#f8fafc] border border-soxnsox-border/80 overflow-hidden shadow-soxnsox-subtle p-3 flex items-center justify-center group"
             v-show="! isMediaLoading"
         >
-            <!-- Pure Harvest Badge Overlay -->
+            <!-- Bamboo Badge Overlay -->
             <div class="absolute top-4 left-4 z-10 pointer-events-none">
-                <span class="elior-badge-botanical text-[10px] shadow-sm">
-                    100% Whole Food
+                <span class="soxnsox-badge-bamboo text-[10px] shadow-sm">
+                    100% Pure Bamboo
                 </span>
             </div>
+
+            <!-- Prev Image Floating Button on Main Stage -->
+            <button
+                type="button"
+                class="absolute left-3.5 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-soxnsox-charcoal shadow-md border border-soxnsox-border/50 hover:bg-white hover:text-soxnsox-teal hover:border-soxnsox-teal hover:scale-110 active:scale-95 transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer focus:opacity-100"
+                aria-label="@lang('shop::app.components.products.carousel.previous')"
+                @click.stop="prevMedia"
+                v-show="lengthOfMedia > 1"
+            >
+                <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+
+            <!-- Next Image Floating Button on Main Stage -->
+            <button
+                type="button"
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-soxnsox-charcoal shadow-md border border-soxnsox-border/50 hover:bg-white hover:text-soxnsox-teal hover:border-soxnsox-teal hover:scale-110 active:scale-95 transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer focus:opacity-100"
+                aria-label="@lang('shop::app.components.products.carousel.next')"
+                @click.stop="nextMedia"
+                v-show="lengthOfMedia > 1"
+            >
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
 
             <!-- Zoom Hint Overlay Button -->
             <button
                 type="button"
-                class="absolute bottom-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-elior-charcoal shadow-sm hover:bg-white hover:text-elior-botanical transition-all duration-200 opacity-80 group-hover:opacity-100"
+                class="absolute bottom-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-soxnsox-charcoal shadow-sm hover:bg-white hover:text-soxnsox-teal transition-all duration-200 opacity-80 group-hover:opacity-100 cursor-pointer"
                 aria-label="Zoom image"
                 @click="isImageZooming = !isImageZooming"
             >
-                <span class="icon-search text-base"></span>
+                <i class="fa-solid fa-magnifying-glass text-xs"></i>
             </button>
 
             <!-- Main Image -->
@@ -103,8 +58,8 @@
                 :src="baseFile.path"
                 v-if="baseFile.type == 'image'"
                 alt="{{ $product->name }}"
-                width="520"
-                height="520"
+                width="660"
+                height="660"
                 tabindex="0"
                 @click="isImageZooming = !isImageZooming"
                 @load="onMediaLoad()"
@@ -132,6 +87,81 @@
                 </video>
             </div>
         </div>
+    </div>
+
+    <!-- Product Image and Videos Thumbnails Slider (Only if multiple media items exist) -->
+    <div 
+        class="relative flex items-center justify-center w-full gap-2.5 pt-1"
+        v-if="lengthOfMedia > 1"
+    >
+        <!-- Arrow Left -->
+        <button
+            type="button"
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white border border-soxnsox-border/90 text-soxnsox-charcoal shadow-sm hover:text-soxnsox-teal hover:border-soxnsox-teal hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none cursor-pointer"
+            aria-label="@lang('shop::app.components.products.carousel.previous')"
+            @click="prevMedia"
+            v-show="lengthOfMedia > 1"
+        >
+            <i class="fa-solid fa-chevron-left text-xs"></i>
+        </button>
+
+        <!-- Swiper Container -->
+        <div
+            ref="swiperContainer"
+            class="flex overflow-x-auto scroll-smooth scrollbar-hide py-1.5 px-1 max-w-full min-w-0"
+            style="scrollbar-width: none;"
+        >
+            <div class="flex items-center gap-3 mx-auto min-w-max">
+                <template v-for="(media, index) in [...media.images, ...media.videos]">
+                    <div
+                        v-if="media.type == 'videos'"
+                        :class="`gallery-thumb-item relative aspect-square w-[80px] h-[80px] shrink-0 cursor-pointer rounded-xl overflow-hidden border transition-all duration-200 ${isActiveMedia(index) ? 'border-2 border-soxnsox-teal ring-2 ring-soxnsox-teal/20 shadow-sm scale-105' : 'border-soxnsox-border/80 hover:border-soxnsox-teal/50 opacity-80 hover:opacity-100'}`"
+                        @click="change(media, index)"
+                        tabindex="0"
+                    >
+                        <video
+                            class="w-full h-full object-cover"
+                            alt="{{ $product->name }}"
+                        >
+                            <source
+                                :src="media.video_url"
+                                type="video/mp4"
+                            />
+                        </video>
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
+                            <i class="fa-solid fa-play text-white text-xs"></i>
+                        </div>
+                    </div>
+
+                    <div
+                        v-else
+                        :class="`gallery-thumb-item relative aspect-square w-[80px] h-[80px] shrink-0 cursor-pointer rounded-xl overflow-hidden border bg-[#f8fafc] transition-all duration-200 ${isActiveMedia(index) ? 'border-2 border-soxnsox-teal ring-2 ring-soxnsox-teal/20 shadow-sm scale-105' : 'border-soxnsox-border/80 hover:border-soxnsox-teal/50 opacity-80 hover:opacity-100'}`"
+                        tabindex="0"
+                        @click="change(media, index)"
+                    >
+                        <img
+                            class="w-full h-full object-cover"
+                            :src="media.small_image_url"
+                            alt="{{ $product->name }}"
+                            width="80"
+                            height="80"
+                            loading="lazy"
+                        />
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Arrow Right -->
+        <button
+            type="button"
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white border border-soxnsox-border/90 text-soxnsox-charcoal shadow-sm hover:text-soxnsox-teal hover:border-soxnsox-teal hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none cursor-pointer"
+            aria-label="@lang('shop::app.components.products.carousel.next')"
+            @click="nextMedia"
+            v-show="lengthOfMedia > 1"
+        >
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+        </button>
     </div>
 </div>
 

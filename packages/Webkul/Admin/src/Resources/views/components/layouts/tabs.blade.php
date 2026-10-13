@@ -10,7 +10,7 @@
         <div class="mb-4 flex gap-4 border-b-2 pt-2 max-sm:hidden">
             @foreach ($tabs as $tab)
                 <a href="{{ $tab->getUrl() }}">
-                    <div class="{{ $tab->isActive() ? "-mb-px border-[#205132] text-[#205132] font-semibold border-b-2 transition" : '' }} pb-3.5 px-2.5 text-base font-medium text-gray-600 cursor-pointer">
+                    <div class="{{ $tab->isActive() ? "-mb-px border-[#133b63] text-[#133b63] font-semibold border-b-2 transition" : '' }} pb-3.5 px-2.5 text-base font-medium text-gray-600 cursor-pointer">
                         {{ $tab->getName() }}
                     </div>
                 </a>

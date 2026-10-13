@@ -29,7 +29,7 @@
                                 @lang('shop::app.components.datagrid.toolbar.mass-actions.select-action')
                             </span>
 
-                            <span class="icon-arrow-down text-2xl"></span>
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-500"></i>
                         </button>
                     </x-slot>
 
@@ -54,7 +54,7 @@
                                         @{{ massAction.title }}
                                     </span>
 
-                                    <i class="icon-arrow-right rtl:icon-arrow-left text-2xl"></i>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
                                 </a>
 
                                 <ul class="absolute top-0 z-10 hidden w-max min-w-[150px] rounded border border-gray-300 bg-white shadow-[0_5px_20px_rgba(0,0,0,0.15)] group-hover/item:block ltr:left-full rtl:right-full">

@@ -18,20 +18,12 @@
                 v-show="isVisible"
                 @click="scrollToTop"
                 class="flex items-center justify-center rounded-full shadow-2xl transition-all duration-300 hover:scale-110 hover:-translate-y-1 focus:outline-none group cursor-pointer"
-                style="position: fixed; bottom: 2rem; right: 2rem; top: auto; left: auto; z-index: 90; width: 3rem; height: 3rem; background-color: #163923; color: #ffffff; border: 2px solid #ffffff; box-shadow: 0 10px 30px rgba(22, 57, 35, 0.45);"
+                style="position: fixed; bottom: 2rem; right: 2rem; top: auto; left: auto; z-index: 90; width: 3rem; height: 3rem; background-color: #133b63; color: #ffffff; border: 2px solid #ffffff; box-shadow: 0 10px 30px rgba(22, 57, 35, 0.45);"
                 aria-label="Back to Top"
                 title="Back to Top"
             >
                 <!-- Upward Arrow Icon -->
-                <svg
-                    class="w-5 h-5 text-white transition-transform duration-300 group-hover:-translate-y-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    viewBox="0 0 24 24"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                </svg>
+                <i class="fa-solid fa-chevron-up text-white text-base transition-transform duration-300 group-hover:-translate-y-0.5"></i>
             </button>
         </transition>
     </script>

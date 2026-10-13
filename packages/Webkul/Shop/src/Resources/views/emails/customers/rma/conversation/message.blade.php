@@ -1,11 +1,11 @@
 @component('shop::emails.layout')
     <div style="margin-bottom: 34px;">
-        <span style="font-size: 22px; font-weight: 600; color: #163923;">
+        <span style="font-size: 22px; font-weight: 600; color: #133B63;">
             @lang('shop::app.rma.mail.seller-conversation.title')
         </span><br>
 
         <!-- Heading -->
-        <p style="font-size: 16px; color: #205132; line-height: 24px;">
+        <p style="font-size: 16px; color: #374151; line-height: 24px;">
             @lang('shop::app.rma.mail.customer-conversation.heading', ['name' => $rmaMessage->rma->order->customer->name])👋
         </p>
 

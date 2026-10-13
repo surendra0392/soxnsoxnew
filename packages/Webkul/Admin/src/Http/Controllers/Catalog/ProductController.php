@@ -309,8 +309,6 @@ class ProductController extends Controller
 
     /**
      * Toggle a specific boolean attribute for a product.
-     *
-     * @return JsonResponse
      */
     public function toggleAttribute(): JsonResponse
     {
@@ -385,7 +383,15 @@ class ProductController extends Controller
             'sort' => 'created_at',
             'order' => 'desc',
             'channel_id' => $channelId,
+            'visible_individually' => request('visible_individually', 1),
         ];
+
+        if (request()->has('parent_id')) {
+            $params['parent_id'] = request('parent_id');
+        } elseif (! request()->boolean('include_variants')) {
+            // Default to only parent products — never return raw variant items in admin search or related products
+            $params['parent_id'] = 'null';
+        }
 
         if (request()->has('type')) {
             $params['type'] = request('type');

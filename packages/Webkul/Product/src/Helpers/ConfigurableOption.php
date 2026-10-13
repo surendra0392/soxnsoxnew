@@ -32,8 +32,8 @@ class ConfigurableOption
      */
     public function getAllowedVariants($product)
     {
-        if (count($this->allowedVariants)) {
-            return $this->allowedVariants;
+        if (isset($this->allowedVariants[$product->id])) {
+            return $this->allowedVariants[$product->id];
         }
 
         $variantCollection = $product->variants()
@@ -47,13 +47,15 @@ class ConfigurableOption
             ])
             ->get();
 
+        $this->allowedVariants[$product->id] = [];
+
         foreach ($variantCollection as $variant) {
             if ($variant->isSaleable()) {
-                $this->allowedVariants[] = $variant;
+                $this->allowedVariants[$product->id][] = $variant;
             }
         }
 
-        return $this->allowedVariants;
+        return $this->allowedVariants[$product->id];
     }
 
     /**

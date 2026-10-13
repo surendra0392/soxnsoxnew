@@ -33,7 +33,7 @@
                             <!-- Modal Toggler -->
                             <x-slot:toggle>
                                 <span 
-                                    class="cursor-pointer text-xs font-semibold uppercase tracking-wider text-elior-botanical hover:text-elior-botanicalDark transition-colors underline underline-offset-4"
+                                    class="cursor-pointer text-xs font-semibold uppercase tracking-wider text-[#1d5b8f] hover:text-[#133b63] transition-colors underline underline-offset-4"
                                     role="button"
                                     tabindex="0"
                                     v-if="! cart.coupon_code"
@@ -44,7 +44,7 @@
 
                             <!-- Modal Header -->
                             <x-slot:header class="max-md:p-5">
-                                <h2 class="text-2xl font-medium max-md:text-base">
+                                <h2 class="font-display text-2xl font-extrabold text-[#133b63] max-md:text-base">
                                     @lang('shop::app.checkout.coupon.apply')
                                 </h2>
                             </x-slot>
@@ -54,7 +54,7 @@
                                 <x-shop::form.control-group class="!mb-0">
                                     <x-shop::form.control-group.control
                                         type="text"
-                                        class="w-full h-11 px-4 text-sm text-elior-charcoal placeholder:text-elior-muted/70 bg-[#FAF8F5] border border-elior-border rounded-xl focus:bg-white focus:border-elior-botanical focus:ring-1 focus:ring-elior-botanical transition-all outline-none"
+                                        class="w-full h-11 px-4 text-sm text-[#133b63] placeholder:text-[#6b7280]/70 bg-[#f5f7fa] border border-slate-200 rounded-xl focus:bg-white focus:border-[#1d5b8f] focus:ring-1 focus:ring-[#1d5b8f] transition-all outline-none"
                                         name="code"
                                         rules="required"
                                         :placeholder="trans('shop::app.checkout.coupon.enter-your-code')"
@@ -76,13 +76,13 @@
                                             @lang('shop::app.checkout.coupon.subtotal')
                                         </p>
 
-                                        <p class="text-3xl font-semibold max-md:text-lg">
+                                        <p class="font-display text-3xl font-extrabold text-[#133b63] max-md:text-lg">
                                             @{{ cart.formatted_sub_total }}
                                         </p>
                                     </div>
 
                                     <x-shop::button
-                                        class="elior-btn-primary h-12 flex-auto text-xs uppercase tracking-widest font-semibold flex items-center justify-center shadow-elior-card px-8 rounded-xl"
+                                        class="soxnsox-btn-primary soxnsox-btn-shimmer active:scale-95 h-12 flex-auto text-xs uppercase tracking-widest font-semibold flex items-center justify-center shadow-soxnsox-card px-8 rounded-full transition-all"
                                         :title="trans('shop::app.checkout.coupon.button-title')"
                                         ::loading="isStoring"
                                         ::disabled="isStoring"
@@ -107,12 +107,14 @@
                         @{{ cart.coupon_code }}
                     </span>
 
-                    <span
-                        class="icon-cancel cursor-pointer text-xl text-gray-400 transition-colors hover:text-red-500 max-sm:text-base"
+                    <button
+                        type="button"
+                        class="cursor-pointer text-sm text-gray-400 transition-colors hover:text-red-500 p-0.5"
                         title="@lang('shop::app.checkout.coupon.remove')"
                         @click="destroyCoupon"
                     >
-                    </span>
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </span>
             </p>
 

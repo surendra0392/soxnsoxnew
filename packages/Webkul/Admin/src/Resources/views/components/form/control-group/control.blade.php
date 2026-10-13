@@ -212,7 +212,9 @@
             {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label', 'key', ':key']) }}
             name="{{ $name }}"
         >
-            <input type="hidden" name="{{ $name }}" value="0" />
+            @if (! empty($name) && ! str_contains((string) $name, '[]') && ! $attributes->has(':name'))
+                <input type="hidden" name="{{ $name }}" value="0" />
+            @endif
 
             <input
                 type="checkbox"
@@ -233,7 +235,7 @@
              {{
                 $attributes
                     ->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label', 'key', ':key'])
-                    ->merge(['class' => 'icon-uncheckbox peer-checked:icon-checked text-2xl peer-checked:text-[#205132]'])
+                    ->merge(['class' => 'icon-uncheckbox peer-checked:icon-checked text-2xl peer-checked:text-[#133b63]'])
                     ->merge(['class' => $attributes->get('disabled') ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'])
             }}
         >
@@ -266,7 +268,7 @@
         </v-field>
 
         <label
-            class="icon-radio-normal peer-checked:icon-radio-selected cursor-pointer text-2xl peer-checked:text-[#205132]"
+            class="icon-radio-normal peer-checked:icon-radio-selected cursor-pointer text-2xl peer-checked:text-[#133b63]"
             {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label', 'key', ':key']) }}
         >
         </label>
@@ -282,7 +284,9 @@
                 {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label', 'key', ':key']) }}
                 name="{{ $name }}"
             >
-                <input type="hidden" name="{{ $name }}" value="0" />
+                @if (! empty($name) && ! str_contains((string) $name, '[]') && ! $attributes->has(':name'))
+                    <input type="hidden" name="{{ $name }}" value="0" />
+                @endif
 
                 <input
                     type="checkbox"
@@ -302,7 +306,7 @@
             </v-field>
 
             <label
-                class="peer h-5 w-9 cursor-pointer rounded-full bg-slate-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#205132] peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#205132]/20 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full"
+                class="peer h-5 w-9 cursor-pointer rounded-full bg-slate-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-slate-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#133b63] peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#133b63]/20 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full"
                 for="{{ $name }}"
             ></label>
         </label>

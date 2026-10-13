@@ -10,7 +10,7 @@
         <span class="relative">
             <slot></slot>
 
-            <i class="icon-calendar pointer-events-none absolute top-1/2 -translate-y-1/2 text-2xl text-gray-400 ltr:right-2 rtl:left-2"></i>
+            <i class="fa-regular fa-calendar pointer-events-none absolute top-1/2 -translate-y-1/2 text-base text-gray-400 ltr:right-3 rtl:left-3"></i>
         </span>
     </script>
 

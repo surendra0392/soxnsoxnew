@@ -121,7 +121,7 @@
                             <template v-for="column in available.columns.filter(col => col.sortable)" :key="column.index">
                                 <div
                                     class="flex cursor-pointer items-center justify-between gap-3 px-5 py-3 hover:bg-gray-100"
-                                    :class="{ 'font-medium text-[#205132]': applied.sort.column === column.index }"
+                                    :class="{ 'font-medium text-[#133b63]': applied.sort.column === column.index }"
                                     @click="sort(column); $refs.sortDrawer.close();"
                                 >
                                     <span class="text-gray-600" v-text="column.label"></span>

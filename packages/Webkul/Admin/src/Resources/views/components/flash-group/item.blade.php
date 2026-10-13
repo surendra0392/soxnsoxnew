@@ -82,11 +82,11 @@
                         },
 
                         info: {
-                            container: 'background: #205132',
+                            container: 'background: #133b63',
 
                             message: 'color: #FFFFFF',
 
-                            icon: 'color: #205132'
+                            icon: 'color: #133b63'
                         },
                     },
                 };

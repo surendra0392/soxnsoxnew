@@ -90,7 +90,7 @@
                                     :key="url"
                                     :href="url"
                                     target="_blank"
-                                    class="text-[#205132] hover:underline"
+                                    class="text-[#133b63] hover:underline"
                                 >
                                     @{{ url }}
                                 </a>

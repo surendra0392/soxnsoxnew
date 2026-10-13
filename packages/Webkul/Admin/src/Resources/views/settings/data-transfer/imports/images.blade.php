@@ -51,7 +51,7 @@
         <!-- Each method is one label holding a screen-reader-only radio, so the whole card is clickable while the control stays keyboard reachable. The radio's siblings react to it with `peer-checked:` and the card itself with `has-[:checked]:` — which is why the dot, the text and the revealed field are all direct children of the label rather than nested: `peer-checked:` only reaches siblings. -->
 
         <!-- Method: links in the file -->
-        <label class="relative grid cursor-pointer gap-1 rounded border border-gray-300 p-4 transition-all ltr:pl-12 rtl:pr-12 hover:border-gray-400 has-[:checked]:border-[#205132] has-[:checked]:bg-[#205132]/10">
+        <label class="relative grid cursor-pointer gap-1 rounded border border-gray-300 p-4 transition-all ltr:pl-12 rtl:pr-12 hover:border-gray-400 has-[:checked]:border-[#133b63] has-[:checked]:bg-[#133b63]/10">
             <input
                 type="radio"
                 name="image_source"
@@ -60,7 +60,7 @@
                 @checked($imageSource === 'url')
             />
 
-            <span class="icon-radio-normal absolute top-4 text-2xl text-gray-500 peer-checked:icon-radio-selected peer-checked:text-[#205132] ltr:left-4 rtl:right-4"></span>
+            <span class="icon-radio-normal absolute top-4 text-2xl text-gray-500 peer-checked:icon-radio-selected peer-checked:text-[#133b63] ltr:left-4 rtl:right-4"></span>
 
             <span class="flex flex-wrap items-center gap-2">
                 <span class="font-medium text-gray-800">
@@ -78,7 +78,7 @@
         </label>
 
         <!-- Method: upload an archive -->
-        <label class="relative grid cursor-pointer gap-1 rounded border border-gray-300 p-4 transition-all ltr:pl-12 rtl:pr-12 hover:border-gray-400 has-[:checked]:border-[#205132] has-[:checked]:bg-[#205132]/10">
+        <label class="relative grid cursor-pointer gap-1 rounded border border-gray-300 p-4 transition-all ltr:pl-12 rtl:pr-12 hover:border-gray-400 has-[:checked]:border-[#133b63] has-[:checked]:bg-[#133b63]/10">
             <input
                 type="radio"
                 name="image_source"
@@ -87,7 +87,7 @@
                 @checked($imageSource === 'upload')
             />
 
-            <span class="icon-radio-normal absolute top-4 text-2xl text-gray-500 peer-checked:icon-radio-selected peer-checked:text-[#205132] ltr:left-4 rtl:right-4"></span>
+            <span class="icon-radio-normal absolute top-4 text-2xl text-gray-500 peer-checked:icon-radio-selected peer-checked:text-[#133b63] ltr:left-4 rtl:right-4"></span>
 
             <span class="font-medium text-gray-800">
                 @lang('admin::app.settings.data-transfer.imports.images.upload-title')
@@ -111,7 +111,7 @@
                         <a
                             :href="'{{ route('admin.settings.data_transfer.imports.download_sample_zip', ['type' => ':type:']) }}'.replace(':type:', $refs['importType']?.value)"
                             target="_blank"
-                            class="mt-2 inline-block cursor-pointer text-sm text-[#205132] transition-all hover:underline"
+                            class="mt-2 inline-block cursor-pointer text-sm text-[#133b63] transition-all hover:underline"
                         >
                             @lang('admin::app.settings.data-transfer.imports.images.download-sample-zip')
                         </a>
@@ -143,7 +143,7 @@
         </label>
 
         <!-- Method: a directory placed on the server -->
-        <label class="relative grid cursor-pointer gap-1 rounded border border-gray-300 p-4 transition-all ltr:pl-12 rtl:pr-12 hover:border-gray-400 has-[:checked]:border-[#205132] has-[:checked]:bg-[#205132]/10">
+        <label class="relative grid cursor-pointer gap-1 rounded border border-gray-300 p-4 transition-all ltr:pl-12 rtl:pr-12 hover:border-gray-400 has-[:checked]:border-[#133b63] has-[:checked]:bg-[#133b63]/10">
             <input
                 type="radio"
                 name="image_source"
@@ -152,7 +152,7 @@
                 @checked($imageSource === 'directory')
             />
 
-            <span class="icon-radio-normal absolute top-4 text-2xl text-gray-500 peer-checked:icon-radio-selected peer-checked:text-[#205132] ltr:left-4 rtl:right-4"></span>
+            <span class="icon-radio-normal absolute top-4 text-2xl text-gray-500 peer-checked:icon-radio-selected peer-checked:text-[#133b63] ltr:left-4 rtl:right-4"></span>
 
             <span class="font-medium text-gray-800">
                 @lang('admin::app.settings.data-transfer.imports.images.directory-title')

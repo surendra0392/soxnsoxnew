@@ -85,7 +85,7 @@
                         <x-slot:toggle>
                             <button
                                 type="button"
-                                class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 focus:border-[#205132]"
+                                class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 focus:border-[#133b63]"
                             >
                                 @{{ channels.find(channel => channel.code == filters.channel).name }}
                                 
@@ -96,7 +96,7 @@
                         <x-slot:menu class="!p-1.5 !rounded-xl !border !border-slate-200 !bg-white shadow-xl">
                             <x-admin::dropdown.menu.item
                                 v-for="channel in channels"
-                                ::class="{'!bg-[#205132]/10 !text-[#205132] !font-semibold': channel.code == filters.channel}"
+                                ::class="{'!bg-[#133b63]/10 !text-[#133b63] !font-semibold': channel.code == filters.channel}"
                                 class="!rounded-lg text-xs font-medium text-slate-700 hover:!text-slate-900 hover:!bg-slate-100"
                                 @click="filters.channel = channel.code"
                             >
@@ -108,7 +108,7 @@
 
                 <x-admin::flat-picker.date class="!w-[140px]" ::allow-input="false">
                     <input
-                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-xs transition-all hover:border-slate-300 focus:border-[#205132] focus:ring-2 focus:ring-[#205132]/20"
+                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-xs transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
                         v-model="filters.start"
                         placeholder="@lang('admin::app.reporting.sales.index.start-date')"
                     />
@@ -116,7 +116,7 @@
 
                 <x-admin::flat-picker.date class="!w-[140px]" ::allow-input="false">
                     <input
-                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-xs transition-all hover:border-slate-300 focus:border-[#205132] focus:ring-2 focus:ring-[#205132]/20"
+                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-xs transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
                         v-model="filters.end"
                         placeholder="@lang('admin::app.reporting.sales.index.end-date')"
                     />

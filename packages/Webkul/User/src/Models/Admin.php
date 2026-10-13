@@ -79,6 +79,14 @@ class Admin extends Authenticatable implements AdminContract
     }
 
     /**
+     * Get avatar url for the admin (falls back to deterministic initial avatar SVG).
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        return $this->image ? Storage::url($this->image) : soxnsox_avatar($this->name);
+    }
+
+    /**
      * @return array
      */
     public function toArray()
@@ -86,6 +94,7 @@ class Admin extends Authenticatable implements AdminContract
         $array = parent::toArray();
 
         $array['image_url'] = $this->image_url;
+        $array['avatar_url'] = $this->avatar_url;
 
         return $array;
     }

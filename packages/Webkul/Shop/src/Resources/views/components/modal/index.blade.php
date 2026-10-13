@@ -17,11 +17,14 @@
             <div {{ $header->attributes->merge(['class' => 'flex items-center justify-between gap-5 border-b border-zinc-200 bg-white p-8 max-sm:px-4 max-sm:py-3']) }}>
                 {{ $header }}
 
-                <span
-                    class="icon-cancel cursor-pointer text-3xl max-sm:text-2xl"
+                <button
+                    type="button"
+                    class="cursor-pointer text-slate-400 hover:text-soxnsox-charcoal transition-colors p-1"
+                    aria-label="Close modal"
                     @click="toggle"
                 >
-                </span>
+                    <i class="fa-solid fa-xmark text-xl max-sm:text-lg"></i>
+                </button>
             </div>
         </template>
     @endisset
@@ -54,57 +57,64 @@
                 </slot>
             </div>
 
-            <transition
-                tag="div"
-                name="modal-overlay"
-                enter-class="duration-300 ease-out"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-class="duration-200 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-            >
-                <div
-                    class="fixed inset-0 z-10 bg-gray-500 bg-opacity-50 transition-opacity"
-                    v-show="isOpen"
-                ></div>
-            </transition>
-
-            <transition
-                tag="div"
-                name="modal-content"
-                enter-class="duration-300 ease-out"
-                enter-from-class="translate-y-4 opacity-0 md:translate-y-0 md:scale-95"
-                enter-to-class="translate-y-0 opacity-100 md:scale-100"
-                leave-class="duration-200 ease-in"
-                leave-from-class="translate-y-0 opacity-100 md:scale-100"
-                leave-to-class="translate-y-4 opacity-0 md:translate-y-0 md:scale-95"
-            >
-                <div
-                    class="fixed inset-0 z-10 transform overflow-y-auto transition" v-show="isOpen"
+            <teleport to="body">
+                <transition
+                    tag="div"
+                    name="modal-overlay"
+                    enter-active-class="transition-opacity duration-300 ease-out"
+                    enter-from-class="opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-active-class="transition-opacity duration-200 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
                 >
-                    <div class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0">
-                        <div
-                            class="absolute left-1/2 top-1/2 z-[999] w-full -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-zinc-100 max-md:w-[90%]"
-                            :class="panelClass || 'max-w-[595px]'"
-                        >
-                            <!-- Header Slot-->
-                            <slot
-                                name="header"
-                                :toggle="toggle"
-                                :isOpen="isOpen"
+                    <div
+                        class="fixed inset-0 transition-opacity"
+                        style="position: fixed; inset: 0; z-index: 9998; background-color: rgba(12, 31, 51, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+                        v-show="isOpen"
+                        @click="close"
+                    ></div>
+                </transition>
+
+                <transition
+                    tag="div"
+                    name="modal-content"
+                    enter-active-class="transition-all duration-300 ease-out"
+                    enter-from-class="translate-y-4 opacity-0 md:translate-y-0 md:scale-95"
+                    enter-to-class="translate-y-0 opacity-100 md:scale-100"
+                    leave-active-class="transition-all duration-200 ease-in"
+                    leave-from-class="translate-y-0 opacity-100 md:scale-100"
+                    leave-to-class="translate-y-4 opacity-0 md:translate-y-0 md:scale-95"
+                >
+                    <div
+                        class="fixed inset-0 transform overflow-y-auto transition"
+                        style="position: fixed; inset: 0; z-index: 9999;"
+                        v-show="isOpen"
+                        @click.self="close"
+                    >
+                        <div class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0">
+                            <div
+                                class="relative z-10 w-full overflow-hidden rounded-2xl bg-white shadow-2xl max-md:w-[90%]"
+                                :class="panelClass || 'max-w-[595px]'"
                             >
-                            </slot>
+                                <!-- Header Slot-->
+                                <slot
+                                    name="header"
+                                    :toggle="toggle"
+                                    :isOpen="isOpen"
+                                >
+                                </slot>
 
-                            <!-- Content Slot-->
-                            <slot name="content"></slot>
+                                <!-- Content Slot-->
+                                <slot name="content"></slot>
 
-                            <!-- Footer Slot-->
-                            <slot name="footer"></slot>
+                                <!-- Footer Slot-->
+                                <slot name="footer"></slot>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </transition>
+                </transition>
+            </teleport>
         </div>
     </script>
 
@@ -120,7 +130,26 @@
                 };
             },
 
+            mounted() {
+                window.addEventListener('keydown', this.handleKeydown);
+            },
+
+            beforeUnmount() {
+                window.removeEventListener('keydown', this.handleKeydown);
+
+                if (this.isOpen) {
+                    document.body.style.overflow = 'auto';
+                    document.body.style.paddingRight = '';
+                }
+            },
+
             methods: {
+                handleKeydown(e) {
+                    if (e.key === 'Escape' && this.isOpen) {
+                        this.close();
+                    }
+                },
+
                 toggle() {
                     this.isOpen = ! this.isOpen;
 

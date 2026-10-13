@@ -1,9 +1,10 @@
 <v-image-search>
     <button
         type="button"
-        class="icon-camera absolute top-3 flex items-center text-xl max-sm:top-2.5 ltr:right-3 ltr:pr-3 max-md:ltr:right-1.5 rtl:left-3 rtl:pl-3 max-md:rtl:left-1.5"
+        class="absolute top-3 flex items-center text-xl max-sm:top-2.5 ltr:right-3 ltr:pr-3 max-md:ltr:right-1.5 rtl:left-3 rtl:pl-3 max-md:rtl:left-1.5 text-soxnsox-muted hover:text-soxnsox-teal transition-colors"
         aria-label="@lang('shop::app.search.images.index.search')"
     >
+        <i class="fa-solid fa-camera text-base"></i>
     </button>
 </v-image-search>
 
@@ -14,11 +15,12 @@
     >
         <div>
             <label
-                class="icon-camera absolute top-3 flex items-center text-xl max-sm:top-2.5 ltr:right-3 ltr:pr-3 max-md:ltr:right-1.5 rtl:left-3 rtl:pl-3 max-md:rtl:left-1.5"
+                class="absolute top-3 flex cursor-pointer items-center text-xl max-sm:top-2.5 ltr:right-3 ltr:pr-3 max-md:ltr:right-1.5 rtl:left-3 rtl:pl-3 max-md:rtl:left-1.5 text-soxnsox-muted hover:text-soxnsox-teal transition-colors"
                 aria-label="@lang('shop::app.search.images.index.search')"
                 :for="'v-image-search-' + $.uid"
                 v-if="! isSearching"
             >
+                <i class="fa-solid fa-camera text-base"></i>
             </label>
 
             <label
@@ -26,29 +28,7 @@
                 v-else
             >
                 <!-- Spinner -->
-                <svg
-                    class="h-5 w-5 animate-spin text-black"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                >
-                    <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                    >
-                    </circle>
-
-                    <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    >
-                    </path>
-                </svg>
+                <i class="fa-solid fa-spinner fa-spin text-base text-black"></i>
             </label>
 
             <input

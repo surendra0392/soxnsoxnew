@@ -32,7 +32,7 @@
                     <form @submit="handleSubmit($event, addAddressToCart)">
                         <!-- Billing Address Header -->
                         <div class="mb-4 flex items-center justify-between">
-                            <h3 class="font-serif text-lg sm:text-xl font-bold text-[#163923] pb-2 border-b border-[#e5decb]/60 mb-3 w-full">
+                            <h3 class="font-display text-lg sm:text-xl font-extrabold text-[#133b63] pb-2 border-b border-[#e5e7eb]/60 mb-3 w-full">
                                 @lang('shop::app.checkout.onepage.address.billing-address')
                             </h3>
                         </div>
@@ -40,7 +40,7 @@
                         <!-- Saved Customer Addresses Cards -->
                         <div class="mb-2 grid grid-cols-2 gap-4 max-1060:grid-cols-[1fr] max-lg:grid-cols-2 max-md:mt-2 max-md:grid-cols-1">
                             <div
-                                class="relative max-w-[414px] cursor-pointer select-none rounded-2xl border border-[#e5decb] bg-[#FAF8F5]/60 hover:border-[#205132]/40 p-0 transition-all"
+                                class="relative max-w-[414px] cursor-pointer select-none rounded-2xl border border-[#e5e7eb] bg-[#f8fafc]/60 hover:border-[#1d5b8f]/40 p-0 transition-all"
                                 v-for="address in customerSavedAddresses.billing"
                             >
                                 <!-- Actions -->
@@ -59,14 +59,14 @@
                                     </x-shop::form.control-group>
 
                                     <!-- Edit Icon -->
-                                    <span
-                                        class="icon-edit cursor-pointer text-xl text-[#677a6d] hover:text-[#205132]"
+                                    <i
+                                        class="fa-solid fa-pen-to-square cursor-pointer text-base text-[#64748b] hover:text-[#1d5b8f] transition-colors"
                                         @click="
                                             selectedAddressForEdit = address;
                                             activeAddressForm = 'billing';
                                             saveAddress = address.address_type == 'customer'
                                         "
-                                    ></span>
+                                    ></i>
                                 </div>
 
                                 <!-- Details -->
@@ -75,8 +75,8 @@
                                     :for="`billing_address_id_${address.id}`"
                                 >
                                     <div class="flex items-center gap-2 mb-2">
-                                        <span class="material-symbols-outlined text-[20px] text-[#205132]">location_on</span>
-                                        <p class="text-sm font-bold text-[#163923]">
+                                        <i class="fa-solid fa-location-dot text-sm text-[#1d5b8f]"></i>
+                                        <p class="text-sm font-bold text-[#133b63]">
                                             @{{ address.first_name + ' ' + address.last_name }}
 
                                             <template v-if="address.company_name">
@@ -85,7 +85,7 @@
                                         </p>
                                     </div>
 
-                                    <p class="text-xs text-[#677a6d] leading-relaxed pl-7">
+                                    <p class="text-xs text-[#64748b] leading-relaxed pl-7">
                                         <template v-if="address.address">
                                             @{{ address.address.join(', ') }},
                                         </template>
@@ -99,16 +99,16 @@
 
                             <!-- New Address Card -->
                             <div
-                                class="flex max-w-[414px] cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-[#e5decb] hover:border-[#205132] p-5 bg-white/50 transition-all min-h-[110px]"
+                                class="flex max-w-[414px] cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-[#e5e7eb] hover:border-[#1d5b8f] p-5 bg-white/50 transition-all min-h-[110px]"
                                 @click="activeAddressForm = 'billing'"
                                 v-if="! cart.billing_address"
                             >
                                 <div
-                                    class="flex items-center gap-x-2 text-[#205132] font-semibold text-xs uppercase tracking-wider"
+                                    class="flex items-center gap-x-2 text-[#1d5b8f] font-semibold text-xs uppercase tracking-wider"
                                     role="button"
                                     tabindex="0"
                                 >
-                                    <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                                    <i class="fa-solid fa-plus text-xs"></i>
                                     <p>@lang('shop::app.checkout.onepage.address.add-new-address')</p>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                         <!-- Shipping Address Block if have stockable items -->
                         <template v-if="cart.have_stockable_items">
                             <!-- Use for Shipping Checkbox -->
-                            <div class="mt-4 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#e5decb] flex items-center gap-3 select-none transition-all hover:border-[#205132]/40">
+                            <div class="mt-4 p-3.5 rounded-xl bg-[#f8fafc] border border-[#e5e7eb] flex items-center gap-3 select-none transition-all hover:border-[#1d5b8f]/40">
                                 <input
                                     type="checkbox"
                                     name="billing.use_for_shipping"
@@ -128,11 +128,11 @@
                                     value="1"
                                     @change="useBillingAddressForShipping = ! useBillingAddressForShipping"
                                     :checked="!! useBillingAddressForShipping"
-                                    class="h-4 w-4 rounded border-[#e5decb] text-[#205132] focus:ring-[#205132] cursor-pointer"
+                                    class="h-4 w-4 rounded border-[#e5e7eb] text-[#1d5b8f] focus:ring-[#1d5b8f] cursor-pointer"
                                 />
 
                                 <label
-                                    class="cursor-pointer select-none text-xs sm:text-sm font-semibold text-[#163923]"
+                                    class="cursor-pointer select-none text-xs sm:text-sm font-semibold text-[#133b63]"
                                     for="use_for_shipping_cust"
                                 >
                                     @lang('shop::app.checkout.onepage.address.same-as-billing')
@@ -147,7 +147,7 @@
                             >
                                 <!-- Shipping Address Header -->
                                 <div class="mb-4 flex items-center justify-between">
-                                    <h3 class="font-serif text-lg sm:text-xl font-bold text-[#163923] pb-2 border-b border-[#e5decb]/60 mb-3 w-full">
+                                    <h3 class="font-display text-lg sm:text-xl font-extrabold text-[#133b63] pb-2 border-b border-[#e5e7eb]/60 mb-3 w-full">
                                         @lang('shop::app.checkout.onepage.address.shipping-address')
                                     </h3>
                                 </div>
@@ -155,7 +155,7 @@
                                 <!-- Saved Customer Addresses Cards -->
                                 <div class="mb-2 grid grid-cols-2 gap-4 max-1060:grid-cols-[1fr] max-lg:grid-cols-2 max-md:mt-4 max-md:grid-cols-1">
                                     <div
-                                        class="relative max-w-[414px] cursor-pointer select-none rounded-2xl border border-[#e5decb] bg-[#FAF8F5]/60 hover:border-[#205132]/40 p-0 transition-all"
+                                        class="relative max-w-[414px] cursor-pointer select-none rounded-2xl border border-[#e5e7eb] bg-[#f8fafc]/60 hover:border-[#1d5b8f]/40 p-0 transition-all"
                                         v-for="address in customerSavedAddresses.shipping"
                                     >
                                         <!-- Actions -->
@@ -174,14 +174,14 @@
                                             </x-shop::form.control-group>
 
                                             <!-- Edit Icon -->
-                                            <span
-                                                class="icon-edit cursor-pointer text-xl text-[#677a6d] hover:text-[#205132]"
+                                            <i
+                                                class="fa-solid fa-pen-to-square cursor-pointer text-base text-[#64748b] hover:text-[#1d5b8f] transition-colors"
                                                 @click="
                                                     selectedAddressForEdit = address;
                                                     activeAddressForm = 'shipping';
                                                     saveAddress = address.address_type == 'customer'
                                                 "
-                                            ></span>
+                                            ></i>
                                         </div>
 
                                         <!-- Details -->
@@ -190,8 +190,8 @@
                                             :for="`shipping_address_id_${address.id}`"
                                         >
                                             <div class="flex items-center gap-2 mb-2">
-                                                <span class="material-symbols-outlined text-[20px] text-[#205132]">location_on</span>
-                                                <p class="text-sm font-bold text-[#163923]">
+                                                <i class="fa-solid fa-location-dot text-sm text-[#1d5b8f]"></i>
+                                                <p class="text-sm font-bold text-[#133b63]">
                                                     @{{ address.first_name + ' ' + address.last_name }}
 
                                                     <template v-if="address.company_name">
@@ -200,7 +200,7 @@
                                                 </p>
                                             </div>
 
-                                            <p class="text-xs text-[#677a6d] leading-relaxed pl-7">
+                                            <p class="text-xs text-[#64748b] leading-relaxed pl-7">
                                                 <template v-if="address.address">
                                                     @{{ address.address.join(', ') }},
                                                 </template>
@@ -214,16 +214,16 @@
 
                                     <!-- New Address Card -->
                                     <div
-                                        class="flex max-w-[414px] cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-[#e5decb] hover:border-[#205132] p-5 bg-white/50 transition-all min-h-[110px]"
+                                        class="flex max-w-[414px] cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-[#e5e7eb] hover:border-[#1d5b8f] p-5 bg-white/50 transition-all min-h-[110px]"
                                         @click="selectedAddressForEdit = null; activeAddressForm = 'shipping'"
                                         v-if="! cart.shipping_address"
                                     >
                                         <div
-                                            class="flex items-center gap-x-2 text-[#205132] font-semibold text-xs uppercase tracking-wider"
+                                            class="flex items-center gap-x-2 text-[#1d5b8f] font-semibold text-xs uppercase tracking-wider"
                                             role="button"
                                             tabindex="0"
                                         >
-                                            <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                                            <i class="fa-solid fa-plus text-xs"></i>
                                             <p>@lang('shop::app.checkout.onepage.address.add-new-address')</p>
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@
                         <!-- Proceed Button -->
                         <div class="mt-6 flex justify-end">
                             <x-shop::button
-                                class="elior-btn-primary h-12 px-10 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 max-md:w-full shadow-elior-card rounded-full"
+                                class="soxnsox-btn-primary h-12 px-10 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 max-md:w-full shadow-soxnsox-card rounded-full"
                                 :title="trans('shop::app.checkout.onepage.address.proceed')"
                                 ::loading="isStoring"
                                 ::disabled="isStoring"
@@ -254,8 +254,8 @@
                 >
                     <form @submit="handleSubmit($event, updateOrCreateAddress)">
                         <!-- Billing Address Header -->
-                        <div class="mb-4 flex items-center justify-between pb-2 border-b border-[#e5decb]/60">
-                            <h3 class="font-serif text-lg sm:text-xl font-bold text-[#163923]">
+                        <div class="mb-4 flex items-center justify-between pb-2 border-b border-[#e5e7eb]/60">
+                            <h3 class="font-display text-lg sm:text-xl font-extrabold text-[#133b63]">
                                 <template v-if="activeAddressForm == 'billing'">
                                     @lang('shop::app.checkout.onepage.address.billing-address')
                                 </template>
@@ -267,11 +267,11 @@
 
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-[#677a6d] hover:text-[#205132] transition-colors"
+                                class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#64748b] hover:text-[#1d5b8f] transition-colors"
                                 v-show="customerSavedAddresses.billing.length && ['billing', 'shipping'].includes(activeAddressForm)"
                                 @click="selectedAddressForEdit = null; activeAddressForm = null"
                             >
-                                <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
                                 <span>@lang('shop::app.checkout.onepage.address.back')</span>
                             </button>
                         </div>
@@ -283,7 +283,7 @@
                         ></v-checkout-address-form>
 
                         <!-- Save Address to Address Book Checkbox -->
-                        <div class="mt-4 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#e5decb] flex items-center gap-3 select-none transition-all hover:border-[#205132]/40">
+                        <div class="mt-4 p-3.5 rounded-xl bg-[#f8fafc] border border-[#e5e7eb] flex items-center gap-3 select-none transition-all hover:border-[#1d5b8f]/40">
                             <input
                                 type="checkbox"
                                 :name="activeAddressForm + '.save_address'"
@@ -291,11 +291,11 @@
                                 value="1"
                                 v-model="saveAddress"
                                 @change="saveAddress = ! saveAddress"
-                                class="h-4 w-4 rounded border-[#e5decb] text-[#205132] focus:ring-[#205132] cursor-pointer"
+                                class="h-4 w-4 rounded border-[#e5e7eb] text-[#1d5b8f] focus:ring-[#1d5b8f] cursor-pointer"
                             />
 
                             <label
-                                class="cursor-pointer select-none text-xs sm:text-sm font-semibold text-[#163923]"
+                                class="cursor-pointer select-none text-xs sm:text-sm font-semibold text-[#133b63]"
                                 for="save_address"
                             >
                                 @lang('shop::app.checkout.onepage.address.save-address')
@@ -305,7 +305,7 @@
                         <!-- Save Button -->
                         <div class="mt-6 flex justify-end">
                             <x-shop::button
-                                class="elior-btn-primary h-12 px-10 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 max-md:w-full shadow-elior-card rounded-full"
+                                class="soxnsox-btn-primary h-12 px-10 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 max-md:w-full shadow-soxnsox-card rounded-full"
                                 :title="trans('shop::app.checkout.onepage.address.save')"
                                 ::loading="isStoring"
                                 ::disabled="isStoring"

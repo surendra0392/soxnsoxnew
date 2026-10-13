@@ -17,12 +17,12 @@
                 >
                     {{ $header }}
 
-                    <span
-                        v-bind:class="isOpen ? 'icon-arrow-up text-2xl' : 'icon-arrow-down text-2xl'"
+                    <i
+                        v-bind:class="isOpen ? 'fa-solid fa-chevron-up text-base' : 'fa-solid fa-chevron-down text-base'"
                         role="button"
                         aria-label="Toggle accordion"
                         tabindex="0"
-                    ></span>
+                    ></i>
                 </div>
             </template>
         @endisset

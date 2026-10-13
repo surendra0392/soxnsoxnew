@@ -26,13 +26,13 @@
                 {!! view_render_event('bagisto.shop.checkout.onepage.payment_method.accordion.before') !!}
 
                 <!-- Payment Step Card -->
-                <div class="rounded-3xl border border-[#e5decb] bg-white p-6 sm:p-8 shadow-sm space-y-6">
-                    <div class="flex items-center justify-between border-b border-[#e5decb]/60 pb-4">
+                <div class="rounded-3xl border border-[#e5e7eb] bg-white p-6 sm:p-8 shadow-sm space-y-6">
+                    <div class="flex items-center justify-between border-b border-[#e5e7eb]/60 pb-4">
                         <div class="flex items-center gap-3">
-                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#205132] text-white text-xs font-bold font-mono shadow-xs">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#1d5b8f] text-white text-xs font-bold font-mono shadow-xs">
                                 03
                             </span>
-                            <h2 class="font-serif text-xl sm:text-2xl font-bold text-[#163923]">
+                            <h2 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
                                 @lang('shop::app.checkout.onepage.payment.payment-method')
                             </h2>
                         </div>
@@ -56,10 +56,10 @@
 
                             <label 
                                 :for="payment.method" 
-                                class="block cursor-pointer rounded-2xl border border-elior-border bg-white p-5 peer-checked:border-elior-botanical peer-checked:bg-[#FAF8F5] peer-checked:ring-1 peer-checked:ring-elior-botanical transition-all hover:border-elior-botanical/50"
+                                class="block cursor-pointer rounded-2xl border border-soxnsox-border bg-white p-5 peer-checked:border-soxnsox-teal peer-checked:bg-[#f8fafc] peer-checked:ring-1 peer-checked:ring-soxnsox-teal transition-all hover:border-soxnsox-teal/50"
                             >
                                 <div class="flex items-start gap-4">
-                                    <div class="shrink-0 w-10 h-10 rounded-xl bg-white border border-elior-border/60 flex items-center justify-center p-1.5" v-if="payment.image">
+                                    <div class="shrink-0 w-10 h-10 rounded-xl bg-white border border-soxnsox-border/60 flex items-center justify-center p-1.5" v-if="payment.image">
                                         <img
                                             class="max-h-full max-w-full object-contain"
                                             :src="payment.image"
@@ -68,11 +68,11 @@
                                     </div>
 
                                     <div class="space-y-1">
-                                        <p class="text-sm font-semibold text-elior-charcoal">
+                                        <p class="text-sm font-semibold text-soxnsox-charcoal">
                                             @{{ payment.method_title }}
                                         </p>
 
-                                        <p class="text-xs text-elior-muted leading-relaxed" v-if="payment.description">
+                                        <p class="text-xs text-soxnsox-muted leading-relaxed" v-if="payment.description">
                                             @{{ payment.description }}
                                         </p>
                                     </div>

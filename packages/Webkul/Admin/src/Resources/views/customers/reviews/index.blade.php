@@ -9,7 +9,7 @@
                 @lang('admin::app.customers.reviews.index.title')
             </h1>
             <p class="mt-0.5 text-xs text-slate-500">
-                Moderate botanical powder customer feedback, ratings, and approve published reviews.
+                Moderate product customer feedback, ratings, and approve published reviews.
             </p>
         </div>
     </div>
@@ -77,8 +77,8 @@
                                         <span
                                             class="icon-uncheckbox cursor-pointer rounded-md text-2xl"
                                             :class="[
-                                                applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:text-[#205132]' : (
-                                                    applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:text-[#205132]' : ''
+                                                applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:text-[#133b63]' : (
+                                                    applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:text-[#133b63]' : ''
                                                 ),
                                             ]"
                                         >
@@ -93,7 +93,7 @@
                                             <span
                                                 class="after:content-['/'] last:after:content-['']"
                                                 :class="{
-                                                    'font-bold text-[#205132]': applied.sort.column == column,
+                                                    'font-bold text-[#133b63]': applied.sort.column == column,
                                                     'cursor-pointer hover:text-slate-900': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
                                                 }"
                                                 @click="
@@ -106,7 +106,7 @@
                                     </span>
 
                                     <i
-                                        class="align-text-bottom text-base text-[#205132] ltr:ml-1.5 rtl:mr-1.5"
+                                        class="align-text-bottom text-base text-[#133b63] ltr:ml-1.5 rtl:mr-1.5"
                                         :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
                                         v-if="columnGroup.includes(applied.sort.column)"
                                     ></i>
@@ -151,7 +151,7 @@
                                     >
 
                                     <label
-                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                         :for="`mass_action_select_record_${record.product_review_id}`"
                                     ></label>
                                 @endif

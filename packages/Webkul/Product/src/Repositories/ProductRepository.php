@@ -299,6 +299,14 @@ class ProductRepository extends Repository
                 }
             }
 
+            if (array_key_exists('parent_id', $params)) {
+                if ($params['parent_id'] === 'null' || is_null($params['parent_id'])) {
+                    $qb->whereNull('products.parent_id');
+                } else {
+                    $qb->where('products.parent_id', $params['parent_id']);
+                }
+            }
+
             /**
              * Filter query by price.
              */

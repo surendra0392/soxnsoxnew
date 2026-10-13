@@ -41,7 +41,7 @@
                 width: 100%;
                 border-collapse: collapse;
                 margin-bottom: 18px;
-                border-bottom: 2px solid #205132;
+                border-bottom: 2px solid #133b63;
                 padding-bottom: 12px;
             }
 
@@ -55,7 +55,7 @@
                 font-size: 24px;
                 font-weight: bold;
                 letter-spacing: 2px;
-                color: #205132;
+                color: #133b63;
                 text-transform: uppercase;
                 margin-bottom: 3px;
             }
@@ -74,7 +74,7 @@
             .slip-title {
                 font-size: 18px;
                 font-weight: bold;
-                color: #205132;
+                color: #133b63;
                 text-transform: uppercase;
                 letter-spacing: 1px;
                 margin-bottom: 3px;
@@ -145,7 +145,7 @@
                 border-collapse: collapse;
                 margin-bottom: 18px;
                 border: 1px solid #dbe5dc;
-                border-left: 4px solid #205132;
+                border-left: 4px solid #133b63;
                 border-radius: 6px;
                 background-color: #ffffff;
             }
@@ -160,7 +160,7 @@
                 font-weight: bold;
                 text-transform: uppercase;
                 letter-spacing: 0.8px;
-                color: #205132;
+                color: #133b63;
                 margin-bottom: 6px;
                 border-bottom: 1px solid #eaf0eb;
                 padding-bottom: 4px;
@@ -179,7 +179,7 @@
             }
 
             .items-table th {
-                background-color: #205132;
+                background-color: #133b63;
                 color: #ffffff;
                 font-size: 9px;
                 font-weight: bold;
@@ -187,7 +187,7 @@
                 letter-spacing: 0.8px;
                 padding: 8px 10px;
                 text-align: left;
-                border: 1px solid #205132;
+                border: 1px solid #133b63;
             }
 
             .items-table td {
@@ -230,7 +230,7 @@
             .qty-badge {
                 font-size: 12px;
                 font-weight: bold;
-                color: #205132;
+                color: #133b63;
             }
 
             .summary-bar {
@@ -247,7 +247,7 @@
             }
 
             .pod-container {
-                border: 1.5px solid #205132;
+                border: 1.5px solid #133b63;
                 border-radius: 6px;
                 padding: 12px 16px;
                 background-color: #fcfdfc;
@@ -259,7 +259,7 @@
                 font-weight: bold;
                 text-transform: uppercase;
                 letter-spacing: 1px;
-                color: #205132;
+                color: #133b63;
                 margin-bottom: 6px;
             }
 
@@ -340,8 +340,8 @@
             $customLogoPath = core()->getConfigData('sales.invoice_settings.pdf_print_outs.logo');
             if ($customLogoPath && Storage::disk('public')->exists($customLogoPath)) {
                 $logoBase64 = 'data:image/png;base64,' . base64_encode(Storage::disk('public')->get($customLogoPath));
-            } elseif (file_exists(public_path('images/brand/elior_logo_horizontal.png'))) {
-                $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('images/brand/elior_logo_horizontal.png')));
+            } elseif (file_exists(public_path('images/brand/soxnsox_logo_horizontal.png'))) {
+                $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('images/brand/soxnsox_logo_horizontal.png')));
             } elseif (file_exists(public_path('storage/admin/logo.png'))) {
                 $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('storage/admin/logo.png')));
             } elseif (file_exists(public_path('storage/channel/1/logo.png'))) {
@@ -353,7 +353,7 @@
             $slipDate = $shipment ? $shipment->created_at : $order->created_at;
             $carrierTitle = $shipment?->carrier_title ?? $order->shipping_title ?? 'Express Delivery';
             $trackNumber = $shipment?->track_number ?: 'Local / Direct Handover';
-            $sourceName = $shipment?->inventory_source?->name ?? $shipment?->inventory_source_name ?? 'Elior Central Hub';
+            $sourceName = $shipment?->inventory_source?->name ?? $shipment?->inventory_source_name ?? 'Soxnsox Central Hub';
             $totalUnits = $shipment?->total_qty ?? ($order->total_qty_ordered ?: $order->items->sum('qty_ordered'));
         @endphp
 
@@ -362,11 +362,11 @@
             <tr>
                 <td style="width: 58%;">
                     @if ($logoBase64)
-                        <img src="{{ $logoBase64 }}" style="max-height: 48px; max-width: 220px; margin-bottom: 6px; display: block;" alt="ELIOR" />
+                        <img src="{{ $logoBase64 }}" style="max-height: 48px; max-width: 220px; margin-bottom: 6px; display: block;" alt="SOXNSOX" />
                     @else
-                        <div class="brand-title">{{ core()->getConfigData('general.design.admin_logo.title') ?? 'ELIOR' }}</div>
+                        <div class="brand-title">{{ core()->getConfigData('general.design.admin_logo.title') ?? 'SOXNSOX' }}</div>
                     @endif
-                    <div class="brand-subtitle">Pure by Nature, Made for You • Delivery Challan</div>
+                    <div class="brand-subtitle">India's Premier Bamboo & Diabetic Socks • Delivery Challan</div>
                 </td>
                 <td class="slip-badge" style="width: 42%;">
                     <div class="slip-title">DELIVERY SLIP</div>
@@ -436,7 +436,7 @@
                     <div class="card-heading">Contact & Tracking</div>
                     <div class="card-body">
                         <strong>Customer Phone:</strong><br>
-                        <span style="font-size: 11px; color: #205132; font-weight: bold;">
+                        <span style="font-size: 11px; color: #133b63; font-weight: bold;">
                             {{ $order->shipping_address?->phone ?? 'N/A' }}
                         </span><br><br>
                         <strong>Tracking Number:</strong><br>
@@ -498,7 +498,7 @@
                 </td>
                 <td class="text-right">
                     <strong>Total Line Items:</strong> {{ count($items) }} &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <strong>Total Delivered Units:</strong> <span style="font-size: 12px; font-weight: bold; color: #205132;">{{ $totalUnits }}</span>
+                    <strong>Total Delivered Units:</strong> <span style="font-size: 12px; font-weight: bold; color: #133b63;">{{ $totalUnits }}</span>
                 </td>
             </tr>
         </table>
@@ -550,8 +550,8 @@
 
         <!-- Footer Notice -->
         <div class="footer-notes">
-            For support, damage claims, or return assistance within 48 hours of delivery, please contact <strong>{{ core()->getSenderEmailDetails()['email'] ?? 'support@elior.com' }}</strong>.<br>
-            Thank you for shopping with Elior. Pure by Nature, Made for You.
+            For support, damage claims, or return assistance within 48 hours of delivery, please contact <strong>{{ core()->getSenderEmailDetails()['email'] ?? 'support@soxnsox.com' }}</strong>.<br>
+            Thank you for shopping with Soxnsox. Pure by Nature, Made for You.
         </div>
     </body>
 </html>

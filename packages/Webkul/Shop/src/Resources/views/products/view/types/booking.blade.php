@@ -18,7 +18,7 @@
             <div class="mt-6 grid w-full max-w-[470px] grid-cols-1 gap-6">
                 @if ($bookingProduct->location)
                     <div class="flex gap-4">
-                        <span class="icon-location text-2xl"></span>
+                        <i class="fa-solid fa-location-dot text-2xl text-soxnsox-charcoal"></i>
 
                         <div class="grid grid-cols-1 gap-1.5 text-sm font-medium">
                             <p>
@@ -51,7 +51,7 @@
 
                 @if (! $bookingProduct->allow_cancellation)
                     <div class="flex items-start gap-3 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-                        <span class="icon-warning mt-0.5 text-lg"></span>
+                        <i class="fa-solid fa-triangle-exclamation mt-0.5 text-base text-amber-600"></i>
 
                         <div>
                             <p class="font-semibold">

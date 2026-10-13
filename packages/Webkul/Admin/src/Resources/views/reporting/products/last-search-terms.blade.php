@@ -24,7 +24,7 @@
 
                     <a
                         href="{{ route('admin.reporting.products.view', ['type' => 'last-search-terms']) }}"
-                        class="cursor-pointer text-sm text-[#205132] transition-all hover:underline"
+                        class="cursor-pointer text-sm text-[#133b63] transition-all hover:underline"
                     >
                         @lang('admin::app.reporting.products.index.view-details')
                     </a>

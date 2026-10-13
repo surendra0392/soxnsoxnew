@@ -72,8 +72,8 @@
                                     @{{ column.label }}
 
                                     <i
-                                        class="align-text-bottom text-base text-gray-800"
-                                        :class="[applied.sort.order === 'asc' ? 'icon-arrow-down': 'icon-arrow-up']"
+                                        class="fa-solid align-text-bottom text-xs text-gray-800"
+                                        :class="[applied.sort.order === 'asc' ? 'fa-arrow-down': 'fa-arrow-up']"
                                         v-if="column.index == applied.sort.column"
                                     ></i>
                                 </p>
@@ -173,62 +173,46 @@
 
                     <template v-else>
                         <!-- Information Panel -->
-                        <div v-if="$parent.available.records.length" class="flex items-center justify-between p-6 max-md:p-2">
-                            <p class="text-xs font-medium">
+                        <div v-if="$parent.available.records.length" class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-6 border-t border-slate-100">
+                            <p class="text-xs sm:text-sm font-medium text-slate-500">
                                 @{{ "@lang('shop::app.components.datagrid.table.showing')".replace(':firstItem', $parent.available.meta.from) }}
                                 @{{ "@lang('shop::app.components.datagrid.table.to')".replace(':lastItem', $parent.available.meta.to) }}
                                 @{{ "@lang('shop::app.components.datagrid.table.of')".replace(':total', $parent.available.meta.total) }}
                             </p>
 
-                            <!-- Pagination -->
-                            <div class="flex items-center gap-1">
-                                <div
-                                    class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-1 rounded-md border border-transparent p-1.5 text-center text-gray-600 transition-all marker:shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black active:border-gray-300"
+                            <!-- Modern Pill Pagination Navigation -->
+                            <nav aria-label="@lang('shop::app.components.datagrid.table.page-navigation')" class="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    :disabled="$parent.available.meta.current_page <= 1"
                                     @click="changePage('previous')"
+                                    class="h-9 w-9 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    aria-label="@lang('shop::app.components.datagrid.table.previous-page')"
                                 >
-                                    <span class="icon-sort-left text-2xl"></span>
+                                    <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                                </button>
+
+                                <div class="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 shadow-xs">
+                                    <span class="text-xs font-semibold text-slate-500 mr-1.5">Page</span>
+                                    <input
+                                        type="text"
+                                        :value="$parent.available.meta.current_page"
+                                        class="w-8 text-center text-xs font-bold text-[#133b63] bg-transparent border-0 p-0 focus:ring-0 focus:outline-none"
+                                        @change="changePage(parseInt($event.target.value))"
+                                        aria-label="@lang('shop::app.components.datagrid.table.page-number')"
+                                    >
+                                    <span class="text-xs font-semibold text-slate-400">/ @{{ $parent.available.meta.last_page }}</span>
                                 </div>
 
-                                <div
-                                    class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-1 rounded-md border border-transparent p-1.5 text-center text-gray-600 transition-all marker:shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black active:border-gray-300"
+                                <button
+                                    type="button"
+                                    :disabled="$parent.available.meta.current_page >= $parent.available.meta.last_page"
                                     @click="changePage('next')"
+                                    class="h-9 w-9 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    aria-label="@lang('shop::app.components.datagrid.table.next-page')"
                                 >
-                                    <span class="icon-sort-right text-2xl"></span>
-                                </div>
-                            </div>
-
-                            <nav aria-label="@lang('shop::app.components.datagrid.table.page-navigation')">
-                                <ul class="inline-flex items-center -space-x-px rounded-lg border border-zinc-200 max-md:px-0">
-                                    <li  @click="changePage('previous')">
-                                        <a
-                                            href="javascript:void(0);"
-                                            class="flex h-10 w-9 items-center justify-center font-medium leading-normal hover:bg-gray-100 max-md:h-8 max-md:w-6 max-md:justify-normal"
-                                            aria-label="@lang('shop::app.components.datagrid.table.previous-page')"
-                                        >
-                                            <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <input
-                                            type="text"
-                                            :value="$parent.available.meta.current_page"
-                                            class="max-w-[42px] items-center border-l border-r px-4 py-2 font-medium leading-normal text-black hover:bg-gray-100 max-md:max-w-9 max-md:justify-normal max-md:px-0 max-md:py-1 max-md:text-center"
-                                            @change="changePage(parseInt($event.target.value))"
-                                            aria-label="@lang('shop::app.components.datagrid.table.page-number')"
-                                        >
-                                    </li>
-
-                                    <li @click="changePage('next')">
-                                        <a
-                                            href="javascript:void(0);"
-                                            class="flex h-10 w-9 items-center justify-center font-medium leading-normal hover:bg-gray-100 max-md:h-8 max-md:w-6 max-md:justify-normal"
-                                            aria-label="@lang('shop::app.components.datagrid.table.next-page')"
-                                        >
-                                            <span class="icon-arrow-right rtl:icon-arrow-left text-2xl"></span>
-                                        </a>
-                                    </li>
-                                </ul>
+                                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                                </button>
                             </nav>
                         </div>
                     </template>

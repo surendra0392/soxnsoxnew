@@ -25,7 +25,7 @@
 
                     <a
                         href="{{ route('admin.reporting.sales.view', ['type' => 'tax-collected']) }}"
-                        class="cursor-pointer text-sm text-[#205132] transition-all hover:underline"
+                        class="cursor-pointer text-sm text-[#133b63] transition-all hover:underline"
                     >
                         @lang('admin::app.reporting.sales.index.view-details')
                     </a>
@@ -101,7 +101,7 @@
                                 <div class="flex items-center gap-5">
                                     <div class="relative h-2 w-full bg-slate-100">
                                         <div
-                                            class="absolute left-0 h-2 bg-[#205132]/100"
+                                            class="absolute left-0 h-2 bg-[#133b63]/100"
                                             :style="{ 'width': category.progress + '%' }"
                                         ></div>
                                     </div>

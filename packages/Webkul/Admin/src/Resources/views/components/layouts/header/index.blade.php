@@ -1,5 +1,9 @@
 @php
     $admin = auth()->guard('admin')->user();
+    $adminLogo = core()->getConfigData('general.design.admin_logo.logo_image');
+    $adminLogoUrl = ($adminLogo && file_exists(public_path('storage/' . $adminLogo)))
+        ? asset('storage/' . $adminLogo)
+        : (file_exists(public_path('logo.png')) ? asset('logo.png') : ($adminLogo ? Storage::url($adminLogo) : null));
 @endphp
 
 <header class="sticky top-0 z-[10001] flex items-center justify-between border-b border-slate-200/80 bg-white/95 backdrop-blur-md px-3 py-2.5 sm:px-5 sm:py-3 shadow-sm">
@@ -13,10 +17,10 @@
 
         <!-- Logo -->
         <a href="{{ route('admin.dashboard.index') }}" class="flex-shrink-0 flex items-center gap-2.5">
-            @if ($logo = core()->getConfigData('general.design.admin_logo.logo_image'))
+            @if ($adminLogoUrl)
                 <img
-                    class="h-8 w-auto sm:h-9 object-contain"
-                    src="{{ Storage::url($logo) }}"
+                    class="h-8 w-auto sm:h-9 object-contain max-w-[180px]"
+                    src="{{ $adminLogoUrl }}"
                     alt="{{ config('app.name') }}"
                 />
             @else
@@ -39,7 +43,7 @@
 
                 <input
                     type="text"
-                    class="block w-full rounded-[12px] border border-slate-200 bg-slate-100 !pl-10 !pr-4 rtl:!pr-10 rtl:!pl-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#205132] focus:ring-2 focus:ring-[#205132]/20"
+                    class="block w-full rounded-[12px] border border-slate-200 bg-slate-100 !pl-10 !pr-4 rtl:!pr-10 rtl:!pl-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
                     placeholder="@lang('admin::app.components.layouts.header.mega-search.title')"
                 >
             </div>
@@ -71,34 +75,35 @@
         <!-- Admin profile -->
         <x-admin::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
             <x-slot:toggle>
-                @if ($admin->image)
-                    <button class="flex h-9 w-9 cursor-pointer overflow-hidden rounded-full ring-2 ring-slate-200 hover:ring-[#205132] transition-all">
-                        <img
-                            src="{{ $admin->image_url }}"
-                            class="h-full w-full object-cover"
-                        />
-                    </button>
-                @else
-                    <button class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-gradient-to-br from-[#205132] to-[#83B740] text-sm font-semibold text-white shadow-sm ring-2 ring-slate-200 hover:ring-[#205132] transition-all">
-                        {{ substr($admin->name, 0, 1) }}
-                    </button>
-                @endif
+                <button
+                    type="button"
+                    class="flex h-9 w-9 cursor-pointer overflow-hidden rounded-full ring-2 ring-slate-200 hover:ring-[#133b63] transition-all focus:outline-none"
+                    aria-label="{{ $admin->name }}"
+                >
+                    <img
+                        src="{{ $admin->avatar_url }}"
+                        alt="{{ $admin->name }}"
+                        class="h-full w-full object-cover"
+                    />
+                </button>
             </x-slot>
 
             <!-- Admin Dropdown -->
             <x-slot:content class="!p-0 !bg-white !border !border-slate-200 !rounded-[14px] shadow-xl overflow-hidden">
                 <div class="flex items-center gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3">
-                    <img
-                        src="{{ asset('images/brand/elior_botanical_icon.png') }}"
-                        class="h-8 w-auto object-contain"
-                        alt="ELIOR"
-                    />
+                    <div class="h-10 w-10 shrink-0 overflow-hidden rounded-xl shadow-xs border border-slate-200/80">
+                        <img
+                            src="{{ $admin->avatar_url }}"
+                            alt="{{ $admin->name }}"
+                            class="h-full w-full object-cover"
+                        />
+                    </div>
 
                     <div>
                         <p class="text-sm font-bold text-slate-900">
                             {{ $admin->name }}
                         </p>
-                        <p class="text-[11px] uppercase tracking-wider text-[#205132] font-semibold font-mono">
+                        <p class="text-[11px] uppercase tracking-wider text-[#133b63] font-semibold font-mono">
                             Administrator
                         </p>
                     </div>
@@ -143,15 +148,15 @@
     <x-slot:header>
         <div class="flex items-center justify-between">
             <a href="{{ route('admin.dashboard.index') }}">
-                @if ($logo = core()->getConfigData('general.design.admin_logo.logo_image'))
+                @if ($adminLogoUrl)
                     <img
-                        class="h-8 w-auto sm:h-10"
-                        src="{{ Storage::url($logo) }}"
+                        class="h-8 w-auto sm:h-10 object-contain max-w-[180px]"
+                        src="{{ $adminLogoUrl }}"
                         alt="{{ config('app.name') }}"
                     />
                 @else
                     <img
-                        src="{{ bagisto_asset('images/logo.svg') }}"
+                        src="{{ bagisto_asset('images/logo.png') }}"
                         class="h-8 w-auto sm:h-10"
                         id="logo-image"
                         alt="{{ config('app.name') }}"
@@ -169,7 +174,7 @@
                     <div class="group/item relative">
                         <a
                             href="{{ $menuItem->getUrl() }}"
-                            class="flex items-center gap-2.5 p-2.5 rounded-[12px] cursor-pointer transition-all {{ $menuItem->isActive() == 'active' ? 'bg-[#205132]/10 text-[#205132] font-semibold border border-[#205132]/20' : 'text-slate-600 hover:bg-slate-100' }}"
+                            class="flex items-center gap-2.5 p-2.5 rounded-[12px] cursor-pointer transition-all {{ $menuItem->isActive() == 'active' ? 'bg-[#133b63]/10 text-[#133b63] font-semibold border border-[#133b63]/20' : 'text-slate-600 hover:bg-slate-100' }}"
                         >
                             <span class="{{ $menuItem->getIcon() }} text-xl"></span>
 
@@ -183,7 +188,7 @@
                                 @foreach ($menuItem->getChildren() as $subMenuItem)
                                     <a
                                         href="{{ $subMenuItem->getUrl() }}"
-                                        class="text-xs {{ $subMenuItem->isActive() ? 'text-[#205132] font-semibold' : 'text-slate-600 hover:text-slate-900' }} whitespace-nowrap py-1.5 px-2 rounded-lg"
+                                        class="text-xs {{ $subMenuItem->isActive() ? 'text-[#133b63] font-semibold' : 'text-slate-600 hover:text-slate-900' }} whitespace-nowrap py-1.5 px-2 rounded-lg"
                                     >
                                         {{ $subMenuItem->getName() }}
                                     </a>
@@ -207,8 +212,8 @@
 
             <input
                 type="text"
-                class="peer block w-full rounded-[12px] border border-slate-200 bg-slate-100 !pl-10 !pr-4 rtl:!pr-10 rtl:!pl-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#205132] focus:ring-2 focus:ring-[#205132]/20"
-                :class="{'border-[#205132]': isDropdownOpen}"
+                class="peer block w-full rounded-[12px] border border-slate-200 bg-slate-100 !pl-10 !pr-4 rtl:!pr-10 rtl:!pl-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
+                :class="{'border-[#133b63]': isDropdownOpen}"
                 placeholder="@lang('admin::app.components.layouts.header.mega-search.title')"
                 v-model.lazy="searchTerm"
                 @click="searchTerm.length >= 2 ? isDropdownOpen = true : {}"
@@ -223,7 +228,7 @@
                 <div class="flex border-b border-slate-200 text-xs text-slate-600 sm:text-sm bg-slate-50">
                     <div
                         class="cursor-pointer px-4 py-3 hover:text-slate-900 transition-colors"
-                        :class="{ 'border-b-2 border-[#205132] text-[#205132] font-semibold bg-white': activeTab == tab.key }"
+                        :class="{ 'border-b-2 border-[#133b63] text-[#133b63] font-semibold bg-white': activeTab == tab.key }"
                         v-for="tab in tabs"
                         @click="activeTab = tab.key; search();"
                     >
@@ -278,7 +283,7 @@
 
                                 <!-- Right Information -->
                                 <div class="grid place-content-center gap-1 text-right">
-                                    <p class="text-sm font-bold font-mono text-[#205132]">
+                                    <p class="text-sm font-bold font-mono text-[#133b63]">
                                         @{{ product.formatted_price }}
                                     </p>
                                 </div>
@@ -288,7 +293,7 @@
                         <div class="flex border-t border-slate-200 p-2 bg-slate-50/50 sm:p-3">
                             <a
                                 :href="'{{ route('admin.catalog.products.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-if="searchedResults.products.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-products')".replace(':query', searchTerm).replace(':count', searchedResults.products.meta.total) }}
@@ -296,7 +301,7 @@
 
                             <a
                                 href="{{ route('admin.catalog.products.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-products')
@@ -330,7 +335,7 @@
                         <div class="flex border-t border-slate-200 p-2 bg-slate-50/50 sm:p-3">
                             <a
                                 :href="'{{ route('admin.sales.orders.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-if="searchedResults.orders.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-orders')".replace(':query', searchTerm).replace(':count', searchedResults.orders.total) }}
@@ -338,7 +343,7 @@
 
                             <a
                                 href="{{ route('admin.sales.orders.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-orders')
@@ -366,7 +371,7 @@
                         <div class="flex border-t border-slate-200 p-2 bg-slate-50/50 sm:p-3">
                             <a
                                 :href="'{{ route('admin.catalog.categories.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-if="searchedResults.categories.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-categories')".replace(':query', searchTerm).replace(':count', searchedResults.categories.total) }}
@@ -374,7 +379,7 @@
 
                             <a
                                 href="{{ route('admin.catalog.categories.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-categories')
@@ -408,7 +413,7 @@
                         <div class="flex border-t border-slate-200 p-2 bg-slate-50/50 sm:p-3">
                             <a
                                 :href="'{{ route('admin.customers.customers.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-if="searchedResults.customers.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-customers')".replace(':query', searchTerm).replace(':count', searchedResults.customers.total) }}
@@ -416,7 +421,7 @@
 
                             <a
                                 href="{{ route('admin.customers.customers.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                                class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-customers')
@@ -544,7 +549,7 @@
                     </span>
 
                     <span
-                        class="absolute -top-1 flex h-4 min-w-4 cursor-pointer items-center justify-center rounded-full bg-[#205132] p-1 text-[10px] font-semibold leading-[9px] text-white ltr:right-0 rtl:left-0 font-mono"
+                        class="absolute -top-1 flex h-4 min-w-4 cursor-pointer items-center justify-center rounded-full bg-[#133b63] p-1 text-[10px] font-semibold leading-[9px] text-white ltr:right-0 rtl:left-0 font-mono"
                         v-if="totalUnRead"
                     >
                         @{{ totalUnRead }}
@@ -593,13 +598,13 @@
                 <div class="flex h-[47px] justify-between items-center border-t border-slate-200 bg-slate-50/50 px-4 py-3">
                     <a
                         href="{{ route('admin.notification.index') }}"
-                        class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                        class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                     >
                         @lang('admin::app.notifications.view-all')
                     </a>
 
                     <a
-                        class="cursor-pointer text-xs font-semibold text-[#205132] transition-all hover:underline"
+                        class="cursor-pointer text-xs font-semibold text-[#133b63] transition-all hover:underline"
                         v-if="notifications?.length"
                         @click="readAll()"
                     >
@@ -673,7 +678,7 @@
                     return {
                         pending: 'icon-information rounded-full bg-amber-100 p-1 text-lg text-amber-600',
                         closed: 'icon-repeat rounded-full bg-red-100 p-1 text-lg text-red-600',
-                        completed: 'icon-done rounded-full bg-emerald-100 p-1 text-lg text-[#205132]',
+                        completed: 'icon-done rounded-full bg-emerald-100 p-1 text-lg text-[#133b63]',
                         canceled: 'icon-cancel-1 rounded-full bg-red-100 p-1 text-lg text-red-600',
                         processing: 'icon-sort-right rounded-full bg-emerald-100 p-1 text-lg text-emerald-600',
                     };

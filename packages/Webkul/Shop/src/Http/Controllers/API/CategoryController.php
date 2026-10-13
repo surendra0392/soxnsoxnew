@@ -80,7 +80,9 @@ class CategoryController extends APIController
 
         $category = $this->categoryRepository->findOrFail(request('category_id'));
 
-        if (empty($filterableAttributes = $category->filterableAttributes)) {
+        $filterableAttributes = $category->filterableAttributes;
+
+        if ($filterableAttributes->isEmpty()) {
             $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
         }
 
@@ -124,6 +126,10 @@ class CategoryController extends APIController
     {
         if (core()->getConfigData('catalog.products.search.engine') == 'elastic') {
             $searchEngine = core()->getConfigData('catalog.products.search.storefront_mode');
+        }
+
+        if ($categoryId && $categoryId == core()->getCurrentChannel()->root_category_id) {
+            $categoryId = null;
         }
 
         $maxPrice = $this->productRepository

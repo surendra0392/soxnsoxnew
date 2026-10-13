@@ -8,29 +8,30 @@
 <x-shop::layouts>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.compare.title') | ELIOR
+        @lang('shop::app.compare.title') | SOXNSOX
     </x-slot>
 
-    <div class="bg-elior-cream min-h-screen">
+    <div class="bg-[#f5f7fa] min-h-screen">
         <!-- Breadcrumb -->
         <div class="site-container pt-4 pb-2 sm:pt-6 sm:pb-3">
-            <nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-[11px] sm:text-xs uppercase tracking-[0.14em] text-elior-muted">
-                <a href="{{ route('shop.home.index') }}" class="hover:text-elior-botanical transition-colors">Home</a>
-                <span class="text-elior-border">/</span>
-                <span class="text-elior-charcoal font-semibold">@lang('shop::app.compare.title')</span>
+            <nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-[11px] sm:text-xs uppercase tracking-[0.14em] text-[#6b7280]">
+                <a href="{{ route('shop.home.index') }}" class="hover:text-[#133b63] transition-colors">Home</a>
+                <span class="text-slate-300">/</span>
+                <span class="text-[#133b63] font-semibold">@lang('shop::app.compare.title')</span>
             </nav>
         </div>
 
         <!-- Page Header -->
         <div class="site-container pt-4 pb-8 sm:pt-6 sm:pb-10">
             <div class="space-y-1">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF3EE] text-elior-botanical text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
-                    <span class="icon-compare text-xs"></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e9f2fa] text-[#1d5b8f] text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
+                    <i class="fa-solid fa-code-compare text-xs"></i>
                     <span>Side-by-Side Analysis</span>
                 </div>
-                <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-elior-charcoal">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#133b63] font-display">
                     @lang('shop::app.compare.title')
                 </h1>
+                <div class="soxnsox-decorative-line"></div>
             </div>
         </div>
 
@@ -56,10 +57,10 @@
                         {!! view_render_event('bagisto.shop.customers.account.compare.remove_all.before') !!}
 
                         <button
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-elior-border bg-white text-xs font-semibold text-elior-muted hover:text-red-600 hover:border-red-200 transition-colors"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-soxnsox-border bg-white text-xs font-semibold text-soxnsox-muted hover:text-red-600 hover:border-red-200 transition-colors"
                             @click="removeAll"
                         >
-                            <span class="icon-bin text-sm"></span>
+                            <i class="fa-regular fa-trash-can text-xs"></i>
                             @lang('shop::app.compare.delete-all')
                         </button>
 
@@ -67,39 +68,39 @@
                     </div>
 
                     <div
-                        class="journal-scroll mt-6 grid overflow-auto rounded-3xl border border-elior-border bg-white p-6 shadow-elior-subtle"
+                        class="journal-scroll mt-6 grid overflow-auto rounded-3xl border border-soxnsox-border bg-white p-6 shadow-soxnsox-subtle"
                         v-if="items.length"
                     >
                         <template v-for="attribute in comparableAttributes">
                             <!-- Product Card -->
                             <div
-                                class="flex max-w-full items-center border-b border-elior-border/60 py-4"
+                                class="flex max-w-full items-center border-b border-soxnsox-border/60 py-4"
                                 v-if="attribute.code == 'product'"
                             >
                                 {!! view_render_event('bagisto.shop.customers.account.compare.attribute_name.before') !!}
 
-                                <div class="min-w-[240px] max-w-full font-serif font-bold text-elior-charcoal text-base">
-                                    <p class="text-sm font-semibold uppercase tracking-wider text-elior-muted">
+                                <div class="min-w-[240px] max-w-full font-display font-bold text-[#133b63] text-base">
+                                    <p class="text-sm font-semibold uppercase tracking-wider text-soxnsox-muted">
                                         @{{ attribute.name ?? attribute.admin_name }}
                                     </p>
                                 </div>
 
                                 {!! view_render_event('bagisto.shop.customers.account.compare.attribute_name.after') !!}
 
-                                <div class="flex gap-4 border-elior-border/60 ltr:border-l-[1px] rtl:border-r-[1px] pl-6">
+                                <div class="flex gap-4 border-soxnsox-border/60 ltr:border-l-[1px] rtl:border-r-[1px] pl-6">
                                     <div
                                         class="relative w-[280px] max-w-[280px] px-2"
                                         v-for="product in items"
                                     >
                                         <button
-                                            class="absolute top-2 right-2 z-[1] flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-elior-border bg-white text-elior-muted hover:text-red-600 shadow-sm transition-colors"
+                                            class="absolute top-2 right-2 z-[1] flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-soxnsox-border bg-white text-soxnsox-muted hover:text-red-600 shadow-sm transition-colors"
                                             @click="remove(product.id)"
                                             title="Remove"
                                         >
-                                            <span class="icon-cancel text-xs"></span>
+                                            <i class="fa-solid fa-xmark text-xs"></i>
                                         </button>
 
-                                        <x-shop::products.card class="[&_span.icon-compare]:hidden" />
+                                        <x-shop::products.card class="[&_.fa-code-compare]:hidden [&_button:has(.fa-code-compare)]:hidden" />
                                     </div>
                                 </div>
                             </div>
@@ -108,22 +109,22 @@
 
                             <!-- Comparable Attributes -->
                             <div
-                                class="flex max-w-full items-center border-b border-elior-border/60 py-4"
+                                class="flex max-w-full items-center border-b border-soxnsox-border/60 py-4"
                                 v-else
                             >
                                 <div class="min-w-[240px] max-w-full">
-                                    <p class="text-xs font-semibold uppercase tracking-wider text-elior-muted">
+                                    <p class="text-xs font-semibold uppercase tracking-wider text-soxnsox-muted">
                                         @{{ attribute.name ?? attribute.admin_name }}
                                     </p>
                                 </div>
 
-                                <div class="flex gap-4 border-elior-border/60 ltr:border-l-[1px] rtl:border-r-[1px] pl-6">
+                                <div class="flex gap-4 border-soxnsox-border/60 ltr:border-l-[1px] rtl:border-r-[1px] pl-6">
                                     <div
                                         class="w-[280px] max-w-[280px] px-2"
                                         v-for="(product, index) in items"
                                     >
                                         <p
-                                            class="text-sm text-elior-charcoal leading-relaxed"
+                                            class="text-sm text-soxnsox-charcoal leading-relaxed"
                                             v-html="product[attribute.code] ?? '—'"
                                         >
                                         </p>
@@ -137,29 +138,29 @@
 
                     <!-- Clean Empty Compare State -->
                     <div
-                        class="rounded-3xl border border-elior-border/80 bg-white p-10 sm:p-16 lg:p-20 text-center max-w-2xl mx-auto shadow-elior-subtle space-y-6 my-10"
+                        class="rounded-3xl border border-slate-200 bg-white p-10 sm:p-16 lg:p-20 text-center max-w-2xl mx-auto shadow-sm space-y-6 my-10"
                         v-else
                     >
-                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#FAF8F5] border border-elior-border text-2xl text-elior-botanical">
-                            <span class="icon-compare"></span>
+                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#e9f2fa] border border-[#1d5b8f]/20 text-2xl text-[#1d5b8f]">
+                            <i class="fa-solid fa-code-compare"></i>
                         </div>
 
                         <div class="space-y-2">
-                            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-elior-charcoal">
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#133b63]">
                                 @lang('shop::app.compare.empty-text')
                             </h2>
-                            <p class="text-xs sm:text-sm text-elior-muted leading-relaxed max-w-md mx-auto">
-                                Add botanical powders or functional blends to compare nutritional compositions and ingredients side-by-side.
+                            <p class="text-xs sm:text-sm text-[#6b7280] leading-relaxed max-w-md mx-auto">
+                                Add bamboo socks or diabetic styles to compare knit density, cushioning, and features side-by-side.
                             </p>
                         </div>
 
                         <div class="pt-2">
                             <a
-                                href="{{ route('shop.home.index') }}"
-                                class="elior-btn-primary inline-flex h-12 items-center justify-center px-8 text-xs uppercase tracking-widest font-semibold gap-2 shadow-elior-card"
+                                href="{{ url('/products') }}"
+                                class="soxnsox-btn-primary inline-flex h-12 items-center justify-center px-8 text-xs uppercase tracking-widest font-semibold gap-2 shadow-sm"
                             >
-                                <span>Explore Botanicals</span>
-                                <span class="icon-arrow-right text-xs"></span>
+                                <span>Explore Bamboo Socks</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </a>
                         </div>
                     </div>

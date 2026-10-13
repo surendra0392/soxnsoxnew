@@ -40,7 +40,7 @@
                             :class="{'[&>*]:text-blue-600': filters.columns.length > 0}"
                         >
                             <span class="flex items-center justify-between gap-1.5">
-                                <span class="icon-filter text-2xl"></span>
+                                <i class="fa-solid fa-filter text-sm"></i>
 
                                 <span class="max-md:hidden">
                                     @lang('shop::app.components.datagrid.toolbar.filter.title')
@@ -103,7 +103,7 @@
                                                         >
                                                         </span>
 
-                                                        <span class="icon-sort-down text-2xl"></span>
+                                                        <i class="fa-solid fa-chevron-down text-xs text-gray-500"></i>
                                                     </button>
                                                 </x-slot>
 
@@ -128,11 +128,11 @@
                                                     <!-- Retrieving the label from the options based on the applied column value. -->
                                                     <span v-text="column.filterable_options.find((option => option.value == appliedColumnValue)).label"></span>
 
-                                                    <span
-                                                        class="icon-cross cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, appliedColumnValue)"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </template>
                                         </div>
@@ -218,11 +218,11 @@
                                                 >
                                                     @{{ getFormattedDates(findAppliedColumn(column.index)) }}
 
-                                                    <span
-                                                        class="icon-cancel cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, appliedColumnValue)"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </div>
                                         </div>
@@ -270,11 +270,11 @@
                                                 >
                                                     @{{ getFormattedDates(findAppliedColumn(column.index)) }}
 
-                                                    <span
-                                                        class="icon-cancel cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, appliedColumnValue)"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </div>
                                         </div>
@@ -357,11 +357,11 @@
                                                 >
                                                     @{{ getFormattedDates(findAppliedColumn(column.index)) }}
 
-                                                    <span
-                                                        class="icon-cancel cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, appliedColumnValue)"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </div>
                                         </div>
@@ -409,11 +409,11 @@
                                                 >
                                                     @{{ getFormattedDates(findAppliedColumn(column.index)) }}
 
-                                                    <span
-                                                        class="icon-cancel cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, appliedColumnValue)"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </div>
                                         </div>
@@ -465,7 +465,7 @@
                                                         >
                                                         </span>
 
-                                                        <span class="icon-arrow-down text-2xl"></span>
+                                                        <i class="fa-solid fa-chevron-down text-xs text-gray-500"></i>
                                                     </button>
                                                 </x-slot>
 
@@ -490,11 +490,11 @@
                                                     <!-- Retrieving the label from the options based on the applied column value. -->
                                                     <span v-text="column.filterable_options.find((option => option.value == appliedColumnValue)).label"></span>
 
-                                                    <span
-                                                        class="icon-cancel cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, appliedColumnValue)"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </template>
                                         </div>
@@ -541,11 +541,11 @@
                                                 >
                                                     <span v-text="appliedColumnValue"></span>
 
-                                                    <span
-                                                        class="icon-cancel cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, appliedColumnValue)"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </template>
 
@@ -557,11 +557,11 @@
                                                 >
                                                     <span v-text="getAppliedColumnValues(column.index)"></span>
 
-                                                    <span
-                                                        class="icon-cancel cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                    <i
+                                                        class="fa-solid fa-xmark cursor-pointer text-xs text-white ltr:ml-1.5 rtl:mr-1.5"
                                                         @click="removeAppliedColumnValue(column.index, getAppliedColumnValues(column.index))"
                                                     >
-                                                    </span>
+                                                    </i>
                                                 </p>
                                             </template>
                                         </div>

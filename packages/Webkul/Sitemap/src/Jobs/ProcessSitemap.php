@@ -7,11 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\URL as URLFacade;
+use Illuminate\Support\Str;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
+use Webkul\Blog\Models\Blog;
 use Webkul\Core\Contracts\Channel;
 use Webkul\Sitemap\Contracts\Sitemap as SitemapContract;
 use Webkul\Sitemap\Models\Category;
@@ -113,6 +116,27 @@ class ProcessSitemap implements ShouldQueue
         Page::query()
             ->whereHas('channels', fn ($query) => $query->where('channel_id', $channel->id))
             ->chunk(100, fn ($items) => $this->processItems($channel, $items));
+
+        if (class_exists(Blog::class)) {
+            $this->processItems($channel, [Url::create(route('shop.blogs.index'))]);
+
+            Blog::query()
+                ->where('status', 1)
+                ->get()
+                ->each(function ($blog) use ($channel) {
+                    if ($blog->url_key) {
+                        $catSlug = Str::slug($blog->category ?: 'wellness') ?: 'general';
+
+                        $this->processItems($channel, [
+                            Url::create(route('shop.blogs.view', [
+                                'category_slug' => $catSlug,
+                                'url_key' => $blog->url_key,
+                            ]))
+                                ->setLastModificationDate(Carbon::create($blog->updated_at)),
+                        ]);
+                    }
+                });
+        }
 
         if (! empty($this->itemsToBeProcessed)) {
             $this->generateSitemap($channel);

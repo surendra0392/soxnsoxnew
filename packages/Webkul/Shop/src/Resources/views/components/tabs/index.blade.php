@@ -14,19 +14,28 @@
     >
         <div>
             <div
-                class="flex flex-row justify-center gap-8 bg-zinc-100 max-sm:gap-1.5"
-                :style="positionStyles"
+                class="flex flex-row flex-wrap gap-1 sm:gap-4 md:gap-8 border-b border-soxnsox-border/80 bg-transparent"
+                :class="position === 'center' ? 'justify-center' : 'justify-start'"
             >
                 <div
                     role="button"
                     tabindex="0"
                     v-for="tab in tabs"
-                    class="cursor-pointer px-8 py-5 text-xl font-medium text-zinc-600 max-md:px-4 max-md:py-3 max-md:text-sm max-sm:px-2.5 max-sm:py-2.5"
-                    :class="{'border-b-2 border-navyBlue !text-black transition': tab.isActive }"
+                    class="group relative cursor-pointer px-4 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm md:text-sm font-bold uppercase tracking-wider transition-all duration-200 select-none focus:outline-none"
+                    :class="tab.isActive ? 'text-[#133b63]' : 'text-slate-400 hover:text-[#133b63]'"
                     :id="tab.$attrs.id + '-button'"
                     @click="change(tab)"
                 >
-                    @{{ tab.title }}
+                    <span>@{{ tab.title }}</span>
+                    <!-- Active Brand Teal Underline Indicator -->
+                    <span
+                        class="absolute bottom-0 left-2 right-2 h-[3px] bg-[#2ca7a3] rounded-full transition-all duration-300"
+                        v-if="tab.isActive"
+                    ></span>
+                    <span
+                        class="absolute bottom-0 left-2 right-2 h-[3px] bg-transparent group-hover:bg-[#2ca7a3]/30 rounded-full transition-all duration-300"
+                        v-else
+                    ></span>
                 </div>
             </div>
 

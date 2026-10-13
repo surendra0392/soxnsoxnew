@@ -1,0 +1,13 @@
+<svg width="180" height="42" viewBox="0 0 180 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bamboo & Comfort Sock Modern Icon -->
+  <g transform="translate(3, 4)">
+    <rect width="34" height="34" rx="10" fill="#133b63" />
+    <!-- Stylized Sock / Bamboo Curve -->
+    <path d="M11 9H17C18.1046 9 19 9.89543 19 11V18L23.2 22.2C24.4 23.4 24.4 25.3 23.2 26.5C22 27.7 20.1 27.7 18.9 26.5L14 21.6C13.4 21 13 20.2 13 19.3V11C13 9.89543 12.1046 9 11 9Z" fill="#2ca7a3" />
+    <circle cx="21" cy="13" r="2.5" fill="#f29a38" />
+  </g>
+  <!-- Brand Wordmark -->
+  <text x="45" y="24" font-family="'Poppins', 'Segoe UI', -apple-system, sans-serif" font-size="20" font-weight="800" fill="#133b63" letter-spacing="0.5">SOX<tspan fill="#f29a38">N</tspan>SOX</text>
+  <!-- Subtitle -->
+  <text x="46" y="34" font-family="'Poppins', 'Segoe UI', -apple-system, sans-serif" font-size="7" font-weight="700" fill="#2ca7a3" letter-spacing="2.2">PURE BAMBOO SOCKS</text>
+</svg>

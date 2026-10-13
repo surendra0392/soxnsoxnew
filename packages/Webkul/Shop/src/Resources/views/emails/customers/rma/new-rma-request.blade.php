@@ -1,15 +1,15 @@
 @component('shop::emails.layout')
     <!-- Header Section -->
     <div style="margin-bottom: 40px;">
-        <h1 style="font-size: 28px; font-weight: 700; color: #163923; margin: 0 0 20px 0;">
+        <h1 style="font-size: 28px; font-weight: 700; color: #133B63; margin: 0 0 20px 0;">
             @lang('shop::app.rma.mail.customer-rma-create.heading')
         </h1>
         
-        <p style="font-size: 16px; color: #205132; line-height: 26px; margin: 0 0 16px 0;">
+        <p style="font-size: 16px; color: #374151; line-height: 26px; margin: 0 0 16px 0;">
             @lang('shop::app.rma.mail.customer-rma-create.hello', ['name' => $rma->order->customer->name]), 👋
         </p>
 
-        <p style="font-size: 16px; color: #205132; line-height: 26px; margin: 0;">
+        <p style="font-size: 16px; color: #374151; line-height: 26px; margin: 0;">
             @lang('shop::app.rma.mail.customer-rma-create.greeting', [
                 'order_id' =>
                     '<a href="' .
@@ -23,7 +23,7 @@
 
     <!-- Summary Section -->
     <div style="margin-bottom: 32px; padding: 24px; background-color: #f8fafc; border-radius: 8px; border-left: 4px solid #2563eb;">
-        <h2 style="font-size: 18px; font-weight: 700; color: #163923; margin: 0 0 20px 0;">
+        <h2 style="font-size: 18px; font-weight: 700; color: #133B63; margin: 0 0 20px 0;">
             @lang('shop::app.rma.mail.customer-rma-create.summary')
         </h2>
 
@@ -44,7 +44,7 @@
                 <p style="font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase; margin: 0 0 8px 0; letter-spacing: 0.5px;">
                     @lang('shop::app.rma.mail.customer-rma-create.order-id')
                 </p>
-                <p style="font-size: 18px; font-weight: 700; color: #163923; margin: 0;">
+                <p style="font-size: 18px; font-weight: 700; color: #133B63; margin: 0;">
                     #{{ $rma->order_id }}
                 </p>
             </div>
@@ -53,17 +53,17 @@
 
     <!-- Additional Information Section -->
     <div style="margin-bottom: 32px; padding: 20px; background-color: #fff5f5; border-radius: 8px;">
-        <h3 style="font-size: 16px; font-weight: 700; color: #163923; margin: 0 0 12px 0;">
+        <h3 style="font-size: 16px; font-weight: 700; color: #133B63; margin: 0 0 12px 0;">
             @lang('shop::app.rma.mail.customer-rma-create.additional-information')
         </h3>
-        <div style="font-size: 15px; color: #205132; line-height: 26px; margin: 0;">
+        <div style="font-size: 15px; color: #374151; line-height: 26px; margin: 0;">
             {{ $rma->information }}
         </div>
     </div>
 
     <!-- Products Section -->
     <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 18px; font-weight: 700; color: #163923; margin: 0 0 20px 0;">
+        <h2 style="font-size: 18px; font-weight: 700; color: #133B63; margin: 0 0 20px 0;">
             @lang('shop::app.rma.mail.customer-rma-create.requested-rma-product')
         </h2>
 

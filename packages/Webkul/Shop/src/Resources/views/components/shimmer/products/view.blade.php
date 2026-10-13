@@ -52,11 +52,11 @@
                 <div class="shimmer h-14 w-[161px] rounded-xl max-sm:w-[124px]"></div>
 
                 <!-- Add to cart Button -->
-                <button class="shimmer h-14 w-[279px] rounded-xl"></button>
+                <button class="shimmer h-14 w-[279px] rounded-full"></button>
             </div>
 
             <!-- Buy Now Button -->
-            <button class="shimmer mt-5 h-14 w-full rounded-xl"></button>
+            <button class="shimmer mt-5 h-14 w-full rounded-full"></button>
 
             <!-- Share Buttons -->
             <div class="mt-10 flex items-center gap-9 max-sm:flex-wrap">

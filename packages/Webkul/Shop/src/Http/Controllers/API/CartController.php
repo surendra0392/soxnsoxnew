@@ -89,7 +89,7 @@ class CartController extends APIController
             ], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $exception) {
             return response()->json([
-                'redirect_uri' => route('shop.product_or_category.index', $product->url_key),
+                'redirect_uri' => route('shop.products.view', $product->url_key),
                 'message' => $exception->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }

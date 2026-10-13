@@ -26,9 +26,7 @@
                     class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-900 hover:bg-slate-50 transition-all shadow-xs"
                     title="@lang('admin::app.configuration.index.back-btn')"
                 >
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
                 </a>
 
                 <div>
@@ -90,7 +88,7 @@
                         @foreach ($channels as $channel)
                             <a
                                 href="?{{ Arr::query(['channel' => $channel->code, 'locale' => $channel->default_locale?->code ?? $currentLocale->code]) }}"
-                                class="flex cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-[#205132]/10 hover:text-[#205132] transition-colors {{ $channel->code == $currentChannel->code ? 'bg-[#205132]/10 text-[#205132] font-semibold' : '' }}"
+                                class="flex cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-[#133b63]/10 hover:text-[#133b63] transition-colors {{ $channel->code == $currentChannel->code ? 'bg-[#133b63]/10 text-[#133b63] font-semibold' : '' }}"
                                 v-pre
                             >
                                 {{ $channel->name }}
@@ -124,7 +122,7 @@
                         @foreach ($currentChannel->locales->sortBy('name') as $locale)
                             <a
                                 href="?{{ Arr::query(['channel' => $currentChannel->code, 'locale' => $locale->code]) }}"
-                                class="flex cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-[#205132]/10 hover:text-[#205132] transition-colors {{ $locale->code == $currentLocale->code ? 'bg-[#205132]/10 text-[#205132] font-semibold' : ''}}"
+                                class="flex cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-[#133b63]/10 hover:text-[#133b63] transition-colors {{ $locale->code == $currentLocale->code ? 'bg-[#133b63]/10 text-[#133b63] font-semibold' : ''}}"
                                 v-pre
                             >
                                 {{ $locale->name }}

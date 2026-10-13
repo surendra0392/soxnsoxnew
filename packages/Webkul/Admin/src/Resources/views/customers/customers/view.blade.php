@@ -196,17 +196,12 @@
                             <x-slot:content>
                                 <div class="grid gap-y-3">
                                     <div class="flex items-center gap-3 pb-2 border-b border-gray-100">
-                                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#EBF3EE] text-[#205132] font-semibold text-lg border border-[#205132]/20 overflow-hidden">
+                                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full overflow-hidden border border-slate-200/80 shadow-xs">
                                             <img
-                                                v-if="customer.image_url"
-                                                :src="customer.image_url"
+                                                :src="customer.avatar_url || customer.image_url || getSoxnsoxAvatar(`${customer.first_name} ${customer.last_name}`, 48)"
                                                 class="h-full w-full object-cover"
                                                 :alt="`${customer.first_name} ${customer.last_name}`"
                                             />
-                                            <span v-else-if="customer.first_name">
-                                                @{{ customer.first_name.charAt(0).toUpperCase() }}
-                                            </span>
-                                            <span v-else class="icon-customer text-2xl text-[#205132]"></span>
                                         </div>
 
                                         <div class="flex flex-col">
@@ -325,7 +320,7 @@
                                             <template v-if="! address.default_address">
                                                 <x-admin::button
                                                     button-type="button"
-                                                    class="flex cursor-pointer justify-center text-sm text-[#205132] transition-all hover:underline"
+                                                    class="flex cursor-pointer justify-center text-sm text-[#133b63] transition-all hover:underline"
                                                     :title="trans('admin::app.customers.customers.view.set-as-default')"
                                                     ::loading="isUpdating[index]"
                                                     ::disabled="isUpdating[index]"

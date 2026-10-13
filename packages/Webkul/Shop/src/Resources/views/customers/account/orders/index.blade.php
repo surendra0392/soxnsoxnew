@@ -16,23 +16,23 @@
     </div>
 
     <!-- Main Content Card -->
-    <div class="flex-1 w-full rounded-3xl border border-elior-border/80 bg-white p-6 sm:p-8 shadow-elior-subtle space-y-6">
-        <div class="flex items-center justify-between border-b border-elior-border/60 pb-4">
+    <div class="flex-1 w-full rounded-3xl border border-soxnsox-border/80 bg-white p-6 sm:p-8 shadow-soxnsox-subtle space-y-6">
+        <div class="flex items-center justify-between border-b border-soxnsox-border/60 pb-4">
             <div class="flex items-center gap-3">
                 <!-- Back Button For Mobile View -->
                 <a
-                    class="md:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-elior-border text-elior-charcoal"
+                    class="md:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-soxnsox-border text-soxnsox-charcoal"
                     href="{{ route('shop.customers.account.index') }}"
                 >
-                    <span class="icon-arrow-left text-sm"></span>
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </a>
 
                 <div>
-                    <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EBF3EE] text-elior-botanical text-[9px] font-semibold tracking-wider uppercase">
-                        <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e9f2fa] text-[#2ca7a3] text-[9px] font-semibold tracking-wider uppercase">
+                        <i class="fa-solid fa-feather text-[10px]"></i>
                         <span>History</span>
                     </div>
-                    <h1 class="font-serif text-xl sm:text-2xl font-bold text-elior-charcoal">
+                    <h1 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
                         @lang('shop::app.customers.account.orders.title')
                     </h1>
                 </div>
@@ -75,14 +75,14 @@
     
                     <template v-else>
                         <template v-for="record in available.records">
-                            <div class="w-full p-4 border border-elior-border/70 rounded-2xl bg-[#FAF8F5] mb-3 last:mb-0 space-y-3">
+                            <div class="w-full p-4 border border-soxnsox-border/70 rounded-2xl bg-[#f8fafc] mb-3 last:mb-0 space-y-3">
                                 <a :href="record.actions[0].url" class="block space-y-2">
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <p class="font-serif text-sm font-bold text-elior-charcoal">
+                                            <p class="font-display text-sm font-bold text-[#133b63]">
                                                 Order #@{{ record.id }}
                                             </p>
-                                            <p class="text-xs text-elior-muted">
+                                            <p class="text-xs text-soxnsox-muted">
                                                 @{{ record.created_at }}
                                             </p>
                                         </div>
@@ -90,9 +90,9 @@
                                         <p v-html="record.status"></p>
                                     </div>
         
-                                    <div class="pt-2 border-t border-elior-border/60 flex justify-between items-center text-xs">
-                                        <span class="text-elior-muted">Total</span>
-                                        <span class="font-serif text-sm font-bold text-elior-charcoal">
+                                    <div class="pt-2 border-t border-soxnsox-border/60 flex justify-between items-center text-xs">
+                                        <span class="text-soxnsox-muted">Total</span>
+                                        <span class="font-display text-sm font-bold text-[#133b63]">
                                             @{{ record.grand_total }}
                                         </span>
                                     </div>

@@ -28,7 +28,7 @@ class WebMcpController extends Controller
         $query = trim((string) request('query'));
 
         if ($query !== '' && $product = $this->resolveProduct($query)) {
-            return redirect()->route('shop.product_or_category.index', $product->url_key);
+            return redirect()->route('shop.products.view', $product->url_key);
         }
 
         return redirect()->route('shop.search.index', ['query' => $query]);

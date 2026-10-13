@@ -22,10 +22,10 @@
                 class="grid md:hidden"
                 href="{{ route('shop.customers.account.index') }}"
             >
-                <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
+                <i class="fa-solid fa-arrow-left text-lg text-soxnsox-charcoal"></i>
             </a>
 
-            <h2 class="text-2xl font-medium max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
+            <h2 class="font-display text-2xl font-extrabold text-[#133b63] max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
                 @lang('shop::app.customers.account.reviews.title')
             </h2>
         </div>
@@ -57,7 +57,7 @@
                         <div class="mt-14 grid gap-5 max-1060:grid-cols-[1fr] max-md:mt-5">
                             @foreach($reviews as $review)
                                 <a
-                                    href="{{ $review->product?->url_key ? route('shop.product_or_category.index', $review->product->url_key) : '#' }}"
+                                    href="{{ $review->product?->url_key ? route('shop.products.view', $review->product->url_key) : '#' }}"
                                     id="{{ $review->product_id }}"
                                     aria-label="{{ $review->title }}"
                                 >
@@ -90,7 +90,7 @@
 
                                                 <div class="flex items-center gap-0.5">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                        <span class="icon-star-fill text-3xl {{ $review->rating >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></span>
+                                                        <i class="fa-solid fa-star text-base {{ $review->rating >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></i>
                                                     @endfor
                                                 </div>
 
@@ -160,9 +160,9 @@
         
                                                 {!! view_render_event('bagisto.shop.customers.account.reviews.rating.before', ['reviews' => $reviews]) !!}
 
-                                                <div class="mt-1 flex items-center">
+                                                <div class="mt-1 flex items-center gap-0.5">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                        <span class="icon-star-fill text-3xl {{ $review->rating >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></span>
+                                                        <i class="fa-solid fa-star text-base {{ $review->rating >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></i>
                                                     @endfor
                                                 </div>
 
@@ -188,7 +188,7 @@
                             @endforeach
 
                             <!-- Pagination -->
-                            {{ $reviews->links() }}
+                            {{ $reviews->withQueryString()->links() }}
                         </div>
                     @else
                         <!-- Review Empty Page -->

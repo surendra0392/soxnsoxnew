@@ -34,7 +34,7 @@
                         class="peer hidden"
                     >
 
-                    <span class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"></span>
+                    <span class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"></span>
 
                     <p class="flex cursor-pointer items-center gap-x-1 font-semibold text-gray-600 hover:text-gray-800">
                         @lang('admin::app.customers.customers.view.notes.notify-customer')
@@ -65,7 +65,7 @@
             <!-- Notes List Title and Time -->
             <p class="flex items-center gap-2 text-gray-600">
                 @if ($note->customer_notified)
-                    <span class="icon-done h-fit rounded-full bg-[#205132]/10 text-2xl text-[#205132]"></span>
+                    <span class="icon-done h-fit rounded-full bg-[#133b63]/10 text-2xl text-[#133b63]"></span>
 
                     @lang('admin::app.customers.customers.view.notes.customer-notified', ['date' => core()->formatDate($note->created_at, 'Y-m-d H:i:s a')])
                 @else

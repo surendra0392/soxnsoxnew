@@ -8,11 +8,11 @@
     ][$withdrawal->status] ?? 'bg-gray-100 text-gray-800';
 
     $timelineDot = [
-        'done'    => '<span class="mt-0.5 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-emerald-500 text-white shadow-sm ring-4 ring-emerald-100"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 5.292a1 1 0 010 1.414l-7.999 8a1 1 0 01-1.413 0l-4-3.999a1 1 0 011.413-1.415L8 12.585l7.295-7.293a1 1 0 011.41 0z" clip-rule="evenodd"/></svg></span>',
+        'done'    => '<span class="mt-0.5 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-emerald-500 text-white shadow-sm ring-4 ring-emerald-100"><i class="fa-solid fa-check text-xs"></i></span>',
 
-        'declined' => '<span class="mt-0.5 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-red-500 text-white shadow-sm ring-4 ring-red-100"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></span>',
+        'declined' => '<span class="mt-0.5 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-red-500 text-white shadow-sm ring-4 ring-red-100"><i class="fa-solid fa-xmark text-xs"></i></span>',
 
-        'warning' => '<span class="mt-0.5 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-amber-500 text-white shadow-sm ring-4 ring-amber-100"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg></span>',
+        'warning' => '<span class="mt-0.5 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-amber-500 text-white shadow-sm ring-4 ring-amber-100"><i class="fa-solid fa-triangle-exclamation text-xs"></i></span>',
 
         'pending' => '<span class="mt-0.5 grid h-7 w-7 flex-shrink-0 place-items-center rounded-full border-2 border-dashed border-gray-300 bg-white ring-4 ring-gray-100"></span>',
     ];
@@ -109,7 +109,7 @@
 
                         <p class="mt-1 text-sm font-medium">
                             <a
-                                class="text-[#205132] hover:underline"
+                                class="text-[#133b63] hover:underline"
                                 href="{{ route('admin.sales.orders.view', $withdrawal->order_id) }}"
                             >
                                 #{{ optional($withdrawal->order)->increment_id ?? $withdrawal->order_id }}

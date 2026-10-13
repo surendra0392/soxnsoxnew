@@ -44,6 +44,12 @@ class ShopServiceProvider extends ServiceProvider
         Route::middleware(['web', 'shop', PreventRequestsDuringMaintenance::class])->group(__DIR__.'/../Routes/web.php');
         Route::middleware(['web', 'shop', PreventRequestsDuringMaintenance::class])->group(__DIR__.'/../Routes/api.php');
 
+        Route::bind('category', fn ($value) => $value);
+
+        $this->app->rebinding('request', function ($app, $request) {
+            $app['url']->defaults(['category' => 'socks']);
+        });
+
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'shop');

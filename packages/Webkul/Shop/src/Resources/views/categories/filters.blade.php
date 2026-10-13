@@ -29,7 +29,7 @@
                 class="flex cursor-pointer items-center gap-x-2.5 px-2.5 py-3.5 text-base font-medium uppercase max-md:py-3"
                 @click="isDrawerActive.filter = true"
             >
-                <span class="icon-filter-1 text-2xl"></span>
+                <i class="fa-solid fa-sliders text-base"></i>
 
                 @lang('shop::app.categories.filters.filter')
             </div>
@@ -79,7 +79,7 @@
                 class="flex cursor-pointer items-center gap-x-2.5 px-2.5 py-3.5 text-base font-medium uppercase max-md:py-3"
                 @click="isDrawerActive.toolbar = true"
             >
-                <span class="icon-sort-1 text-2xl"></span>
+                <i class="fa-solid fa-arrow-down-wide-short text-base"></i>
 
                 @lang('shop::app.categories.filters.sort')
             </div>
@@ -118,18 +118,19 @@
         <template v-else>
             <div class="panel-side journal-scroll grid max-h-[1320px] min-w-[250px] grid-cols-[1fr] overflow-y-auto overflow-x-hidden max-xl:min-w-[250px] md:max-w-[250px] md:ltr:pr-7 md:rtl:pl-7">
                 <!-- Filters Header Container -->
-                <div class="flex h-[50px] items-center justify-between border-b border-zinc-200 pb-2.5 max-md:hidden">
-                    <p class="text-lg font-semibold max-sm:font-medium">
+                <div class="flex h-[50px] items-center justify-between border-b border-slate-200/80 pb-2.5 max-md:hidden">
+                    <p class="text-base font-bold font-display text-[#133b63]">
                         @lang('shop::app.categories.filters.filters')
                     </p>
 
-                    <p
-                        class="cursor-pointer text-xs font-medium"
+                    <button
+                        type="button"
+                        class="cursor-pointer px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200/60 transition-all active:scale-95"
                         tabindex="0"
                         @click="clear()"
                     >
                         @lang('shop::app.categories.filters.clear-all')
-                    </p>
+                    </button>
                 </div>
 
                 <!-- Categories -->
@@ -137,19 +138,30 @@
                     $categoriesTree = app('Webkul\Category\Repositories\CategoryRepository')->getVisibleCategoryTree(core()->getCurrentChannel()->root_category_id);
                 @endphp
                 @if ($categoriesTree && $categoriesTree->count())
-                    <x-shop::accordion class="border-b border-zinc-200">
-                        <x-slot:header class="px-0 py-2.5 max-sm:!pb-1.5">
-                            <p class="text-lg font-semibold max-sm:text-base max-sm:font-medium">
+                    <x-shop::accordion class="border-b border-slate-200/80">
+                        <x-slot:header class="px-0 py-3 max-sm:!pb-1.5">
+                            <p class="text-sm font-bold font-display text-[#133b63] uppercase tracking-wider">
                                 Categories
                             </p>
                         </x-slot>
                         <x-slot:content class="!p-0 pb-3">
-                            <ul class="flex flex-col text-base text-gray-700">
+                            <ul class="flex flex-col gap-1 text-xs">
+                                <li>
+                                    <a 
+                                        href="{{ route('shop.products.index') }}" 
+                                        class="block w-full cursor-pointer rounded-xl px-3 py-2 transition-all {{ request()->is('shop') || request()->is('products') || (isset($category) && $category->id == core()->getCurrentChannel()->root_category_id) ? 'font-bold text-[#2ca7a3] bg-teal-50/80 border-l-2 border-[#2ca7a3]' : 'text-slate-600 hover:text-[#133b63] hover:bg-slate-50' }}"
+                                    >
+                                        All Socks & Styles
+                                    </a>
+                                </li>
                                 @foreach ($categoriesTree as $cat)
+                                    @php
+                                        $catUrl = $cat->url_path ?: $cat->slug;
+                                    @endphp
                                     <li>
                                         <a 
-                                            href="/{{ $cat->url_path }}" 
-                                            class="block w-full cursor-pointer rounded px-2 py-2.5 hover:bg-gray-100 transition-colors {{ request()->is($cat->url_path) || (isset($category) && $category->id == $cat->id) ? 'font-semibold text-elior-botanical bg-gray-50' : 'text-gray-900' }}"
+                                            href="{{ route('shop.product_or_category.index', $catUrl) }}" 
+                                            class="block w-full cursor-pointer rounded-xl px-3 py-2 transition-all {{ request()->is($catUrl) || request()->is($cat->slug) || (isset($category) && $category->id == $cat->id) ? 'font-bold text-[#2ca7a3] bg-teal-50/80 border-l-2 border-[#2ca7a3]' : 'text-slate-600 hover:text-[#133b63] hover:bg-slate-50' }}"
                                         >
                                             {{ $cat->name }}
                                         </a>
@@ -211,7 +223,7 @@
                         v-if="filter.type !== 'boolean'"
                     >
                         <div class="relative">
-                            <div class="icon-search pointer-events-none absolute top-3 flex items-center text-2xl max-md:text-xl max-sm:top-2.5 ltr:left-3 rtl:right-3"></div>
+                            <i class="fa-solid fa-magnifying-glass pointer-events-none absolute top-4 flex items-center text-sm text-zinc-400 max-md:text-xs max-sm:top-3.5 ltr:left-4 rtl:right-4"></i>
 
                             <input
                                 type="text"
@@ -409,9 +421,9 @@
 
                     queryParams.forEach((value, filter) => {
                         /**
-                         * Removed all toolbar filters in order to prevent key duplication.
+                         * Removed all toolbar filters, pagination, and search queries in order to prevent key duplication.
                          */
-                        if (! ['sort', 'limit', 'mode'].includes(filter)) {
+                        if (! ['sort', 'limit', 'mode', 'page', 'query'].includes(filter)) {
                             this.filters.applied[filter] = value.split(',');
                         }
                     });

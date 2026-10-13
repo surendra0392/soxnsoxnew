@@ -1,34 +1,34 @@
 @component('admin::emails.layout')
     <div style="margin-bottom: 34px;">
-        <span style="font-size: 22px;font-weight: 600;color: #163923">
+        <span style="font-size: 22px;font-weight: 600;color: #0d2847">
             {{ trans('admin::app.emails.orders.refunded.title') }}
         </span> <br>
 
-        <p style="font-size: 16px;color: #205132;line-height: 24px;">
+        <p style="font-size: 16px;color: #133b63;line-height: 24px;">
             {{ trans('admin::app.emails.dear', ['admin_name' => core()->getAdminEmailDetails()['name']]) }},👋
         </p>
 
-        <p style="font-size: 16px;color: #205132;line-height: 24px;">
+        <p style="font-size: 16px;color: #133b63;line-height: 24px;">
             @lang('admin::app.emails.orders.refunded.greeting', [
                 'invoice_id' => $refund->increment_id,
-                'order_id'   => '<a href="' . route('admin.sales.orders.view', $refund->order_id) . '" style="color: #83B740;">#' . $refund->order->increment_id . '</a>',
+                'order_id'   => '<a href="' . route('admin.sales.orders.view', $refund->order_id) . '" style="color: #2ca7a3;">#' . $refund->order->increment_id . '</a>',
                 'created_at' => core()->formatDate($refund->order->created_at, 'Y-m-d H:i:s')
             ])
         </p>
     </div>
 
-    <div style="font-size: 20px;font-weight: 600;color: #163923">
+    <div style="font-size: 20px;font-weight: 600;color: #0d2847">
         {{ trans('admin::app.emails.orders.refunded.summary') }}
     </div>
 
     <div style="display: flex;flex-direction: row;margin-top: 20px;justify-content: space-between;margin-bottom: 40px;">
         @if ($refund->order->shipping_address)
             <div style="line-height: 25px;">
-                <div style="font-size: 16px;font-weight: 600;color: #163923;">
+                <div style="font-size: 16px;font-weight: 600;color: #0d2847;">
                     {{ trans('admin::app.emails.orders.shipping-address') }}
                 </div>
 
-                <div style="font-size: 16px;font-weight: 400;color: #205132;margin-bottom: 40px;">
+                <div style="font-size: 16px;font-weight: 400;color: #133b63;margin-bottom: 40px;">
                     {{ $refund->order->shipping_address->company_name ?? '' }}<br/>
 
                     {{ $refund->order->shipping_address->name }}<br/>
@@ -44,11 +44,11 @@
                     {{ trans('admin::app.emails.orders.contact') }} : {{ $refund->order->billing_address->phone }}
                 </div>
 
-                <div style="font-size: 16px;font-weight: 600;color: #163923;">
+                <div style="font-size: 16px;font-weight: 600;color: #0d2847;">
                     {{ trans('admin::app.emails.orders.shipping') }}
                 </div>
 
-                <div style="font-size: 16px;font-weight: 400;color: #205132;">
+                <div style="font-size: 16px;font-weight: 400;color: #133b63;">
                     {{ $refund->order->shipping_title }}
                 </div>
             </div>
@@ -56,11 +56,11 @@
 
         @if ($refund->order->billing_address)
             <div style="line-height: 25px;">
-                <div style="font-size: 16px;font-weight: 600;color: #163923;">
+                <div style="font-size: 16px;font-weight: 600;color: #0d2847;">
                     {{ trans('admin::app.emails.orders.billing-address') }}
                 </div>
 
-                <div style="font-size: 16px;font-weight: 400;color: #205132;margin-bottom: 40px;">
+                <div style="font-size: 16px;font-weight: 400;color: #133b63;margin-bottom: 40px;">
                     {{ $refund->order->billing_address->company_name ?? '' }}<br/>
 
                     {{ $refund->order->billing_address->name }}<br/>
@@ -76,18 +76,18 @@
                     {{ trans('admin::app.emails.orders.contact') }} : {{ $refund->order->billing_address->phone }}
                 </div>
 
-                <div style="font-size: 16px;font-weight: 600;color: #163923;">
+                <div style="font-size: 16px;font-weight: 600;color: #0d2847;">
                     {{ trans('admin::app.emails.orders.payment') }}
                 </div>
 
-                <div style="font-size: 16px;font-weight: 400;color: #205132;">
+                <div style="font-size: 16px;font-weight: 400;color: #133b63;">
                     {{ core()->getConfigData('sales.payment_methods.' . $refund->order->payment->method . '.title') }}
                 </div>
 
                 @php $additionalDetails = \Webkul\Payment\Payment::getAdditionalDetails($refund->order->payment->method); @endphp
 
                 @if (! empty($additionalDetails))
-                    <div style="font-size: 16px; color: #205132;">
+                    <div style="font-size: 16px; color: #133b63;">
                         <div>{{ $additionalDetails['title'] }}</div>
                         <div>{{ $additionalDetails['value'] }}</div>
                     </div>
@@ -100,14 +100,14 @@
         <table style="overflow-x: auto; border-collapse: collapse;
         border-spacing: 0;width: 100%">
             <thead>
-                <tr style="color: #163923;border-top: 1px solid #CBD5E1;border-bottom: 1px solid #CBD5E1;">
+                <tr style="color: #0d2847;border-top: 1px solid #CBD5E1;border-bottom: 1px solid #CBD5E1;">
                     <th style="text-align: left;padding: 15px">{{ trans('admin::app.emails.orders.name') }}</th>
                     <th style="text-align: left;padding: 15px">{{ trans('admin::app.emails.orders.price') }}</th>
                     <th style="text-align: left;padding: 15px">{{ trans('admin::app.emails.orders.qty') }}</th>
                 </tr>
             </thead>
 
-            <tbody style="font-size: 16px;font-weight: 400;color: #205132;">
+            <tbody style="font-size: 16px;font-weight: 400;color: #133b63;">
                 @foreach ($refund->items as $item)
                     <tr style="vertical-align: text-top;">
                         <td style="text-align: left;padding: 15px">
@@ -126,7 +126,7 @@
 
                                             <a
                                                 href="{{ Storage::url($attribute['option_label']) }}"
-                                                class="text-[#205132] hover:underline"
+                                                class="text-[#133b63] hover:underline"
                                                 download="{{ File::basename($attribute['option_label']) }}"
                                             >
                                                 {{ File::basename($attribute['option_label']) }}
@@ -166,7 +166,7 @@
         </table>
     </div>
 
-    <div style="display: grid;justify-content: end;font-size: 16px;color: #205132;line-height: 30px;padding-top: 20px;padding-bottom: 20px;">
+    <div style="display: grid;justify-content: end;font-size: 16px;color: #133b63;line-height: 30px;padding-top: 20px;padding-bottom: 20px;">
         @if (core()->getConfigData('sales.taxes.sales.display_subtotal') == 'including_tax')
             <div style="display: grid;gap: 20px;grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <span>

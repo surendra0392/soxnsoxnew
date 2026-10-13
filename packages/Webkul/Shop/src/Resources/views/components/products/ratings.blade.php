@@ -21,13 +21,12 @@
                 @{{ average }}
             </span>
         
-            <span
-                class="icon-star-fill -mt-1 text-xl text-amber-500 max-sm:-mt-1 max-sm:text-lg"
+            <i
+                class="fa-solid fa-star text-amber-500 text-sm max-sm:text-xs"
                 role="presentation"
-            >
-            </span>
+            ></i>
             
-            <span class="border-l border-zinc-300 text-xs font-medium text-elior-charcoal ltr:pl-1.5 rtl:pr-1.5">
+            <span class="border-l border-zinc-300 text-xs font-medium text-soxnsox-charcoal ltr:pl-1.5 rtl:pr-1.5">
                 @{{ abbreviatedTotal }} <span v-if="rating">Ratings</span>
             </span>
         </div>

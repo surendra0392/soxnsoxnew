@@ -2,11 +2,11 @@
 <v-mini-cart>
     <button
         type="button"
-        class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full text-[#163923] hover:bg-black/5 hover:text-[#205132] transition-colors relative cursor-pointer focus:outline-none"
+        class="soxnsox-header-action-btn flex h-9 w-9 sm:h-9 sm:w-9 items-center justify-center rounded-full text-[#133b63] hover:bg-[#e9f2fa] hover:text-[#1d5b8f] transition-colors relative cursor-pointer focus:outline-none"
         aria-label="@lang('shop::app.checkout.cart.mini-cart.shopping-cart')"
     >
         <span class="relative inline-flex items-center justify-center">
-            <span class="icon-cart text-2xl" role="presentation"></span>
+            <i class="fa-solid fa-bag-shopping text-lg" role="presentation"></i>
         </span>
     </button>
 </v-mini-cart>
@@ -26,16 +26,16 @@
 
                     <button
                         type="button"
-                        class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full text-[#163923] hover:bg-black/5 hover:text-[#205132] transition-colors relative cursor-pointer focus:outline-none"
+                        class="soxnsox-header-action-btn flex h-9 w-9 sm:h-9 sm:w-9 items-center justify-center rounded-full text-[#133b63] hover:bg-[#e9f2fa] hover:text-[#1d5b8f] transition-colors relative cursor-pointer focus:outline-none"
                         aria-label="@lang('shop::app.checkout.cart.mini-cart.shopping-cart')"
                         @click="getCart"
                     >
                         <span class="relative inline-flex items-center justify-center">
-                            <span class="icon-cart text-2xl" role="presentation"></span>
+                            <i class="fa-solid fa-bag-shopping text-lg" role="presentation"></i>
 
                             @if (core()->getConfigData('sales.checkout.my_cart.summary') == 'display_item_quantity')
                                 <span
-                                    class="absolute flex items-center justify-center rounded-full bg-[#205132] text-white text-[10px] font-bold leading-none pointer-events-none"
+                                    class="absolute flex items-center justify-center rounded-full bg-[#f29a38] text-white text-[10px] font-bold leading-none pointer-events-none"
                                     style="top: -6px; right: -8px; min-width: 17px; height: 17px; padding: 0 4px;"
                                     v-if="cart?.items_qty && cart.items_qty > 0"
                                 >
@@ -43,7 +43,7 @@
                                 </span>
                             @else
                                 <span
-                                    class="absolute flex items-center justify-center rounded-full bg-[#205132] text-white text-[10px] font-bold leading-none pointer-events-none"
+                                    class="absolute flex items-center justify-center rounded-full bg-[#f29a38] text-white text-[10px] font-bold leading-none pointer-events-none"
                                     style="top: -6px; right: -8px; min-width: 17px; height: 17px; padding: 0 4px;"
                                     v-if="cart?.items_count && cart.items_count > 0"
                                 >
@@ -61,19 +61,19 @@
                     {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.header.before') !!}
 
                     <div class="space-y-1">
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EBF3EE] text-elior-botanical text-[10px] font-semibold tracking-widest uppercase">
-                            <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
-                            <span>ELIOR Cart</span>
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e9f2fa] text-[#1d5b8f] text-[10px] font-semibold tracking-widest uppercase">
+                            <i class="fa-solid fa-bag-shopping text-xs"></i>
+                            <span>SOXNSOX Cart</span>
                         </div>
-                        <h2 class="font-serif text-xl sm:text-2xl font-bold text-elior-charcoal">
+                        <h2 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
                             @lang('shop::app.checkout.cart.mini-cart.shopping-cart')
-                            <span class="text-sm font-sans font-normal text-elior-muted" v-if="cart?.items_count">
+                            <span class="text-sm font-sans font-normal text-soxnsox-muted" v-if="cart?.items_count">
                                 (@{{ cart.items_count }} @{{ cart.items_count === 1 ? 'item' : 'items' }})
                             </span>
                         </h2>
 
                         @if ($offerInfo = core()->getConfigData('sales.checkout.mini_cart.offer_info'))
-                            <div class="mt-2.5 p-2.5 rounded-xl bg-[#FAF8F5] border border-elior-border text-xs text-elior-botanical font-medium">
+                            <div class="mt-2.5 p-2.5 rounded-xl bg-[#f8fafc] border border-soxnsox-border text-xs text-[#1d5b8f] font-medium">
                                 {!! $offerInfo !!}
                             </div>
                         @endif
@@ -81,25 +81,26 @@
                         <!-- Dynamic Complimentary Shipping Progress Bar -->
                         <div class="pt-2" v-if="cart?.items?.length">
                             <!-- Unlocked -->
-                            <div class="p-2.5 rounded-xl bg-[#EBF3EE] border border-[#d2e4d8] flex items-center justify-between text-[11px] font-bold text-[#205132]" v-if="parseFloat(cart.sub_total || 0) >= 499">
+                            <div class="p-2.5 rounded-xl bg-[#e6f8f7] border border-[#b6e6e3] flex items-center justify-between text-[11px] font-bold text-[#208a86]" v-if="parseFloat(cart.sub_total || 0) >= 499">
                                 <span class="flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-[15px]">local_shipping</span>
-                                    🎉 Complimentary Shipping Unlocked!
+                                    <i class="fa-solid fa-truck-fast text-xs"></i>
+                                    <i class="fa-solid fa-gift text-xs"></i>
+                                    Complimentary Shipping Unlocked!
                                 </span>
-                                <span class="text-[10px] uppercase tracking-wider bg-[#205132] text-white px-2 py-0.5 rounded-full">FREE</span>
+                                <span class="text-[10px] uppercase tracking-wider bg-[#2ca7a3] text-white px-2 py-0.5 rounded-full">FREE</span>
                             </div>
 
                             <!-- In Progress -->
-                            <div class="p-3 rounded-xl bg-white border border-[#d2dfd6] space-y-2 text-[11px] shadow-sm" v-else>
-                                <div class="flex items-center justify-between text-[#163923] font-medium">
+                            <div class="p-3 rounded-xl bg-white border border-[#e5e7eb] space-y-2 text-[11px] shadow-sm" v-else>
+                                <div class="flex items-center justify-between text-[#133b63] font-medium">
                                     <span class="flex items-center gap-1.5">
-                                        <span class="material-symbols-outlined text-[#205132] text-[14px]">local_shipping</span>
-                                        <span>Add <strong class="text-[#205132] font-bold">₹@{{ (499 - parseFloat(cart.sub_total || 0)).toFixed(0) }}</strong> for <strong>Free Shipping</strong></span>
+                                        <i class="fa-solid fa-truck-fast text-[#1d5b8f] text-xs"></i>
+                                        <span>Add <strong class="text-[#1d5b8f] font-bold">₹@{{ (499 - parseFloat(cart.sub_total || 0)).toFixed(0) }}</strong> for <strong>Free Shipping</strong></span>
                                     </span>
-                                    <span class="text-[10px] font-bold text-[#205132] px-2 py-0.5 rounded-full" style="background-color: #EBF3EE;">@{{ Math.round((parseFloat(cart.sub_total || 0) / 499) * 100) }}%</span>
+                                    <span class="text-[10px] font-bold text-[#1d5b8f] px-2 py-0.5 rounded-full bg-[#e9f2fa]">@{{ Math.round((parseFloat(cart.sub_total || 0) / 499) * 100) }}%</span>
                                 </div>
-                                <div class="w-full" style="background-color: #E0EAE2; height: 6px; border-radius: 9999px; overflow: hidden;">
-                                    <div style="background: linear-gradient(90deg, #1b4329 0%, #36754a 100%); height: 100%; border-radius: 9999px; transition: width 0.5s ease-out;" :style="'width: ' + Math.min(100, Math.round((parseFloat(cart.sub_total || 0) / 499) * 100)) + '%'"></div>
+                                <div class="w-full bg-[#e5e7eb] h-1.5 rounded-full overflow-hidden">
+                                    <div style="background: linear-gradient(90deg, #1d5b8f 0%, #2ca7a3 100%); height: 100%; border-radius: 9999px; transition: width 0.5s ease-out;" :style="'width: ' + Math.min(100, Math.round((parseFloat(cart.sub_total || 0) / 499) * 100)) + '%'"></div>
                                 </div>
                             </div>
                         </div>
@@ -118,15 +119,15 @@
                         v-if="cart?.items?.length"
                     >
                         <div
-                            class="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#e5decb] shadow-sm flex gap-3.5 sm:gap-4 items-start transition-all hover:border-[#205132]/30"
+                            class="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#e5e7eb] shadow-sm flex gap-3.5 sm:gap-4 items-start transition-all hover:border-[#1d5b8f]/30"
                             v-for="item in cart?.items"
                         >
                             <!-- Cart Item Image -->
                             {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.content.image.before') !!}
 
                             <a
-                                :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', item.product_url_key)"
-                                class="shrink-0 w-20 h-20 sm:w-22 sm:h-22 rounded-xl bg-[#FAF8F5] border border-[#e5decb] overflow-hidden flex items-center justify-center p-1"
+                                :href="'{{ route('shop.products.view', ['category' => 'socks', 'slug' => ':slug']) }}'.replace(':slug', item.product_url_key)"
+                                class="shrink-0 w-20 h-20 sm:w-22 sm:h-22 rounded-xl bg-[#f8fafc] border border-[#e5e7eb] overflow-hidden flex items-center justify-center p-1"
                             >
                                 <img
                                     :src="item.base_image.small_image_url"
@@ -143,8 +144,8 @@
                                     {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.content.name.before') !!}
 
                                     <a
-                                        :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', item.product_url_key)"
-                                        class="font-serif text-sm sm:text-[15px] font-bold text-[#163923] hover:text-[#205132] transition-colors line-clamp-2 leading-snug"
+                                        :href="'{{ route('shop.products.view', ['category' => 'socks', 'slug' => ':slug']) }}'.replace(':slug', item.product_url_key)"
+                                        class="font-display text-sm sm:text-[15px] font-bold text-[#133b63] hover:text-[#1d5b8f] transition-colors line-clamp-2 leading-snug"
                                     >
                                         @{{ item.name }}
                                     </a>
@@ -155,7 +156,7 @@
                                     {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.content.price.before') !!}
 
                                     <div class="flex flex-wrap items-center gap-2 pt-0.5">
-                                        <span class="font-bold text-sm sm:text-base text-[#163923]">
+                                        <span class="font-bold text-sm sm:text-base text-[#133b63]">
                                             <template v-if="displayTax.prices == 'including_tax'">
                                                 @{{ item.formatted_price_incl_tax }}
                                             </template>
@@ -164,11 +165,11 @@
                                             </template>
                                         </span>
 
-                                        <span class="text-xs text-[#8c9e92] line-through font-normal" v-if="item.has_discount">
+                                        <span class="text-xs text-[#9ca3af] line-through font-normal" v-if="item.has_discount">
                                             @{{ item.formatted_regular_price }}
                                         </span>
 
-                                        <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#EBF3EE] text-[#205132]" v-if="item.has_discount">
+                                        <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#e9f2fa] text-[#1d5b8f]" v-if="item.has_discount">
                                             Save @{{ item.formatted_unit_discount }}
                                         </span>
                                     </div>
@@ -176,20 +177,20 @@
                                     {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.content.price.after') !!}
 
                                     <!-- Weight & Options Variations -->
-                                    <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[11px] text-[#55695b]">
+                                    <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[11px] text-[#4b5563]">
                                         <span
-                                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#e5decb] font-medium"
+                                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium"
                                             v-if="item.formatted_weight"
                                         >
-                                            <span class="text-[#8c9e92]">Weight:</span>
-                                            <span class="font-semibold text-[#163923]">@{{ item.formatted_weight }}</span>
+                                            <span class="text-[#9ca3af]">Weight:</span>
+                                            <span class="font-semibold text-[#133b63]">@{{ item.formatted_weight }}</span>
                                         </span>
 
                                         <template v-if="item.options.length">
                                             <template v-for="attribute in item.options">
-                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#e5decb] font-medium">
-                                                    <span class="text-[#8c9e92]">@{{ attribute.attribute_name }}:</span>
-                                                    <span class="font-semibold text-[#163923]">@{{ attribute.option_label }}</span>
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium">
+                                                    <span class="text-[#9ca3af]">@{{ attribute.attribute_name }}:</span>
+                                                    <span class="font-semibold text-[#133b63]">@{{ attribute.option_label }}</span>
                                                 </span>
                                             </template>
                                         </template>
@@ -197,28 +198,28 @@
                                 </div>
 
                                 <!-- Quantity Controls & Line Actions -->
-                                <div class="pt-3 flex items-center justify-between gap-3 border-t border-[#e5decb]/50 mt-2.5">
+                                <div class="pt-3 flex items-center justify-between gap-3 border-t border-[#e5e7eb]/70 mt-2.5">
                                     <x-shop::quantity-changer
                                         v-if="item.can_change_qty"
                                         ::key="'qty-' + item.id + '-' + refreshKey"
-                                        class="h-8 max-w-[96px] px-2 py-0.5 rounded-lg text-xs bg-[#FAF8F5] border-[#e5decb]"
+                                        class="h-8 max-w-[96px] px-2 py-0.5 rounded-lg text-xs bg-[#f8fafc] border-[#e5e7eb]"
                                         name="quantity"
                                         ::value="item?.quantity"
                                         @change="updateItem($event, item)"
                                     />
 
                                     <div class="flex items-center gap-3">
-                                        <span class="text-xs font-bold text-[#163923]">
+                                        <span class="text-xs font-bold text-[#133b63]">
                                             @{{ item.formatted_total }}
                                         </span>
 
                                         <button
                                             type="button"
-                                            class="text-[#8c9e92] hover:text-red-600 transition-colors p-1"
+                                            class="text-[#9ca3af] hover:text-red-600 transition-colors p-1"
                                             title="@lang('shop::app.checkout.cart.mini-cart.remove')"
                                             @click="removeItem(item.id)"
                                         >
-                                            <span class="icon-bin text-base"></span>
+                                            <i class="fa-regular fa-trash-can text-sm"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -231,26 +232,26 @@
                         class="py-20 text-center space-y-4 px-6"
                         v-else
                     >
-                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#FAF8F5] border border-[#e5decb] text-3xl text-[#205132]">
-                            <span class="material-symbols-outlined align-text-bottom text-inherit text-[1.3em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span>
+                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#f8fafc] border border-[#e5e7eb] text-3xl text-[#1d5b8f]">
+                            <i class="fa-solid fa-bag-shopping text-2xl text-[#1d5b8f]"></i>
                         </div>
 
                         <div class="space-y-1.5">
-                            <h3 class="font-serif text-xl font-bold text-elior-charcoal">
+                            <h3 class="font-display text-xl font-extrabold text-[#133b63]">
                                 @lang('shop::app.checkout.cart.mini-cart.empty-cart')
                             </h3>
-                            <p class="text-xs text-elior-muted leading-relaxed max-w-xs mx-auto">
-                                Explore pure single-origin botanicals and functional nutrition for daily wellness.
+                            <p class="text-xs text-soxnsox-muted leading-relaxed max-w-xs mx-auto">
+                                Explore bamboo and doctor-approved diabetic socks crafted for 24h comfort.
                             </p>
                         </div>
 
                         <div class="pt-3">
                             <a
                                 href="{{ route('shop.search.index') }}"
-                                class="elior-btn-primary inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold px-6 py-3 shadow-elior-card"
+                                class="soxnsox-btn-primary soxnsox-btn-shimmer inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold px-6 py-3 shadow-soxnsox-card active:scale-95 transition-all duration-300"
                             >
-                                <span>Explore Products</span>
-                                <span class="icon-arrow-right text-xs"></span>
+                                <span>Explore Bamboo Socks</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </a>
                         </div>
                     </div>
@@ -262,40 +263,40 @@
                 <x-slot:footer>
                     <div
                         v-if="cart?.items?.length"
-                        class="p-4 sm:p-6 bg-white border-t border-elior-border/70 space-y-4"
+                        class="p-4 sm:p-6 bg-white border-t border-soxnsox-border/70 space-y-4"
                     >
                         <!-- Subtotal & Discount Breakdown -->
                         <div class="space-y-2" v-if="! isLoading">
                             {!! view_render_event('bagisto.shop.checkout.mini-cart.subtotal.before') !!}
 
                             <!-- MRP / Regular Subtotal Row (When discount exists) -->
-                            <div class="flex items-center justify-between text-xs text-[#677a6d]" v-if="cart.has_discount">
+                            <div class="flex items-center justify-between text-xs text-[#64748b]" v-if="cart.has_discount">
                                 <span>Original Subtotal (MRP)</span>
                                 <span class="line-through font-medium">@{{ cart.formatted_regular_sub_total }}</span>
                             </div>
 
                             <!-- Discount Savings Row -->
-                            <div class="flex items-center justify-between text-xs font-semibold text-[#205132]" v-if="cart.has_discount">
+                            <div class="flex items-center justify-between text-xs font-semibold text-[#208a86]" v-if="cart.has_discount">
                                 <span class="inline-flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-[14px]">local_offer</span>
+                                    <i class="fa-solid fa-tag text-xs"></i>
                                     Discount Savings
                                 </span>
                                 <span>- @{{ cart.formatted_total_discount }}</span>
                             </div>
 
                             <!-- Subtotal Row -->
-                            <div class="flex items-center justify-between pt-1 border-t border-[#e5decb]/60">
+                            <div class="flex items-center justify-between pt-1 border-t border-[#e5e7eb]/60">
                                 <div class="space-y-0.5">
-                                    <span class="text-xs font-bold uppercase tracking-wider text-elior-charcoal block">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-soxnsox-charcoal block">
                                         @lang('shop::app.checkout.cart.mini-cart.subtotal')
                                     </span>
-                                    <span class="text-[11px] text-elior-muted block">
+                                    <span class="text-[11px] text-soxnsox-muted block">
                                         Taxes & shipping calculated at checkout
                                     </span>
                                 </div>
 
                                 <div class="text-right">
-                                    <span class="font-serif text-2xl sm:text-3xl font-bold text-[#163923]">
+                                    <span class="font-display text-2xl sm:text-3xl font-extrabold text-[#133b63]">
                                         <template v-if="displayTax.subtotal == 'including_tax'">
                                             @{{ cart.formatted_sub_total_incl_tax }}
                                         </template>
@@ -307,8 +308,8 @@
                             </div>
 
                             <!-- Savings Callout Banner -->
-                            <div class="mt-2 p-2.5 rounded-xl bg-[#EBF3EE] border border-[#d2e4d8] flex items-center justify-between text-xs font-semibold text-[#205132]" v-if="cart.has_discount">
-                                <span>🎉 Total Savings on this Order:</span>
+                            <div class="mt-2 p-2.5 rounded-xl bg-[#e6f8f7] border border-[#b6e6e3] flex items-center justify-between text-xs font-semibold text-[#208a86]" v-if="cart.has_discount">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-tag text-[#208a86]"></i> Total Savings on this Order:</span>
                                 <span>@{{ cart.formatted_total_discount }}</span>
                             </div>
 
@@ -317,15 +318,7 @@
 
                         <!-- Loading State Spinner -->
                         <div class="flex justify-center py-4" v-else>
-                            <svg
-                                class="text-elior-botanical h-8 w-8 animate-spin"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
+                            <i class="fa-solid fa-spinner fa-spin text-2xl text-[#1d5b8f]"></i>
                         </div>
 
                         <!-- Action Buttons -->
@@ -334,17 +327,17 @@
 
                             <a
                                 href="{{ route('shop.checkout.onepage.index') }}"
-                                class="elior-btn-primary h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-elior-card"
+                                class="soxnsox-btn-primary soxnsox-btn-shimmer h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-soxnsox-card active:scale-95 transition-all duration-300"
                             >
                                 <span>@lang('shop::app.checkout.cart.mini-cart.continue-to-checkout')</span>
-                                <span class="icon-arrow-right text-xs"></span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </a>
 
                             {!! view_render_event('bagisto.shop.checkout.mini-cart.continue_to_checkout.after') !!}
 
                             <a
                                 href="{{ route('shop.checkout.cart.index') }}"
-                                class="elior-btn-outline h-11 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2"
+                                class="soxnsox-btn-outline soxnsox-btn-shimmer h-11 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 active:scale-95 transition-all duration-300"
                             >
                                 <span>@lang('shop::app.checkout.cart.mini-cart.view-cart')</span>
                             </a>
@@ -358,15 +351,15 @@
                 {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.toggle.before') !!}
 
                 <span class="relative">
-                    <span
-                        class="icon-cart cursor-pointer text-xl sm:text-2xl text-elior-charcoal hover:text-elior-botanical transition-colors"
+                    <i
+                        class="fa-solid fa-bag-shopping cursor-pointer text-xl sm:text-2xl text-soxnsox-charcoal hover:text-[#1d5b8f] transition-colors"
                         role="button"
                         aria-label="@lang('shop::app.checkout.cart.mini-cart.shopping-cart')"
                         tabindex="0"
-                    ></span>
+                    ></i>
 
                     <span
-                        class="absolute -top-2 -right-2.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-elior-botanical text-white text-[10px] font-bold"
+                        class="absolute -top-2 -right-2.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-[#f29a38] text-white text-[10px] font-bold"
                         v-if="cart?.items_count"
                     >
                         @{{ cart.items_count }}

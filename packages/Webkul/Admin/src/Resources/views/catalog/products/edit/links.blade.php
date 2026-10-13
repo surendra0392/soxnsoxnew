@@ -129,6 +129,7 @@
             <x-admin::products.search
                 ref="productSearch"
                 ::added-product-ids="addedProductIds"
+                ::query-params="{ visible_individually: 1, parent_id: 'null', only_parents: 1 }"
                 @onProductAdded="addSelected($event)"
             />
         </div>
@@ -164,11 +165,11 @@
                     ],
 
                     addedProducts: {
-                        'up_sells': @json($product->up_sells()->with('images')->get()),
+                        'up_sells': @json($product->up_sells()->whereNull('products.parent_id')->with('images')->get()),
 
-                        'cross_sells': @json($product->cross_sells()->with('images')->get()),
+                        'cross_sells': @json($product->cross_sells()->whereNull('products.parent_id')->with('images')->get()),
 
-                        'related_products': @json($product->related_products()->with('images')->get())
+                        'related_products': @json($product->related_products()->whereNull('products.parent_id')->with('images')->get())
                     },
                 }
             },

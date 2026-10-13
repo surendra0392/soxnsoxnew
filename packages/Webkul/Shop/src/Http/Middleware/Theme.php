@@ -4,6 +4,7 @@ namespace Webkul\Shop\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class Theme
 {
@@ -29,6 +30,11 @@ class Theme
         } else {
             $themes->set(config('themes.shop-default'));
         }
+
+        URL::defaults([
+            'category' => 'socks',
+            'category_slug' => 'general',
+        ]);
 
         return $next($request);
     }

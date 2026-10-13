@@ -78,4 +78,12 @@ class ProductFlat extends Model implements ProductFlatContract
     {
         return $this->product->getTypeInstance();
     }
+
+    /**
+     * Get the product storefront URL.
+     */
+    public function getUrlAttribute(): string
+    {
+        return $this->url_key ? url('shop/'.$this->url_key) : '';
+    }
 }

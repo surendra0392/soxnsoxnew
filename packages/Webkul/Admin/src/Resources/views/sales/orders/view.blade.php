@@ -249,7 +249,7 @@
 
                                                             <a
                                                                 href="{{ Storage::url($attribute['option_label']) }}"
-                                                                class="text-[#205132] hover:underline"
+                                                                class="text-[#133b63] hover:underline"
                                                                 download="{{ File::basename($attribute['option_label']) }}"
                                                             >
                                                                 {{ File::basename($attribute['option_label']) }}
@@ -602,7 +602,7 @@
                                     >
 
                                     <span
-                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                         role="button"
                                         tabindex="0"
                                     >
@@ -639,7 +639,7 @@
                             <!-- Notes List Title and Time -->
                             <p class="flex items-center gap-2 text-gray-600">
                                 @if ($comment->customer_notified)
-                                    <span class="icon-done h-fit rounded-full bg-emerald-100 text-2xl text-[#205132]"></span>
+                                    <span class="icon-done h-fit rounded-full bg-emerald-100 text-2xl text-[#133b63]"></span>
 
                                     @lang('admin::app.sales.orders.view.customer-notified', ['date' => core()->formatDate($comment->created_at, 'Y-m-d H:i:s a')])
                                 @else
@@ -895,7 +895,7 @@
                                 <div class="flex gap-2.5">
                                     <a
                                         href="{{ route('admin.sales.invoices.view', $invoice->id) }}"
-                                        class="text-sm text-[#205132] transition-all hover:underline flex items-center gap-1"
+                                        class="text-sm text-[#133b63] transition-all hover:underline flex items-center gap-1"
                                     >
                                         <span class="icon-view text-lg"></span>
                                         @lang('admin::app.sales.orders.view.view')
@@ -903,7 +903,7 @@
 
                                     <a
                                         href="{{ route('admin.sales.invoices.print', $invoice->id) }}"
-                                        class="text-sm text-[#205132] transition-all hover:underline flex items-center gap-1"
+                                        class="text-sm text-[#133b63] transition-all hover:underline flex items-center gap-1"
                                         target="_blank"
                                     >
                                         <span class="icon-printer text-lg"></span>
@@ -949,7 +949,7 @@
                                 <div class="flex flex-wrap gap-2.5">
                                     <a
                                         href="{{ route('admin.sales.shipments.view', $shipment->id) }}"
-                                        class="text-sm text-[#205132] transition-all hover:underline flex items-center gap-1"
+                                        class="text-sm text-[#133b63] transition-all hover:underline flex items-center gap-1"
                                     >
                                         <span class="icon-view text-lg"></span>
                                         @lang('admin::app.sales.orders.view.view')
@@ -957,7 +957,7 @@
 
                                     <a
                                         href="{{ route('admin.sales.shipments.print', $shipment->id) }}"
-                                        class="text-sm text-[#205132] transition-all hover:underline flex items-center gap-1"
+                                        class="text-sm text-[#133b63] transition-all hover:underline flex items-center gap-1"
                                         target="_blank"
                                     >
                                         <span class="icon-product text-lg"></span>
@@ -966,7 +966,7 @@
 
                                     <a
                                         href="{{ route('admin.sales.shipments.delivery_slip.print', $shipment->id) }}"
-                                        class="text-sm text-[#205132] transition-all hover:underline flex items-center gap-1"
+                                        class="text-sm text-[#133b63] transition-all hover:underline flex items-center gap-1"
                                         target="_blank"
                                     >
                                         <span class="icon-ship text-lg"></span>
@@ -1029,7 +1029,7 @@
                                 <div class="flex gap-2.5">
                                     <a
                                         href="{{ route('admin.sales.refunds.view', $refund->id) }}"
-                                        class="text-sm text-[#205132] transition-all hover:underline"
+                                        class="text-sm text-[#133b63] transition-all hover:underline"
                                     >
                                         @lang('admin::app.sales.orders.view.view')
                                     </a>

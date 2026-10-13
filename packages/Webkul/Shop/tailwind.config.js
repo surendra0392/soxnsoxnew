@@ -35,35 +35,47 @@ module.exports = {
 
         extend: {
             colors: {
-                // Official ELIOR Brand Palette: #205132, #c9a25a, #f4f0e6, #ffffff
-                elior: {
-                    bg: "#f4f0e6",            // Warm Botanical Linen Canvas
-                    surface: "#ece6d8",       // Subtle Linen Surface
-                    card: "#ffffff",          // Pure White Card
-                    charcoal: "#163923",      // Deep Botanical Charcoal Text (#205132 shade)
-                    slate: "#205132",         // Primary Forest Green
-                    muted: "#677a6d",         // Muted Sage Text
-                    light: "#8e9f94",         // Light Sage Text
-                    border: "#e5decb",        // Linen Border
-                    borderDark: "#2c5f3e",    // Dark Theme Border
-                    botanical: "#205132",     // Primary Forest Green (#205132)
-                    botanicalDark: "#163923", // Deep Evergreen (#163923)
-                    botanicalLight: "#e8f2ec",// Soft Pale Green Tint
-                    terracotta: "#c9a25a",    // Primary Accent Warm Gold (#c9a25a)
-                    terracottaDark: "#b08a43",// Rich Amber Gold Hover
-                    terracottaLight: "#f5eedd",// Soft Gold Tint
-                    sand: "#f4f0e6",          // Linen Canvas (#f4f0e6)
-                    gold: "#c9a25a",          // Warm Gold (#c9a25a)
-                    goldDark: "#b08a43",      // Gold Hover
-                    goldLight: "#f5eedd",     // Soft Gold Pill Tint
+                // Official SOXNSOX Award-Winning Brand Palette: #133b63, #1d5b8f, #2ca7a3, #f29a38, #f5f7fa, #6b7280
+                soxnsox: {
+                    navy: "#133b63",          // Deep Midnight Navy (Primary Dark)
+                    navyDark: "#0b243e",      // Intense Midnight
+                    navyLight: "#1c4a79",     // Elevated Midnight
+                    blue: "#1d5b8f",          // Ocean Royal Blue (Primary Accent)
+                    blueLight: "#e9f2fa",     // Soft Ice Blue Tint
+                    blueHover: "#154770",     // Ocean Blue Hover
+                    teal: "#2ca7a3",          // Vibrant Turquoise / Electric Teal
+                    tealLight: "#e6f8f7",     // Soft Teal Glow Tint
+                    tealDark: "#208a86",      // Deep Teal Hover
+                    orange: "#f29a38",        // Warm Radiant Tangerine / Amber (Primary CTA)
+                    orangeLight: "#fef5ea",   // Soft Amber Pill Tint
+                    orangeDark: "#d67f1f",    // Amber Hover
+                    bg: "#f5f7fa",            // Crisp Soft Off-White / Ice Canvas
+                    surface: "#ffffff",       // Pure White Card
+                    card: "#ffffff",          // Pure White
+                    charcoal: "#133b63",      // Deep Navy Heading Text
+                    slate: "#6b7280",         // Balanced Cool Grey
+                    muted: "#6b7280",         // Subtle Slate Text
+                    light: "#9ca3af",         // Light Grey Accent
+                    border: "#e5e7eb",        // Crisp Border
+                    borderDark: "#234e79",    // Dark Theme Border
+                    bamboo: "#2ca7a3",     // Bamboo Fresh Teal Accent
+                    bambooDark: "#133b63", // Deep Navy Accent
+                    bambooLight: "#e6f8f7",// Soft Teal Tint
+                    terracotta: "#f29a38",    // Radiant Amber Accent
+                    terracottaDark: "#d67f1f",// Amber Hover
+                    terracottaLight: "#fef5ea",
+                    sand: "#f5f7fa",          // Ice Canvas
+                    gold: "#f29a38",          // Amber / Orange
+                    goldDark: "#d67f1f",
+                    goldLight: "#fef5ea",
                 },
 
-                // Compatibility aliases
-                navyBlue: "#163923",
-                lightOrange: "#f4f0e6",
-                darkGreen: "#205132",
-                darkBlue: "#205132",
-                darkPink: "#c9a25a",
+                // Compatibility aliases for legacy views
+                navyBlue: "#133b63",
+                lightOrange: "#fef5ea",
+                darkGreen: "#2ca7a3",
+                darkBlue: "#1d5b8f",
+                darkPink: "#f29a38",
             },
 
             fontFamily: {
@@ -81,16 +93,20 @@ module.exports = {
             },
 
             boxShadow: {
-                'elior-subtle': '0 2px 12px -2px rgba(32, 81, 50, 0.06)',
-                'elior-card': '0 10px 30px -5px rgba(32, 81, 50, 0.08)',
-                'elior-hover': '0 20px 40px -10px rgba(32, 81, 50, 0.14)',
-                'elior-gold': '0 8px 24px -4px rgba(201, 162, 90, 0.35)',
+                'soxnsox-subtle': '0 2px 14px -2px rgba(19, 59, 99, 0.06)',
+                'soxnsox-card': '0 10px 30px -5px rgba(19, 59, 99, 0.08)',
+                'soxnsox-hover': '0 20px 40px -10px rgba(19, 59, 99, 0.16)',
+                'soxnsox-orange': '0 8px 25px -4px rgba(242, 154, 56, 0.42)',
+                'soxnsox-teal': '0 8px 25px -4px rgba(44, 167, 163, 0.38)',
+                'soxnsox-blue': '0 8px 25px -4px rgba(29, 91, 143, 0.35)',
+                'soxnsox-glow': '0 0 40px -5px rgba(44, 167, 163, 0.3)',
             },
 
             borderRadius: {
-                'elior': '6px',
-                'elior-lg': '12px',
-                'elior-pill': '9999px',
+                'soxnsox': '8px',
+                'soxnsox-lg': '16px',
+                'soxnsox-xl': '24px',
+                'soxnsox-pill': '9999px',
             },
 
             keyframes: {
@@ -98,10 +114,25 @@ module.exports = {
                     '0%': { transform: 'translateX(0%)' },
                     '100%': { transform: 'translateX(-50%)' },
                 },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-10px)' },
+                },
+                pulseGlow: {
+                    '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
+                    '50%': { opacity: '1', transform: 'scale(1.05)' },
+                },
+                shimmer: {
+                    '0%': { transform: 'translateX(-100%)' },
+                    '100%': { transform: 'translateX(200%)' },
+                },
             },
 
             animation: {
-                marquee: 'marquee 30s linear infinite',
+                marquee: 'marquee 28s linear infinite',
+                float: 'float 4s ease-in-out infinite',
+                pulseGlow: 'pulseGlow 3s ease-in-out infinite',
+                shimmer: 'shimmer 2.5s infinite',
             },
         }
     },

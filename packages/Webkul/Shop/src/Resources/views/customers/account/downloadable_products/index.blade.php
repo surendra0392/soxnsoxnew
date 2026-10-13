@@ -22,7 +22,7 @@
                 class="grid md:hidden"
                 href="{{ route('shop.customers.account.index') }}"
             >
-                <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
+                <i class="fa-solid fa-arrow-left text-lg text-soxnsox-charcoal"></i>
             </a>
 
             <h2 class="text-2xl font-medium max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">

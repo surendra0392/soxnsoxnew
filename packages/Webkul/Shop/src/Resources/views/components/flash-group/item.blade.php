@@ -18,20 +18,24 @@
                 class="flex items-center break-words text-sm"
                 :style="typeStyles[flash.type]['message']"
             >
-                <span
-                    class="icon-toast-done text-2xl ltr:mr-2.5 rtl:ml-2.5"
+                <i
+                    class="text-xl ltr:mr-2.5 rtl:ml-2.5 shrink-0"
                     :class="iconClasses[flash.type]"
                     :style="typeStyles[flash.type]['icon']"
-                ></span>
+                ></i>
 
                 @{{ flash.message }}
             </p>
 
-			<span
-                class="icon-cancel max-h-4 max-w-4 cursor-pointer"
+            <button
+                type="button"
+                class="cursor-pointer shrink-0 opacity-70 hover:opacity-100 transition-opacity"
                 :style="typeStyles[flash.type]['icon']"
+                aria-label="Close alert"
                 @click="remove"
-            ></span>
+            >
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
         </div>
     </script>
 
@@ -44,13 +48,13 @@
             data() {
                 return {
                     iconClasses: {
-                        success: 'icon-toast-done',
+                        success: 'fa-solid fa-circle-check',
 
-                        error: 'icon-toast-error',
+                        error: 'fa-solid fa-circle-xmark',
 
-                        warning: 'icon-toast-exclamation-mark',
+                        warning: 'fa-solid fa-triangle-exclamation',
 
-                        info: 'icon-toast-info',
+                        info: 'fa-solid fa-circle-info',
                     },
 
                     typeStyles: {

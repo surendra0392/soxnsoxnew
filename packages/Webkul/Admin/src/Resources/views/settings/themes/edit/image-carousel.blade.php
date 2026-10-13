@@ -103,7 +103,7 @@
                                             :href="'{{ config('app.url') }}/' + image.image"
                                             :ref="'image_' + index"
                                             target="_blank"
-                                            class="text-[#205132] transition-all hover:underline ltr:ml-2 rtl:mr-2"
+                                            class="text-[#133b63] transition-all hover:underline ltr:ml-2 rtl:mr-2"
                                         >
                                             <span :ref="'imageName_' + index">
                                                 @{{ image.image }}
@@ -118,7 +118,7 @@
                         <div class="grid place-content-start gap-1 text-right">
                             <div class="flex items-center gap-x-5">
                                 <p
-                                    class="cursor-pointer text-[#205132] transition-all hover:underline"
+                                    class="cursor-pointer text-[#133b63] transition-all hover:underline"
                                     @click="edit(image, index)"
                                 >
                                     @lang('admin::app.settings.themes.edit.edit')

@@ -3,14 +3,16 @@
 namespace Webkul\Admin\Http\Controllers\Theme;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\View\View;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Theme\Repositories\HeroSliderRepository;
-use Webkul\Theme\Repositories\HeroSlideRepository;
-use Webkul\Theme\Repositories\HeroLayerRepository;
-use Webkul\Admin\DataGrids\Theme\HeroSliderDataGrid;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
+use Illuminate\View\View;
+use Webkul\Admin\DataGrids\Theme\HeroSliderDataGrid;
+use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\FPC\Facades\PageCache;
+use Webkul\Theme\Repositories\HeroLayerRepository;
+use Webkul\Theme\Repositories\HeroSlideRepository;
+use Webkul\Theme\Repositories\HeroSliderRepository;
 
 class HeroSliderController extends Controller
 {
@@ -52,24 +54,24 @@ class HeroSliderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store()
     {
         $this->validate(request(), [
-            'name'      => 'required',
-            'code'      => 'required|unique:theme_hero_sliders,code',
+            'name' => 'required',
+            'code' => 'required|unique:theme_hero_sliders,code',
             'placement' => 'required',
         ]);
 
         $data = request()->all();
         $data['status'] = isset($data['status']);
-        
+
         if (isset($data['settings'])) {
             $data['settings'] = [
                 'autoplay' => isset($data['settings']['autoplay']),
                 'duration' => (int) ($data['settings']['duration'] ?? 6000),
-                'loop'     => isset($data['settings']['loop']),
+                'loop' => isset($data['settings']['loop']),
             ];
         }
 
@@ -78,13 +80,18 @@ class HeroSliderController extends Controller
         $heroSlider = $this->heroSliderRepository->create($data);
 
         Event::dispatch('theme.hero_sliders.create.after', $heroSlider);
-        
+
         try {
-            \Illuminate\Support\Facades\Artisan::call('cache:clear');
-            if (class_exists(\Webkul\FPC\Facades\PageCache::class)) {
-                \Webkul\FPC\Facades\PageCache::flush();
+            Artisan::call('cache:clear');
+            try {
+                Artisan::call('responsecache:clear');
+            } catch (\Exception $e) {
             }
-        } catch (\Exception $e) {}
+            if (class_exists(PageCache::class)) {
+                PageCache::flush();
+            }
+        } catch (\Exception $e) {
+        }
 
         session()->flash('success', trans('admin::app.theme.hero-sliders.create-success'));
 
@@ -108,30 +115,30 @@ class HeroSliderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update($id)
     {
         $this->validate(request(), [
             'name' => 'required',
-            'code' => 'required|unique:theme_hero_sliders,code,' . $id,
+            'code' => 'required|unique:theme_hero_sliders,code,'.$id,
         ]);
 
         $data = request()->all();
         $data['status'] = isset($data['status']);
-        
+
         if (isset($data['settings'])) {
             $data['settings'] = [
                 'autoplay' => isset($data['settings']['autoplay']),
                 'duration' => (int) ($data['settings']['duration'] ?? 6000),
-                'loop'     => isset($data['settings']['loop']),
+                'loop' => isset($data['settings']['loop']),
             ];
         }
 
         Event::dispatch('theme.hero_sliders.update.before', $id);
 
         $heroSlider = $this->heroSliderRepository->update($data, $id);
-        
+
         // Handle slides JSON payload from Vue/Alpine component
         if (isset($data['slides_data'])) {
             $slidesData = json_decode($data['slides_data'], true);
@@ -139,19 +146,24 @@ class HeroSliderController extends Controller
         }
 
         Event::dispatch('theme.hero_sliders.update.after', $heroSlider);
-        
+
         try {
-            \Illuminate\Support\Facades\Artisan::call('cache:clear');
-            if (class_exists(\Webkul\FPC\Facades\PageCache::class)) {
-                \Webkul\FPC\Facades\PageCache::flush();
+            Artisan::call('cache:clear');
+            try {
+                Artisan::call('responsecache:clear');
+            } catch (\Exception $e) {
             }
-        } catch (\Exception $e) {}
+            if (class_exists(PageCache::class)) {
+                PageCache::flush();
+            }
+        } catch (\Exception $e) {
+        }
 
         session()->flash('success', trans('admin::app.theme.hero-sliders.update-success'));
 
         return redirect()->route('admin.cms.hero_sliders.index');
     }
-    
+
     /**
      * Process slides and layers
      */
@@ -159,13 +171,13 @@ class HeroSliderController extends Controller
     {
         // Sync slides: simple implementation for now, deleting all and recreating
         // In a production scenario, we'd sync properly by ID to preserve media
-        
+
         $existingSlideIds = [];
-        
+
         foreach ($slidesData as $index => $slideData) {
             $slidePayload = [
                 'hero_slider_id' => $heroSlider->id,
-                'name' => $slideData['name'] ?? 'Slide ' . ($index + 1),
+                'name' => $slideData['name'] ?? 'Slide '.($index + 1),
                 'status' => $slideData['status'] ?? 1,
                 'sort_order' => $index,
                 'media_type' => $slideData['media_type'] ?? 'image',
@@ -173,8 +185,9 @@ class HeroSliderController extends Controller
                 'mobile_media' => $slideData['mobile_media'] ?? null,
                 'video_url' => $slideData['video_url'] ?? null,
                 'duration' => $slideData['duration'] ?? 5000,
+                'settings' => $slideData['settings'] ?? null,
             ];
-            
+
             if (isset($slideData['id']) && $slideData['id']) {
                 $slide = $this->heroSlideRepository->update($slidePayload, $slideData['id']);
                 $existingSlideIds[] = $slide->id;
@@ -182,7 +195,7 @@ class HeroSliderController extends Controller
                 $slide = $this->heroSlideRepository->create($slidePayload);
                 $existingSlideIds[] = $slide->id;
             }
-            
+
             // Handle layers
             if (isset($slideData['layers'])) {
                 $existingLayerIds = [];
@@ -197,7 +210,7 @@ class HeroSliderController extends Controller
                         'mobile_settings' => $layerData['mobile_settings'] ?? [],
                         'settings' => $layerData['settings'] ?? [],
                     ];
-                    
+
                     if (isset($layerData['id']) && $layerData['id']) {
                         $layer = $this->heroLayerRepository->update($layerPayload, $layerData['id']);
                         $existingLayerIds[] = $layer->id;
@@ -206,14 +219,14 @@ class HeroSliderController extends Controller
                         $existingLayerIds[] = $layer->id;
                     }
                 }
-                
+
                 // Delete removed layers
-                $this->heroLayerRepository->where('hero_slide_id', $slide->id)->whereNotIn('id', $existingLayerIds)->delete();
+                $this->heroLayerRepository->getModel()->where('hero_slide_id', $slide->id)->whereNotIn('id', $existingLayerIds)->delete();
             }
         }
-        
+
         // Delete removed slides
-        $this->heroSlideRepository->where('hero_slider_id', $heroSlider->id)->whereNotIn('id', $existingSlideIds)->delete();
+        $this->heroSlideRepository->getModel()->where('hero_slider_id', $heroSlider->id)->whereNotIn('id', $existingSlideIds)->delete();
     }
 
     /**

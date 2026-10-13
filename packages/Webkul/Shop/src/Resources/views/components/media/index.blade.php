@@ -37,11 +37,14 @@
                         >
 
                         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
-                            <span 
-                                class="icon-bin cursor-pointer text-2xl text-black"
+                            <button
+                                type="button"
+                                class="cursor-pointer text-xl text-slate-800 hover:text-red-500 transition-colors"
                                 @click="remove"
+                                aria-label="Remove"
                             >
-                            </span>
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -55,11 +58,7 @@
                     @dragleave="onDragLeave"
                     @drop="onDrop"
                 >
-                    <label 
-                        :for="`${$.uid}_fileInput`"
-                        class="icon-camera text-3xl max-sm:text-lg"
-                    >
-                    </label>
+                    <i class="fa-solid fa-camera text-2xl text-slate-500 max-sm:text-lg"></i>
 
                     <p class="font-medium max-md:hidden max-sm:text-xs">
                         @lang("shop::app.components.media.index.add-image")
@@ -107,11 +106,14 @@
                                     :class="{ 'opacity-25' : file.showDeleteButton }"
                                 >
                                 <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
-                                    <span
-                                        class="icon-bin cursor-pointer text-2xl text-black"
+                                    <button
+                                        type="button"
+                                        class="cursor-pointer text-lg text-slate-800 hover:text-red-500 transition-colors"
                                         @click="remove(index)"
+                                        aria-label="Remove"
                                     >
-                                    </span>
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </button>
                                 </div>
                             </div>
                         </template>
@@ -130,11 +132,14 @@
                                 >
                                 </video>
                                 <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
-                                    <span 
-                                        class="icon-bin cursor-pointer text-2xl text-black"
+                                    <button
+                                        type="button"
+                                        class="cursor-pointer text-lg text-slate-800 hover:text-red-500 transition-colors"
                                         @click="remove(index)"
+                                        aria-label="Remove"
                                     >
-                                    </span>
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </button>
                                 </div>
                             </div>
                         </template>

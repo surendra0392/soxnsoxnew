@@ -132,3 +132,57 @@ if (! function_exists('array_permutation')) {
         return $results;
     }
 }
+
+if (! function_exists('soxnsox_avatar_color')) {
+    /**
+     * Get a deterministic background color for a user avatar.
+     */
+    function soxnsox_avatar_color(?string $name): string
+    {
+        $palette = [
+            '#133b63', // SOX N SOX Navy
+            '#2ca7a3', // SOX N SOX Teal
+            '#d97706', // Warm Amber
+            '#059669', // Emerald Green
+            '#7c3aed', // Vibrant Purple
+            '#2563eb', // Royal Blue
+            '#dc2626', // Crimson Red
+            '#db2777', // Rose Pink
+            '#ea580c', // Tangerine
+            '#0891b2', // Cyan Ocean
+            '#4f46e5', // Indigo
+            '#0d9488', // Dark Teal
+        ];
+
+        $clean = trim($name ?: 'User');
+        $hash = crc32(mb_strtolower($clean, 'UTF-8'));
+
+        return $palette[abs($hash) % count($palette)];
+    }
+}
+
+if (! function_exists('soxnsox_avatar')) {
+    /**
+     * Generate an inline SVG Data URI avatar displaying user initials on a distinct background color.
+     */
+    function soxnsox_avatar(?string $name, int $size = 80, bool $rounded = true): string
+    {
+        $clean = trim($name ?: 'U');
+        $initial = mb_strtoupper(mb_substr($clean, 0, 1, 'UTF-8'), 'UTF-8');
+        if (! $initial) {
+            $initial = 'U';
+        }
+
+        $color = soxnsox_avatar_color($clean);
+        $encodedColor = rawurlencode($color);
+        $rx = $rounded ? '50%' : '20%';
+        $fontSize = (int) round($size * 0.48);
+
+        $svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {$size} {$size}' width='{$size}' height='{$size}'>"
+            ."<rect width='{$size}' height='{$size}' rx='{$rx}' fill='{$encodedColor}'/>"
+            ."<text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Plus Jakarta Sans, -apple-system, sans-serif' font-size='{$fontSize}' font-weight='700'>{$initial}</text>"
+            .'</svg>';
+
+        return 'data:image/svg+xml;utf8,'.$svg;
+    }
+}

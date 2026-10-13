@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Webkul\Category\Repositories\CategoryRepository;
 use Webkul\Core\Http\Middleware\NoCacheMiddleware;
 use Webkul\Shop\Http\Controllers\BookingProductController;
 use Webkul\Shop\Http\Controllers\CompareController;
@@ -48,6 +49,64 @@ Route::prefix('withdraw')->middleware([NoCacheMiddleware::class])->group(functio
 Route::get('page/{slug}', [PageController::class, 'view'])
     ->where('slug', '.*')
     ->name('shop.cms.page')
+    ->middleware('cache.response');
+
+/**
+ * Direct Multi-Page Aliases for SOXNSOX Header Navigation
+ */
+Route::get('about-us', fn () => app(PageController::class)->view('about-us'))
+    ->name('shop.about_us')
+    ->middleware('cache.response');
+
+Route::get('why-choose-us', fn () => app(PageController::class)->view('why-choose-us'))
+    ->name('shop.why_choose_us')
+    ->middleware('cache.response');
+
+Route::get('how-it-works', fn () => app(PageController::class)->view('how-it-works'))
+    ->name('shop.how_it_works')
+    ->middleware('cache.response');
+
+$shopCatalogHandler = function () {
+    $rootId = core()->getCurrentChannel()->root_category_id ?? 1;
+    $category = app(CategoryRepository::class)->find($rootId);
+
+    if ($category) {
+        $category = clone $category;
+        $category->name = 'All Bamboo Socks';
+        $category->description = '<p>Explore our full lineup of doctor-approved bamboo socks crafted with thermo-regulating fibers, seamless toe stitching, and blister-free cushioned support for all-day freshness.</p>';
+        $category->meta_title = 'Shop All Bamboo Socks | SOX N SOX';
+        $category->meta_description = 'Browse our complete catalog of premium bamboo socks — diabetic care, ankle, crew, sports & dress socks.';
+
+        return view('shop::categories.view', [
+            'category' => $category,
+            'params' => [
+                'sort' => request()->query('sort'),
+                'limit' => request()->query('limit'),
+                'mode' => request()->query('mode'),
+            ],
+        ]);
+    }
+
+    return redirect()->route('shop.home.index');
+};
+
+Route::get('shop', $shopCatalogHandler)->name('shop.products.index');
+Route::get('products', $shopCatalogHandler)->name('shop.products.catalog');
+Route::get('all-socks', $shopCatalogHandler)->name('shop.products.all_socks');
+Route::get('all-products', $shopCatalogHandler)->name('shop.products.all_products');
+
+Route::get('shop/category/{slug}', [ProductsCategoriesProxyController::class, 'categoryView'])
+    ->where('slug', '.*')
+    ->name('shop.category.view')
+    ->middleware('cache.response');
+
+Route::get('shop/{category}/{slug}', [ProductsCategoriesProxyController::class, 'productView'])
+    ->name('shop.products.view')
+    ->middleware('cache.response');
+
+Route::get('shop/{slug}', [ProductsCategoriesProxyController::class, 'shopSingleSegment'])
+    ->where('slug', '.*')
+    ->name('shop.products.view.single')
     ->middleware('cache.response');
 
 /**

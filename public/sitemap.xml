@@ -1,193 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Homepage -->
     <url>
-    <loc>http://elior.test</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-            </url>
+        <loc>https://soxnsox.in</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Catalog Main -->
     <url>
-    <loc>http://elior.test/page/about-us</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/products</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Category Pages -->
     <url>
-    <loc>http://elior.test/page/quality</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/medical-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/men</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
     <url>
-    <loc>http://elior.test/contact-us</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/women</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/customer-service</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-            </url>
+        <loc>https://soxnsox.in/children</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/privacy-policy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-            </url>
+        <loc>https://soxnsox.in/compression-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/terms-conditions</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-            </url>
+        <loc>https://soxnsox.in/plantar-fasciitis</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/shipping-policy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-            </url>
+        <loc>https://soxnsox.in/performance</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/return-policy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-            </url>
+        <loc>https://soxnsox.in/everyday-comfort</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Products (12 Bamboo Socks) -->
     <url>
-    <loc>http://elior.test/page/refund-policy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-            </url>
+        <loc>https://soxnsox.in/all-day-comfort-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/botanical-powders</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/anti-slip-activity-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/functional-blends</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/arch-support-plantar-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/culinary-ingredients</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/bamboo-ankle-sports-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/wellness-essentials</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/bamboo-formal-office-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/products</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/breathable-daily-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/organic-moringa-leaf-powder</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/anti-slip-grip-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/dehydrated-beetroot-powder</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/everyday-compression-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/wild-harvested-amla-powder</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/gym-performance-bamboo-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/lakadong-turmeric-powder</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/infant-comfort-bamboo-socks-for-babies</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/green-vitality-superblend</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/yoga-grip-bamboo-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/golden-immunity-elixir-blend</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/lightweight-everyday-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Editorial & CMS Policy Pages -->
     <url>
-    <loc>http://elior.test/beauty-bloom-collagen-booster</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/page/about-us</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
     <url>
-    <loc>http://elior.test/sun-dried-curry-leaf-powder</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/page/quality</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
     <url>
-    <loc>http://elior.test/ksm-66-ashwagandha-root-powder</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/contact-us</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
     <url>
-    <loc>http://elior.test/artisanal-spirulina-powder</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-            </url>
+        <loc>https://soxnsox.in/page/customer-service</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/moringa-green-morning-smoothie</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/page/shipping-policy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/golden-turmeric-morning-drink</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/page/return-policy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/beetroot-berry-breakfast-smoothie</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/page/refund-policy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/amla-citrus-morning-cooler</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/page/terms-conditions</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/green-vitality-smoothie</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/page/terms-of-use</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/golden-oat-breakfast-bowl</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/page/payment-policy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/moringa-coconut-yogurt-bowl</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/page/privacy-policy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Foot Wellness Blog -->
     <url>
-    <loc>http://elior.test/page/recipes/beetroot-chocolate-smoothie</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/blog</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.85</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/amla-mint-refresher</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/blog/science-behind-bamboo-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/turmeric-ginger-oat-latte</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/blog/guide-to-diabetic-friendly-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/green-herb-avocado-toast</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/blog/blister-prevention-seamless-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     <url>
-    <loc>http://elior.test/page/recipes/golden-banana-breakfast-shake</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+        <loc>https://soxnsox.in/blog/how-to-wash-bamboo-socks</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Contact Page -->
+    <url>
+        <loc>https://soxnsox.in/contact-us</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
 </urlset>

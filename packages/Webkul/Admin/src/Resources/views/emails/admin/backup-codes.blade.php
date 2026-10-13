@@ -1,24 +1,24 @@
 @component('admin::emails.layout')
     <div style="margin-bottom: 34px;">
-        <p style="font-weight: bold;font-size: 20px;color: #163923;line-height: 24px;margin-bottom: 24px">
+        <p style="font-weight: bold;font-size: 20px;color: #0d2847;line-height: 24px;margin-bottom: 24px">
             @lang('admin::app.account.emails.common.dear', ['admin_name' => $admin->name]),
         </p>
 
-        <p style="font-size: 16px;color: #205132;line-height: 24px;">
+        <p style="font-size: 16px;color: #133b63;line-height: 24px;">
             @lang('admin::app.account.emails.backup-codes.greeting')
         </p>
     </div>
 
-    <p style="font-size: 16px;color: #205132;line-height: 24px;margin-bottom: 40px">
+    <p style="font-size: 16px;color: #133b63;line-height: 24px;margin-bottom: 40px">
         @lang('admin::app.account.emails.backup-codes.description')
     </p>
 
     <div style="margin-bottom: 40px;">
-        <p style="font-weight: bold;font-size: 18px;color: #163923;line-height: 24px;margin-bottom: 16px">
+        <p style="font-weight: bold;font-size: 18px;color: #0d2847;line-height: 24px;margin-bottom: 16px">
             @lang('admin::app.account.emails.backup-codes.codes-title')
         </p>
 
-        <p style="font-size: 14px;color: #205132;line-height: 20px;margin-bottom: 20px">
+        <p style="font-size: 14px;color: #133b63;line-height: 20px;margin-bottom: 20px">
             @lang('admin::app.account.emails.backup-codes.codes-subtitle')
         </p>
 

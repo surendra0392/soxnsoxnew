@@ -1,26 +1,28 @@
 @if ($paginator->hasPages())
-    <div class="flex items-center justify-between p-6">
-        <p class="text-xs font-medium">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-xs mt-8">
+        <p class="text-xs sm:text-sm font-medium text-slate-500">
             @lang('shop::app.partials.pagination.pagination-showing', [
                 'firstItem' => $paginator->firstItem(),
-                'lastItem' => $paginator->lastItem(),
-                'total' => $paginator->total(),
+                'lastItem'  => $paginator->lastItem(),
+                'total'     => $paginator->total(),
             ])
         </p>
 
         <nav aria-label="Page Navigation">
-            <ul class="inline-flex items-center -space-x-px">
+            <ul class="inline-flex items-center gap-1.5 sm:gap-2">
                 <!-- Previous Page Link -->
                 <li>
                     @if ($paginator->onFirstPage())
-                        <span class="icon-arrow-left rtl:icon-arrow-right flex h-[37px] w-[35px] items-center justify-center border border-zinc-200 text-2xl font-medium leading-normal ltr:rounded-l-lg rtl:rounded-r-lg"></span>
+                        <span class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-300 cursor-not-allowed text-xs" aria-disabled="true">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </span>
                     @else
                         <a 
                             href="{{ urldecode($paginator->previousPageUrl()) }}" 
-                            class="flex h-[37px] w-[35px] items-center justify-center border border-zinc-200 font-medium leading-normal hover:bg-gray-100 ltr:rounded-l-lg rtl:rounded-r-lg" 
+                            class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/90 bg-white text-xs font-semibold text-[#133b63] hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 transition-all duration-200 shadow-xs active:scale-95" 
                             aria-label="{{ trans('shop::app.partials.pagination.prev-page') }}"
                         >
-                            <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
                         </a>
                     @endif
                 </li>
@@ -29,9 +31,7 @@
                 @foreach ($elements as $element) 
                     @if (is_string($element)) 
                         <li>
-                            <span 
-                                class="disabled flex h-[37px] w-[35px] items-center justify-center border border-zinc-200 text-center font-medium leading-normal text-black"
-                            >
+                            <span class="flex h-10 min-w-10 px-2 items-center justify-center text-xs font-bold text-slate-400">
                                 {{ $element }}
                             </span>
                         </li>
@@ -39,14 +39,25 @@
 
                     @if (is_array($element)) 
                         @foreach ($element as $page => $url) 
-                            <li>
-                                <a 
-                                    href="{{ $paginator->currentPage() ? $url : '#' }}"
-                                    class="flex h-[37px] w-[35px] items-center justify-center border border-zinc-200 text-center font-medium leading-normal text-black hover:bg-gray-100 {{ $paginator->currentPage() ? 'bg-gray-100' : '' }}"
-                                >
-                                    {{ $page }}
-                                </a>
-                            </li>
+                            @if ($page == $paginator->currentPage())
+                                <li>
+                                    <span 
+                                        class="flex h-10 min-w-10 px-3.5 items-center justify-center rounded-full bg-[#133b63] text-white font-bold text-xs shadow-md border border-[#133b63] cursor-default"
+                                        aria-current="page"
+                                    >
+                                        {{ $page }}
+                                    </span>
+                                </li>
+                            @else
+                                <li>
+                                    <a 
+                                        href="{{ $url }}" 
+                                        class="flex h-10 min-w-10 px-3.5 items-center justify-center rounded-full border border-slate-200/90 bg-white text-xs font-semibold text-[#133b63] hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 transition-all duration-200 shadow-xs active:scale-95"
+                                    >
+                                        {{ $page }}
+                                    </a>
+                                </li>
+                            @endif
                         @endforeach 
                     @endif 
                 @endforeach
@@ -56,13 +67,15 @@
                     @if ($paginator->hasMorePages())
                         <a 
                             href="{{ urldecode($paginator->nextPageUrl()) }}" 
-                            class="flex h-[37px] w-[35px] items-center justify-center border border-zinc-200 font-medium leading-normal hover:bg-gray-100 ltr:rounded-r-lg rtl:rounded-l-lg" 
+                            class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/90 bg-white text-xs font-semibold text-[#133b63] hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 transition-all duration-200 shadow-xs active:scale-95" 
                             aria-label="{{ trans('shop::app.partials.pagination.next-page') }}"
                         >
-                            <span class="icon-arrow-right rtl:icon-arrow-left text-2xl"></span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
                         </a>
                     @else
-                        <span class="icon-arrow-right rtl:icon-arrow-left flex h-[37px] w-[35px] items-center justify-center border border-zinc-200 text-2xl font-medium leading-normal ltr:rounded-r-lg rtl:rounded-l-lg"></span>
+                        <span class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-300 cursor-not-allowed text-xs" aria-disabled="true">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </span>
                     @endif
                 </li>
             </ul>

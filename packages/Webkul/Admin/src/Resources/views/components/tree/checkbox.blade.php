@@ -17,7 +17,7 @@
                 @change="inputChanged()"
             />
 
-            <span class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl text-gray-300 transition-colors peer-checked:text-[#205132]">
+            <span class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl text-gray-300 transition-colors peer-checked:text-[#133b63]">
             </span>
 
             <div class="cursor-pointer text-sm text-gray-600 hover:text-gray-800">

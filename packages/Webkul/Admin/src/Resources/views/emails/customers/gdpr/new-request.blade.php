@@ -1,6 +1,6 @@
 @component('admin::emails.layout')
     <div style="margin-bottom: 34px;">
-        <p style="font-weight: bold;font-size: 20px;color: #163923;line-height: 24px;margin-bottom: 24px">
+        <p style="font-weight: bold;font-size: 20px;color: #0d2847;line-height: 24px;margin-bottom: 24px">
             @lang('admin::app.emails.dear', ['admin_name' => core()->getAdminEmailDetails()['name']]), 👋
         </p>
     </div>

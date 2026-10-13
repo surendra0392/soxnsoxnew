@@ -16,7 +16,7 @@
             <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                 <!-- First Name -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.first-name')
                     </x-shop::form.control-group.label>
 
@@ -25,7 +25,7 @@
                         ::name="controlName + '.first_name'"
                         ::value="address.first_name"
                         rules="required"
-                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                         :label="trans('shop::app.checkout.onepage.address.first-name')"
                         :placeholder="trans('shop::app.checkout.onepage.address.first-name')"
                     />
@@ -37,7 +37,7 @@
 
                 <!-- Last Name -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.last-name')
                     </x-shop::form.control-group.label>
 
@@ -46,7 +46,7 @@
                         ::name="controlName + '.last_name'"
                         ::value="address.last_name"
                         rules="required"
-                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                         :label="trans('shop::app.checkout.onepage.address.last-name')"
                         :placeholder="trans('shop::app.checkout.onepage.address.last-name')"
                     />
@@ -61,7 +61,7 @@
             <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                 <!-- Email -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.email')
                     </x-shop::form.control-group.label>
 
@@ -70,7 +70,7 @@
                         ::name="controlName + '.email'"
                         ::value="address.email"
                         rules="required|email"
-                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                         :label="trans('shop::app.checkout.onepage.address.email')"
                         placeholder="email@example.com"
                     />
@@ -82,7 +82,7 @@
 
                 <!-- Phone Number -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.telephone')
                     </x-shop::form.control-group.label>
 
@@ -91,7 +91,7 @@
                         ::name="controlName + '.phone'"
                         ::value="address.phone"
                         rules="required|phone"
-                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                         :label="trans('shop::app.checkout.onepage.address.telephone')"
                         placeholder="e.g. 9876543210"
                     />
@@ -104,7 +104,7 @@
 
             <!-- Street Address -->
             <x-shop::form.control-group class="!mb-0">
-                <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                     @lang('shop::app.checkout.onepage.address.street-address')
                 </x-shop::form.control-group.label>
 
@@ -113,7 +113,7 @@
                     ::name="controlName + '.address.[0]'"
                     ::value="address.address[0]"
                     rules="required|address"
-                    class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                    class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                     :label="trans('shop::app.checkout.onepage.address.street-address')"
                     placeholder="House / Flat No., Street, Landmark"
                 />
@@ -129,7 +129,7 @@
                             type="text"
                             ::name="controlName + '.address.[{{ $i }}]'"
                             rules="address"
-                            class="!mt-2 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                            class="!mt-2 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                             :label="trans('shop::app.checkout.onepage.address.street-address')"
                             placeholder="Apartment, suite, unit, etc. (optional)"
                         />
@@ -148,7 +148,7 @@
             <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                 <!-- Country -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }} !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }} !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.country')
                     </x-shop::form.control-group.label>
 
@@ -158,7 +158,7 @@
                         ::value="address.country"
                         v-model="selectedCountry"
                         rules="{{ core()->isCountryRequired() ? 'required' : '' }}"
-                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] transition-all outline-none"
+                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] transition-all outline-none"
                         :label="trans('shop::app.checkout.onepage.address.country')"
                         :placeholder="trans('shop::app.checkout.onepage.address.country')"
                     >
@@ -181,7 +181,7 @@
 
                 <!-- State -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }} !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }} !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.state')
                     </x-shop::form.control-group.label>
 
@@ -190,7 +190,7 @@
                             type="select"
                             ::name="controlName + '.state'"
                             disabled
-                            class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-gray-100 opacity-60 cursor-not-allowed !text-sm text-[#8c9e92]"
+                            class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-gray-100 opacity-60 cursor-not-allowed !text-sm text-[#9ca3af]"
                             :label="trans('shop::app.checkout.onepage.address.state')"
                         >
                             <option value="">Select country first</option>
@@ -204,7 +204,7 @@
                                 ::name="controlName + '.state'"
                                 rules="{{ core()->isStateRequired() ? 'required' : '' }}"
                                 ::value="address.state"
-                                class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] transition-all outline-none"
+                                class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] transition-all outline-none"
                                 :label="trans('shop::app.checkout.onepage.address.state')"
                                 :placeholder="trans('shop::app.checkout.onepage.address.state')"
                             >
@@ -227,7 +227,7 @@
                                 ::name="controlName + '.state'"
                                 ::value="address.state"
                                 rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                                class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                                class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                                 :label="trans('shop::app.checkout.onepage.address.state')"
                                 :placeholder="trans('shop::app.checkout.onepage.address.state')"
                             />
@@ -244,7 +244,7 @@
             <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                 <!-- City -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="required !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.city')
                     </x-shop::form.control-group.label>
 
@@ -253,7 +253,7 @@
                         ::name="controlName + '.city'"
                         ::value="address.city"
                         rules="required"
-                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                         :label="trans('shop::app.checkout.onepage.address.city')"
                         placeholder="City / Town"
                     />
@@ -265,7 +265,7 @@
 
                 <!-- Postcode -->
                 <x-shop::form.control-group class="!mb-0">
-                    <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                    <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} !mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                         @lang('shop::app.checkout.onepage.address.postcode')
                     </x-shop::form.control-group.label>
 
@@ -274,7 +274,7 @@
                         ::name="controlName + '.postcode'"
                         ::value="address.postcode"
                         rules="{{ core()->isPostCodeRequired() ? 'required' : '' }}|postcode"
-                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                        class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                         :label="trans('shop::app.checkout.onepage.address.postcode')"
                         placeholder="e.g. 500072"
                     />
@@ -286,20 +286,20 @@
             </div>
 
             <!-- Optional Business / Company Details -->
-            <div class="pt-2 border-t border-[#e5decb]/60">
+            <div class="pt-2 border-t border-[#e5e7eb]/60">
                 <details class="group">
-                    <summary class="cursor-pointer text-xs font-semibold uppercase tracking-wider text-[#677a6d] hover:text-[#205132] flex items-center justify-between list-none py-1 transition-colors select-none">
-                        <span class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[16px]">domain</span>
+                    <summary class="cursor-pointer text-xs font-semibold uppercase tracking-wider text-[#64748b] hover:text-[#1d5b8f] flex items-center justify-between list-none py-1 transition-colors select-none">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-building text-xs"></i>
                             <span>Add Company & Tax Details (Optional)</span>
                         </span>
-                        <span class="material-symbols-outlined text-[16px] transition-transform group-open:rotate-180">expand_more</span>
+                        <i class="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
                     </summary>
 
                     <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1 pt-3">
                         <!-- Company Name -->
                         <x-shop::form.control-group class="!mb-0">
-                            <x-shop::form.control-group.label class="!mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                            <x-shop::form.control-group.label class="!mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                 @lang('shop::app.checkout.onepage.address.company-name')
                             </x-shop::form.control-group.label>
 
@@ -307,7 +307,7 @@
                                 type="text"
                                 ::name="controlName + '.company_name'"
                                 ::value="address.company_name"
-                                class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                                class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                                 placeholder="Company Name (Optional)"
                             />
                         </x-shop::form.control-group>
@@ -315,7 +315,7 @@
                         <!-- Vat ID -->
                         <template v-if="controlName=='billing'">
                             <x-shop::form.control-group class="!mb-0">
-                                <x-shop::form.control-group.label class="!mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923]">
+                                <x-shop::form.control-group.label class="!mt-0 !mb-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                     @lang('shop::app.checkout.onepage.address.vat-id')
                                 </x-shop::form.control-group.label>
 
@@ -323,7 +323,7 @@
                                     type="text"
                                     ::name="controlName + '.vat_id'"
                                     ::value="address.vat_id"
-                                    class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5decb] !bg-[#FAF8F5]/60 hover:!border-[#205132]/40 focus:!border-[#205132] focus:!ring-2 focus:!ring-[#205132]/15 focus:!bg-white !text-sm !text-[#163923] placeholder:!text-[#8c9e92] transition-all outline-none"
+                                    class="!mb-0 w-full !h-11 sm:!h-12 !px-3.5 sm:!px-4 !rounded-xl !border !border-[#e5e7eb] !bg-[#f8fafc]/60 hover:!border-[#1d5b8f]/40 focus:!border-[#1d5b8f] focus:!ring-2 focus:!ring-[#1d5b8f]/15 focus:!bg-white !text-sm !text-[#133b63] placeholder:!text-[#9ca3af] transition-all outline-none"
                                     placeholder="VAT / GSTIN (Optional)"
                                 />
 

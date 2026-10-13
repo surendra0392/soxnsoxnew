@@ -23,13 +23,13 @@
                 >
                     <x-slot:toggle>
                         <!-- Dropdown Toggler -->
-                        <button class="flex w-full max-w-[200px] cursor-pointer items-center justify-between gap-4 rounded-lg border border-zinc-200 bg-white p-3.5 text-base transition-all hover:border-gray-400 focus:border-gray-400 max-md:w-[110px] max-md:border-0 max-md:pl-2.5 max-md:pr-2.5">
+                        <button class="flex w-full max-w-[220px] cursor-pointer items-center justify-between gap-3 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:shadow-md focus:border-[#2ca7a3] max-md:w-[110px] max-md:border-0 max-md:px-2.5">
                             @{{ sortLabel ?? "@lang('shop::app.products.sort-by.title')" }}
 
-                            <span
-                                class="icon-arrow-down text-2xl"
+                            <i
+                                class="fa-solid fa-chevron-down text-[10px] text-slate-400"
                                 role="presentation"
-                            ></span>
+                            ></i>
                         </button>
                     </x-slot>
 
@@ -37,7 +37,7 @@
                     <x-slot:menu>
                         <x-shop::dropdown.menu.item
                             v-for="(sort, key) in filters.available.sort"
-                            ::class="{'bg-gray-100': sort.value == filters.applied.sort}"
+                            ::class="{'!bg-teal-50 !text-[#2ca7a3] font-bold': sort.value == filters.applied.sort}"
                             @click="apply('sort', sort.value)"
                         >
                             @{{ sort.title }}
@@ -50,18 +50,18 @@
                 {!! view_render_event('bagisto.shop.categories.toolbar.pagination.before') !!}
 
                 <!-- Product Pagination Limit -->
-                <div class="flex items-center gap-10">
+                <div class="flex items-center gap-6">
                     <!-- Product Pagination Limit -->
                     <x-shop::dropdown position="bottom-right">
                         <x-slot:toggle>
                             <!-- Dropdown Toggler -->
-                            <button class="flex w-full max-w-[200px] cursor-pointer items-center justify-between gap-4 rounded-lg border border-zinc-200 bg-white p-3.5 text-base transition-all hover:border-gray-400 focus:border-gray-400 max-md:w-[110px] max-md:border-0 max-md:pl-2.5 max-md:pr-2.5">
+                            <button class="flex w-full max-w-[140px] cursor-pointer items-center justify-between gap-3 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:shadow-md focus:border-[#2ca7a3] max-md:w-[110px] max-md:border-0 max-md:px-2.5">
                                 @{{ filters.applied.limit ?? "@lang('shop::app.categories.toolbar.show')" }}
 
-                                <span
-                                    class="icon-arrow-down text-2xl"
+                                <i
+                                    class="fa-solid fa-chevron-down text-[10px] text-slate-400"
                                     role="presentation"
-                                ></span>
+                                ></i>
                             </button>
                         </x-slot>
 
@@ -69,7 +69,7 @@
                         <x-slot:menu>
                             <x-shop::dropdown.menu.item
                                 v-for="(limit, key) in filters.available.limit"
-                                ::class="{'bg-gray-100': limit == filters.applied.limit}"
+                                ::class="{'!bg-teal-50 !text-[#2ca7a3] font-bold': limit == filters.applied.limit}"
                                 @click="apply('limit', limit)"
                             >
                                 @{{ limit }}
@@ -78,26 +78,26 @@
                     </x-shop::dropdown>
 
                     <!-- Listing Mode Switcher -->
-                    <div class="flex items-center gap-5">
-                        <span
-                            class="cursor-pointer text-2xl"
-                            role="button"
+                    <div class="flex items-center gap-2">
+                        <button
+                            type="button"
+                            class="cursor-pointer h-9 w-9 flex items-center justify-center rounded-full border transition-all"
                             aria-label="@lang('shop::app.categories.toolbar.list')"
-                            tabindex="0"
-                            :class="(filters.applied.mode === 'list') ? 'icon-listing-fill' : 'icon-listing'"
+                            :class="(filters.applied.mode === 'list') ? 'text-white bg-[#133b63] border-[#133b63] shadow-sm' : 'text-slate-500 bg-white border-slate-200 hover:border-[#2ca7a3] hover:text-[#2ca7a3]'"
                             @click="changeMode('list')"
                         >
-                        </span>
+                            <i class="fa-solid fa-list text-xs"></i>
+                        </button>
 
-                        <span
-                            class="cursor-pointer text-2xl"
-                            role="button"
+                        <button
+                            type="button"
+                            class="cursor-pointer h-9 w-9 flex items-center justify-center rounded-full border transition-all"
                             aria-label="@lang('shop::app.categories.toolbar.grid')"
-                            tabindex="0"
-                            :class="(filters.applied.mode === 'grid') ? 'icon-grid-view-fill' : 'icon-grid-view'"
+                            :class="(filters.applied.mode === 'grid') ? 'text-white bg-[#133b63] border-[#133b63] shadow-sm' : 'text-slate-500 bg-white border-slate-200 hover:border-[#2ca7a3] hover:text-[#2ca7a3]'"
                             @click="changeMode('grid')"
                         >
-                        </span>
+                            <i class="fa-solid fa-grip text-xs"></i>
+                        </button>
                     </div>
                 </div>
 

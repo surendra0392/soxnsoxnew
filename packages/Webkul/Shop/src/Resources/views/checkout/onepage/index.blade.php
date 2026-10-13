@@ -1,7 +1,8 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="title" content="@lang('shop::app.checkout.onepage.index.checkout') | ELIOR" />
-    <meta name="description" content="Complete your ELIOR botanical nutrition order with secure 256-bit encrypted checkout." />
+    <meta name="title" content="@lang('shop::app.checkout.onepage.index.checkout') | SOXNSOX" />
+    <meta name="description" content="Complete your SOXNSOX order with secure 256-bit encrypted checkout." />
+    <meta name="robots" content="noindex, nofollow" />
 @endPush
 
 <x-shop::layouts
@@ -11,45 +12,48 @@
 >
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.checkout.onepage.index.checkout') | ELIOR
+        @lang('shop::app.checkout.onepage.index.checkout') | SOXNSOX
     </x-slot>
 
     @php
         $channel = core()->getCurrentChannel();
-        $logoConfig = core()->getConfigData('general.design.admin_logo.logo_image');
-        $logoUrl = $channel->logo_url ?: ($logoConfig ? \Illuminate\Support\Facades\Storage::url($logoConfig) : null);
+        $logoUrl = ($channel->logo && file_exists(public_path('storage/' . $channel->logo)))
+            ? asset('storage/' . $channel->logo)
+            : (file_exists(public_path('logo.png'))
+                ? asset('logo.png')
+                : ($channel->logo_url ?: null));
     @endphp
 
     <!-- Focused Secure Checkout Top Bar -->
-    <header class="border-b border-[#e5decb] sticky top-0 z-30 shadow-sm" style="background-color: #f4f0e6 !important;">
+    <header class="border-b border-[#e5e7eb] sticky top-0 z-30 shadow-sm bg-white">
         <div class="site-container h-16 sm:h-20 flex items-center justify-between">
             <!-- Logo -->
             <a
                 href="{{ route('shop.home.index') }}"
                 class="flex items-center py-2 group"
-                aria-label="ELIOR - Botanical Nutrition"
+                aria-label="SOXNSOX - Bamboo Socks"
             >
                 @if ($logoUrl)
                     <img
                         src="{{ $logoUrl }}"
-                        alt="{{ config('app.name', 'ELIOR') }}"
+                        alt="{{ config('app.name', 'SOXNSOX') }}"
                         class="h-9 sm:h-11 w-auto object-contain max-w-[180px] transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                 @else
                     <div class="flex flex-col">
-                        <span class="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-[#163923] group-hover:text-[#205132] transition-colors">
-                            ELIOR
+                        <span class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#133b63] group-hover:text-[#1d5b8f] transition-colors">
+                            SOX<span class="text-[#f29a38]">N</span>SOX
                         </span>
-                        <span class="text-[8px] sm:text-[9px] tracking-[0.32em] uppercase text-[#677a6d] -mt-0.5 font-sans font-semibold">
-                            Botanical Nutrition
+                        <span class="text-[8px] sm:text-[9px] tracking-[0.25em] uppercase text-[#2ca7a3] -mt-0.5 font-sans font-bold">
+                            Bamboo Socks
                         </span>
                     </div>
                 @endif
             </a>
 
             <!-- Center Trust Badge (Desktop) -->
-            <div class="hidden md:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#205132] bg-[#EBF3EE] border border-[#d2e4d8] px-4 py-1.5 rounded-full shadow-xs">
-                <span class="material-symbols-outlined text-[16px] text-[#205132]">lock</span>
+            <div class="hidden md:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#1d5b8f] bg-[#e9f2fa] border border-[#cbe2f5] px-4 py-1.5 rounded-full shadow-xs">
+                <i class="fa-solid fa-lock text-xs text-[#1d5b8f]"></i>
                 <span>Secure 256-Bit SSL Checkout</span>
             </div>
 
@@ -57,14 +61,14 @@
             <div class="flex items-center gap-3 sm:gap-4">
                 <a
                     href="{{ route('shop.checkout.cart.index') }}"
-                    class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#163923] hover:text-[#205132] transition-colors"
+                    class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#133b63] hover:text-[#1d5b8f] transition-colors"
                 >
-                    <span class="icon-arrow-left text-xs"></span>
+                    <i class="fa-solid fa-arrow-left text-xs"></i>
                     <span>Back to Cart</span>
                 </a>
 
                 @guest('customer')
-                    <span class="text-[#e5decb] hidden sm:inline">|</span>
+                    <span class="text-slate-300 hidden sm:inline">|</span>
                     <div class="block">
                         @include('shop::checkout.login')
                     </div>
@@ -73,28 +77,29 @@
         </div>
     </header>
 
-    <div class="bg-elior-cream min-h-[calc(100vh-80px)]">
+    <div class="bg-[#f5f7fa] min-h-[calc(100vh-80px)]">
         <!-- Breadcrumbs -->
         <div class="site-container pt-4 pb-2 sm:pt-6 sm:pb-3">
-            <nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-[11px] sm:text-xs uppercase tracking-[0.14em] text-elior-muted">
-                <a href="{{ route('shop.home.index') }}" class="hover:text-elior-botanical transition-colors">Home</a>
-                <span class="text-elior-border">/</span>
-                <a href="{{ route('shop.checkout.cart.index') }}" class="hover:text-elior-botanical transition-colors">Cart</a>
-                <span class="text-elior-border">/</span>
-                <span class="text-elior-charcoal font-semibold">Checkout</span>
+            <nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-[11px] sm:text-xs uppercase tracking-[0.14em] text-soxnsox-muted">
+                <a href="{{ route('shop.home.index') }}" class="hover:text-[#1d5b8f] transition-colors">Home</a>
+                <span class="text-soxnsox-border">/</span>
+                <a href="{{ route('shop.checkout.cart.index') }}" class="hover:text-[#1d5b8f] transition-colors">Cart</a>
+                <span class="text-soxnsox-border">/</span>
+                <span class="text-soxnsox-charcoal font-semibold">Checkout</span>
             </nav>
         </div>
 
         <!-- Page Header -->
         <div class="site-container pt-4 pb-6 sm:pt-6 sm:pb-8">
             <div class="space-y-1">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF3EE] text-elior-botanical text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
-                    <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">shield</span></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e9f2fa] text-[#1d5b8f] text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
+                    <i class="fa-solid fa-shield-halved"></i>
                     <span>Order Placement</span>
                 </div>
-                <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-elior-charcoal">
+                <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#133b63]">
                     Checkout
                 </h1>
+                <div class="soxnsox-decorative-line"></div>
             </div>
         </div>
 
@@ -162,7 +167,7 @@
                             <template v-else>
                                 <x-shop::button
                                     type="button"
-                                    class="elior-btn-primary h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-elior-card"
+                                    class="soxnsox-btn-primary h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-soxnsox-card"
                                     :title="trans('shop::app.checkout.onepage.summary.place-order')"
                                     ::disabled="isPlacingOrder"
                                     ::loading="isPlacingOrder"

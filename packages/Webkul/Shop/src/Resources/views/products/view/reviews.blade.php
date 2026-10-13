@@ -60,14 +60,14 @@
                                     @lang('shop::app.products.view.reviews.rating')
                                 </x-shop::form.control-group.label>
 
-                                <span
-                                    class="icon-star-fill cursor-pointer text-2xl"
+                                <i
+                                    class="fa-solid fa-star cursor-pointer text-xl"
                                     role="presentation"
                                     v-for="rating in [1,2,3,4,5]"
                                     :class="appliedRatings >= rating ? 'text-amber-500' : 'text-zinc-500'"
                                     @click="appliedRatings = rating"
                                 >
-                                </span>
+                                </i>
 
                                 <v-field
                                     type="hidden"
@@ -135,7 +135,7 @@
 
                             <div class="mt-4 flex justify-start gap-4 max-xl:mb-5 max-sm:mb-5 max-sm:flex-wrap max-sm:justify-normal max-sm:gap-x-0">
                                 <button
-                                    class="primary-button w-full max-w-[374px] rounded-2xl px-11 py-4 text-center max-md:max-w-full max-md:rounded-lg max-md:py-3 max-sm:py-1.5"
+                                    class="primary-button w-full max-w-[374px] rounded-full px-11 py-4 text-center max-md:max-w-full max-md:py-3 max-sm:py-1.5"
                                     type='submit'
                                 >
                                     @lang('shop::app.products.view.reviews.submit-review')
@@ -143,7 +143,7 @@
 
                                 <button
                                     type="button"
-                                    class="secondary-button items-center rounded-2xl px-8 py-2.5 max-md:w-full max-md:max-w-full max-md:rounded-lg max-md:py-1.5"
+                                    class="secondary-button items-center rounded-full px-8 py-2.5 max-md:w-full max-md:max-w-full max-md:py-1.5"
                                     @click="canReview = false"
                                 >
                                     @lang('shop::app.products.view.reviews.cancel')
@@ -164,11 +164,14 @@
                 <!-- Reviews Cards Container -->
                 <template v-else>
                     <template v-if="reviews.length">
-                        <h3 class="mb-8 font-dmserif text-3xl max-md:mb-2.5 max-md:text-2xl max-sm:text-xl">
-                            @lang('shop::app.products.view.reviews.customer-review')
+                        <div class="mb-8 max-md:mb-4">
+                            <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-[#133b63] max-md:text-2xl max-sm:text-xl">
+                                @lang('shop::app.products.view.reviews.customer-review')
 
-                            ({{ $reviewHelper->getTotalReviews($product) }})
-                        </h3>
+                                ({{ $reviewHelper->getTotalReviews($product) }})
+                            </h3>
+                            <div class="soxnsox-decorative-line mt-2"></div>
+                        </div>
 
                         <div class="flex gap-16 max-lg:flex-wrap max-sm:gap-5 max-sm:gap-x-0">
                             <!-- Left Section -->
@@ -181,7 +184,7 @@
 
                                     <div class="flex items-center gap-0.5">
                                         @for ($i = 1; $i <= 5; $i++)
-                                            <span class="icon-star-fill text-3xl {{ $avgRatings >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></span>
+                                            <i class="fa-solid fa-star text-2xl {{ $avgRatings >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></i>
                                         @endfor
                                     </div>
 
@@ -215,10 +218,10 @@
                                             || auth()->guard('customer')->user()
                                         )
                                             <div
-                                                class="flex cursor-pointer items-center justify-center gap-x-4 rounded-xl border border-navyBlue px-4 py-3 max-sm:rounded-lg max-sm:py-1.5"
+                                                class="soxnsox-btn-outline soxnsox-btn-shimmer flex cursor-pointer items-center justify-center gap-x-3 rounded-full px-5 py-3 text-xs uppercase tracking-widest font-semibold active:scale-95 transition-all max-sm:py-2"
                                                 @click="canReview = true"
                                             >
-                                                <span class="icon-pen text-2xl"></span>
+                                                <i class="fa-solid fa-pen text-sm"></i>
 
                                                 @lang('shop::app.products.view.reviews.write-a-review')
                                             </div>
@@ -235,11 +238,13 @@
                                 ></v-product-review-item>
 
                                 <button
-                                    class="mx-auto block w-max rounded-2xl border border-navyBlue bg-white px-11 py-3 text-center text-base font-medium text-navyBlue"
+                                    class="soxnsox-btn-outline soxnsox-btn-shimmer mx-auto flex items-center justify-center gap-2 rounded-full px-8 py-2.5 text-center text-xs uppercase tracking-widest font-semibold active:scale-95 transition-all"
                                     v-if="links?.next"
+                                    :disabled="isFetchingMore"
                                     @click="get()"
                                 >
-                                    @lang('shop::app.products.view.reviews.load-more')
+                                    <img v-if="isFetchingMore" class="h-3.5 w-3.5 animate-spin" src="{{ bagisto_asset('images/spinner.svg') }}" alt="Loading" />
+                                    <span>@lang('shop::app.products.view.reviews.load-more')</span>
                                 </button>
                             </div>
                         </div>
@@ -251,8 +256,8 @@
                             <img
                                 class="max-md:h-32 max-md:w-32 max-sm:h-[100px] max-sm:w-[100px]"
                                 src="{{ bagisto_asset('images/review.png') }}"
-                                alt=""
-                                title=""
+                                alt="@lang('shop::app.products.view.reviews.empty-review')"
+                                title="@lang('shop::app.products.view.reviews.empty-review')"
                             >
 
                             <p class="text-xl max-md:text-sm max-sm:text-xs">
@@ -265,10 +270,10 @@
                                         || auth()->guard('customer')->user()
                                     )
                                         <div
-                                            class="mt-8 flex cursor-pointer items-center gap-x-4 rounded-xl border border-navyBlue px-4 py-2.5 max-sm:mt-5 max-sm:gap-x-1.5 max-sm:rounded-lg max-sm:py-1.5 max-sm:text-sm"
+                                            class="soxnsox-btn-primary soxnsox-btn-shimmer mt-6 inline-flex cursor-pointer items-center gap-x-2.5 rounded-full px-6 py-3 text-xs uppercase tracking-widest font-semibold shadow-soxnsox-card active:scale-95 transition-all"
                                             @click="canReview = true"
                                         >
-                                            <span class="icon-pen text-2xl max-sm:text-lg"></span>
+                                            <i class="fa-solid fa-pen text-sm"></i>
 
                                             @lang('shop::app.products.view.reviews.write-a-review')
                                         </div>
@@ -288,25 +293,12 @@
     >
         <div class="rounded-xl border border-zinc-200 p-6 max-md:hidden">
             <div class="flex gap-5">
-                <template v-if="review.profile">
-                    <img
-                        class="flex max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] items-center justify-center rounded-xl"
-                        :src="review.profile"
-                        :alt="review.name"
-                        :title="review.name"
-                    >
-                </template>
-
-                <template v-else>
-                    <div
-                        class="flex max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] items-center justify-center rounded-xl bg-zinc-100"
-                        :title="review.name"
-                    >
-                        <span class="text-2xl font-semibold text-zinc-500">
-                            @{{ review.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('') }}
-                        </span>
-                    </div>
-                </template>
+                <img
+                    class="flex max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] items-center justify-center rounded-xl object-cover shadow-sm border border-slate-100"
+                    :src="review.profile || (typeof getSoxnsoxAvatar === 'function' ? getSoxnsoxAvatar(review.name, 100) : '')"
+                    :alt="review.name"
+                    :title="review.name"
+                >
 
                 <div class="flex flex-col">
                     <p class="font x-md:text-lg text-xl">
@@ -318,11 +310,11 @@
                     </p>
 
                     <div class="flex items-center gap-0.5">
-                        <span
-                            class="icon-star-fill text-3xl"
+                        <i
+                            class="fa-solid fa-star text-2xl"
                             v-for="rating in [1,2,3,4,5]"
                             :class="review.rating >= rating ? 'text-amber-500' : 'text-zinc-500'"
-                        ></span>
+                        ></i>
                     </div>
                 </div>
             </div>
@@ -338,7 +330,7 @@
 
                 @if ((bool) core()->getConfigData('magic_ai.storefront_features.review_translation.enabled'))
                     <button
-                        class="secondary-button min-h-[34px] rounded-lg px-2 py-1 text-sm max-md:rounded-lg"
+                        class="secondary-button min-h-[34px] rounded-full px-3 py-1 text-sm"
                         @click="translate"
                     >
                         <!-- Spinner -->
@@ -346,13 +338,14 @@
                             <img
                                 class="h-5 w-5 animate-spin text-blue-600"
                                 src="{{ bagisto_asset('images/spinner.svg') }}"
+                                alt="Loading"
                             />
 
                             @lang('shop::app.products.view.reviews.translating')
                         </template>
 
                         <template v-else>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="presentation"> <g clip-path="url(#clip0_3148_2242)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1484 9.31989L9.31995 12.1483L19.9265 22.7549L22.755 19.9265L12.1484 9.31989ZM12.1484 10.7341L10.7342 12.1483L13.5626 14.9767L14.9768 13.5625L12.1484 10.7341Z" fill="#060C3B"/> <path d="M11.0877 3.30949L13.5625 4.44748L16.0374 3.30949L14.8994 5.78436L16.0374 8.25924L13.5625 7.12124L11.0877 8.25924L12.2257 5.78436L11.0877 3.30949Z" fill="#060C3B"/> <path d="M2.39219 2.39217L5.78438 3.95197L9.17656 2.39217L7.61677 5.78436L9.17656 9.17655L5.78438 7.61676L2.39219 9.17655L3.95198 5.78436L2.39219 2.39217Z" fill="#060C3B"/> <path d="M3.30947 11.0877L5.78434 12.2257L8.25922 11.0877L7.12122 13.5626L8.25922 16.0374L5.78434 14.8994L3.30947 16.0374L4.44746 13.5626L3.30947 11.0877Z" fill="#060C3B"/> </g> <defs> <clipPath id="clip0_3148_2242"> <rect width="24" height="24" fill="white"/> </clipPath> </defs> </svg>
+                            <i class="fa-solid fa-wand-magic-sparkles text-sm text-[#060C3B] mr-1"></i>
 
                             @lang('shop::app.products.view.reviews.translate')
                         </template>
@@ -412,22 +405,11 @@
             <div class="grid gap-1.5 rounded-xl border border-zinc-200 p-4 max-md:mb-0">
                 <div class="flex items-center gap-2.5">
                     <img
-                        v-if="review.profile"
-                        class="min-h-10 min-w-10 max-w-10 flex max-h-10 items-center justify-center rounded-full"
-                        :src="review.profile"
+                        class="min-h-10 min-w-10 max-w-10 flex max-h-10 items-center justify-center rounded-full object-cover shadow-sm border border-slate-100"
+                        :src="review.profile || (typeof getSoxnsoxAvatar === 'function' ? getSoxnsoxAvatar(review.name, 40) : '')"
                         :alt="review.name"
                         :title="review.name"
                     >
-
-                    <div
-                        v-else
-                        class="min-h-10 min-w-10 max-w-10 flex max-h-10 items-center justify-center rounded-full bg-zinc-100"
-                        :title="review.name"
-                    >
-                        <span class="text-xs font-semibold text-zinc-500">
-                            @{{ review.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('') }}
-                        </span>
-                    </div>
 
                     <div class="grid grid-cols-1">
                         <p class="text-base font-medium">
@@ -440,9 +422,9 @@
                     </div>
                 </div>
 
-                <div class="flex items-center">
+                <div class="flex items-center gap-0.5">
                     @for ($i = 1; $i <= 5; $i++)
-                        <span class="icon-star-fill text-xl {{ $avgRatings >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></span>
+                        <i class="fa-solid fa-star text-sm {{ $avgRatings >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></i>
                     @endfor
                 </div>
 
@@ -457,7 +439,7 @@
 
                     @if ((bool) core()->getConfigData('magic_ai.storefront_features.review_translation.enabled'))
                         <button
-                            class="secondary-button mt-2.5 min-h-[34px] rounded-lg px-4 py-2.5 text-base max-md:rounded-lg max-sm:px-3 max-sm:py-1 max-sm:text-xs"
+                            class="secondary-button mt-2.5 min-h-[34px] rounded-full px-4 py-2 text-base max-sm:px-3 max-sm:py-1 max-sm:text-xs"
                             @click="translate"
                         >
                             <!-- Spinner -->
@@ -465,13 +447,14 @@
                                 <img
                                     class="h-5 w-5 animate-spin text-blue-600"
                                     src="{{ bagisto_asset('images/spinner.svg') }}"
+                                    alt="Loading"
                                 />
 
                                 @lang('shop::app.products.view.reviews.translating')
                             </template>
 
                             <template v-else>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="presentation"> <g clip-path="url(#clip0_3148_2242)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1484 9.31989L9.31995 12.1483L19.9265 22.7549L22.755 19.9265L12.1484 9.31989ZM12.1484 10.7341L10.7342 12.1483L13.5626 14.9767L14.9768 13.5625L12.1484 10.7341Z" fill="#060C3B"/> <path d="M11.0877 3.30949L13.5625 4.44748L16.0374 3.30949L14.8994 5.78436L16.0374 8.25924L13.5625 7.12124L11.0877 8.25924L12.2257 5.78436L11.0877 3.30949Z" fill="#060C3B"/> <path d="M2.39219 2.39217L5.78438 3.95197L9.17656 2.39217L7.61677 5.78436L9.17656 9.17655L5.78438 7.61676L2.39219 9.17655L3.95198 5.78436L2.39219 2.39217Z" fill="#060C3B"/> <path d="M3.30947 11.0877L5.78434 12.2257L8.25922 11.0877L7.12122 13.5626L8.25922 16.0374L5.78434 14.8994L3.30947 16.0374L4.44746 13.5626L3.30947 11.0877Z" fill="#060C3B"/> </g> <defs> <clipPath id="clip0_3148_2242"> <rect width="24" height="24" fill="white"/> </clipPath> </defs> </svg>
+                                <i class="fa-solid fa-wand-magic-sparkles text-sm text-[#060C3B] mr-1"></i>
 
                                 @lang('shop::app.products.view.reviews.translate')
                             </template>
@@ -527,6 +510,8 @@
                 return {
                     isLoading: true,
 
+                    isFetchingMore: false,
+
                     appliedRatings: 5,
 
                     canReview: false,
@@ -565,13 +550,16 @@
 
             methods: {
                 get() {
-                    if (! this.links?.next) {
+                    if (! this.links?.next || this.isFetchingMore) {
                         return;
                     }
+
+                    this.isFetchingMore = true;
 
                     this.$axios.get(this.links.next)
                         .then(response => {
                             this.isLoading = false;
+                            this.isFetchingMore = false;
 
                             this.reviews = [...this.reviews, ...response.data.data];
 
@@ -579,7 +567,10 @@
 
                             this.meta = response.data.meta;
                         })
-                        .catch(error => {});
+                        .catch(error => {
+                            this.isLoading = false;
+                            this.isFetchingMore = false;
+                        });
                 },
 
                 store(params, { resetForm, setErrors }) {

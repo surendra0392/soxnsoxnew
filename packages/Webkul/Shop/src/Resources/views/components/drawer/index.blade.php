@@ -18,18 +18,18 @@
 
     @isset($header)
         <template v-slot:header="{ close }">
-            <div {{ $header->attributes->merge(['class' => 'relative flex items-center justify-between p-6 pb-5 border-b border-elior-border bg-[#FAF8F5]']) }}>
+            <div {{ $header->attributes->merge(['class' => 'relative flex items-center justify-between p-6 pb-5 border-b border-soxnsox-border bg-[#f8fafc]']) }}>
                 <div class="flex-1">
                     {{ $header }}
                 </div>
 
                 <button
                     type="button"
-                    class="flex h-9 w-9 items-center justify-center rounded-full text-elior-charcoal hover:bg-black/5 hover:text-elior-botanical transition-colors focus:outline-none focus:ring-2 focus:ring-elior-botanical"
+                    class="flex h-9 w-9 items-center justify-center rounded-full text-soxnsox-charcoal hover:bg-black/5 hover:text-soxnsox-teal transition-colors focus:outline-none focus:ring-2 focus:ring-soxnsox-teal"
                     aria-label="Close Navigation"
                     @click="close"
                 >
-                    <span class="icon-cancel text-2xl" role="presentation"></span>
+                    <i class="fa-solid fa-xmark text-lg" role="presentation"></i>
                 </button>
             </div>
         </template>
@@ -37,7 +37,7 @@
 
     @isset($content)
         <template v-slot:content>
-            <div {{ $content->attributes->merge(['class' => 'flex-1 overflow-auto bg-[#FAF8F5]']) }}>
+            <div {{ $content->attributes->merge(['class' => 'flex-1 overflow-auto bg-[#f8fafc]']) }}>
                 {{ $content }}
             </div>
         </template>
@@ -45,7 +45,7 @@
 
     @isset($footer)
         <template v-slot:footer>
-            <div {{ $footer->attributes->merge(['class' => 'p-6 border-t border-elior-border bg-[#FAF8F5]']) }}>
+            <div {{ $footer->attributes->merge(['class' => 'p-6 border-t border-soxnsox-border bg-[#f8fafc]']) }}>
                 {{ $footer }}
             </div>
         </template>
@@ -63,68 +63,71 @@
                 <slot name="toggle"></slot>
             </div>
 
-            <!-- Overlay Backdrop -->
-            <transition
-                tag="div"
-                name="drawer-overlay"
-                enter-class="duration-300 ease-out"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-class="duration-200 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-            >
-                <div
-                    class="fixed inset-0 z-[999] bg-black/50 backdrop-blur-sm transition-opacity"
-                    v-show="isOpen"
-                    @click="close"
-                ></div>
-            </transition>
-
-            <!-- Content Drawer -->
-            <transition
-                tag="div"
-                name="drawer"
-                :enter-from-class="enterFromLeaveToClasses"
-                enter-active-class="transform transition duration-300 ease-in-out"
-                enter-to-class="translate-x-0"
-                leave-from-class="translate-x-0"
-                leave-active-class="transform transition duration-300 ease-in-out"
-                :leave-to-class="enterFromLeaveToClasses"
-            >
-                <div
-                    class="fixed z-[1000] overflow-hidden bg-[#FAF8F5] shadow-2xl h-screen"
-                    :class="{
-                        'inset-x-0 top-0': position == 'top',
-                        'inset-x-0 bottom-0 max-sm:max-h-full': position == 'bottom',
-                        'inset-y-0 ltr:right-0 rtl:left-0': position == 'right',
-                        'inset-y-0 ltr:left-0 rtl:right-0': position == 'left'
-                    }"
-                    :style="'width:' + width"
-                    v-show="isOpen"
+            <teleport to="body">
+                <!-- Overlay Backdrop with Premium Blur -->
+                <transition
+                    tag="div"
+                    name="drawer-overlay"
+                    enter-active-class="transition-opacity duration-300 ease-out"
+                    enter-from-class="opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-active-class="transition-opacity duration-200 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
                 >
-                    <div class="pointer-events-auto h-full w-full overflow-auto bg-[#FAF8F5]">
-                        <div class="flex h-full w-full flex-col">
-                            <div class="min-h-0 min-w-0 flex-1 overflow-auto">
-                                <div class="flex h-full flex-col">
-                                    <slot
-                                        name="header"
-                                        :close="close"
-                                    >
-                                        Default Header
-                                    </slot>
+                    <div
+                        class="fixed inset-0 transition-opacity"
+                        style="position: fixed; inset: 0; z-index: 9998; background-color: rgba(12, 31, 51, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+                        v-show="isOpen"
+                        @click="close"
+                    ></div>
+                </transition>
 
-                                    <!-- Content Slot -->
-                                    <slot name="content"></slot>
+                <!-- Content Drawer -->
+                <transition
+                    tag="div"
+                    name="drawer"
+                    :enter-from-class="enterFromLeaveToClasses"
+                    enter-active-class="transform transition duration-300 ease-in-out"
+                    enter-to-class="translate-x-0"
+                    leave-from-class="translate-x-0"
+                    leave-active-class="transform transition duration-300 ease-in-out"
+                    :leave-to-class="enterFromLeaveToClasses"
+                >
+                    <div
+                        class="fixed overflow-hidden bg-[#f8fafc] shadow-2xl h-screen max-w-[100vw]"
+                        :class="{
+                            'inset-x-0 top-0': position == 'top',
+                            'inset-x-0 bottom-0 max-sm:max-h-full': position == 'bottom',
+                            'inset-y-0 ltr:right-0 rtl:left-0': position == 'right',
+                            'inset-y-0 ltr:left-0 rtl:right-0': position == 'left'
+                        }"
+                        :style="'width:' + width + '; max-width: 100vw; z-index: 9999;'"
+                        v-show="isOpen"
+                    >
+                        <div class="pointer-events-auto h-full w-full overflow-auto bg-[#f8fafc]">
+                            <div class="flex h-full w-full flex-col">
+                                <div class="min-h-0 min-w-0 flex-1 overflow-auto">
+                                    <div class="flex h-full flex-col">
+                                        <slot
+                                            name="header"
+                                            :close="close"
+                                        >
+                                            Default Header
+                                        </slot>
 
-                                    <!-- Footer Slot -->
-                                    <slot name="footer"></slot>
+                                        <!-- Content Slot -->
+                                        <slot name="content"></slot>
+
+                                        <!-- Footer Slot -->
+                                        <slot name="footer"></slot>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </transition>
+                </transition>
+            </teleport>
         </div>
     </script>
 
@@ -156,6 +159,11 @@
 
             beforeUnmount() {
                 window.removeEventListener('keydown', this.handleKeydown);
+
+                if (this.isOpen) {
+                    document.body.style.overflow = 'auto';
+                    document.body.style.paddingRight = '';
+                }
             },
 
             computed: {
@@ -183,12 +191,16 @@
                     this.isOpen = ! this.isOpen;
 
                     if (this.isOpen) {
-                        document.body.style.overflow = 'hidden';
-                    } else {
-                        document.body.style.overflow ='auto';
-                    }
+                        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
-                    document.body.style.paddingRight = '';
+                        document.body.style.overflow = 'hidden';
+
+                        document.body.style.paddingRight = `${scrollbarWidth}px`;
+                    } else {
+                        document.body.style.overflow = 'auto';
+
+                        document.body.style.paddingRight = '';
+                    }
 
                     this.$emit('toggle', { isActive: this.isOpen });
                 },

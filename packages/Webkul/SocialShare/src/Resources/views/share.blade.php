@@ -6,9 +6,9 @@
     <div class="pt-2 flex items-center gap-3">
         {!! view_render_event('bagisto.shop.products.view.share.before', ['product' => $product]) !!}
 
-        <!-- Subtle Botanical Share Label -->
-        <div class="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-elior-muted select-none">
-            <span class="material-symbols-outlined text-sm text-elior-botanical align-middle" style="font-size: 15px;">share</span>
+        <!-- Share Label -->
+        <div class="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-soxnsox-muted select-none">
+            <i class="fa-solid fa-share-nodes text-xs text-[#1d5b8f]"></i>
             <span>@lang('admin::app.configuration.index.catalog.products.social-share.share')</span>
         </div>
 
@@ -32,7 +32,7 @@
         <script>
             function shareProduct() {
                 let productName = "{{ $product->name }}";
-                let productUrl = "{{ route('shop.product_or_category.index', [$product->url_key]) }}";
+                let productUrl = "{{ route('shop.products.view', [$product->url_key]) }}";
 
                 if (navigator.share) {
                     navigator.share({

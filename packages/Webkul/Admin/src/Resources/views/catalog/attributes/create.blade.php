@@ -13,7 +13,7 @@
         {!! view_render_event('bagisto.admin.catalog.attributes.create.create_form_controls.before') !!}
 
         <!-- Actions Buttons -->
-        <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
+        <div class="sticky top-0 z-10 -mt-2 -mx-2 sm:-mx-4 px-2 sm:px-4 py-3 bg-[#F8FAFC]/95 backdrop-blur-sm border-b border-slate-200 flex items-center justify-between gap-4 max-sm:flex-wrap mb-4">
             <p class="text-xl font-bold text-gray-800">
                 @lang('admin::app.catalog.attributes.create.title')
             </p>
@@ -118,7 +118,7 @@
                             <!-- Add Row Button -->
                             <div
                                 class="secondary-button text-sm"
-                                @click="$refs.addOptionsRow.toggle();swatchValue=''"
+                                @click="openAddRow()"
                             >
                                 @lang('admin::app.catalog.attributes.create.add-row')
                             </div>
@@ -176,7 +176,7 @@
 
                                         <label
                                             for="empty_option"
-                                            class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                            class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                         >
                                         </label>
 
@@ -237,7 +237,7 @@
 
                                                     <input
                                                         type="hidden"
-                                                        :name="'options[' + element.id + '][position]'"
+                                                        :name="'options[' + element.id + '][sort_order]'"
                                                         :value="index"
                                                     />
                                                 </x-admin::table.td>
@@ -249,7 +249,7 @@
                                                         <img
                                                             src="{{ bagisto_asset('images/product-placeholders/front.svg') }}"
                                                             class="h-[50px] w-[50px]"
-                                                            :ref="'image_' + element.params.id"
+                                                            :ref="'image_' + element.id"
                                                         />
 
                                                         <input
@@ -887,6 +887,12 @@
                 },
 
                 methods: {
+                    openAddRow() {
+                        this.swatchValue = '';
+                        this.$refs.modelForm.resetForm();
+                        this.$refs.addOptionsRow.toggle();
+                    },
+
                     storeOptions(params, { resetForm }) {
                         const sortedLocales = Object.values(this.locales).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -897,19 +903,27 @@
                             return acc;
                         }, {});
 
+                        const optionParams = {
+                            admin_name: params.admin_name,
+                            swatch_value: params.swatch_value || null,
+                            ...sortedParams
+                        };
+
                         if (params.id) {
                             let foundIndex = this.options.findIndex(item => item.id === params.id);
 
                             if (foundIndex !== -1) {
-                                Object.assign(this.options[foundIndex].params, sortedParams);
+                                Object.assign(this.options[foundIndex].params, optionParams);
                             }
                         } else {
+                            const newId = `option_${this.optionRowCount}`;
+
                             this.options.push({
-                                id: `option_${this.optionRowCount}`,
-                                params: { admin_name: params.admin_name, ...sortedParams }
+                                id: newId,
+                                params: optionParams
                             });
 
-                            params.id = `option_${this.optionRowCount}`;
+                            params.id = newId;
                             this.optionRowCount++;
                         }
 
@@ -917,7 +931,7 @@
 
                         const sliderImage = formData.get("swatch_value[]");
 
-                        if (sliderImage) params.swatch_value = sliderImage;
+                        if (sliderImage?.name) params.swatch_value = sliderImage;
 
                         this.$refs.addOptionsRow.toggle();
 
@@ -929,15 +943,18 @@
                     },
 
                     editModal(values) {
-                        values.params.id = values.id;
-
                         this.swatchValue = {
                             image: values.swatch_value_url
                             ? [{ id: values.id, url: values.swatch_value_url }]
                             : [],
                         };
 
-                        this.$refs.modelForm.setValues(values.params);
+                        this.$refs.modelForm.setValues({
+                            id: values.id,
+                            admin_name: values.params.admin_name,
+                            swatch_value: values.params.swatch_value,
+                            ...values.params
+                        });
 
                         this.$refs.addOptionsRow.toggle();
                     },

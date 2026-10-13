@@ -28,7 +28,7 @@
 
                     <!-- Billing Address Header -->
                     <div class="flex items-center justify-between">
-                        <h3 class="font-serif text-lg sm:text-xl font-bold text-[#163923] pb-2 border-b border-[#e5decb]/60 mb-3 w-full">
+                        <h3 class="font-display text-lg sm:text-xl font-extrabold text-[#133b63] pb-2 border-b border-[#e5e7eb]/60 mb-3 w-full">
                             @lang('shop::app.checkout.onepage.address.billing-address')
                         </h3>
                     </div>
@@ -41,7 +41,7 @@
 
                     <!-- Use for Shipping Checkbox -->
                     <div
-                        class="mt-4 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#e5decb] flex items-center gap-3 select-none transition-all hover:border-[#205132]/40"
+                        class="mt-4 p-3.5 rounded-xl bg-[#f8fafc] border border-[#e5e7eb] flex items-center gap-3 select-none transition-all hover:border-[#1d5b8f]/40"
                         v-if="cart.have_stockable_items"
                     >
                         <input
@@ -51,11 +51,11 @@
                             value="1"
                             @change="useBillingAddressForShipping = ! useBillingAddressForShipping"
                             :checked="!! useBillingAddressForShipping"
-                            class="h-4 w-4 rounded border-[#e5decb] text-[#205132] focus:ring-[#205132] cursor-pointer"
+                            class="h-4 w-4 rounded border-[#e5e7eb] text-[#1d5b8f] focus:ring-[#1d5b8f] cursor-pointer"
                         />
 
                         <label
-                            class="cursor-pointer select-none text-xs sm:text-sm font-semibold text-[#163923]"
+                            class="cursor-pointer select-none text-xs sm:text-sm font-semibold text-[#133b63]"
                             for="use_for_shipping"
                         >
                             @lang('shop::app.checkout.onepage.address.same-as-billing')
@@ -75,7 +75,7 @@
 
                         <!-- Shipping Address Header -->
                         <div class="flex items-center justify-between">
-                            <h3 class="font-serif text-lg sm:text-xl font-bold text-[#163923] pb-2 border-b border-[#e5decb]/60 mb-3 w-full">
+                            <h3 class="font-display text-lg sm:text-xl font-extrabold text-[#133b63] pb-2 border-b border-[#e5e7eb]/60 mb-3 w-full">
                                 @lang('shop::app.checkout.onepage.address.shipping-address')
                             </h3>
                         </div>
@@ -93,7 +93,7 @@
                 <!-- Proceed Button -->
                 <div class="mt-6 flex justify-end">
                     <x-shop::button
-                        class="elior-btn-primary h-12 px-10 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 max-md:w-full shadow-elior-card rounded-full"
+                        class="soxnsox-btn-primary soxnsox-btn-shimmer h-12 px-10 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 max-md:w-full shadow-soxnsox-card rounded-full active:scale-95 transition-all duration-300"
                         :title="trans('shop::app.checkout.onepage.address.proceed')"
                         ::loading="isStoring"
                         ::disabled="isStoring"

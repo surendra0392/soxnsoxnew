@@ -105,7 +105,7 @@
                                                 :href="'{{ route('admin.settings.data_transfer.imports.download_sample', ['type' => ':type:', 'format' => ':format:']) }}'.replace(':type:', $refs['importType']?.value).replace(':format:', '{{ $format }}')"
                                                 target="_blank"
                                                 id="source-sample-link"
-                                                class="cursor-pointer text-sm text-[#205132] transition-all hover:underline"
+                                                class="cursor-pointer text-sm text-[#133b63] transition-all hover:underline"
                                             >
                                                 {{ strtoupper($format) }}
                                             </a>
@@ -136,7 +136,7 @@
                                 @lang('admin::app.settings.data-transfer.imports.edit.current-file'):
                                 <a 
                                     href="{{ route('admin.settings.data_transfer.imports.download', $import->id) }}" 
-                                    class="cursor-pointer text-sm text-[#205132] transition-all hover:underline"
+                                    class="cursor-pointer text-sm text-[#133b63] transition-all hover:underline"
                                     target="_blank"
                                     v-pre
                                 >

@@ -11,7 +11,7 @@
         enctype="multipart/form-data"
         method="PUT"
     >
-        <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
+        <div class="sticky top-0 z-10 -mt-2 -mx-2 sm:-mx-4 px-2 sm:px-4 py-3 bg-[#F8FAFC]/95 backdrop-blur-sm border-b border-slate-200 flex items-center justify-between gap-4 max-sm:flex-wrap mb-4">
             <p class="text-xl font-bold text-gray-800">
                 @lang('admin::app.catalog.attributes.edit.title')
             </p>
@@ -114,7 +114,7 @@
                             <!-- Add Row Button -->
                             <div
                                 class="secondary-button text-sm"
-                                @click="$refs.addOptionsRow.toggle();swatchValue=''"
+                                @click="openAddRow()"
                             >
                                 @lang('admin::app.catalog.attributes.edit.add-row')
                             </div>
@@ -166,7 +166,7 @@
 
                                     <label
                                         for="empty_option"
-                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#205132]"
+                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-[#133b63]"
                                     >
                                     </label>
 
@@ -1033,20 +1033,27 @@
                 },
 
                 methods: {
+                    openAddRow() {
+                        this.optionIsNew = true;
+                        this.swatchValue = '';
+                        this.$refs.modelForm.resetForm();
+                        this.$refs.addOptionsRow.toggle();
+                    },
+
                     storeOptions(params, { resetForm, setValues }) {
-                        const lastId = this.optionsData.map(item => item.id).pop() ?? 0;
-
                         if (! params.id) {
-                            params.id = `options_${lastId + 1}`;
-
                             this.optionId++;
+                            params.id = `options_${this.optionId}`;
+                            params.isNew = true;
+                        } else if (String(params.id).startsWith('options_')) {
+                            params.isNew = true;
                         }
+
+                        params.locales = params.locales || {};
 
                         let foundIndex = this.optionsData.findIndex(item => item.id === params.id);
 
                         if (foundIndex !== -1) {
-                            params.isNew = String(params.id).startsWith('options_');
-
                             this.optionsData.splice(foundIndex, 1, params);
                         } else {
                             this.optionsData.push(params);
@@ -1120,6 +1127,8 @@
                         this.$axios.get(`{{ route('admin.catalog.attributes.options', $attribute->id) }}`)
                             .then(response => {
                                 let options = response.data;
+
+                                this.optionId = options.length;
 
                                 options.forEach((option) => {
                                     let row = {

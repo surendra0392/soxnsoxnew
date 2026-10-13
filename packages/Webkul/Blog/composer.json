@@ -1,0 +1,25 @@
+{
+    "name": "webkul/blog",
+    "description": "Bagisto Blog Management Module for SOX N SOX",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SOX N SOX",
+            "email": "support@soxnsox.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Blog\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Blog\\Providers\\BlogServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}

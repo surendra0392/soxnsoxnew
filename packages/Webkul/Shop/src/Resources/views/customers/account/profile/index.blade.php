@@ -16,23 +16,23 @@
     </div>
 
     <!-- Main Content Card -->
-    <div class="flex-1 w-full rounded-3xl border border-elior-border/80 bg-white p-6 sm:p-8 shadow-elior-subtle space-y-6">
-        <div class="flex items-center justify-between border-b border-elior-border/60 pb-4">
+    <div class="flex-1 w-full rounded-3xl border border-soxnsox-border/80 bg-white p-6 sm:p-8 shadow-soxnsox-subtle space-y-6">
+        <div class="flex items-center justify-between border-b border-soxnsox-border/60 pb-4">
             <div class="flex items-center gap-3">
                 <!-- Back Button For Mobile View -->
                 <a
-                    class="md:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-elior-border text-elior-charcoal"
+                    class="md:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-soxnsox-border text-soxnsox-charcoal"
                     href="{{ route('shop.customers.account.index') }}"
                 >
-                    <span class="icon-arrow-left text-sm"></span>
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </a>
 
                 <div>
-                    <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EBF3EE] text-elior-botanical text-[9px] font-semibold tracking-wider uppercase">
-                        <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e9f2fa] text-[#2ca7a3] text-[9px] font-semibold tracking-wider uppercase">
+                        <i class="fa-solid fa-feather text-[10px]"></i>
                         <span>Settings</span>
                     </div>
-                    <h1 class="font-serif text-xl sm:text-2xl font-bold text-elior-charcoal">
+                    <h1 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
                         @lang('shop::app.customers.account.profile.index.title')
                     </h1>
                 </div>
@@ -42,9 +42,9 @@
 
             <a
                 href="{{ route('shop.customers.account.profile.edit') }}"
-                class="elior-btn-outline h-9 px-5 text-xs uppercase tracking-widest font-semibold inline-flex items-center gap-1.5"
+                class="soxnsox-btn-outline soxnsox-btn-shimmer h-9 px-5 text-xs uppercase tracking-widest font-bold rounded-full inline-flex items-center gap-1.5 active:scale-95 transition-all duration-300"
             >
-                <span class="icon-edit text-xs"></span>
+                <i class="fa-solid fa-pen-to-square text-xs"></i>
                 <span>@lang('shop::app.customers.account.profile.index.edit')</span>
             </a>
 
@@ -52,12 +52,12 @@
         </div>
 
         <!-- Profile Information Table -->
-        <div class="divide-y divide-elior-border/60 text-xs sm:text-sm">
+        <div class="divide-y divide-soxnsox-border/60 text-xs sm:text-sm">
             {!! view_render_event('bagisto.shop.customers.account.profile.first_name.before') !!}
 
             <div class="py-3.5 flex justify-between items-center">
-                <span class="text-elior-muted">@lang('shop::app.customers.account.profile.index.first-name')</span>
-                <span class="font-semibold text-elior-charcoal" v-pre>{{ $customer->first_name }}</span>
+                <span class="text-soxnsox-muted">@lang('shop::app.customers.account.profile.index.first-name')</span>
+                <span class="font-semibold text-soxnsox-charcoal" v-pre>{{ $customer->first_name }}</span>
             </div>
 
             {!! view_render_event('bagisto.shop.customers.account.profile.first_name.after') !!}
@@ -65,8 +65,8 @@
             {!! view_render_event('bagisto.shop.customers.account.profile.last_name.before') !!}
 
             <div class="py-3.5 flex justify-between items-center">
-                <span class="text-elior-muted">@lang('shop::app.customers.account.profile.index.last-name')</span>
-                <span class="font-semibold text-elior-charcoal" v-pre>{{ $customer->last_name }}</span>
+                <span class="text-soxnsox-muted">@lang('shop::app.customers.account.profile.index.last-name')</span>
+                <span class="font-semibold text-soxnsox-charcoal" v-pre>{{ $customer->last_name }}</span>
             </div>
 
             {!! view_render_event('bagisto.shop.customers.account.profile.last_name.after') !!}
@@ -74,8 +74,8 @@
             {!! view_render_event('bagisto.shop.customers.account.profile.gender.before') !!}
 
             <div class="py-3.5 flex justify-between items-center">
-                <span class="text-elior-muted">@lang('shop::app.customers.account.profile.index.gender')</span>
-                <span class="font-semibold text-elior-charcoal" v-pre>{{ $customer->gender ?? '-'}}</span>
+                <span class="text-soxnsox-muted">@lang('shop::app.customers.account.profile.index.gender')</span>
+                <span class="font-semibold text-soxnsox-charcoal" v-pre>{{ $customer->gender ?? '-'}}</span>
             </div>
 
             {!! view_render_event('bagisto.shop.customers.account.profile.gender.after') !!}
@@ -83,8 +83,8 @@
             {!! view_render_event('bagisto.shop.customers.account.profile.date_of_birth.before') !!}
 
             <div class="py-3.5 flex justify-between items-center">
-                <span class="text-elior-muted">@lang('shop::app.customers.account.profile.index.dob')</span>
-                <span class="font-semibold text-elior-charcoal" v-pre>{{ $customer->date_of_birth ?? '-' }}</span>
+                <span class="text-soxnsox-muted">@lang('shop::app.customers.account.profile.index.dob')</span>
+                <span class="font-semibold text-soxnsox-charcoal" v-pre>{{ $customer->date_of_birth ?? '-' }}</span>
             </div>
 
             {!! view_render_event('bagisto.shop.customers.account.profile.date_of_birth.after') !!}
@@ -92,8 +92,8 @@
             {!! view_render_event('bagisto.shop.customers.account.profile.email.before') !!}
 
             <div class="py-3.5 flex justify-between items-center">
-                <span class="text-elior-muted">@lang('shop::app.customers.account.profile.index.email')</span>
-                <span class="font-semibold text-elior-charcoal" v-pre>{{ $customer->email }}</span>
+                <span class="text-soxnsox-muted">@lang('shop::app.customers.account.profile.index.email')</span>
+                <span class="font-semibold text-soxnsox-charcoal" v-pre>{{ $customer->email }}</span>
             </div>
             
             {!! view_render_event('bagisto.shop.customers.account.profile.email.after') !!}
@@ -102,7 +102,7 @@
         {!! view_render_event('bagisto.shop.customers.account.profile.delete.before') !!}
 
         <!-- Profile Delete Modal Action -->
-        <div class="pt-6 border-t border-elior-border/60">
+        <div class="pt-6 border-t border-soxnsox-border/60">
             <x-shop::form action="{{ route('shop.customers.account.profile.destroy') }}">
                 <x-shop::modal>
                     <x-slot:toggle>
@@ -115,7 +115,7 @@
                     </x-slot>
 
                     <x-slot:header>
-                        <h2 class="font-serif text-xl font-bold text-elior-charcoal">
+                        <h2 class="font-display text-xl font-extrabold text-[#133b63]">
                             @lang('shop::app.customers.account.profile.index.enter-password')
                         </h2>
                     </x-slot>
@@ -126,7 +126,7 @@
                                 <x-shop::form.control-group.control
                                     type="password"
                                     name="password"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical w-full"
+                                    class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal w-full"
                                     rules="required"
                                     placeholder="Enter your password"
                                 />
@@ -143,7 +143,7 @@
                     <x-slot:footer>
                         <button
                             type="submit"
-                            class="elior-btn-primary h-10 px-6 text-xs uppercase tracking-widest font-semibold"
+                            class="soxnsox-btn-primary h-10 px-6 text-xs uppercase tracking-widest font-semibold"
                         >
                             @lang('shop::app.customers.account.profile.index.delete')
                         </button>

@@ -16,23 +16,23 @@
     </div>
 
     <!-- Main Card Container -->
-    <div class="flex-1 w-full rounded-3xl border border-elior-border/80 bg-white p-6 sm:p-8 shadow-elior-subtle space-y-6">
-        <div class="flex items-center justify-between border-b border-elior-border/60 pb-4">
+    <div class="flex-1 w-full rounded-3xl border border-soxnsox-border/80 bg-white p-6 sm:p-8 shadow-soxnsox-subtle space-y-6">
+        <div class="flex items-center justify-between border-b border-soxnsox-border/60 pb-4">
             <div class="flex items-center gap-3">
                 <!-- Back Button -->
                 <a
-                    class="flex h-8 w-8 items-center justify-center rounded-lg border border-elior-border text-elior-charcoal hover:bg-black/5 transition-colors"
+                    class="flex h-8 w-8 items-center justify-center rounded-lg border border-soxnsox-border text-soxnsox-charcoal hover:bg-black/5 transition-colors"
                     href="{{ route('shop.customers.account.addresses.index') }}"
                 >
-                    <span class="icon-arrow-left text-sm"></span>
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </a>
 
                 <div>
-                    <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EBF3EE] text-elior-botanical text-[9px] font-semibold tracking-wider uppercase">
-                        <span><span class="material-symbols-outlined align-text-bottom text-inherit text-[1.2em] leading-none" aria-hidden="true" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;">eco</span></span>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e9f2fa] text-[#2ca7a3] text-[9px] font-semibold tracking-wider uppercase">
+                        <i class="fa-solid fa-feather text-[10px]"></i>
                         <span>Address Book</span>
                     </div>
-                    <h1 class="font-serif text-xl sm:text-2xl font-bold text-elior-charcoal">
+                    <h1 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
                         @lang('shop::app.customers.account.addresses.create.add-address')
                     </h1>
                 </div>
@@ -58,7 +58,7 @@
                     <div class="space-y-4">
                         <!-- Company Name -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                 @lang('shop::app.customers.account.addresses.create.company-name')
                             </x-shop::form.control-group.label>
                 
@@ -66,7 +66,7 @@
                                 type="text"
                                 name="company_name"
                                 :value="old('company_name')"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                 :label="trans('shop::app.customers.account.addresses.create.company-name')"
                                 :placeholder="trans('shop::app.customers.account.addresses.create.company-name')"
                             />
@@ -80,7 +80,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- First Name -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                     @lang('shop::app.customers.account.addresses.create.first-name')
                                 </x-shop::form.control-group.label>
 
@@ -89,7 +89,7 @@
                                     name="first_name"
                                     rules="required"
                                     :value="old('first_name')"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                     :label="trans('shop::app.customers.account.addresses.create.first-name')"
                                     :placeholder="trans('shop::app.customers.account.addresses.create.first-name')"
                                 />
@@ -99,7 +99,7 @@
 
                             <!-- Last Name -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                     @lang('shop::app.customers.account.addresses.create.last-name')
                                 </x-shop::form.control-group.label>
 
@@ -108,7 +108,7 @@
                                     name="last_name"
                                     rules="required"
                                     :value="old('last_name')"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                     :label="trans('shop::app.customers.account.addresses.create.last-name')"
                                     :placeholder="trans('shop::app.customers.account.addresses.create.last-name')"
                                 />
@@ -119,7 +119,7 @@
 
                         <!-- Street Address -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                 @lang('shop::app.customers.account.addresses.create.street-address')
                             </x-shop::form.control-group.label>
 
@@ -128,7 +128,7 @@
                                 name="address[]"
                                 rules="required|address"
                                 :value="old('address[0]')"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                 :label="trans('shop::app.customers.account.addresses.create.street-address')"
                                 :placeholder="trans('shop::app.customers.account.addresses.create.street-address')"
                             />
@@ -144,7 +144,7 @@
                                 <x-shop::form.control-group.control
                                     type="text"
                                     name="address[{{ $i }}]"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                     :value="old('address[' . $i . ']')"
                                     :label="trans('shop::app.customers.account.addresses.create.street-address')"
                                     :placeholder="trans('shop::app.customers.account.addresses.create.street-address')"
@@ -156,7 +156,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- Country -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                     @lang('shop::app.customers.account.addresses.create.country')
                                 </x-shop::form.control-group.label>
 
@@ -164,7 +164,7 @@
                                     type="select"
                                     name="country"
                                     rules="required"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                     v-model="country"
                                     :label="trans('shop::app.customers.account.addresses.create.country')"
                                     :placeholder="trans('shop::app.customers.account.addresses.create.country')"
@@ -180,7 +180,7 @@
 
                             <!-- State -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                     @lang('shop::app.customers.account.addresses.create.state')
                                 </x-shop::form.control-group.label>
 
@@ -189,7 +189,7 @@
                                         type="select"
                                         name="state"
                                         rules="required"
-                                        class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                        class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                         v-model="state"
                                         :label="trans('shop::app.customers.account.addresses.create.state')"
                                         :placeholder="trans('shop::app.customers.account.addresses.create.state')"
@@ -209,7 +209,7 @@
                                         type="text"
                                         name="state"
                                         rules="required"
-                                        class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                        class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                         :value="old('state')"
                                         :label="trans('shop::app.customers.account.addresses.create.state')"
                                         :placeholder="trans('shop::app.customers.account.addresses.create.state')"
@@ -224,7 +224,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- City -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                     @lang('shop::app.customers.account.addresses.create.city')
                                 </x-shop::form.control-group.label>
 
@@ -232,7 +232,7 @@
                                     type="text"
                                     name="city"
                                     rules="required"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                     :value="old('city')"
                                     :label="trans('shop::app.customers.account.addresses.create.city')"
                                     :placeholder="trans('shop::app.customers.account.addresses.create.city')"
@@ -243,7 +243,7 @@
 
                             <!-- Postcode -->
                             <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                                <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                     @lang('shop::app.customers.account.addresses.create.post-code')
                                 </x-shop::form.control-group.label>
 
@@ -251,7 +251,7 @@
                                     type="text"
                                     name="postcode"
                                     rules="{{ core()->isPostCodeRequired() ? 'required' : '' }}|postcode"
-                                    class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                    class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                     :value="old('postcode')"
                                     :label="trans('shop::app.customers.account.addresses.create.post-code')"
                                     :placeholder="trans('shop::app.customers.account.addresses.create.post-code')"
@@ -263,7 +263,7 @@
 
                         <!-- Phone -->
                         <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-elior-charcoal">
+                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                                 @lang('shop::app.customers.account.addresses.create.phone')
                             </x-shop::form.control-group.label>
 
@@ -271,7 +271,7 @@
                                 type="text"
                                 name="phone"
                                 rules="required|phone"
-                                class="rounded-xl border border-elior-border bg-white px-4 py-3 text-sm text-elior-charcoal focus:border-elior-botanical focus:ring-elior-botanical"
+                                class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                                 :value="old('phone')"
                                 :label="trans('shop::app.customers.account.addresses.create.phone')"
                                 :placeholder="trans('shop::app.customers.account.addresses.create.phone')"
@@ -281,13 +281,13 @@
                         </x-shop::form.control-group>
 
                         <!-- Set As Default -->
-                        <div class="flex items-center gap-2 pt-1 text-xs text-elior-slate">
+                        <div class="flex items-center gap-2 pt-1 text-xs text-soxnsox-slate">
                             <input
                                 type="checkbox"
                                 name="default_address"
                                 value="1"
                                 id="default_address"
-                                class="h-4 w-4 rounded border-elior-border text-elior-botanical focus:ring-elior-botanical cursor-pointer"
+                                class="h-4 w-4 rounded border-soxnsox-border text-soxnsox-teal focus:ring-soxnsox-teal cursor-pointer"
                             >
                             <label for="default_address" class="cursor-pointer select-none">
                                 @lang('shop::app.customers.account.addresses.create.set-as-default')
@@ -298,10 +298,10 @@
                         <div class="pt-4">
                             <button
                                 type="submit"
-                                class="elior-btn-primary h-11 px-8 text-xs uppercase tracking-widest font-semibold inline-flex items-center gap-2 shadow-elior-card"
+                                class="soxnsox-btn-primary h-11 px-8 text-xs uppercase tracking-widest font-semibold inline-flex items-center gap-2 shadow-soxnsox-card"
                             >
                                 <span>@lang('shop::app.customers.account.addresses.create.save')</span>
-                                <span class="icon-arrow-right text-xs"></span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </button>
                         </div>
                     </div>

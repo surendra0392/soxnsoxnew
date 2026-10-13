@@ -29,7 +29,7 @@
     >
     <meta 
         name="generator" 
-        content="ELIOR"
+        content="SOXNSOX"
     >
 
     @stack('meta')
@@ -51,21 +51,22 @@
     />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
-    @if ($favicon = core()->getConfigData('general.design.admin_logo.favicon'))
-        <link
-            type="image/x-icon"
-            href="{{ Storage::url($favicon) }}"
-            rel="shortcut icon"
-            sizes="16x16"
-        />
-    @else
-        <link
-            type="image/x-icon"
-            href="{{ bagisto_asset('images/favicon.ico') }}"
-            rel="shortcut icon"
-            sizes="16x16"
-        />
-    @endif
+    <!-- Font Awesome 6 Free & Lucide Icons Providers -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    @php
+        $adminFavicon = core()->getConfigData('general.design.admin_logo.favicon');
+        $adminFaviconUrl = ($adminFavicon && file_exists(public_path('storage/' . $adminFavicon)))
+            ? asset('storage/' . $adminFavicon)
+            : (file_exists(public_path('favicon.png')) ? asset('favicon.png') : asset('favicon.ico'));
+        $adminFaviconIco = file_exists(public_path('favicon.ico')) ? asset('favicon.ico') : $adminFaviconUrl;
+    @endphp
+
+    <link rel="icon" type="image/x-icon" href="{{ $adminFaviconIco }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ $adminFaviconUrl }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ $adminFaviconUrl }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ $adminFaviconIco }}" />
 
     @stack('styles')
 
@@ -107,6 +108,9 @@
          */
         window.addEventListener("load", function(event) {
             app.mount("#app");
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         });
     </script>
 
