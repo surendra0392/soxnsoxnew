@@ -5,7 +5,6 @@ namespace Webkul\Admin\DataGrids\Catalog;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Webkul\Admin\Exports\ProductDataGridExport;
 use Webkul\Attribute\Repositories\AttributeFamilyRepository;
 use Webkul\Attribute\Repositories\AttributeRepository;
@@ -157,7 +156,7 @@ class ProductDataGrid extends DataGrid
                     return;
                 }
 
-                return Storage::url($row->base_image);
+                return url('cache/small/'.$row->base_image);
             },
         ]);
 
