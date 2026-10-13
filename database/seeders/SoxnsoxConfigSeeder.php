@@ -504,6 +504,79 @@ class SoxnsoxConfigSeeder extends Seeder
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
+            // Delhivery Logistics API
+            [
+                'code' => 'sales.carriers.delhivery.active',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.title',
+                'value' => 'Delhivery Express',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.description',
+                'value' => 'Fast and reliable courier delivery across India via Delhivery.',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.sandbox',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.api_token',
+                'value' => '',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.client_id',
+                'value' => 'SOXNSOX',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.pickup_location',
+                'value' => 'Primary Warehouse',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.pickup_pincode',
+                'value' => '500001',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.shipping_mode',
+                'value' => 'Surface',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.auto_generate_awb',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.default_rate',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
+            [
+                'code' => 'sales.carriers.delhivery.sort',
+                'value' => '2',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
         ];
 
         foreach ($configs as $config) {

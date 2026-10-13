@@ -12,6 +12,50 @@
             </p>
 
             <div class="flex items-center gap-x-2.5">
+                @php
+                    $isDelhiveryActive = (bool) core()->getConfigData('sales.carriers.delhivery.active');
+                @endphp
+
+                @if ($isDelhiveryActive)
+                    @if (empty($shipment->track_number))
+                        <form
+                            action="{{ route('admin.sales.shipments.delhivery.create', $shipment->id) }}"
+                            method="POST"
+                            class="inline"
+                            onsubmit="return confirm('Book shipment on Delhivery and generate AWB number?');"
+                        >
+                            @csrf
+                            <button
+                                type="submit"
+                                class="primary-button flex items-center gap-1.5 !bg-[#f29a38] !border-[#f29a38] hover:!bg-[#d98220]"
+                            >
+                                <span class="icon-ship text-xl"></span>
+                                Push to Delhivery
+                            </button>
+                        </form>
+                    @else
+                        <a
+                            href="{{ route('admin.sales.shipments.delhivery.label', $shipment->id) }}"
+                            class="secondary-button flex items-center gap-1.5"
+                            target="_blank"
+                            title="Download Delhivery Shipping Label"
+                        >
+                            <span class="icon-product text-xl"></span>
+                            Delhivery Label
+                        </a>
+
+                        <a
+                            href="{{ route('admin.sales.shipments.delhivery.track', $shipment->id) }}"
+                            class="secondary-button flex items-center gap-1.5 !text-blue-600"
+                            target="_blank"
+                            title="Live Track Package"
+                        >
+                            <span class="icon-view text-xl"></span>
+                            Track on Delhivery
+                        </a>
+                    @endif
+                @endif
+
                 <!-- Print Packing Slip Button -->
                 <a
                     href="{{ route('admin.sales.shipments.print', $shipment->id) }}"
@@ -355,11 +399,16 @@
                         @endif
 
                         @if ($shipment->track_number)
-                            <p
-                                class="pt-4 font-semibold text-gray-800"
-                                v-pre
-                            >
-                                {{ $shipment->track_number }}
+                            <p class="pt-4 font-semibold text-[#133b63]">
+                                <a
+                                    href="https://www.delhivery.com/track/package/{{ $shipment->track_number }}"
+                                    target="_blank"
+                                    class="inline-flex items-center gap-1.5 text-[#1d5b8f] hover:underline"
+                                    title="Track package on Delhivery"
+                                >
+                                    {{ $shipment->track_number }}
+                                    <span class="icon-view text-base"></span>
+                                </a>
                             </p>
 
                             <p class="text-gray-600">
