@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Webkul\Admin\Http\Controllers\Sales\BookingController;
 use Webkul\Admin\Http\Controllers\Sales\BookingProductController;
 use Webkul\Admin\Http\Controllers\Sales\CartController;
-use Webkul\Admin\Http\Controllers\Sales\DelhiveryShipmentController;
 use Webkul\Admin\Http\Controllers\Sales\EUWithdrawalController;
 use Webkul\Admin\Http\Controllers\Sales\InvoiceController;
 use Webkul\Admin\Http\Controllers\Sales\OrderController;
@@ -93,12 +92,6 @@ Route::prefix('sales')->group(function () {
         Route::get('print/{id}', 'printPackingSlip')->name('admin.sales.shipments.print');
 
         Route::get('delivery-slip/{id}', 'printDeliverySlip')->name('admin.sales.shipments.delivery_slip.print');
-    });
-
-    Route::controller(DelhiveryShipmentController::class)->prefix('shipments/{id}/delhivery')->group(function () {
-        Route::post('create', 'createDelhiveryShipment')->name('admin.sales.shipments.delhivery.create');
-        Route::get('label', 'downloadLabel')->name('admin.sales.shipments.delhivery.label');
-        Route::get('track', 'track')->name('admin.sales.shipments.delhivery.track');
     });
 
     /**

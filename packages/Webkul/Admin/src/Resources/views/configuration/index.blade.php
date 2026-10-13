@@ -58,6 +58,40 @@
         };
     @endphp
 
+    @pushOnce('styles')
+        <style>
+            .config-card {
+                transition: all 0.2s ease-in-out;
+            }
+            .config-card:hover {
+                border-color: rgba(19, 59, 99, 0.4) !important;
+                box-shadow: 0 6px 18px rgba(19, 59, 99, 0.1) !important;
+                transform: translateY(-2px);
+            }
+            .config-card .config-icon-badge {
+                background-color: rgba(19, 59, 99, 0.08) !important;
+                color: #133b63 !important;
+                transition: all 0.2s ease-in-out;
+            }
+            .config-card .config-icon-badge i,
+            .config-card .config-icon-badge svg {
+                color: #133b63 !important;
+                fill: #133b63 !important;
+                transition: all 0.2s ease-in-out;
+            }
+            .config-card:hover .config-icon-badge {
+                background-color: #133b63 !important;
+                color: #ffffff !important;
+                box-shadow: 0 4px 12px rgba(19, 59, 99, 0.28) !important;
+            }
+            .config-card:hover .config-icon-badge i,
+            .config-card:hover .config-icon-badge svg {
+                color: #ffffff !important;
+                fill: #ffffff !important;
+            }
+        </style>
+    @endPushOnce
+
     <!-- Heading & Search Bar -->
     <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -126,12 +160,12 @@
 
                         <a
                             href="{{ $url }}"
-                            class="group relative flex flex-col justify-between rounded-[16px] border border-slate-200/90 bg-white p-5 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-[#133b63]/40 hover:shadow-md hover:shadow-[#133b63]/5 hover:bg-slate-50/40 cursor-pointer"
+                            class="config-card group relative flex flex-col justify-between rounded-[16px] border border-slate-200/90 bg-white p-5 shadow-xs cursor-pointer hover:bg-slate-50/40"
                         >
                             <div>
                                 <!-- Top Row: Icon Badge & Direction Indicator -->
                                 <div class="flex items-start justify-between">
-                                    <div class="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#133b63]/[0.08] text-[#133b63] transition-all duration-200 group-hover:bg-[#133b63] group-hover:text-white group-hover:shadow-sm">
+                                    <div class="config-icon-badge flex h-12 w-12 items-center justify-center rounded-[12px]">
                                         {!! $getSectionIcon($fullKey) !!}
                                     </div>
 
