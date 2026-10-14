@@ -12,6 +12,10 @@
 !category/**
 !blogs/
 !blogs/**
+!products/
+!products/**
+!locales/
+!locales/**
 !.gitignore
 
 
