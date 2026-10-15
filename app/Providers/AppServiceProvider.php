@@ -36,7 +36,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (str_starts_with(config('app.url'), 'https://') || $this->app->environment('production')) {
+        $host = (string) parse_url((string) config('app.url'), PHP_URL_HOST);
+        $isLocalHost = in_array($host, ['localhost', '127.0.0.1'], true) || str_ends_with($host, '.test');
+
+        if (! $isLocalHost && str_starts_with((string) config('app.url'), 'https://')) {
             URL::forceScheme('https');
         }
 

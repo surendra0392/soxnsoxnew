@@ -30,7 +30,7 @@ class SecureHeaders
 
         $response = $next($request);
 
-        $this->setHeaders($response);
+        $this->setHeaders($response, $request);
 
         return $response;
     }
@@ -39,16 +39,23 @@ class SecureHeaders
      * Set production security headers.
      *
      * @param  Response  $response
+     * @param  Request  $request
      * @return void
      */
-    private function setHeaders($response)
+    private function setHeaders($response, $request)
     {
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
-        $response->headers->set('Content-Security-Policy', 'upgrade-insecure-requests');
+
+        $host = (string) $request->getHost();
+        $isLocalHost = in_array($host, ['localhost', '127.0.0.1'], true) || str_ends_with($host, '.test');
+
+        if (! $isLocalHost && (str_starts_with((string) config('app.url'), 'https://') || $request->isSecure() || $request->header('X-Forwarded-Proto') === 'https')) {
+            $response->headers->set('Content-Security-Policy', 'upgrade-insecure-requests');
+        }
     }
 
     /**
