@@ -23,6 +23,7 @@ it('should fails validation error when certain inputs are invalid when register'
         ->assertJsonValidationErrorFor('first_name')
         ->assertJsonValidationErrorFor('last_name')
         ->assertJsonValidationErrorFor('email')
+        ->assertJsonValidationErrorFor('phone')
         ->assertJsonValidationErrorFor('password')
         ->assertUnprocessable();
 });
@@ -35,6 +36,7 @@ it('should fails validation error when email is not valid when register', functi
         ->assertJsonValidationErrorFor('first_name')
         ->assertJsonValidationErrorFor('last_name')
         ->assertJsonValidationErrorFor('email')
+        ->assertJsonValidationErrorFor('phone')
         ->assertJsonValidationErrorFor('password')
         ->assertUnprocessable();
 });
@@ -47,7 +49,17 @@ it('should fails validation error when password length is not valid when registe
         ->assertJsonValidationErrorFor('first_name')
         ->assertJsonValidationErrorFor('last_name')
         ->assertJsonValidationErrorFor('email')
+        ->assertJsonValidationErrorFor('phone')
         ->assertJsonValidationErrorFor('password')
+        ->assertUnprocessable();
+});
+
+it('should fails validation error when phone number is invalid when register', function () {
+    // Act and Assert.
+    postJson(route('shop.customers.register.store'), [
+        'phone' => '12345',
+    ])
+        ->assertJsonValidationErrorFor('phone')
         ->assertUnprocessable();
 });
 
@@ -61,6 +73,7 @@ it('successfully registers a customer', function () {
         'first_name' => fake()->firstName(),
         'last_name' => fake()->lastName(),
         'email' => fake()->email(),
+        'phone' => '9876543210',
         'password' => 'admin123',
         'password_confirmation' => 'admin123',
     ];
@@ -84,6 +97,7 @@ it('successfully registers a customer and send mail to the customer verify the a
         'first_name' => fake()->firstName(),
         'last_name' => fake()->lastName(),
         'email' => fake()->email(),
+        'phone' => '9876543210',
         'password' => 'admin123',
         'password_confirmation' => 'admin123',
     ];
@@ -118,6 +132,7 @@ it('registers a customer successfully and sends a registration email to customer
         'first_name' => fake()->firstName(),
         'last_name' => fake()->lastName(),
         'email' => fake()->email(),
+        'phone' => '9876543210',
         'password' => 'admin123',
         'password_confirmation' => 'admin123',
     ];

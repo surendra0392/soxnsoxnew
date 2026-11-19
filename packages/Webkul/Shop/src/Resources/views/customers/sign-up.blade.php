@@ -47,14 +47,14 @@
                         <!-- First & Last Name Grid -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- First Name -->
-                            <x-shop::form.control-group>
+                            <x-shop::form.control-group class="!mb-0">
                                 <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                     @lang('shop::app.customers.signup-form.first-name')
                                 </x-shop::form.control-group.label>
 
                                 <x-shop::form.control-group.control
                                     type="text"
-                                    class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
+                                    class="!mb-0 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                     name="first_name"
                                     rules="required"
                                     :value="old('first_name')"
@@ -68,14 +68,14 @@
                             </x-shop::form.control-group>
 
                             <!-- Last Name -->
-                            <x-shop::form.control-group>
+                            <x-shop::form.control-group class="!mb-0">
                                 <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                     @lang('shop::app.customers.signup-form.last-name')
                                 </x-shop::form.control-group.label>
 
                                 <x-shop::form.control-group.control
                                     type="text"
-                                    class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
+                                    class="!mb-0 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                     name="last_name"
                                     rules="required"
                                     :value="old('last_name')"
@@ -90,14 +90,14 @@
                         </div>
 
                         <!-- Email -->
-                        <x-shop::form.control-group>
+                        <x-shop::form.control-group class="!mb-0">
                             <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
                                 @lang('shop::app.customers.signup-form.email')
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
                                 type="email"
-                                class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
+                                class="!mb-0 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
                                 name="email"
                                 rules="required|email"
                                 :value="old('email')"
@@ -110,47 +110,101 @@
                             <x-shop::form.control-group.error control-name="email" />
                         </x-shop::form.control-group>
 
-                        <!-- Password -->
-                        <x-shop::form.control-group>
+                        <!-- Mobile Number -->
+                        <x-shop::form.control-group class="!mb-0">
                             <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
-                                @lang('shop::app.customers.signup-form.password')
+                                Mobile Number
                             </x-shop::form.control-group.label>
 
                             <x-shop::form.control-group.control
-                                type="password"
-                                class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
-                                id="password"
-                                name="password"
-                                rules="required|min:6"
-                                :label="trans('shop::app.customers.signup-form.password')"
-                                :placeholder="trans('shop::app.customers.signup-form.password')"
-                                :aria-label="trans('shop::app.customers.signup-form.password')"
+                                type="text"
+                                class="!mb-0 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
+                                name="phone"
+                                id="phone"
+                                rules="required|numeric|digits:10"
+                                :value="old('phone')"
+                                label="Mobile Number"
+                                placeholder="9876543210"
+                                :aria-label="'Mobile Number'"
                                 aria-required="true"
+                                maxlength="10"
+                                inputmode="numeric"
+                                autocomplete="tel"
+                                pattern="[0-9]{10}"
+                                oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)"
+                                onkeydown="if(!/^[0-9]$/.test(event.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight'].includes(event.key) && !event.ctrlKey && !event.metaKey) event.preventDefault()"
+                                onpaste="event.preventDefault(); let text = (event.clipboardData || window.clipboardData).getData('text'); let clean = text.replace(/^(\+?91)/, '').replace(/\D/g, ''); if (clean.length > 10) clean = clean.slice(0, 10); this.value = clean; this.dispatchEvent(new Event('input', { bubbles: true }));"
                             />
 
-                            <x-shop::form.control-group.error control-name="password" />
+                            <x-shop::form.control-group.error control-name="phone" />
                         </x-shop::form.control-group>
 
-                        <!-- Confirm Password -->
-                        <x-shop::form.control-group>
-                            <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
-                                @lang('shop::app.customers.signup-form.confirm-pass')
-                            </x-shop::form.control-group.label>
+                        <!-- Password & Confirm Password Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Password -->
+                            <x-shop::form.control-group class="!mb-0">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
+                                    @lang('shop::app.customers.signup-form.password')
+                                </x-shop::form.control-group.label>
 
-                            <x-shop::form.control-group.control
-                                type="password"
-                                class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
-                                id="password_confirmation"
-                                name="password_confirmation"
-                                rules="confirmed:@password"
-                                :label="trans('shop::app.customers.signup-form.confirm-pass')"
-                                :placeholder="trans('shop::app.customers.signup-form.confirm-pass')"
-                                :aria-label="trans('shop::app.customers.signup-form.confirm-pass')"
-                                aria-required="true"
-                            />
+                                <div class="relative">
+                                    <x-shop::form.control-group.control
+                                        type="password"
+                                        class="!mb-0 rounded-xl border border-slate-200 bg-white px-4 py-3 pr-11 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
+                                        id="password"
+                                        name="password"
+                                        rules="required|min:6"
+                                        :label="trans('shop::app.customers.signup-form.password')"
+                                        :placeholder="trans('shop::app.customers.signup-form.password')"
+                                        :aria-label="trans('shop::app.customers.signup-form.password')"
+                                        aria-required="true"
+                                    />
 
-                            <x-shop::form.control-group.error control-name="password_confirmation" />
-                        </x-shop::form.control-group>
+                                    <button
+                                        type="button"
+                                        onclick="togglePasswordVisibility('password', this)"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#133b63] transition-colors p-1.5 focus:outline-none"
+                                        aria-label="Toggle password visibility"
+                                    >
+                                        <i class="fa-solid fa-eye text-sm"></i>
+                                    </button>
+                                </div>
+
+                                <x-shop::form.control-group.error control-name="password" />
+                            </x-shop::form.control-group>
+
+                            <!-- Confirm Password -->
+                            <x-shop::form.control-group class="!mb-0">
+                                <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-[#133b63]">
+                                    @lang('shop::app.customers.signup-form.confirm-pass')
+                                </x-shop::form.control-group.label>
+
+                                <div class="relative">
+                                    <x-shop::form.control-group.control
+                                        type="password"
+                                        class="!mb-0 rounded-xl border border-slate-200 bg-white px-4 py-3 pr-11 text-sm text-[#133b63] focus:border-[#1d5b8f] focus:ring-[#1d5b8f]"
+                                        id="password_confirmation"
+                                        name="password_confirmation"
+                                        rules="confirmed:@password"
+                                        :label="trans('shop::app.customers.signup-form.confirm-pass')"
+                                        :placeholder="trans('shop::app.customers.signup-form.confirm-pass')"
+                                        :aria-label="trans('shop::app.customers.signup-form.confirm-pass')"
+                                        aria-required="true"
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onclick="togglePasswordVisibility('password_confirmation', this)"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#133b63] transition-colors p-1.5 focus:outline-none"
+                                        aria-label="Toggle confirm password visibility"
+                                    >
+                                        <i class="fa-solid fa-eye text-sm"></i>
+                                    </button>
+                                </div>
+
+                                <x-shop::form.control-group.error control-name="password_confirmation" />
+                            </x-shop::form.control-group>
+                        </div>
 
                         <!-- Subscribe to Newsletter -->
                         @if (core()->getConfigData('customer.settings.create_new_account_options.news_letter'))
@@ -205,4 +259,30 @@
             </div>
         </div>
     </div>
+
+    @pushOnce('scripts')
+        <script>
+            function togglePasswordVisibility(fieldId, btn) {
+                const input = document.getElementById(fieldId);
+                if (!input) return;
+
+                const isPassword = input.getAttribute('type') === 'password' || input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                input.setAttribute('type', isPassword ? 'text' : 'password');
+
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    if (isPassword) {
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                        btn.setAttribute('aria-label', 'Hide password');
+                    } else {
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                        btn.setAttribute('aria-label', 'Show password');
+                    }
+                }
+            }
+        </script>
+    @endPushOnce
 </x-shop::layouts>

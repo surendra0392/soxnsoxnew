@@ -28,6 +28,7 @@ class RegistrationRequest extends FormRequest
             'first_name' => 'string|required',
             'last_name' => 'string|required',
             'email' => 'email|required|unique:customers,email,NULL,id,channel_id,'.core()->getCurrentChannel()->id,
+            'phone' => ['required', 'digits:10', 'regex:/^[6-9]\d{9}$/'],
             'password' => 'confirmed|min:6|required',
         ];
 
@@ -41,6 +42,10 @@ class RegistrationRequest extends FormRequest
      */
     public function messages()
     {
-        return Captcha::getValidationMessages();
+        return array_merge(Captcha::getValidationMessages(), [
+            'phone.required' => 'Mobile number is required.',
+            'phone.digits' => 'Mobile number must be exactly 10 digits.',
+            'phone.regex' => 'Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.',
+        ]);
     }
 }
