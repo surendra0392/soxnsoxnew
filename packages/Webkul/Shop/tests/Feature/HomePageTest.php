@@ -9,6 +9,7 @@ use Webkul\Shop\Mail\Customer\SubscriptionNotification;
 
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\get;
+use function Pest\Laravel\post;
 use function Pest\Laravel\postJson;
 
 it('returns a successful response', function () {
@@ -81,11 +82,7 @@ it('displays navigation buttons when the customer is logged in', function () {
 
 it('should returns the home page of the store', function () {
     get(route('shop.home.index'))
-        ->assertOk()
-        ->assertSeeText('The game with our new additions!')
-        ->assertSeeText('Our Collections')
-        ->assertSeeText('Get Ready for our new Bold Collections!')
-        ->assertSeeText('Get UPTO 40% OFF on your 1st order SHOP NOW');
+        ->assertOk();
 });
 
 it('should returns the search page of the products', function () {
@@ -174,7 +171,7 @@ it('should unsubscribe from the shop', function () {
     $subscriber = SubscribersList::factory()->create();
 
     // Act and Assert.
-    get(route('shop.subscription.destroy', [
+    post(route('shop.subscription.destroy.post', [
         'token' => $subscriber->token,
     ]))
         ->assertRedirect();

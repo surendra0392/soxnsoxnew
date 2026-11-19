@@ -8,6 +8,7 @@ use Webkul\Checkout\Models\CartAddress;
 use Webkul\Checkout\Models\CartItem;
 use Webkul\Checkout\Models\CartPayment;
 use Webkul\Checkout\Models\CartShippingRate;
+use Webkul\Core\Models\CoreConfig;
 use Webkul\Customer\Models\Customer;
 use Webkul\Customer\Models\CustomerAddress;
 use Webkul\Faker\Helpers\Product as ProductFaker;
@@ -17,9 +18,56 @@ use Webkul\Sales\Models\Order;
 use Webkul\Sales\Models\OrderAddress;
 use Webkul\Sales\Models\OrderItem;
 use Webkul\Sales\Models\OrderPayment;
+use Webkul\Shipping\Carriers\FlatRate;
+use Webkul\Shipping\Carriers\Free;
 use Webkul\Shop\Mail\Order\CreatedNotification as ShopOrderCreatedNotification;
 
 use function Pest\Laravel\postJson;
+
+beforeEach(function () {
+    config([
+        'carriers.flatrate' => [
+            'code' => 'flatrate',
+            'title' => 'Flat Rate',
+            'description' => 'Flat Rate Shipping',
+            'active' => true,
+            'default_rate' => '10',
+            'type' => 'per_unit',
+            'class' => FlatRate::class,
+        ],
+        'carriers.free' => [
+            'code' => 'free',
+            'title' => 'Free Shipping',
+            'description' => 'Free Shipping',
+            'active' => true,
+            'default_rate' => '0',
+            'class' => Free::class,
+        ],
+    ]);
+
+    CoreConfig::where('code', 'sales.carriers.flatrate.title')->update(['value' => 'Flat Rate']);
+    CoreConfig::where('code', 'sales.carriers.flatrate.default_rate')->update(['value' => '10']);
+    CoreConfig::where('code', 'sales.carriers.flatrate.type')->update(['value' => 'per_unit']);
+    CoreConfig::where('code', 'sales.carriers.free.title')->update(['value' => 'Free Shipping']);
+    CoreConfig::where('code', 'sales.carriers.flatrate.active')->update(['value' => '1']);
+    CoreConfig::where('code', 'sales.carriers.free.active')->update(['value' => '1']);
+    CoreConfig::where('code', 'sales.order_settings.minimum_order.enable')->update(['value' => '0']);
+
+    CoreConfig::where('code', 'sales.payment_methods.razorpay.title')->update(['value' => 'Razorpay']);
+    CoreConfig::where('code', 'sales.payment_methods.razorpay.description')->update(['value' => 'Razorpay']);
+    CoreConfig::where('code', 'sales.payment_methods.razorpay.sort')->update(['value' => '2']);
+
+    CoreConfig::whereIn('code', [
+        'sales.payment_methods.moneytransfer.active',
+        'sales.payment_methods.cashondelivery.active',
+        'sales.payment_methods.stripe.active',
+        'sales.payment_methods.payu.active',
+        'sales.payment_methods.phonepe.active',
+        'sales.payment_methods.paypal_smart_button.active',
+        'sales.payment_methods.paypal_standard.active',
+        'sales.payment_methods.razorpay.active',
+    ])->update(['value' => '1']);
+});
 
 it('should handle certain validation errors when storing the guest user address for cart billing and shipping', function () {
     // Arrange.

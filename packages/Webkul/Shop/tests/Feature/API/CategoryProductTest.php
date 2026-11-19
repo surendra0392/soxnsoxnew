@@ -144,13 +144,16 @@ it('returns category products sorted by price descending', function () {
     $expectedPricesInDescOrder = $products
         ->map(fn ($product) => $product->getTypeInstance()->getMinimalPrice())
         ->sortDesc()
+        ->values()
         ->map(fn ($price) => core()->formatPrice($price))
         ->toArray();
 
     // Act and Assert.
-    getJson(route('shop.api.products.index', ['category_id' => $specifiedCategory->id, 'sort' => 'price-desc']))
-        ->assertOk()
-        ->assertSeeTextInOrder($expectedPricesInDescOrder);
+    $response = getJson(route('shop.api.products.index', ['category_id' => $specifiedCategory->id, 'sort' => 'price-desc']))
+        ->assertOk();
+
+    $returnedPrices = collect($response->json('data'))->pluck('formatted_price')->values()->all();
+    expect($returnedPrices)->toBe($expectedPricesInDescOrder);
 });
 
 it('returns category products sorted by price ascending', function () {
@@ -166,11 +169,14 @@ it('returns category products sorted by price ascending', function () {
     $expectedPricesInAscOrder = $products
         ->map(fn ($product) => $product->getTypeInstance()->getMinimalPrice())
         ->sort()
+        ->values()
         ->map(fn ($price) => core()->formatPrice($price))
         ->toArray();
 
     // Act and Assert.
-    getJson(route('shop.api.products.index', ['category_id' => $specifiedCategory->id, 'sort' => 'price-asc']))
-        ->assertOk()
-        ->assertSeeTextInOrder($expectedPricesInAscOrder);
+    $response = getJson(route('shop.api.products.index', ['category_id' => $specifiedCategory->id, 'sort' => 'price-asc']))
+        ->assertOk();
+
+    $returnedPrices = collect($response->json('data'))->pluck('formatted_price')->values()->all();
+    expect($returnedPrices)->toBe($expectedPricesInAscOrder);
 });

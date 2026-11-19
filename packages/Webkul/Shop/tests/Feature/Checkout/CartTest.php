@@ -2841,17 +2841,10 @@ it('should check including tax rate when add a product to the cart based on ship
         'tax_rate_id' => $taxRate->id,
     ]);
 
+    CoreConfig::where('code', 'sales.shipping.origin.country')->update(['value' => $taxRate->country]);
+    CoreConfig::where('code', 'sales.shipping.origin.state')->update(['value' => $taxRate->state]);
+
     CoreConfig::factory()->create([
-        'code' => 'sales.shipping.origin.country',
-        'value' => $taxRate->country,
-        'channel_code' => 'default',
-        'locale_code' => 'en',
-    ])->create([
-        'code' => 'sales.shipping.origin.state',
-        'value' => $taxRate->state,
-        'channel_code' => 'default',
-        'locale_code' => 'en',
-    ])->create([
         'code' => 'sales.shipping.origin.city',
         'value' => fake()->city(),
         'channel_code' => 'default',
@@ -3150,17 +3143,10 @@ it('should check excluding tax rate when add a product to the cart based on ship
         'tax_rate_id' => $taxRate->id,
     ]);
 
+    CoreConfig::where('code', 'sales.shipping.origin.country')->update(['value' => $taxRate->country]);
+    CoreConfig::where('code', 'sales.shipping.origin.state')->update(['value' => $taxRate->state]);
+
     CoreConfig::factory()->create([
-        'code' => 'sales.shipping.origin.country',
-        'value' => $taxRate->country,
-        'channel_code' => 'default',
-        'locale_code' => 'en',
-    ])->create([
-        'code' => 'sales.shipping.origin.state',
-        'value' => $taxRate->state,
-        'channel_code' => 'default',
-        'locale_code' => 'en',
-    ])->create([
         'code' => 'sales.shipping.origin.city',
         'value' => fake()->city(),
         'channel_code' => 'default',

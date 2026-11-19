@@ -36,7 +36,7 @@ class Payment
                     'method' => $paymentMethod->getCode(),
                     'method_title' => $paymentMethod->getTitle(),
                     'description' => $paymentMethod->getDescription(),
-                    'sort' => $paymentMethod->getSortOrder(),
+                    'sort' => is_numeric($sort = $paymentMethod->getSortOrder()) ? (int) $sort : $sort,
                     'image' => $paymentMethod->getImage(),
                 ];
             }

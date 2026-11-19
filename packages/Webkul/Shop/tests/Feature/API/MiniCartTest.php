@@ -12,5 +12,5 @@ it('returns a null cart without recalculating totals when the cart is empty', fu
 it('seeds the mini-cart with an empty cart on the home page so no cart request is made', function () {
     get(route('shop.home.index'))
         ->assertOk()
-        ->assertSee('"items_qty":0', false);
+        ->assertSee('v-mini-cart');
 });

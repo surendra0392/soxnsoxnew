@@ -259,14 +259,9 @@ class CartController extends APIController
         $collected = Shipping::collectRates();
         $shippingMethods = array_values($collected['shippingMethods'] ?? []);
 
-        // If a specific shipping method was requested or only one rate is available, save it to cart
+        // If a specific shipping method was requested, save it to cart
         if (request()->has('shipping_method')) {
             Cart::saveShippingMethod(request()->input('shipping_method'));
-        } elseif (! empty($shippingMethods) && ! empty($shippingMethods[0]['rates'])) {
-            $rates = $shippingMethods[0]['rates'];
-            $freeRate = collect($rates)->first(fn ($r) => (float) ($r->price ?? $r->base_price ?? 0) === 0.0);
-            $selectedRate = $freeRate ?? $rates[0];
-            Cart::saveShippingMethod($selectedRate->method);
         }
 
         Cart::collectTotals();
