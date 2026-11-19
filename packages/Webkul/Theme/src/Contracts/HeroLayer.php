@@ -2,6 +2,4 @@
 
 namespace Webkul\Theme\Contracts;
 
-interface HeroLayer
-{
-}
+interface HeroLayer {}

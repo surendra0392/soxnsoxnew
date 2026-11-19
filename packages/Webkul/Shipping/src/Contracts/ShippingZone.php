@@ -2,6 +2,4 @@
 
 namespace Webkul\Shipping\Contracts;
 
-interface ShippingZone
-{
-}
+interface ShippingZone {}

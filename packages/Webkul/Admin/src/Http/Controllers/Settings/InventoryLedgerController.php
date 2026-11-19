@@ -2,15 +2,16 @@
 
 namespace Webkul\Admin\Http\Controllers\Settings;
 
-use Webkul\Admin\Http\Controllers\Controller;
+use Illuminate\View\View;
 use Webkul\Admin\DataGrids\Settings\InventoryLedgerDataGrid;
+use Webkul\Admin\Http\Controllers\Controller;
 
 class InventoryLedgerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {

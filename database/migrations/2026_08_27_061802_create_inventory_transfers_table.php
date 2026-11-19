@@ -14,13 +14,13 @@ return new class extends Migration
             $table->integer('source_location_id')->unsigned();
             $table->integer('destination_location_id')->unsigned();
             $table->string('status'); // requested, approved, dispatched, in_transit, received, completed, cancelled
-            
+
             $table->integer('requested_by')->unsigned()->nullable();
             $table->integer('approved_by')->unsigned()->nullable();
-            
+
             $table->timestamp('dispatched_at')->nullable();
             $table->timestamp('received_at')->nullable();
-            
+
             $table->text('notes')->nullable();
             $table->timestamps();
 

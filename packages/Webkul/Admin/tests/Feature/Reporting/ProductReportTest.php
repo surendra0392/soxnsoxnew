@@ -23,6 +23,10 @@ use Webkul\Sales\Models\OrderTransaction;
 
 use function Pest\Laravel\get;
 
+beforeEach(function () {
+    Order::query()->delete();
+});
+
 it('should returns the reporting product page', function () {
     // Act and Assert.
     $this->loginAsAdmin();

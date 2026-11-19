@@ -14,10 +14,10 @@ return new class extends Migration
             $table->string('type'); // stock_count, damage, expiry, loss, manual
             $table->integer('inventory_source_id')->unsigned();
             $table->string('status'); // drafted, approved, applied
-            
+
             $table->integer('created_by')->unsigned()->nullable();
             $table->integer('approved_by')->unsigned()->nullable();
-            
+
             $table->text('notes')->nullable();
             $table->timestamps();
 

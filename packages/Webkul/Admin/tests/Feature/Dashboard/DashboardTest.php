@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Webkul\Checkout\Models\Cart;
 use Webkul\Checkout\Models\CartAddress;
 use Webkul\Checkout\Models\CartItem;
@@ -18,6 +19,12 @@ use Webkul\Sales\Models\OrderPayment;
 use Webkul\Sales\Models\OrderTransaction;
 
 use function Pest\Laravel\get;
+
+beforeEach(function () {
+    Order::query()->delete();
+    DB::table('product_inventories')->update(['qty' => 1000]);
+    DB::table('product_inventory_indices')->update(['qty' => 1000]);
+});
 
 it('should return the dashboard index page', function () {
     // Act and Assert.

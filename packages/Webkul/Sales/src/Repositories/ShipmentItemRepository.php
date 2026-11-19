@@ -4,6 +4,7 @@ namespace Webkul\Sales\Repositories;
 
 use Illuminate\Support\Facades\Event;
 use Webkul\Core\Eloquent\Repository;
+use Webkul\Inventory\Models\InventoryMovementProxy;
 
 class ShipmentItemRepository extends Repository
 {
@@ -57,7 +58,7 @@ class ShipmentItemRepository extends Repository
         }
 
         if ($movementQty != 0) {
-            \Webkul\Inventory\Models\InventoryMovementProxy::modelClass()::create([
+            InventoryMovementProxy::modelClass()::create([
                 'product_id' => $data['product']->id,
                 'inventory_source_id' => $data['shipment']->inventory_source_id,
                 'quantity' => $movementQty,

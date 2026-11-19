@@ -12,15 +12,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('inventory_adjustment_id')->constrained('inventory_adjustments')->onDelete('cascade');
             $table->integer('product_id')->unsigned();
-            
+
             $table->decimal('system_qty', 12, 4)->default(0);
             $table->decimal('actual_qty', 12, 4)->default(0);
             $table->decimal('adjusted_qty', 12, 4)->default(0); // actual - system
-            
+
             $table->string('batch_number')->nullable();
-            
+
             $table->string('reason')->nullable();
-            
+
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

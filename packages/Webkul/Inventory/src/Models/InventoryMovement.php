@@ -3,9 +3,9 @@
 namespace Webkul\Inventory\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Inventory\Contracts\InventoryMovement as InventoryMovementContract;
 use Webkul\Product\Models\ProductProxy;
 use Webkul\User\Models\AdminProxy;
-use Webkul\Inventory\Contracts\InventoryMovement as InventoryMovementContract;
 
 class InventoryMovement extends Model implements InventoryMovementContract
 {

@@ -62,7 +62,7 @@ it('should successfully download the order-level packing slip PDF from admin', f
         $order = Order::factory()->create();
     }
 
-    $response = get(route('admin.sales.orders.packing_slip.print', $order->id));
+    $response = get(route('admin.sales.orders.print', $order->id));
 
     $response->assertOk();
     expect($response->headers->get('content-type'))->toContain('application/pdf');

@@ -3,6 +3,7 @@
 namespace Webkul\Product\Repositories;
 
 use Webkul\Core\Eloquent\Repository;
+use Webkul\Inventory\Models\InventoryMovementProxy;
 
 class ProductInventoryRepository extends Repository
 {
@@ -30,12 +31,12 @@ class ProductInventoryRepository extends Repository
                 'inventory_source_id' => $inventorySourceId,
                 'vendor_id' => $data['vendor_id'] ?? 0,
             ]);
-            
+
             $currentQty = $inventory ? $inventory->qty : 0;
             $diff = ($qty ?? 0) - $currentQty;
 
             if ($diff != 0) {
-                \Webkul\Inventory\Models\InventoryMovementProxy::modelClass()::create([
+                InventoryMovementProxy::modelClass()::create([
                     'product_id' => $product->id,
                     'inventory_source_id' => $inventorySourceId,
                     'quantity' => $diff,

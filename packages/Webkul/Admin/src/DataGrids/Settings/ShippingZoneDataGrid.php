@@ -2,6 +2,7 @@
 
 namespace Webkul\Admin\DataGrids\Settings;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
 
@@ -10,7 +11,7 @@ class ShippingZoneDataGrid extends DataGrid
     /**
      * Prepare query builder.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      */
     public function prepareQueryBuilder()
     {
@@ -31,31 +32,31 @@ class ShippingZoneDataGrid extends DataGrid
     public function prepareColumns()
     {
         $this->addColumn([
-            'index'      => 'id',
-            'label'      => 'ID',
-            'type'       => 'integer',
+            'index' => 'id',
+            'label' => 'ID',
+            'type' => 'integer',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'name',
-            'label'      => 'Zone Name',
-            'type'       => 'string',
+            'index' => 'name',
+            'label' => 'Zone Name',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'is_active',
-            'label'      => 'Status',
-            'type'       => 'boolean',
+            'index' => 'is_active',
+            'label' => 'Status',
+            'type' => 'boolean',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
-            'closure'    => function ($row) {
+            'closure' => function ($row) {
                 if ($row->is_active) {
                     return '<span class="badge badge-md badge-success">Active</span>';
                 }
@@ -73,19 +74,19 @@ class ShippingZoneDataGrid extends DataGrid
     public function prepareActions()
     {
         $this->addAction([
-            'icon'   => 'icon-edit',
-            'title'  => 'Edit',
+            'icon' => 'icon-edit',
+            'title' => 'Edit',
             'method' => 'GET',
-            'url'    => function ($row) {
+            'url' => function ($row) {
                 return route('admin.settings.shipping.zones.edit', $row->id);
             },
         ]);
 
         $this->addAction([
-            'icon'   => 'icon-delete',
-            'title'  => 'Delete',
+            'icon' => 'icon-delete',
+            'title' => 'Delete',
             'method' => 'DELETE',
-            'url'    => function ($row) {
+            'url' => function ($row) {
                 return route('admin.settings.shipping.zones.delete', $row->id);
             },
         ]);

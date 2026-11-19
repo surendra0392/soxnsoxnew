@@ -4,6 +4,14 @@ use Webkul\Core\Enums\CurrencyPositionEnum;
 use Webkul\Core\Models\Channel;
 use Webkul\Core\Models\Currency;
 
+beforeEach(function () {
+    Currency::where('code', 'INR')->update([
+        'code' => 'USD',
+        'name' => 'US Dollar',
+        'symbol' => '$',
+    ]);
+});
+
 it('returns all channels', function () {
     // Arrange
     $expectedChannel = Channel::factory()->create();

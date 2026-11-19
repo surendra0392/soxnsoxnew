@@ -17,6 +17,10 @@ use Webkul\Sales\Models\OrderPayment;
 
 use function Pest\Laravel\get;
 
+beforeEach(function () {
+    Order::query()->delete();
+});
+
 it('should return the index page of customers reporting', function () {
     // Act and Assert.
     $this->loginAsAdmin();

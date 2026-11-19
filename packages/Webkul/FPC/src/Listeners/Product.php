@@ -68,7 +68,7 @@ class Product
             foreach ($relatedProduct->categories as $category) {
                 foreach (core()->getAllLocales() as $locale) {
                     if ($categoryTranslation = $category->translate($locale->code)) {
-                        $urls[] = '/' . $categoryTranslation->slug;
+                        $urls[] = '/'.$categoryTranslation->slug;
                     }
                 }
             }

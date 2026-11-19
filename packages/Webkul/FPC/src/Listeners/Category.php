@@ -26,11 +26,11 @@ class Category
 
         foreach (core()->getAllLocales() as $locale) {
             if ($categoryTranslation = $category->translate($locale->code)) {
-                ResponseCache::forget('/' . $categoryTranslation->slug);
+                ResponseCache::forget('/'.$categoryTranslation->slug);
             }
 
             if ($defaultTranslation = $category->translate(core()->getDefaultLocaleCodeFromDefaultChannel())) {
-                ResponseCache::forget('/' . $defaultTranslation->slug);
+                ResponseCache::forget('/'.$defaultTranslation->slug);
             }
         }
     }
@@ -49,11 +49,11 @@ class Category
 
         foreach (core()->getAllLocales() as $locale) {
             if ($categoryTranslation = $category->translate($locale->code)) {
-                ResponseCache::forget('/' . $categoryTranslation->slug);
+                ResponseCache::forget('/'.$categoryTranslation->slug);
             }
 
             if ($defaultTranslation = $category->translate(core()->getDefaultLocaleCodeFromDefaultChannel())) {
-                ResponseCache::forget('/' . $defaultTranslation->slug);
+                ResponseCache::forget('/'.$defaultTranslation->slug);
             }
         }
     }

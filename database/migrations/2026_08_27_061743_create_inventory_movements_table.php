@@ -16,22 +16,22 @@ return new class extends Migration
             $table->integer('product_id')->unsigned();
             $table->integer('inventory_source_id')->unsigned();
             $table->decimal('quantity', 12, 4); // Signed decimal to support UOM fractions and negative movements
-            
+
             $table->string('type'); // receipt, issue, adjustment, transfer_in, transfer_out, customer_return, opening
-            
+
             $table->string('reference_type')->nullable(); // e.g. Shipment, Refund, Adjustment, Transfer
             $table->unsignedBigInteger('reference_id')->nullable();
-            
+
             $table->string('batch_number')->nullable();
             $table->string('serial_number')->nullable();
-            
+
             $table->decimal('unit_cost', 12, 4)->nullable();
-            
+
             $table->integer('user_id')->unsigned()->nullable(); // Admin user who caused the movement
-            
+
             $table->string('reason')->nullable();
             $table->text('notes')->nullable();
-            
+
             $table->timestamps();
 
             // Foreign keys

@@ -24,14 +24,16 @@ it('should returns the listing cms', function () {
     // Act and Assert.
     $this->loginAsAdmin();
 
+    $latestPage = Page::orderByDesc('id')->first();
+
     getJson(route('admin.cms.index'), [
         'X-Requested-With' => 'XMLHttpRequest',
     ])
         ->assertOk()
-        ->assertJsonPath('records.0.id', 10)
-        ->assertJsonPath('records.0.page_title', 'Privacy Policy')
-        ->assertJsonPath('records.0.url_key', 'privacy-policy')
-        ->assertJsonPath('meta.total', 10);
+        ->assertJsonPath('records.0.id', $latestPage->id)
+        ->assertJsonPath('records.0.page_title', $latestPage->page_title)
+        ->assertJsonPath('records.0.url_key', $latestPage->url_key)
+        ->assertJsonPath('meta.total', Page::count());
 });
 
 it('should return the cms create page', function () {

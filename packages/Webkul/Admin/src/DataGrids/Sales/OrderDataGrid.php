@@ -76,12 +76,13 @@ class OrderDataGrid extends DataGrid
             'filterable' => true,
             'sortable' => true,
             'closure' => function ($row) {
-                if (!$row->operational_status) {
+                if (! $row->operational_status) {
                     return '<p class="label-pending">PENDING</p>';
                 }
                 $badgeClass = in_array($row->operational_status, ['SHIPPED', 'DELIVERED']) ? 'label-active' : 'label-processing';
-                return '<p class="' . $badgeClass . '">' . $row->operational_status . '</p>';
-            }
+
+                return '<p class="'.$badgeClass.'">'.$row->operational_status.'</p>';
+            },
         ]);
 
         $this->addColumn([

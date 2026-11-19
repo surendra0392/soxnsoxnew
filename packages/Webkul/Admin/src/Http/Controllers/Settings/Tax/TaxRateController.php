@@ -70,7 +70,7 @@ class TaxRateController extends Controller
                     'zip_to',
                 ]);
                 $taxRateData['state'] = $state;
-                $taxRateData['identifier'] = $request->input('identifier') . '_' . $state;
+                $taxRateData['identifier'] = $request->input('identifier').'_'.$state;
 
                 $taxRate = $this->taxRateRepository->create($taxRateData);
 

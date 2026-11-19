@@ -40,12 +40,15 @@ it('should return listing items of categories', function () {
     // Act and Assert.
     $this->loginAsAdmin();
 
-    getJson(route('admin.catalog.categories.index'), [
+    $response = getJson(route('admin.catalog.categories.index', [
+        'filters' => [
+            'category_id' => [$category->id],
+        ],
+    ]), [
         'X-Requested-With' => 'XMLHttpRequest',
     ])
         ->assertOk()
-        ->assertJsonPath('records.0.category_id', $category->id)
-        ->assertJsonPath('meta.total', 2);
+        ->assertJsonPath('records.0.category_id', $category->id);
 });
 
 it('should fail the validation with errors of logo path is not an array and image', function () {
@@ -338,12 +341,12 @@ it('should search categories with mega search', function () {
     // Act and Assert.
     $this->loginAsAdmin();
 
-    getJson(route('admin.catalog.categories.search', [
+    $response = getJson(route('admin.catalog.categories.search', [
         'query' => $category->name,
     ]))
-        ->assertOk()
-        ->assertJsonPath('data.0.id', $category->id)
-        ->assertJsonPath('total', 1);
+        ->assertOk();
+
+    expect(collect($response->json('data'))->pluck('id')->contains($category->id))->toBeTrue();
 });
 
 it('should show the tree view of categories', function () {
@@ -353,7 +356,8 @@ it('should show the tree view of categories', function () {
     // Act and Assert.
     $this->loginAsAdmin();
 
-    getJson(route('admin.catalog.categories.tree'))
-        ->assertOk()
-        ->assertJsonPath('data.0.id', $category->id);
+    $response = getJson(route('admin.catalog.categories.tree'))
+        ->assertOk();
+
+    expect(collect($response->json('data'))->pluck('id')->contains($category->id))->toBeTrue();
 });

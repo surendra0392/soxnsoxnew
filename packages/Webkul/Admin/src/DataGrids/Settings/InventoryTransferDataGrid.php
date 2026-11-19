@@ -31,47 +31,47 @@ class InventoryTransferDataGrid extends DataGrid
     public function prepareColumns()
     {
         $this->addColumn([
-            'index'      => 'id',
-            'label'      => trans('admin::app.datagrid.id'),
-            'type'       => 'integer',
+            'index' => 'id',
+            'label' => trans('admin::app.datagrid.id'),
+            'type' => 'integer',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'reference_number',
-            'label'      => 'Reference',
-            'type'       => 'string',
+            'index' => 'reference_number',
+            'label' => 'Reference',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'source_location',
-            'label'      => 'Source',
-            'type'       => 'string',
+            'index' => 'source_location',
+            'label' => 'Source',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'destination_location',
-            'label'      => 'Destination',
-            'type'       => 'string',
+            'index' => 'destination_location',
+            'label' => 'Destination',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'status',
-            'label'      => 'Status',
-            'type'       => 'string',
+            'index' => 'status',
+            'label' => 'Status',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
-            'closure'    => function ($row) {
-                return '<span class="badge badge-sm badge-success">' . strtoupper($row->status) . '</span>';
-            }
+            'closure' => function ($row) {
+                return '<span class="badge badge-sm badge-success">'.strtoupper($row->status).'</span>';
+            },
         ]);
     }
 }

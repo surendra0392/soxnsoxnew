@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Webkul\Admin\Http\Controllers\CMS\PageController;
+use Webkul\Admin\Http\Controllers\Theme\HeroSliderController;
 
 /**
  * CMS routes.
@@ -22,7 +23,7 @@ Route::controller(PageController::class)->prefix('cms')->group(function () {
     Route::post('mass-delete', 'massDelete')->name('admin.cms.mass_delete');
 });
 
-Route::controller(\Webkul\Admin\Http\Controllers\Theme\HeroSliderController::class)->prefix('cms/hero-sliders')->group(function () {
+Route::controller(HeroSliderController::class)->prefix('cms/hero-sliders')->group(function () {
     Route::get('/', 'index')->name('admin.cms.hero_sliders.index');
     Route::get('create', 'create')->name('admin.cms.hero_sliders.create');
     Route::post('create', 'store')->name('admin.cms.hero_sliders.store');

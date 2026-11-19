@@ -22,9 +22,9 @@ class Review
      */
     public function afterUpdate($review)
     {
-        $urls = app(\Webkul\FPC\Listeners\Product::class)->getForgettableUrls($review->product);
+        $urls = app(Product::class)->getForgettableUrls($review->product);
 
-        \Spatie\ResponseCache\Facades\ResponseCache::forget($urls);
+        ResponseCache::forget($urls);
     }
 
     /**
@@ -37,8 +37,8 @@ class Review
     {
         $review = $this->productReviewRepository->find($reviewId);
 
-        $urls = app(\Webkul\FPC\Listeners\Product::class)->getForgettableUrls($review->product);
+        $urls = app(Product::class)->getForgettableUrls($review->product);
 
-        \Spatie\ResponseCache\Facades\ResponseCache::forget($urls);
+        ResponseCache::forget($urls);
     }
 }

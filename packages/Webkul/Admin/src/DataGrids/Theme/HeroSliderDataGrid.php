@@ -2,6 +2,7 @@
 
 namespace Webkul\Admin\DataGrids\Theme;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
 
@@ -10,7 +11,7 @@ class HeroSliderDataGrid extends DataGrid
     /**
      * Prepare query builder.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      */
     public function prepareQueryBuilder()
     {
@@ -28,47 +29,47 @@ class HeroSliderDataGrid extends DataGrid
     public function prepareColumns()
     {
         $this->addColumn([
-            'index'      => 'id',
-            'label'      => trans('admin::app.theme.hero-sliders.index.datagrid.id'),
-            'type'       => 'integer',
+            'index' => 'id',
+            'label' => trans('admin::app.theme.hero-sliders.index.datagrid.id'),
+            'type' => 'integer',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'name',
-            'label'      => trans('admin::app.theme.hero-sliders.index.datagrid.name'),
-            'type'       => 'string',
+            'index' => 'name',
+            'label' => trans('admin::app.theme.hero-sliders.index.datagrid.name'),
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'code',
-            'label'      => trans('admin::app.theme.hero-sliders.index.datagrid.code'),
-            'type'       => 'string',
+            'index' => 'code',
+            'label' => trans('admin::app.theme.hero-sliders.index.datagrid.code'),
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'placement',
-            'label'      => trans('admin::app.theme.hero-sliders.index.datagrid.placement'),
-            'type'       => 'string',
+            'index' => 'placement',
+            'label' => trans('admin::app.theme.hero-sliders.index.datagrid.placement'),
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'status',
-            'label'      => trans('admin::app.theme.hero-sliders.index.datagrid.status'),
-            'type'       => 'boolean',
+            'index' => 'status',
+            'label' => trans('admin::app.theme.hero-sliders.index.datagrid.status'),
+            'type' => 'boolean',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
     }
@@ -81,19 +82,19 @@ class HeroSliderDataGrid extends DataGrid
     public function prepareActions()
     {
         $this->addAction([
-            'icon'   => 'icon-edit',
-            'title'  => trans('admin::app.theme.hero-sliders.index.datagrid.edit'),
+            'icon' => 'icon-edit',
+            'title' => trans('admin::app.theme.hero-sliders.index.datagrid.edit'),
             'method' => 'GET',
-            'url'    => function ($row) {
+            'url' => function ($row) {
                 return route('admin.cms.hero_sliders.edit', $row->id);
             },
         ]);
 
         $this->addAction([
-            'icon'   => 'icon-delete',
-            'title'  => trans('admin::app.theme.hero-sliders.index.datagrid.delete'),
+            'icon' => 'icon-delete',
+            'title' => trans('admin::app.theme.hero-sliders.index.datagrid.delete'),
             'method' => 'DELETE',
-            'url'    => function ($row) {
+            'url' => function ($row) {
                 return route('admin.cms.hero_sliders.delete', $row->id);
             },
         ]);

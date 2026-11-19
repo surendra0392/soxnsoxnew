@@ -8,7 +8,9 @@ use Webkul\Theme\Contracts\HeroSlide as HeroSlideContract;
 class HeroSlide extends Model implements HeroSlideContract
 {
     protected $table = 'theme_hero_slides';
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
     protected $casts = [
         'settings' => 'array',
         'status' => 'boolean',

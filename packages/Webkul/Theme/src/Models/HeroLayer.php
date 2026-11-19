@@ -8,7 +8,9 @@ use Webkul\Theme\Contracts\HeroLayer as HeroLayerContract;
 class HeroLayer extends Model implements HeroLayerContract
 {
     protected $table = 'theme_hero_layers';
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
     protected $casts = [
         'desktop_settings' => 'array',
         'tablet_settings' => 'array',

@@ -3,6 +3,9 @@
 namespace Webkul\Shipping\Providers;
 
 use Webkul\Core\Providers\CoreModuleServiceProvider;
+use Webkul\Shipping\Models\ShippingZone;
+use Webkul\Shipping\Models\ShippingZoneLocation;
+use Webkul\Shipping\Models\ShippingZoneMethod;
 
 class ModuleServiceProvider extends CoreModuleServiceProvider
 {
@@ -12,8 +15,8 @@ class ModuleServiceProvider extends CoreModuleServiceProvider
      * @var array
      */
     protected $models = [
-        \Webkul\Shipping\Models\ShippingZone::class,
-        \Webkul\Shipping\Models\ShippingZoneLocation::class,
-        \Webkul\Shipping\Models\ShippingZoneMethod::class,
+        ShippingZone::class,
+        ShippingZoneLocation::class,
+        ShippingZoneMethod::class,
     ];
 }

@@ -2,6 +2,4 @@
 
 namespace Webkul\Theme\Contracts;
 
-interface HeroSlider
-{
-}
+interface HeroSlider {}

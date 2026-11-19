@@ -31,43 +31,43 @@ class InventoryAdjustmentDataGrid extends DataGrid
     public function prepareColumns()
     {
         $this->addColumn([
-            'index'      => 'id',
-            'label'      => trans('admin::app.datagrid.id'),
-            'type'       => 'integer',
+            'index' => 'id',
+            'label' => trans('admin::app.datagrid.id'),
+            'type' => 'integer',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'reference_number',
-            'label'      => 'Reference',
-            'type'       => 'string',
+            'index' => 'reference_number',
+            'label' => 'Reference',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'type',
-            'label'      => 'Type',
-            'type'       => 'string',
+            'index' => 'type',
+            'label' => 'Type',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'location_name',
-            'label'      => 'Location',
-            'type'       => 'string',
+            'index' => 'location_name',
+            'label' => 'Location',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'status',
-            'label'      => 'Status',
-            'type'       => 'string',
+            'index' => 'status',
+            'label' => 'Status',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
     }

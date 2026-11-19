@@ -3,6 +3,7 @@
 namespace Webkul\Sales\Repositories;
 
 use Webkul\Core\Eloquent\Repository;
+use Webkul\Inventory\Models\InventoryMovementProxy;
 use Webkul\Sales\Contracts\Order;
 
 class RefundItemRepository extends Repository
@@ -68,7 +69,7 @@ class RefundItemRepository extends Repository
                         ->first();
 
                     if ($inventory && $shippedQtyToRefund > 0) {
-                        \Webkul\Inventory\Models\InventoryMovementProxy::modelClass()::create([
+                        InventoryMovementProxy::modelClass()::create([
                             'product_id' => $product->id,
                             'inventory_source_id' => $shipmentItem->shipment->inventory_source_id,
                             'quantity' => $shippedQtyToRefund,
@@ -95,7 +96,7 @@ class RefundItemRepository extends Repository
                 ->first();
 
             if ($inventory && $quantity > 0) {
-                \Webkul\Inventory\Models\InventoryMovementProxy::modelClass()::create([
+                InventoryMovementProxy::modelClass()::create([
                     'product_id' => $orderItem->product_id,
                     'inventory_source_id' => $inventory->inventory_source_id,
                     'quantity' => $quantity,

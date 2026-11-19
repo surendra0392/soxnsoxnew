@@ -4,6 +4,4 @@ namespace Webkul\Shipping\Models;
 
 use Konekt\Concord\Proxies\ModelProxy;
 
-class ShippingZoneProxy extends ModelProxy
-{
-}
+class ShippingZoneProxy extends ModelProxy {}

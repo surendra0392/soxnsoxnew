@@ -17,19 +17,19 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->boolean('status')->default(1);
             $table->integer('sort_order')->default(0);
-            
+
             $table->string('media_type')->default('image'); // image, video
             $table->string('desktop_media')->nullable();
             $table->string('mobile_media')->nullable();
             $table->string('poster_media')->nullable();
             $table->string('video_url')->nullable();
-            
+
             $table->integer('duration')->default(5000);
             $table->string('transition')->default('fade'); // fade, slide
-            
+
             $table->dateTime('active_from')->nullable();
             $table->dateTime('active_to')->nullable();
-            
+
             $table->json('settings')->nullable();
             $table->timestamps();
 

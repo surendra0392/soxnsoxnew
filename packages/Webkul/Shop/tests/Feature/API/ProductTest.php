@@ -70,7 +70,7 @@ it('returns all products listing', function () {
         ->create();
 
     // Act and Assert.
-    getJson(route('shop.api.products.index', ['limit' => 100]))
+    getJson(route('shop.api.products.index', ['sort' => 'created_at-desc', 'limit' => 48]))
         ->assertOk()
         ->assertJsonIsArray('data')
         ->assertJsonFragment([

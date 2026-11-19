@@ -31,7 +31,7 @@ it('should return listing items of attributes', function () {
         ->assertOk()
         ->assertJsonPath('records.0.id', $attribute->id)
         ->assertJsonPath('records.0.code', $attribute->code)
-        ->assertJsonPath('meta.total', 31);
+        ->assertJsonPath('meta.total', Attribute::count());
 });
 
 it('should returns attributes options', function () {

@@ -20,6 +20,10 @@ use Webkul\Sales\Models\OrderTransaction;
 
 use function Pest\Laravel\get;
 
+beforeEach(function () {
+    Order::query()->delete();
+});
+
 it('should return the sales index page', function () {
     // Act and Assert.
     $this->loginAsAdmin();

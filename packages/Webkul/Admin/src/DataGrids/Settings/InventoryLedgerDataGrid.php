@@ -2,6 +2,7 @@
 
 namespace Webkul\Admin\DataGrids\Settings;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
 
@@ -10,7 +11,7 @@ class InventoryLedgerDataGrid extends DataGrid
     /**
      * Prepare query builder.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      */
     public function prepareQueryBuilder()
     {
@@ -57,98 +58,100 @@ class InventoryLedgerDataGrid extends DataGrid
     public function prepareColumns()
     {
         $this->addColumn([
-            'index'      => 'id',
-            'label'      => trans('admin::app.datagrid.id'),
-            'type'       => 'integer',
+            'index' => 'id',
+            'label' => trans('admin::app.datagrid.id'),
+            'type' => 'integer',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'product_name',
-            'label'      => 'Product',
-            'type'       => 'string',
+            'index' => 'product_name',
+            'label' => 'Product',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'sku',
-            'label'      => trans('admin::app.datagrid.sku'),
-            'type'       => 'string',
+            'index' => 'sku',
+            'label' => trans('admin::app.datagrid.sku'),
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'location_name',
-            'label'      => 'Location',
-            'type'       => 'string',
+            'index' => 'location_name',
+            'label' => 'Location',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'quantity',
-            'label'      => 'Qty',
-            'type'       => 'string',
+            'index' => 'quantity',
+            'label' => 'Qty',
+            'type' => 'string',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
-            'closure'    => function ($row) {
+            'closure' => function ($row) {
                 if ($row->quantity > 0) {
-                    return '<span class="badge badge-sm badge-success">+' . $row->quantity . '</span>';
+                    return '<span class="badge badge-sm badge-success">+'.$row->quantity.'</span>';
                 }
-                return '<span class="badge badge-sm badge-danger">' . $row->quantity . '</span>';
-            }
+
+                return '<span class="badge badge-sm badge-danger">'.$row->quantity.'</span>';
+            },
         ]);
 
         $this->addColumn([
-            'index'      => 'type',
-            'label'      => 'Type',
-            'type'       => 'string',
+            'index' => 'type',
+            'label' => 'Type',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
-            'closure'    => function ($row) {
-                return '<span class="badge badge-sm badge-info">' . strtoupper($row->type) . '</span>';
-            }
+            'closure' => function ($row) {
+                return '<span class="badge badge-sm badge-info">'.strtoupper($row->type).'</span>';
+            },
         ]);
 
         $this->addColumn([
-            'index'      => 'reference_type',
-            'label'      => 'Reference',
-            'type'       => 'string',
+            'index' => 'reference_type',
+            'label' => 'Reference',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
-            'closure'    => function ($row) {
+            'closure' => function ($row) {
                 if ($row->reference_type) {
-                    return $row->reference_type . ' #' . $row->reference_id;
+                    return $row->reference_type.' #'.$row->reference_id;
                 }
+
                 return 'N/A';
-            }
+            },
         ]);
 
         $this->addColumn([
-            'index'      => 'admin_name',
-            'label'      => 'Admin',
-            'type'       => 'string',
+            'index' => 'admin_name',
+            'label' => 'Admin',
+            'type' => 'string',
             'searchable' => true,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
 
         $this->addColumn([
-            'index'      => 'created_at',
-            'label'      => 'Date',
-            'type'       => 'datetime',
+            'index' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
             'searchable' => false,
-            'sortable'   => true,
+            'sortable' => true,
             'filterable' => true,
         ]);
     }
