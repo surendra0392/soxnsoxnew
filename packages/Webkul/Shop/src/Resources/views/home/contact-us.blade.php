@@ -11,7 +11,7 @@
         $channel = core()->getCurrentChannel();
         $contactEmail = core()->getConfigData('emails.configure.email_settings.contact_email') ?: 'support@soxnsox.in';
         $adminEmail = core()->getConfigData('emails.configure.email_settings.admin_email') ?: 'sales@soxnsox.in';
-        $address = core()->getConfigData('sales.shipping.origin.address') ?: (core()->getConfigData('sales.shipping.origin.address1') ?: 'Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar');
+        $address = core()->getConfigData('sales.shipping.origin.address') ?: (core()->getConfigData('sales.shipping.origin.address1') ?: 'Classic Knitters Pvt. Ltd., Shed No 1 & 2, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar');
         $city = core()->getConfigData('sales.shipping.origin.city') ?: 'Hyderabad, Medchal Malkajgiri';
         $state = core()->getConfigData('sales.shipping.origin.state') ?: 'Telangana';
         $zipcode = core()->getConfigData('sales.shipping.origin.zipcode') ?: '500090';
@@ -589,15 +589,46 @@
                     </p>
                 </div>
 
-                <div class="rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-slate-100">
+                <div class="rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-slate-100 relative group">
                     <iframe
                         class="w-full h-80 sm:h-96 border-0"
                         loading="lazy"
-                        src="https://maps.google.com/maps?q=Involute%20Institute%20of%20Industrial%20Training%2C%20Shed%20No%201%2CSurvy%20No342%2C%20ALEAP%20Industrial%20Estate%2C%20Gajularamaram%2C%20Road%20Number%2010%2C%20Pragathi%20Nagar%2C%20Hyderabad%2C%20Medchal%20Malkajgiri%2C%20Telangana%20-%20500090.&t=m&z=16&output=embed&iwloc=near"
-                        title="Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar, Hyderabad, Medchal Malkajgiri, Telangana - 500090."
-                        aria-label="Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar, Hyderabad, Medchal Malkajgiri, Telangana - 500090."
+                        src="https://maps.google.com/maps?q=Classic%20Knitters%20Pvt.%20Ltd.%2C%20Shed%20No%201%20%26%202%2C%20Survey%20No%20342%2C%20ALEAP%20Industrial%20Estate%2C%20Gajularamaram%2C%20Road%20Number%2010%2C%20Pragathi%20Nagar%2C%20Hyderabad%2C%20Telangana%20500090&t=m&z=16&output=embed&iwloc=near"
+                        title="Classic Knitters Pvt. Ltd., Shed No 1 & 2, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar, Hyderabad, Telangana - 500090"
+                        aria-label="Classic Knitters Pvt. Ltd., Shed No 1 & 2, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar, Hyderabad, Telangana - 500090"
                         allowfullscreen
                     ></iframe>
+
+                    <!-- Direct Google Maps Link Overlay Button -->
+                    <div class="absolute top-4 right-4 z-10">
+                        <a
+                            href="https://maps.app.goo.gl/Spg8ZipquSuTqdkS6"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/95 hover:bg-white text-[#133b63] hover:text-[#1d5b8f] text-xs font-bold shadow-lg border border-slate-200 backdrop-blur-md transition-all hover:scale-105 active:scale-95"
+                        >
+                            <i class="fa-solid fa-map-location-dot text-[#2ca7a3] text-sm"></i>
+                            <span>Open in Google Maps</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6b7280]">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-[#2ca7a3] text-sm"></i>
+                        <span><strong>Classic Knitters Pvt. Ltd.</strong> &bull; Shed No 1 &amp; 2, Survey No 342, ALEAP Industrial Estate, Road Number 10, Pragathi Nagar, Hyderabad - 500090</span>
+                    </div>
+
+                    <a
+                        href="https://maps.app.goo.gl/Spg8ZipquSuTqdkS6"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#133b63] hover:bg-[#1d5b8f] text-white text-xs font-bold transition-all shadow-sm hover:shadow active:scale-95"
+                    >
+                        <i class="fa-solid fa-diamond-turn-right text-xs"></i>
+                        <span>Get Directions</span>
+                    </a>
                 </div>
             </div>
         </section>

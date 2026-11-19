@@ -161,7 +161,7 @@
                 </div>
                 <div class="text-sm sm:text-base text-slate-600 leading-relaxed space-y-4">
                     <p>
-                        This Privacy Policy explains how <strong class="text-[#133b63]">SOX N SOX</strong> ("we," "our," "us"), operating under Involute Institute of Industrial Training, collects, uses, protects, and discloses personal data when you visit <strong class="text-[#133b63]">soxnsox.in</strong>, purchase our bamboo and diabetic socks, create an account, or contact our customer support team.
+                        This Privacy Policy explains how <strong class="text-[#133b63]">SOX N SOX</strong> ("we," "our," "us"), operating under Classic Knitters Pvt. Ltd., collects, uses, protects, and discloses personal data when you visit <strong class="text-[#133b63]">soxnsox.in</strong>, purchase our bamboo and diabetic socks, create an account, or contact our customer support team.
                     </p>
                     <p>
                         We operate in strict adherence to the <strong class="text-[#133b63]">Digital Personal Data Protection Act, 2023 (DPDP Act)</strong>, the <strong class="text-[#133b63]">Information Technology Act, 2000</strong>, the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011, and the Reserve Bank of India (RBI) payment security directives.
@@ -456,7 +456,7 @@
                     <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
                         <p class="text-xs text-[#2ca7a3] font-bold uppercase tracking-wider">Designated Officer</p>
                         <p class="font-semibold text-white">Grievance &amp; Privacy Officer</p>
-                        <p class="text-[11px] text-slate-400">Involute Institute of Industrial Training</p>
+                        <p class="text-[11px] text-slate-400">Classic Knitters Pvt. Ltd.</p>
                     </div>
 
                     <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">

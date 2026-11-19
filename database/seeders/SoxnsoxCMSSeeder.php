@@ -118,7 +118,7 @@ class SoxnsoxCMSSeeder extends Seeder
                 'meta_description' => 'Official terms and conditions governing purchases, pricing, pan-India delivery, diabetic sock wellness notices, and customer rights on SOX N SOX.',
                 'meta_keywords' => 'terms of sale, purchase agreement, legal terms, diabetic socks disclaimer, soxnsox terms',
                 'html_content' => '<h2>1. Agreement to Terms & Eligibility</h2>
-<p>These Terms and Conditions of Sale ("Terms") constitute a legally binding agreement between you ("Customer") and SOX N SOX (operated by Involute Institute of Industrial Training, Hyderabad, India). By accessing soxnsox.in or placing an order, you confirm that you are at least 18 years of age and legally competent to enter into binding contracts under the Indian Contract Act, 1872.</p>
+<p>These Terms and Conditions of Sale ("Terms") constitute a legally binding agreement between you ("Customer") and SOX N SOX (operated by Classic Knitters Pvt. Ltd., Hyderabad, India). By accessing soxnsox.in or placing an order, you confirm that you are at least 18 years of age and legally competent to enter into binding contracts under the Indian Contract Act, 1872.</p>
 
 <h2>2. Product Specifications & Diabetic Footwear Medical Disclaimer</h2>
 <p>SOX N SOX manufactures high-density 200-needle bamboo socks engineered for daily living, active sports, and sensitive foot comfort. Our Diabetic & Circulatory Comfort Socks feature non-binding wide-stretch top bands, hand-linked seamless toes, and cushioned terry soles that promote healthy leg circulation and prevent friction-induced blisters.</p>
@@ -141,7 +141,7 @@ class SoxnsoxCMSSeeder extends Seeder
 <p>You may request a replacement or exchange within 7 days of delivery for manufacturing defects, seam damage, or incorrect size received. For health and sanitary hygiene reasons standard to intimate footwear apparel, socks that have been worn, washed, or tried on without original packaging tags cannot be accepted.</p>
 
 <h2>7. Intellectual Property & Prohibited Use</h2>
-<p>All brand graphics, product photography, trademarks, sock knitting designs, and written content on soxnsox.in are the exclusive intellectual property of Involute Institute of Industrial Training and SOX N SOX. Unauthorized reproduction, automated scraping, or commercial resale is strictly prohibited.</p>
+<p>All brand graphics, product photography, trademarks, sock knitting designs, and written content on soxnsox.in are the exclusive intellectual property of Classic Knitters Pvt. Ltd. and SOX N SOX. Unauthorized reproduction, automated scraping, or commercial resale is strictly prohibited.</p>
 
 <h2>8. Governing Law & Dispute Resolution</h2>
 <p>These terms and all order transactions are governed by the laws of the Republic of India. Any legal dispute that cannot be resolved amicably within 30 days shall be subject to the exclusive jurisdiction of the competent courts in Hyderabad / Medchal-Malkajgiri, Telangana, India.</p>',
@@ -182,7 +182,7 @@ class SoxnsoxCMSSeeder extends Seeder
 
 <h2>Fulfillment & Logistics Center</h2>
 <p>SOX N SOX Fulfillment Center<br>
-Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar, Hyderabad, Medchal Malkajgiri, Telangana - 500090.</p>',
+Classic Knitters Pvt. Ltd., Shed No 1 & 2, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar, Hyderabad, Medchal Malkajgiri, Telangana - 500090.</p>',
             ],
             [
                 'id' => 7,
@@ -254,7 +254,7 @@ Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industri
                 'meta_description' => 'Your privacy is protected with 256-bit SSL encryption. Compliant with Digital Personal Data Protection Act 2023. We never sell or share your personal data with third-party marketers.',
                 'meta_keywords' => 'privacy policy, customer data protection, ssl encryption, dpdp act 2023, soxnsox privacy',
                 'html_content' => '<h2>1. Introduction & Regulatory Scope</h2>
-<p>This Privacy Policy explains how SOX N SOX (operated by Involute Institute of Industrial Training, Hyderabad, Telangana) collects, uses, protects, and handles personal data in strict compliance with India\'s Digital Personal Data Protection Act, 2023 (DPDP Act), the Information Technology Act, 2000, and Reserve Bank of India (RBI) payment security directives.</p>
+<p>This Privacy Policy explains how SOX N SOX (operated by Classic Knitters Pvt. Ltd., Hyderabad, Telangana) collects, uses, protects, and handles personal data in strict compliance with India\'s Digital Personal Data Protection Act, 2023 (DPDP Act), the Information Technology Act, 2000, and Reserve Bank of India (RBI) payment security directives.</p>
 
 <h2>2. Information We Collect</h2>
 <ul>
@@ -283,9 +283,9 @@ Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industri
 
 <h2>7. Statutory Grievance Redressal Officer</h2>
 <p>In compliance with the Information Technology Act, 2000 and the DPDP Act 2023, you may contact our designated Grievance Officer at:</p>
-<p><strong>Grievance Officer:</strong> Data Protection Desk, Involute Institute of Industrial Training<br>
+<p><strong>Grievance Officer:</strong> Data Protection Desk, Classic Knitters Pvt. Ltd.<br>
 <strong>Email:</strong> privacy@soxnsox.in | <strong>Phone:</strong> +91 81061 55111<br>
-<strong>Address:</strong> Shed No 1, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Hyderabad - 500090, Telangana, India.</p>',
+<strong>Address:</strong> Shed No 1 & 2, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Hyderabad - 500090, Telangana, India.</p>',
             ],
             [
                 'id' => 11,

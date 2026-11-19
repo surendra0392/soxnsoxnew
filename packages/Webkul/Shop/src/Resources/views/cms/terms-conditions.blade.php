@@ -157,7 +157,7 @@
                 </div>
                 <div class="text-sm sm:text-base text-slate-600 leading-relaxed space-y-4">
                     <p>
-                        These Terms and Conditions of Sale ("Terms") constitute a legally binding agreement between you ("Customer," "you," or "user") and <strong class="text-[#133b63]">SOX N SOX</strong> (operated by Involute Institute of Industrial Training, Hyderabad, India, hereinafter referred to as "we," "us," or "our").
+                        These Terms and Conditions of Sale ("Terms") constitute a legally binding agreement between you ("Customer," "you," or "user") and <strong class="text-[#133b63]">SOX N SOX</strong> (operated by Classic Knitters Pvt. Ltd., Hyderabad, India, hereinafter referred to as "we," "us," or "our").
                     </p>
                     <p>
                         By visiting our website at <strong class="text-[#133b63]">soxnsox.in</strong>, browsing our footwear collections, registering an account, or placing an order, you confirm that:
@@ -320,7 +320,7 @@
                 </div>
                 <div class="text-sm sm:text-base text-slate-600 leading-relaxed space-y-4">
                     <p>
-                        All content hosted on <strong class="text-[#133b63]">soxnsox.in</strong> — including brand trademarks, the SOX N SOX logo, typography, product photography, editorial writeups, knitting technical specifications, and user interface software — is the exclusive proprietary property of Involute Institute of Industrial Training and SOX N SOX.
+                        All content hosted on <strong class="text-[#133b63]">soxnsox.in</strong> — including brand trademarks, the SOX N SOX logo, typography, product photography, editorial writeups, knitting technical specifications, and user interface software — is the exclusive proprietary property of Classic Knitters Pvt. Ltd. and SOX N SOX.
                     </p>
                     <p>
                         No content may be downloaded, reproduced, copied, framed, scraped, or republished for commercial resale or external distribution without our prior written authorization.
@@ -385,7 +385,7 @@
 
                     <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
                         <p class="text-xs text-teal-300 font-bold uppercase tracking-wider">Operating Entity</p>
-                        <p class="font-semibold text-white">Involute Institute</p>
+                        <p class="font-semibold text-white">Classic Knitters Pvt. Ltd.</p>
                         <p class="text-[11px] text-slate-400">ALEAP Industrial Estate, Hyderabad</p>
                     </div>
                 </div>

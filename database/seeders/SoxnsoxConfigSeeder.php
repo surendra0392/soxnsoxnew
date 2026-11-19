@@ -224,13 +224,13 @@ class SoxnsoxConfigSeeder extends Seeder
             // Shipping Origin (ALEAP Industrial Estate, Hyderabad, Telangana, India)
             [
                 'code' => 'sales.shipping.origin.address',
-                'value' => 'Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar',
+                'value' => 'Classic Knitters Pvt. Ltd., Shed No 1 & 2, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar',
                 'channel_code' => 'default',
                 'locale_code' => 'en',
             ],
             [
                 'code' => 'sales.shipping.origin.address1',
-                'value' => 'Involute Institute of Industrial Training, Shed No 1,Survy No342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar',
+                'value' => 'Classic Knitters Pvt. Ltd., Shed No 1 & 2, Survey No 342, ALEAP Industrial Estate, Gajularamaram, Road Number 10, Pragathi Nagar',
                 'channel_code' => null,
                 'locale_code' => null,
             ],
