@@ -1169,6 +1169,11 @@
             <!-- Global Back to Top Button -->
             <x-shop::layouts.back-to-top />
 
+            <!-- Global Floating WhatsApp Support Button (Hidden on Contact Page) -->
+            @if (! request()->routeIs('shop.home.contact_us') && ! request()->is('contact-us*'))
+                <x-shop::layouts.whatsapp />
+            @endif
+
             <!-- Page Footer Blade Component -->
             @if ($hasFooter)
                 <x-shop::layouts.footer />

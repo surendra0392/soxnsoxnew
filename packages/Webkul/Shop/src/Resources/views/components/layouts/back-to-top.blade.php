@@ -17,8 +17,8 @@
                 type="button"
                 v-show="isVisible"
                 @click="scrollToTop"
-                class="flex items-center justify-center rounded-full shadow-2xl transition-all duration-300 hover:scale-110 hover:-translate-y-1 focus:outline-none group cursor-pointer"
-                style="position: fixed; bottom: 2rem; right: 2rem; top: auto; left: auto; z-index: 90; width: 3rem; height: 3rem; background-color: #133b63; color: #ffffff; border: 2px solid #ffffff; box-shadow: 0 10px 30px rgba(22, 57, 35, 0.45);"
+                class="fixed bottom-6 right-5 sm:bottom-8 sm:right-8 z-[90] flex items-center justify-center w-12 h-12 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-[#133b63]/30 group cursor-pointer"
+                style="background-color: #133b63; color: #ffffff; border: 2px solid #ffffff; box-shadow: 0 10px 25px rgba(19, 59, 99, 0.45);"
                 aria-label="Back to Top"
                 title="Back to Top"
             >
@@ -53,10 +53,46 @@
                 },
 
                 scrollToTop() {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth',
-                    });
+                    const startY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+                    if (startY <= 0) return;
+
+                    // High precision requestAnimationFrame ease-in-out smooth scroll (guaranteed smooth in all browsers & settings)
+                    const duration = Math.min(800, Math.max(350, Math.sqrt(startY) * 16));
+                    const startTime = performance.now();
+
+                    function easeInOutCubic(t) {
+                        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                    }
+
+                    let isCancelled = false;
+                    const cancelEvents = ['wheel', 'touchmove', 'keydown'];
+                    const onUserCancel = () => {
+                        isCancelled = true;
+                        cleanup();
+                    };
+                    const cleanup = () => {
+                        cancelEvents.forEach(evt => window.removeEventListener(evt, onUserCancel, { passive: true }));
+                    };
+                    cancelEvents.forEach(evt => window.addEventListener(evt, onUserCancel, { passive: true }));
+
+                    function step(currentTime) {
+                        if (isCancelled) return;
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const ease = easeInOutCubic(progress);
+                        const currentY = Math.round(startY * (1 - ease));
+
+                        window.scrollTo(0, currentY);
+
+                        if (progress < 1) {
+                            requestAnimationFrame(step);
+                        } else {
+                            window.scrollTo(0, 0);
+                            cleanup();
+                        }
+                    }
+
+                    requestAnimationFrame(step);
                 },
             },
         });

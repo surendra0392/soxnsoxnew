@@ -13,10 +13,10 @@
         </div>
     </div>
 
-    <!-- 2. PWA Add-to-Home-Screen (A2HS) Floating Install Banner -->
+    <!-- 2. PWA Add-to-Home-Screen (A2HS) Floating Install Banner (Positioned Bottom-Left) -->
     <div
         id="soxnsox-pwa-install-banner"
-        class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50 transition-all duration-500 opacity-0 translate-y-8 pointer-events-none"
+        class="fixed bottom-6 ltr:left-4 ltr:sm:left-6 rtl:right-4 rtl:sm:right-6 ltr:right-auto rtl:left-auto max-w-[calc(100vw-2rem)] sm:max-w-sm z-50 transition-all duration-500 opacity-0 translate-y-8 pointer-events-none"
         style="display: none;"
     >
         <div class="bg-white/95 backdrop-blur-md rounded-2xl border border-[#133b63]/15 shadow-2xl p-4 sm:p-5 flex items-start gap-3.5 ring-1 ring-black/5">
