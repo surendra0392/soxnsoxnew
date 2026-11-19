@@ -53,7 +53,7 @@ class InvoiceController extends Controller
     {
         $order = $this->orderRepository->findOrFail($orderId);
 
-        if ($order->payment->method === 'paypal_standard') {
+        if ($order->payment?->method === 'paypal_standard') {
             abort(404);
         }
 

@@ -103,24 +103,27 @@
 
         <!-- Profile Delete Modal Action -->
         <div class="pt-6 border-t border-soxnsox-border/60">
-            <x-shop::form action="{{ route('shop.customers.account.profile.destroy') }}">
-                <x-shop::modal>
-                    <x-slot:toggle>
-                        <button
-                            type="button"
-                            class="text-xs uppercase tracking-wider font-semibold text-red-600 hover:text-red-700 transition-colors"
-                        >
-                            @lang('shop::app.customers.account.profile.index.delete-profile')
-                        </button>
-                    </x-slot>
+            <x-shop::modal>
+                <x-slot:toggle>
+                    <button
+                        type="button"
+                        class="text-xs uppercase tracking-wider font-semibold text-red-600 hover:text-red-700 transition-colors"
+                    >
+                        @lang('shop::app.customers.account.profile.index.delete-profile')
+                    </button>
+                </x-slot>
 
-                    <x-slot:header>
-                        <h2 class="font-display text-xl font-extrabold text-[#133b63]">
-                            @lang('shop::app.customers.account.profile.index.enter-password')
-                        </h2>
-                    </x-slot>
+                <x-slot:header>
+                    <h2 class="font-display text-xl font-extrabold text-[#133b63]">
+                        @lang('shop::app.customers.account.profile.index.enter-password')
+                    </h2>
+                </x-slot>
 
-                    <x-slot:content>
+                <x-slot:content>
+                    <x-shop::form
+                        id="profile-delete-form"
+                        action="{{ route('shop.customers.account.profile.destroy') }}"
+                    >
                         <div class="py-2">
                             <x-shop::form.control-group class="!mb-0">
                                 <x-shop::form.control-group.control
@@ -137,19 +140,20 @@
                                 />
                             </x-shop::form.control-group>
                         </div>
-                    </x-slot>
+                    </x-shop::form>
+                </x-slot>
 
-                    <!-- Modal Footer -->
-                    <x-slot:footer>
-                        <button
-                            type="submit"
-                            class="soxnsox-btn-primary h-10 px-6 text-xs uppercase tracking-widest font-semibold"
-                        >
-                            @lang('shop::app.customers.account.profile.index.delete')
-                        </button>
-                    </x-slot>
-                </x-shop::modal>
-            </x-shop::form>
+                <!-- Modal Footer -->
+                <x-slot:footer>
+                    <button
+                        type="submit"
+                        form="profile-delete-form"
+                        class="soxnsox-btn-primary h-10 px-6 text-xs uppercase tracking-widest font-semibold"
+                    >
+                        @lang('shop::app.customers.account.profile.index.delete')
+                    </button>
+                </x-slot>
+            </x-shop::modal>
         </div>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.delete.after') !!}

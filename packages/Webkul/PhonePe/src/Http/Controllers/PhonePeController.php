@@ -5,6 +5,7 @@ namespace Webkul\PhonePe\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
@@ -55,6 +56,12 @@ class PhonePeController extends Controller
             return redirect()->route('shop.checkout.cart.index');
         }
 
+        if (Cart::hasError()) {
+            session()->flash('error', trans('shop::app.checkout.cart.inventory-warning'));
+
+            return redirect()->route('shop.checkout.cart.index');
+        }
+
         $paymentUrl = $this->phonePe->initiatePayment($cart);
 
         if (! $paymentUrl) {
@@ -95,7 +102,7 @@ class PhonePeController extends Controller
                 return redirect()->route('phonepe.cancel', ['merchantOrderId' => $merchantOrderId]);
             }
 
-            if ($state === 'FAILED') {
+            if (! in_array($state, ['COMPLETED', 'SUCCESS'], true)) {
                 session()->flash('warning', trans('phonepe::app.response.phonepe-payment-failed'));
 
                 return redirect()->route('phonepe.cancel', ['merchantOrderId' => $merchantOrderId]);
@@ -116,62 +123,22 @@ class PhonePeController extends Controller
 
             $cart = $this->cartRepository->find($cartId);
 
-            if (! $cart) {
+            if (! $cart || ! $cart->is_active || $cart->payment?->method !== 'phonepe') {
                 session()->flash('info', trans('phonepe::app.response.cart-not-found'));
 
                 return redirect()->route('phonepe.cancel', ['merchantOrderId' => $merchantOrderId]);
             }
 
-            /**
-             * Check if an order already exists for this cart (e.g., created by the callback).
-             */
-            $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cartId]);
+            $order = $this->createOrderFromPhonePePayment(
+                $cart,
+                $merchantOrderId,
+                $response['data']['token'] ?? '',
+                $state ?? '',
+                $response,
+                'callback'
+            );
 
-            if (! $existingOrder) {
-                Cart::setCart($cart);
-
-                Cart::collectTotals();
-
-                $data = (new OrderResource($cart))->jsonSerialize();
-
-                /**
-                 * Prepare additional payment data for order creation, including PhonePe transaction details.
-                 */
-                $data['payment']['additional'] = [
-                    'phonePe_merchant_order_id' => $merchantOrderId ?? '',
-                    'phonePe_token' => $response['data']['token'] ?? '',
-                    'phonePe_status' => $state ?? '',
-                ];
-
-                $order = $this->orderRepository->create($data);
-
-                $this->orderRepository->update(['status' => 'processing'], $order->id);
-
-                if ($order->canInvoice()) {
-                    $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
-
-                    /**
-                     * Record the order transaction with PhonePe payment details, including transaction ID and status.
-                     */
-                    $this->orderTransactionRepository->create([
-                        'transaction_id' => $response['data']['paymentDetails'][0]['transactionId'] ?? '',
-                        'status' => self::PAYMENT_SUCCESS,
-                        'type' => $order->payment->method,
-                        'payment_method' => $order->payment->method,
-                        'order_id' => $order->id,
-                        'invoice_id' => $invoice->id,
-                        'amount' => $order->base_grand_total,
-                        'data' => json_encode($response['raw']),
-                    ]);
-                }
-
-                Cart::deActivateCart();
-            }
-
-            /**
-             * Store the order ID in the session for the success page.
-             */
-            session()->flash('order_id', $existingOrder?->id);
+            session()->flash('order_id', $order?->id);
 
             session()->flash('success', trans('phonepe::app.response.payment-success'));
 
@@ -247,26 +214,67 @@ class PhonePeController extends Controller
                 return response()->json(['status' => 'cart_inactive'], 200);
             }
 
-            /**
-             * Check if an order already exists for this cart (e.g., created by the callback).
-             */
-            $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cartId]);
+            $order = $this->createOrderFromPhonePePayment(
+                $cart,
+                $merchantOrderId,
+                $response['data']['token'] ?? '',
+                $verifiedState,
+                $response,
+                'webhook'
+            );
+
+            return response()->json([
+                'status' => 'success',
+                'order_id' => $order?->id,
+            ], 200);
+        } catch (\Exception $e) {
+            report($e);
+
+            return response()->json([
+                'status' => 'error',
+            ], 500);
+        }
+    }
+
+    /**
+     * Create or retrieve order atomically from PhonePe payment data.
+     *
+     * @param  \Webkul\Checkout\Contracts\Cart  $cart
+     * @return object|null
+     */
+    protected function createOrderFromPhonePePayment(
+        $cart,
+        ?string $merchantOrderId,
+        ?string $token,
+        string $status,
+        array $response,
+        string $source = 'callback'
+    ) {
+        return Cache::lock("phonepe_order_{$cart->id}", 15)->block(10, function () use ($cart, $merchantOrderId, $token, $status, $response, $source) {
+            $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cart->id]);
 
             if ($existingOrder) {
-                return response()->json(['status' => 'order_already_exists', 'order_id' => $existingOrder->id], 200);
+                return $existingOrder;
             }
 
             Cart::setCart($cart);
 
             Cart::collectTotals();
 
+            $expectedPaise = (int) round((float) $cart->base_grand_total * 100);
+            $paidPaise = (int) ($response['data']['amount'] ?? 0);
+
+            if ($cart->payment?->method !== 'phonepe' || $paidPaise < $expectedPaise) {
+                throw new \RuntimeException('PhonePe payment amount mismatch or invalid payment method.');
+            }
+
             $data = (new OrderResource($cart))->jsonSerialize();
 
             $data['payment']['additional'] = [
-                'phonePe_merchant_order_id' => $merchantOrderId,
-                'phonePe_token' => $response['data']['token'] ?? '',
-                'phonePe_status' => $verifiedState,
-                'phonePe_source' => 'webhook',
+                'phonePe_merchant_order_id' => $merchantOrderId ?? '',
+                'phonePe_token' => $token ?? '',
+                'phonePe_status' => $status,
+                'phonePe_source' => $source,
             ];
 
             $order = $this->orderRepository->create($data);
@@ -284,18 +292,14 @@ class PhonePeController extends Controller
                     'order_id' => $order->id,
                     'invoice_id' => $invoice->id,
                     'amount' => $order->base_grand_total,
-                    'data' => json_encode($response['raw']),
+                    'data' => json_encode($response['raw'] ?? []),
                 ]);
             }
 
             Cart::deActivateCart();
-        } catch (\Exception $e) {
-            report($e);
 
-            return response()->json([
-                'status' => 'error',
-            ], 500);
-        }
+            return $order;
+        });
     }
 
     /**

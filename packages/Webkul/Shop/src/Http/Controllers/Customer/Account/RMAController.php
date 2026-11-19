@@ -133,7 +133,7 @@ class RMAController extends Controller
             'rma_reason_id' => 'required',
             'information' => 'nullable|string',
             'images' => 'nullable|array|min:1',
-            'images.*' => 'nullable|file|mimetypes:'.core()->getConfigData('sales.rma.setting.allowed_file_extension'),
+            'images.*' => ['nullable', 'file', ($ext = core()->getConfigData('sales.rma.setting.allowed_file_extension')) ? "mimetypes:{$ext}" : 'mimes:jpg,jpeg,png,webp,pdf'],
             'agreement' => 'accepted',
         ]);
 
@@ -263,7 +263,7 @@ class RMAController extends Controller
             ]);
         } else {
             return new JsonResponse([
-                'messages' => trans('shop::app.customer.signup-form.failed'),
+                'messages' => trans('shop::app.rma.response.invalid-item'),
                 'redirect' => route('shop.customers.account.rma.create'),
             ]);
         }
@@ -303,7 +303,7 @@ class RMAController extends Controller
 
         $rma = $this->rmaRepository->findOrFail($id);
 
-        if ($rma->order->customer_id != auth()->guard('customer')->id()) {
+        if ($rma->order?->customer_id != auth()->guard('customer')->id()) {
             abort(404);
         }
 
@@ -335,7 +335,7 @@ class RMAController extends Controller
 
         $rma = $this->rmaRepository->findOrFail($id);
 
-        if ($rma->order->customer_id != auth()->guard('customer')->id()) {
+        if ($rma->order?->customer_id != auth()->guard('customer')->id()) {
             abort(404);
         }
 
@@ -373,10 +373,8 @@ class RMAController extends Controller
     {
         $rma = $this->rmaRepository->findOrFail($id);
 
-        if ($rma->order->customer_id != auth()->guard('customer')->id()) {
-            return response()->json([
-                'message' => trans('shop::app.rma.response.already-cancel'),
-            ]);
+        if ($rma->order?->customer_id != auth()->guard('customer')->id()) {
+            abort(404);
         }
 
         if ($rma->rma_status_id == DefaultRMAStatusEnum::CANCELED->value) {
@@ -403,7 +401,7 @@ class RMAController extends Controller
     {
         $rma = $this->rmaRepository->findOrFail(request()->input('id'));
 
-        if ($rma->order->customer_id != auth()->guard('customer')->id()) {
+        if ($rma->order?->customer_id != auth()->guard('customer')->id()) {
             return new JsonResponse([
                 'messages' => [],
             ]);
@@ -427,15 +425,15 @@ class RMAController extends Controller
         $this->validate(request(), [
             'rma_id' => 'required|integer|exists:rma,id',
             'message' => 'nullable|string',
-            'file' => 'nullable|file|mimetypes:'.core()->getConfigData('sales.rma.setting.allowed_file_extension'),
+            'file' => ['nullable', 'file', ($ext = core()->getConfigData('sales.rma.setting.allowed_file_extension')) ? "mimetypes:{$ext}" : 'mimes:jpg,jpeg,png,webp,pdf'],
         ]);
 
         $rma = $this->rmaRepository->findOrFail(request()->input('rma_id'));
 
-        if ($rma->order->customer_id != auth()->guard('customer')->id()) {
+        if ($rma->order?->customer_id != auth()->guard('customer')->id()) {
             return new JsonResponse([
-                'messages' => trans('shop::app.customer.signup-form.failed'),
-            ]);
+                'messages' => trans('shop::app.customers.account.addresses.index.security-warning'),
+            ], 403);
         }
 
         $storedMessage = $this->rmaMessageRepository->create([
@@ -474,7 +472,7 @@ class RMAController extends Controller
         }
 
         return new JsonResponse([
-            'messages' => trans('shop::app.customer.signup-form.failed'),
+            'messages' => trans('shop::app.rma.response.creation-error'),
         ]);
     }
 }

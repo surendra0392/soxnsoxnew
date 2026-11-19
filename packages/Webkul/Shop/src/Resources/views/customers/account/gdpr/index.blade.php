@@ -7,7 +7,7 @@
     <!-- Breadcrumbs -->
     @if ((core()->getConfigData('general.general.breadcrumbs.shop')))
         @section('breadcrumbs')
-            <x-shop::breadcrumbs name="addresses" />
+            <x-shop::breadcrumbs name="gdpr" />
         @endSection
     @endif
 
@@ -42,6 +42,7 @@
                 <a
                     href="{{ route('shop.customers.account.gdpr.html-view') }}"
                     target="_blank"
+                    rel="noopener noreferrer"
                     class="secondary-button border-zinc-200 px-5 py-3 font-normal rounded-full max-md:py-2 max-sm:py-1.5 max-sm:text-sm"
                 >
                     @lang('shop::app.customers.account.gdpr.index.html') 
@@ -171,17 +172,21 @@
             >
                 {!! view_render_event('bagisto.shop.customers.account.gdpr.request.form_controls.before') !!}
 
-                <form @submit="handleSubmit($event, store)">
-                    <x-shop::modal ref="loginModel">
-                        <!-- Modal Header -->
-                        <x-slot:header>
-                            <h2 class="text-2xl">
-                                @lang('shop::app.customers.account.gdpr.index.modal.title')
-                            </h2>
-                        </x-slot>
+                <x-shop::modal ref="loginModel">
+                    <!-- Modal Header -->
+                    <x-slot:header>
+                        <h2 class="text-2xl">
+                            @lang('shop::app.customers.account.gdpr.index.modal.title')
+                        </h2>
+                    </x-slot>
 
-                        <!-- Modal Content -->
-                        <x-slot:content>
+                    <!-- Modal Content -->
+                    <x-slot:content>
+                        <form
+                            id="gdpr-request-form"
+                            @submit="handleSubmit($event, store)"
+                            novalidate
+                        >
                             <!-- Type -->
                             <x-shop::form.control-group>
                                 <x-shop::form.control-group.label class="required">
@@ -227,21 +232,23 @@
 
                                 <x-shop::form.control-group.error control-name="message" />
                             </x-shop::form.control-group>
-                        </x-slot>
+                        </form>
+                    </x-slot>
 
-                        <!-- Modal Footer -->
-                        <x-slot:footer>
-                            <div class="flex flex-wrap items-center gap-4">
-                                <x-shop::button
-                                    class="primary-button max-w-none flex-auto rounded-full px-11 py-3 max-md:py-1.5"
-                                    :title="trans('shop::app.customers.account.gdpr.index.modal.save')"
-                                    ::loading="isStoring"
-                                    ::disabled="isStoring"
-                                />
-                            </div>
-                        </x-slot>
-                    </x-shop::modal>
-                </form>
+                    <!-- Modal Footer -->
+                    <x-slot:footer>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <x-shop::button
+                                type="submit"
+                                form="gdpr-request-form"
+                                class="primary-button max-w-none flex-auto rounded-full px-11 py-3 max-md:py-1.5"
+                                :title="trans('shop::app.customers.account.gdpr.index.modal.save')"
+                                ::loading="isStoring"
+                                ::disabled="isStoring"
+                            />
+                        </div>
+                    </x-slot>
+                </x-shop::modal>
 
                 {!! view_render_event('bagisto.shop.customers.account.gdpr.request.form_controls.after') !!}
             </x-shop::form>

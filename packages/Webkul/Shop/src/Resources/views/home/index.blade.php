@@ -6,6 +6,7 @@
 
     // Query 8 Featured Products
     $featuredProducts = app('Webkul\Product\Repositories\ProductRepository')->getModel()
+        ->with(['images', 'attribute_values', 'inventories'])
         ->whereHas('attribute_values', function($q) {
             $q->whereHas('attribute', fn($q2) => $q2->where('code', 'status'))
               ->where('boolean_value', 1);
@@ -19,6 +20,7 @@
 
     // Query 4 Best Sellers
     $bestSellers = app('Webkul\Product\Repositories\ProductRepository')->getModel()
+        ->with(['images', 'attribute_values', 'inventories'])
         ->whereHas('attribute_values', function($q) {
             $q->whereHas('attribute', fn($q2) => $q2->where('code', 'status'))
               ->where('boolean_value', 1);
@@ -189,14 +191,11 @@
     <meta name="title" content="{{ $homeTitle }}" />
     <meta name="description" content="{{ $homeDesc }}" />
     <meta name="keywords" content="{{ $homeKeys }}" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
 
     <!-- Open Graph Social Meta -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{{ $homeTitle }}" />
     <meta property="og:description" content="{{ $homeDesc }}" />
-    <meta property="og:url" content="{{ url('/') }}" />
     <meta property="og:image" content="{{ $ogImage }}" />
     <meta property="og:image:secure_url" content="{{ $ogImage }}" />
     <meta property="og:image:width" content="1200" />
@@ -204,7 +203,6 @@
     <meta property="og:image:alt" content="SOX N SOX 100% Bamboo Socks & Diabetic Footwear India" />
 
     <!-- Twitter Card Meta -->
-    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ $homeTitle }}" />
     <meta name="twitter:description" content="{{ $homeDesc }}" />
     <meta name="twitter:image" content="{{ $ogImage }}" />
@@ -275,7 +273,7 @@
     @endif
 @endpush
 
-<x-shop::layouts>
+<x-shop::layouts :canonical="url('/')">
     <!-- Page Title -->
     <x-slot:title>
         {{ 'SOX N SOX — Ultra-Soft Bamboo Socks & Diabetic Footwear' }}
@@ -495,7 +493,7 @@
         <div class="site-container">
             <div class="mx-auto max-w-3xl text-center mb-14 lg:mb-16 reveal-on-scroll reveal-up">
                 <div class="mb-3">
-                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e6f8f7] border border-[#2ca7a3]/30 text-[#2ca7a3] text-[11px] font-extrabold tracking-[0.2em] uppercase shadow-xs">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e6f8f7] border border-[#2ca7a3]/30 text-[#2ca7a3] text-[11px] font-extrabold tracking-[0.2em] uppercase shadow-sm">
                         <span class="h-2 w-2 rounded-full bg-[#2ca7a3] animate-pulse"></span>
                         Therapeutic &amp; Clinical Line
                     </span>
@@ -511,7 +509,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 reveal-stagger">
                 <!-- Medical Card 1: Compression Socks -->
                 <a
-                    href="{{ route('shop.product_or_category.index', 'medical-socks') }}"
+                    href="{{ route('shop.category.view', 'compression-socks') }}"
                     class="soxnsox-category-card group relative rounded-3xl bg-white border border-slate-200/80 p-4 sm:p-5 flex flex-col justify-between hover:border-[#2ca7a3] hover:shadow-[0_24px_50px_-10px_rgba(44,167,163,0.25)] hover:-translate-y-2.5 transition-all duration-500 overflow-hidden soxnsox-medical-card-teal"
                 >
                     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#2ca7a3] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -561,7 +559,7 @@
 
                 <!-- Medical Card 2: Plantar Fasciitis Socks -->
                 <a
-                    href="{{ route('shop.product_or_category.index', 'medical-socks') }}"
+                    href="{{ route('shop.category.view', 'plantar-fasciitis') }}"
                     class="soxnsox-category-card group relative rounded-3xl bg-white border border-slate-200/80 p-4 sm:p-5 flex flex-col justify-between hover:border-[#2ca7a3] hover:shadow-[0_24px_50px_-10px_rgba(44,167,163,0.25)] hover:-translate-y-2.5 transition-all duration-500 overflow-hidden soxnsox-medical-card-teal"
                 >
                     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#2ca7a3] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -611,7 +609,7 @@
 
                 <!-- Medical Card 3: Grip / Anti-Slip Socks -->
                 <a
-                    href="{{ route('shop.product_or_category.index', 'medical-socks') }}"
+                    href="{{ route('shop.category.view', 'medical-socks') }}"
                     class="soxnsox-category-card group relative rounded-3xl bg-white border border-slate-200/80 p-4 sm:p-5 flex flex-col justify-between hover:border-[#f29a38] hover:shadow-[0_24px_50px_-10px_rgba(242,154,56,0.25)] hover:-translate-y-2.5 transition-all duration-500 overflow-hidden soxnsox-medical-card-amber"
                 >
                     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#f29a38] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -787,7 +785,7 @@
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 reveal-on-scroll reveal-up">
                 <div class="space-y-3">
                     <div class="mb-2">
-                        <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e6f8f7] border border-[#2ca7a3]/30 text-[#2ca7a3] text-[11px] font-extrabold tracking-[0.2em] uppercase shadow-xs">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e6f8f7] border border-[#2ca7a3]/30 text-[#2ca7a3] text-[11px] font-extrabold tracking-[0.2em] uppercase shadow-sm">
                             <span class="h-1.5 w-1.5 rounded-full bg-[#2ca7a3] animate-pulse"></span>
                             Direct From Mill
                         </span>
@@ -801,7 +799,7 @@
                 </div>
 
                 <a
-                    href="{{ route('shop.product_or_category.index', 'products') }}"
+                    href="{{ route('shop.products.index') }}"
                     class="soxnsox-btn-outline soxnsox-btn-shimmer self-start md:self-auto !px-7 !py-3 text-xs inline-flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                     <span>View All Socks</span>
@@ -908,7 +906,7 @@
                     </div>
 
                     <!-- Floating Feature Card: positioned under the image with slight overlap over the bottom edge -->
-                    <div style="margin-top: -52px;" class="relative mx-4 sm:mx-6 z-10 bg-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-4.5 shadow-xl border border-slate-200/90 transition-all duration-300 ease-out hover:shadow-2xl hover:-translate-y-1.5 hover:border-[#2ca7a3]/50 hover:ring-2 hover:ring-[#2ca7a3]/20 group/card cursor-default text-center">
+                    <div style="margin-top: -52px;" class="relative mx-4 sm:mx-6 z-10 bg-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-5 shadow-xl border border-slate-200/90 transition-all duration-300 ease-out hover:shadow-2xl hover:-translate-y-1.5 hover:border-[#2ca7a3]/50 hover:ring-2 hover:ring-[#2ca7a3]/20 group/card cursor-default text-center">
                         <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#2ca7a3] block transition-colors duration-300 group-hover/card:text-[#2ca7a3]">Engineered In India</span>
                         <span class="text-xs sm:text-sm font-bold text-[#133b63] block mt-0.5 transition-colors duration-300 group-hover/card:text-[#2ca7a3]">Precision Comfort for Active Everyday Life</span>
                     </div>
@@ -1038,7 +1036,7 @@
 
                     <div class="pt-4">
                         <a
-                            href="{{ route('shop.product_or_category.index', 'medical-socks') }}"
+                            href="{{ route('shop.category.view', 'medical-socks') }}"
                             class="soxnsox-hero-btn-orange soxnsox-btn-shimmer soxnsox-btn-glow !px-8 !py-4 text-xs tracking-widest inline-flex items-center gap-2 hover:scale-105 active:scale-95 transition-all duration-300"
                             style="background-color: #f28c38 !important; color: #ffffff !important; border: 1px solid #f28c38 !important;"
                         >
@@ -1350,7 +1348,7 @@
                                     src="{{ $bImgUrl }}"
                                     alt="{{ $blog->name }}"
                                     loading="lazy"
-                                    class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                                    class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                                 />
                                 <div class="absolute top-4 left-4 z-10">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-md border border-slate-200/80 backdrop-blur-md">
@@ -1515,7 +1513,7 @@
                     <!-- Authentic Slide Background Image with subtle Ken Burns zoom effect -->
                     <div
                         class="absolute inset-0 bg-cover bg-no-repeat pointer-events-none transition-transform duration-[7000ms] ease-out will-change-transform"
-                        :class="currentSlide === index ? 'scale-106' : 'scale-100'"
+                        :class="currentSlide === index ? 'scale-105' : 'scale-100'"
                         :style="{ backgroundImage: 'url(' + slide.bgImage + ')', backgroundPosition: 'right center' }"
                     ></div>
 
@@ -1586,6 +1584,7 @@
                                 <!-- Primary Orange Solid Button -->
                                 <a
                                     :href="slide.primaryBtn.url"
+                                    :tabindex="currentSlide === index ? 0 : -1"
                                     class="soxnsox-hero-btn-orange soxnsox-btn-shimmer soxnsox-btn-glow px-5 sm:px-6 py-2.5 text-xs shadow-lg hover:shadow-orange-500/30 hover:scale-105 active:scale-95 transition-all duration-300"
                                     style="background-color: #f28c38 !important; background-image: linear-gradient(135deg, #f28c38 0%, #e07a2f 100%) !important; color: #ffffff !important; border: 1px solid #f28c38 !important;"
                                 >
@@ -1596,6 +1595,7 @@
                                 <!-- Secondary Teal Outlined Button -->
                                 <a
                                     :href="slide.secondaryBtn.url"
+                                    :tabindex="currentSlide === index ? 0 : -1"
                                     class="soxnsox-hero-btn-teal soxnsox-btn-shimmer px-5 sm:px-6 py-2.5 text-xs hover:bg-[#2ca7a3] hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
                                     style="background-color: transparent !important; border: 1.5px solid #2ca7a3 !important; color: #2ca7a3 !important;"
                                 >
@@ -1725,11 +1725,11 @@
                             ],
                             primaryBtn: {
                                 text: 'SHOP DIABETIC SOCKS',
-                                url: '{{ route('shop.products.index') }}'
+                                url: '{{ route('shop.category.view', 'medical-socks') }}'
                             },
                             secondaryBtn: {
                                 text: 'VIEW MEDICAL RANGE',
-                                url: '{{ route('shop.products.index') }}'
+                                url: '{{ route('shop.category.view', 'medical-socks') }}'
                             }
                         },
                         {

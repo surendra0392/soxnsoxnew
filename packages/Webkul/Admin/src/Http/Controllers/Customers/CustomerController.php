@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Webkul\Admin\DataGrids\Customers\CustomerDataGrid;
 use Webkul\Admin\DataGrids\Customers\View\InvoiceDataGrid;
@@ -83,12 +84,13 @@ class CustomerController extends Controller
             'last_name' => 'string|required',
             'gender' => 'required',
             'channel_id' => 'required|integer',
+            'customer_group_id' => 'nullable|integer|exists:customer_groups,id',
             'email' => 'required|unique:customers,email,NULL,id,channel_id,'.request('channel_id'),
             'date_of_birth' => 'date|before:today',
             'phone' => ['unique:customers,phone', new PhoneNumber],
         ]);
 
-        $password = rand(100000, 10000000);
+        $password = Str::random(12);
 
         Event::dispatch('customer.registration.before');
 

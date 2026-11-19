@@ -9,9 +9,9 @@ return [
         'title' => 'Razorpay',
         'description' => 'Razorpay',
         'active' => true,
-        'sandbox' => true,
-        'test_client_id' => 'TEST_CLIENT_ID',
-        'test_client_secret' => 'TEST_CLIENT_SECRET',
+        'sandbox' => false,
+        'test_client_id' => null,
+        'test_client_secret' => null,
         'sort' => 2,
     ],
 ];

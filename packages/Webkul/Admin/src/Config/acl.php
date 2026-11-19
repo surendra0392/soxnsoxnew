@@ -47,6 +47,7 @@ return [
         'route' => [
             'admin.sales.orders.create',
             'admin.sales.orders.store',
+            'admin.sales.orders.validate_order',
             'admin.sales.orders.reorder',
             'admin.sales.cart.index',
             'admin.sales.cart.store',
@@ -66,7 +67,10 @@ return [
         'name' => 'admin::app.acl.view',
         'route' => [
             'admin.sales.orders.view',
+            'admin.sales.orders.print',
+            'admin.sales.orders.delivery_slip.print',
             'admin.sales.orders.comment',
+            'admin.sales.orders.update_operational_status',
         ],
         'sort' => 2,
     ], [
@@ -106,7 +110,11 @@ return [
     ], [
         'key' => 'sales.shipments.view',
         'name' => 'admin::app.acl.view',
-        'route' => 'admin.sales.shipments.view',
+        'route' => [
+            'admin.sales.shipments.view',
+            'admin.sales.shipments.print',
+            'admin.sales.shipments.delivery_slip.print',
+        ],
         'sort' => 1,
     ], [
         'key' => 'sales.shipments.create',
@@ -363,6 +371,7 @@ return [
         'route' => [
             'admin.catalog.products.edit',
             'admin.catalog.products.update',
+            'admin.catalog.products.toggle_attribute',
             'admin.catalog.products.update_inventories',
             'admin.catalog.products.mass_update',
             'admin.catalog.products.upload_link',
@@ -983,6 +992,32 @@ return [
             'admin.cms.mass_delete',
         ],
         'sort' => 3,
+    ], [
+        'key' => 'cms.hero_sliders',
+        'name' => 'admin::app.components.layouts.sidebar.hero-sliders',
+        'route' => 'admin.cms.hero_sliders.index',
+        'sort' => 4,
+    ], [
+        'key' => 'cms.hero_sliders.create',
+        'name' => 'admin::app.acl.create',
+        'route' => [
+            'admin.cms.hero_sliders.create',
+            'admin.cms.hero_sliders.store',
+        ],
+        'sort' => 1,
+    ], [
+        'key' => 'cms.hero_sliders.edit',
+        'name' => 'admin::app.acl.edit',
+        'route' => [
+            'admin.cms.hero_sliders.edit',
+            'admin.cms.hero_sliders.update',
+        ],
+        'sort' => 2,
+    ], [
+        'key' => 'cms.hero_sliders.delete',
+        'name' => 'admin::app.acl.delete',
+        'route' => 'admin.cms.hero_sliders.delete',
+        'sort' => 3,
     ],
 
     /*
@@ -1097,6 +1132,11 @@ return [
         'name' => 'admin::app.acl.delete',
         'route' => 'admin.settings.inventory_sources.delete',
         'sort' => 3,
+    ], [
+        'key' => 'settings.inventory_ledger',
+        'name' => 'Stock Ledger',
+        'route' => 'admin.settings.inventory_ledger.index',
+        'sort' => 4,
     ], [
         'key' => 'settings.channels',
         'name' => 'admin::app.acl.channels',

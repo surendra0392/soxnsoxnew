@@ -15,7 +15,7 @@
     </x-slot>
 
     <div class="bg-[#f5f7fa] min-h-[calc(100vh-80px)]">
-        <main class="site-container py-12 sm:py-16">
+        <div class="site-container py-12 sm:py-16">
             <!-- Form Container Card -->
             <div class="max-w-md mx-auto rounded-3xl border border-soxnsox-border/80 bg-white p-8 sm:p-10 shadow-soxnsox-subtle space-y-6">
                 <!-- Header -->
@@ -127,6 +127,6 @@
 
                 {!! view_render_event('bagisto.shop.customers.reset_password.after') !!}
             </div>
-        </main>
+        </div>
     </div>
 </x-shop::layouts>

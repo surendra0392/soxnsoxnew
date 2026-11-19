@@ -52,7 +52,7 @@ class OrderDataGrid extends DataGrid
 
         $this->addColumn([
             'index' => 'created_at',
-            'label' => trans('shop::app.customers.account.orders.date'),
+            'label' => trans('shop::app.customers.account.orders.order-date'),
             'type' => 'date',
             'searchable' => true,
             'filterable' => true,
@@ -82,7 +82,8 @@ class OrderDataGrid extends DataGrid
             'closure' => function ($row) {
                 if ($row->operational_status) {
                     $badgeClass = in_array($row->operational_status, ['SHIPPED', 'DELIVERED']) ? 'label-active' : 'label-processing';
-                    return '<p class="' . $badgeClass . '">' . ucwords(strtolower($row->operational_status)) . '</p>';
+
+                    return '<p class="'.$badgeClass.'">'.ucwords(strtolower($row->operational_status)).'</p>';
                 }
 
                 switch ($row->status) {

@@ -357,6 +357,10 @@
                         }
                     },
                     handleKeyDown(e) {
+                        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target?.tagName) || e.target?.isContentEditable) {
+                            return;
+                        }
+
                         if (e.key === 'ArrowRight') {
                             this.next();
                         } else if (e.key === 'ArrowLeft') {

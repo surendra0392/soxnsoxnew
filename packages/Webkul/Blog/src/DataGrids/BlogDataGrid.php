@@ -69,7 +69,7 @@ class BlogDataGrid extends DataGrid
 
         $this->addColumn([
             'index' => 'featured_image',
-            'label' => trans('admin::app.datagrid.image'),
+            'label' => 'Image',
             'type' => 'string',
             'searchable' => false,
             'sortable' => false,
@@ -91,7 +91,7 @@ class BlogDataGrid extends DataGrid
 
         $this->addColumn([
             'index' => 'name',
-            'label' => trans('admin::app.datagrid.title'),
+            'label' => 'Title',
             'type' => 'string',
             'searchable' => true,
             'sortable' => true,
@@ -149,7 +149,7 @@ class BlogDataGrid extends DataGrid
 
         $this->addColumn([
             'index' => 'created_at',
-            'label' => trans('admin::app.datagrid.created-at'),
+            'label' => 'Created At',
             'type' => 'date',
             'searchable' => false,
             'sortable' => true,
@@ -170,6 +170,10 @@ class BlogDataGrid extends DataGrid
             'method' => 'GET',
             'target' => '_blank',
             'url' => function ($row) {
+                if (empty($row->url_key)) {
+                    return route('admin.blogs.edit', $row->id);
+                }
+
                 return route('shop.blogs.view', [
                     'category_slug' => Str::slug($row->category ?: 'general'),
                     'url_key' => $row->url_key,

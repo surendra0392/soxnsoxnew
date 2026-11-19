@@ -1,10 +1,10 @@
 <v-image-search>
     <button
         type="button"
-        class="absolute top-3 flex items-center text-xl max-sm:top-2.5 ltr:right-3 ltr:pr-3 max-md:ltr:right-1.5 rtl:left-3 rtl:pl-3 max-md:rtl:left-1.5 text-soxnsox-muted hover:text-soxnsox-teal transition-colors"
+        class="absolute inset-y-0 flex items-center justify-center leading-none text-xl ltr:right-3.5 rtl:left-3.5 text-soxnsox-muted hover:text-soxnsox-teal transition-colors"
         aria-label="@lang('shop::app.search.images.index.search')"
     >
-        <i class="fa-solid fa-camera text-base"></i>
+        <i class="fa-solid fa-camera text-base leading-none"></i>
     </button>
 </v-image-search>
 
@@ -15,20 +15,20 @@
     >
         <div>
             <label
-                class="absolute top-3 flex cursor-pointer items-center text-xl max-sm:top-2.5 ltr:right-3 ltr:pr-3 max-md:ltr:right-1.5 rtl:left-3 rtl:pl-3 max-md:rtl:left-1.5 text-soxnsox-muted hover:text-soxnsox-teal transition-colors"
+                class="absolute inset-y-0 flex cursor-pointer items-center justify-center leading-none text-xl ltr:right-3.5 rtl:left-3.5 text-soxnsox-muted hover:text-soxnsox-teal transition-colors"
                 aria-label="@lang('shop::app.search.images.index.search')"
                 :for="'v-image-search-' + $.uid"
                 v-if="! isSearching"
             >
-                <i class="fa-solid fa-camera text-base"></i>
+                <i class="fa-solid fa-camera text-base leading-none"></i>
             </label>
 
             <label
-                class="absolute top-2.5 flex cursor-pointer items-center text-xl ltr:right-3 ltr:pr-3 max-md:ltr:pr-1 rtl:left-3 rtl:pl-3 max-md:rtl:pl-1"
+                class="absolute inset-y-0 flex cursor-pointer items-center justify-center leading-none text-xl ltr:right-3.5 rtl:left-3.5 text-soxnsox-muted"
                 v-else
             >
                 <!-- Spinner -->
-                <i class="fa-solid fa-spinner fa-spin text-base text-black"></i>
+                <i class="fa-solid fa-spinner fa-spin text-base leading-none text-black"></i>
             </label>
 
             <input
@@ -167,9 +167,15 @@
                             }
                         });
 
+                        if (! analysedResult.length) {
+                            this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('shop::app.search.images.index.something-went-wrong')"});
+                            this.isSearching = false;
+                            return;
+                        }
+
                         localStorage.searchedTerms = analysedResult.join('_');
 
-                        let query = analysedResult[0].split(' ').join('+');
+                        let query = encodeURIComponent(analysedResult[0].trim());
 
                         window.location.href = `{{ route('shop.search.index') }}?query=${query}&image-search=1`;
                     } catch (error) {

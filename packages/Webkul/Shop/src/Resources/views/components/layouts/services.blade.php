@@ -5,7 +5,7 @@
         {{-- Section Header --}}
         <div class="text-center mb-12 lg:mb-16 reveal-on-scroll reveal-up">
             <div class="mb-3">
-                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase bg-[#2ca7a3]/10 text-[#2ca7a3] border border-[#2ca7a3]/25 shadow-xs">
+                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase bg-[#2ca7a3]/10 text-[#2ca7a3] border border-[#2ca7a3]/25 shadow-sm">
                     <i class="fa-solid fa-check text-[#2ca7a3] text-xs"></i>
                     The SOX N SOX Promise
                 </span>

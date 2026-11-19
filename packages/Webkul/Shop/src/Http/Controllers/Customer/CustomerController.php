@@ -6,6 +6,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Webkul\Core\Repositories\SubscribersListRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -105,7 +106,7 @@ class CustomerController extends Controller
                         'customer_id' => $customer->id,
                         'channel_id' => core()->getCurrentChannel()->id,
                         'is_subscribed' => 1,
-                        'token' => $token = uniqid(),
+                        'token' => $token = Str::random(60),
                     ]);
                 }
             } else {
@@ -138,9 +139,9 @@ class CustomerController extends Controller
             return redirect()->route('shop.customers.account.profile.index');
         }
 
-        session()->flash('success', trans('shop::app.customer.account.profile.edit-fail'));
+        session()->flash('error', trans('shop::app.customers.account.profile.index.delete-failed'));
 
-        return redirect()->back('shop.customers.account.profile.edit');
+        return redirect()->back();
     }
 
     /**
@@ -164,7 +165,14 @@ class CustomerController extends Controller
                     return redirect()->route('shop.customers.account.profile.index');
                 }
 
-                $this->customerRepository->delete(auth()->guard('customer')->user()->id);
+                $customerId = auth()->guard('customer')->user()->id;
+
+                $this->customerRepository->delete($customerId);
+
+                auth()->guard('customer')->logout();
+
+                request()->session()->invalidate();
+                request()->session()->regenerateToken();
 
                 session()->flash('success', trans('shop::app.customers.account.profile.index.delete-success'));
 

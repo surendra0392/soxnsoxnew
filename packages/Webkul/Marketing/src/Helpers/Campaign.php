@@ -40,7 +40,11 @@ class Campaign
             ->get();
 
         foreach ($campaigns as $campaign) {
-            if ($campaign->event->name == 'Birthday') {
+            if (! $campaign->customer_group) {
+                continue;
+            }
+
+            if ($campaign->event?->name == 'Birthday') {
                 $emails = $this->getBirthdayEmails($campaign);
             } else {
                 $emails = $this->getEmailAddresses($campaign);
@@ -60,6 +64,10 @@ class Campaign
      */
     public function getEmailAddresses($campaign)
     {
+        if (! $campaign->customer_group) {
+            return [];
+        }
+
         if ($campaign->customer_group->code === 'guest') {
             $customerGroupEmails = SubscribersList::whereNull('customer_id');
         } else {

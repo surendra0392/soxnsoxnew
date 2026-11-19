@@ -639,6 +639,8 @@ class ImportController extends Controller
     {
         $samplePath = config("importers.{$type}.sample_paths.{$format}");
 
+        abort_if(! $samplePath || ! Storage::exists($samplePath), 404);
+
         return Storage::download($samplePath);
     }
 
@@ -814,7 +816,55 @@ class ImportController extends Controller
         $zip = new ZipArchive;
 
         if ($zip->open($disk->path($archivePath)) === true) {
-            $zip->extractTo($disk->path($directory));
+            $targetDir = $disk->path($directory);
+
+            if (! is_dir($targetDir)) {
+                @mkdir($targetDir, 0755, true);
+            }
+
+            $normalizedTarget = rtrim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, realpath($targetDir) ?: $targetDir), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $entryName = $zip->getNameIndex($i);
+
+                if (! $entryName) {
+                    continue;
+                }
+
+                // Block directory traversal, Windows streams/drive letters, absolute paths, and null bytes
+                if (
+                    str_contains($entryName, '..')
+                    || str_contains($entryName, ':')
+                    || str_contains($entryName, "\0")
+                    || str_starts_with($entryName, '/')
+                    || str_starts_with($entryName, '\\')
+                ) {
+                    continue;
+                }
+
+                $destinationPath = $targetDir.DIRECTORY_SEPARATOR.$entryName;
+                $normalizedDest = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $destinationPath);
+
+                if (! str_starts_with($normalizedDest, $normalizedTarget)) {
+                    continue;
+                }
+
+                // If directory entry in zip, create subdirectory
+                if (str_ends_with($entryName, '/') || str_ends_with($entryName, '\\')) {
+                    if (! is_dir($destinationPath)) {
+                        @mkdir($destinationPath, 0755, true);
+                    }
+
+                    continue;
+                }
+
+                $parentDir = dirname($destinationPath);
+                if (! is_dir($parentDir)) {
+                    @mkdir($parentDir, 0755, true);
+                }
+
+                $zip->extractTo($targetDir, [$entryName]);
+            }
 
             $zip->close();
         }

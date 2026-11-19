@@ -50,6 +50,12 @@ class ThemeController extends Controller
 
             $theme = $this->themeCustomizationRepository->find(request()->input('id'));
 
+            if (! $theme) {
+                return response()->json([
+                    'message' => trans('admin::app.settings.themes.index.datagrid.id-null'),
+                ], 404);
+            }
+
             return $this->themeCustomizationRepository->uploadImage(request()->all(), $theme);
         }
 
@@ -79,7 +85,7 @@ class ThemeController extends Controller
      */
     public function edit(int $id)
     {
-        $theme = $this->themeCustomizationRepository->find($id);
+        $theme = $this->themeCustomizationRepository->findOrFail($id);
 
         return view('admin::settings.themes.edit', compact('theme'));
     }
@@ -163,11 +169,17 @@ class ThemeController extends Controller
         $selectedThemeIds = $massDestroyRequest->input('indices');
 
         foreach ($selectedThemeIds as $themeId) {
+            Event::dispatch('theme_customization.delete.before', $themeId);
+
             $this->themeCustomizationRepository->delete($themeId);
+
+            Storage::deleteDirectory('theme/'.$themeId);
+
+            Event::dispatch('theme_customization.delete.after', $themeId);
         }
 
         return new JsonResponse([
-            'message' => trans('admin::app.settings.themes.update-success'),
+            'message' => trans('admin::app.settings.themes.delete-success'),
         ]);
     }
 }

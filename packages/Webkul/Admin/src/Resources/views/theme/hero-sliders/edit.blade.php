@@ -442,12 +442,19 @@
                                     secondary_btn_url: settings.secondary_btn_url || '/products',
                                     badges: settings.badges
                                 },
-                                layers: (slide.layers || []).map(layer => ({
-                                    ...layer,
-                                    desktop_settings: typeof layer.desktop_settings === 'string' ? JSON.parse(layer.desktop_settings || '{}') : (layer.desktop_settings || {}),
-                                    mobile_settings: typeof layer.mobile_settings === 'string' ? JSON.parse(layer.mobile_settings || '{}') : (layer.mobile_settings || {}),
-                                    settings: typeof layer.settings === 'string' ? JSON.parse(layer.settings || '{}') : (layer.settings || {}),
-                                }))
+                                layers: (slide.layers || []).map(layer => {
+                                    const safeParse = (val) => {
+                                        if (typeof val !== 'string') return val || {};
+                                        try { return JSON.parse(val || '{}'); } catch (e) { return {}; }
+                                    };
+
+                                    return {
+                                        ...layer,
+                                        desktop_settings: safeParse(layer.desktop_settings),
+                                        mobile_settings: safeParse(layer.mobile_settings),
+                                        settings: safeParse(layer.settings),
+                                    };
+                                })
                             };
                         });
                     }

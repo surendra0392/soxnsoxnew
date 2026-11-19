@@ -130,7 +130,7 @@
                                 class="shrink-0 w-20 h-20 sm:w-22 sm:h-22 rounded-xl bg-[#f8fafc] border border-[#e5e7eb] overflow-hidden flex items-center justify-center p-1"
                             >
                                 <img
-                                    :src="item.base_image.small_image_url"
+                                    :src="item.base_image?.small_image_url"
                                     class="w-full h-full object-cover rounded-lg"
                                     :alt="item.name"
                                 />
@@ -176,23 +176,16 @@
 
                                     {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.content.price.after') !!}
 
-                                    <!-- Weight & Options Variations -->
-                                    <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[11px] text-[#4b5563]">
-                                        <span
-                                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium"
-                                            v-if="item.formatted_weight"
-                                        >
-                                            <span class="text-[#9ca3af]">Weight:</span>
-                                            <span class="font-semibold text-[#133b63]">@{{ item.formatted_weight }}</span>
-                                        </span>
-
-                                        <template v-if="item.options.length">
-                                            <template v-for="attribute in item.options">
-                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium">
-                                                    <span class="text-[#9ca3af]">@{{ attribute.attribute_name }}:</span>
-                                                    <span class="font-semibold text-[#133b63]">@{{ attribute.option_label }}</span>
-                                                </span>
-                                            </template>
+                                    <!-- Selected Options Variations -->
+                                    <div
+                                        v-if="item.options?.length"
+                                        class="flex flex-wrap items-center gap-1.5 pt-1 text-[11px] text-[#4b5563]"
+                                    >
+                                        <template v-for="attribute in item.options">
+                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium">
+                                                <span class="text-[#9ca3af]">@{{ attribute.attribute_name }}:</span>
+                                                <span class="font-semibold text-[#133b63]">@{{ attribute.option_label }}</span>
+                                            </span>
                                         </template>
                                     </div>
                                 </div>
@@ -431,7 +424,8 @@
                         })
                         .catch(error => {
                             this.isLoading = false;
-                            this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                            this.refreshKey++;
+                            this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || 'Unable to update cart.' });
                         });
                 },
 
@@ -449,7 +443,8 @@
                         })
                         .catch(error => {
                             this.isLoading = false;
-                            this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                            this.refreshKey++;
+                            this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || 'Unable to update cart.' });
                         });
                 },
             }

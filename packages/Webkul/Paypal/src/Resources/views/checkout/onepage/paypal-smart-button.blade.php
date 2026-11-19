@@ -69,7 +69,7 @@
                                     .then(response => response.data.result)
                                     .then(order => order.id)
                                     .catch(error => {
-                                        if (error.response.data.error === 'invalid_client') {
+                                        if (error.response?.data?.error === 'invalid_client') {
                                             options.authorizationFailed = true;
 
                                             options.alertBox('@lang('paypal::app.errors.invalid-configs')');

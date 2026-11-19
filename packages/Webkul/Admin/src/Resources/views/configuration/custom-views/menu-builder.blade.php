@@ -51,7 +51,7 @@
                         <div class="max-h-[150px] overflow-y-auto space-y-2 pr-2">
                             <label v-for="(cat, index) in categories" :key="'cat_' + cat.value" class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" :value="{ type: 'category', id: cat.value, title: cat.title }" v-model="pendingSelections.category" class="rounded border-gray-300 text-[#133b63] focus:ring-[#133b63]/20">
-                                <span class="text-sm text-gray-600" v-html="cat.title"></span>
+                                <span class="text-sm text-gray-600" v-text="cat.title"></span>
                             </label>
                         </div>
                         <button type="button" @click="addPending('category')" class="mt-3 px-3 py-1.5 bg-white border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50 transition-colors">Add to Menu</button>
@@ -90,7 +90,7 @@
                                 
                                 <div class="flex-1 flex items-center justify-between">
                                     <div class="flex items-center gap-2">
-                                        <span class="font-medium text-sm text-gray-700" v-html="element.title"></span>
+                                        <span class="font-medium text-sm text-gray-700" v-text="element.title"></span>
                                         <span class="px-2 py-0.5 rounded bg-gray-100 text-gray-500 text-xs uppercase" v-text="element.type"></span>
                                     </div>
                                     
@@ -116,8 +116,8 @@
 
             props: {
                 nameField: String,
-                categoriesData: Object,
-                cmsPagesData: Object,
+                categoriesData: [Array, Object],
+                cmsPagesData: [Array, Object],
                 initialValue: String,
             },
 
@@ -182,15 +182,24 @@
                 },
                 
                 addCustomLink() {
-                    if (this.customLink.title.trim() === '' || this.customLink.url.trim() === '') {
+                    const trimmedTitle = this.customLink.title.trim();
+                    const trimmedUrl = this.customLink.url.trim();
+
+                    if (trimmedTitle === '' || trimmedUrl === '') {
                         alert('Please provide both Title and URL for the custom link.');
+                        return;
+                    }
+
+                    const isSafeUrl = /^(https?:\/\/|\/|#)/i.test(trimmedUrl);
+                    if (! isSafeUrl) {
+                        alert('Please enter a valid URL starting with https://, http://, /, or #.');
                         return;
                     }
                     
                     this.items.push({
                         type: 'custom',
-                        title: this.customLink.title,
-                        url: this.customLink.url,
+                        title: trimmedTitle,
+                        url: trimmedUrl,
                         uniqueId: Math.random().toString(36).substring(2, 9)
                     });
                     

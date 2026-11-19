@@ -2,13 +2,13 @@
 @push('meta')
     <meta name="title" content="@lang('shop::app.checkout.onepage.index.checkout') | SOXNSOX" />
     <meta name="description" content="Complete your SOXNSOX order with secure 256-bit encrypted checkout." />
-    <meta name="robots" content="noindex, nofollow" />
 @endPush
 
 <x-shop::layouts
     :has-header="false"
     :has-feature="false"
     :has-footer="true"
+    :noindex="true"
 >
     <!-- Page Title -->
     <x-slot:title>
@@ -52,7 +52,7 @@
             </a>
 
             <!-- Center Trust Badge (Desktop) -->
-            <div class="hidden md:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#1d5b8f] bg-[#e9f2fa] border border-[#cbe2f5] px-4 py-1.5 rounded-full shadow-xs">
+            <div class="hidden md:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#1d5b8f] bg-[#e9f2fa] border border-[#cbe2f5] px-4 py-1.5 rounded-full shadow-sm">
                 <i class="fa-solid fa-lock text-xs text-[#1d5b8f]"></i>
                 <span>Secure 256-Bit SSL Checkout</span>
             </div>
@@ -104,12 +104,12 @@
         </div>
 
         <!-- Checkout Vue Component -->
-        <main class="site-container pb-20">
+        <div class="site-container pb-20">
             <v-checkout>
                 <!-- Shimmer Effect -->
                 <x-shop::shimmer.checkout.onepage />
             </v-checkout>
-        </main>
+        </div>
     </div>
 
     @pushOnce('scripts')
@@ -262,7 +262,7 @@
                     },
 
                     placeOrder() {
-                        if ((this.selectedPaymentMethod || this.cart.payment_method) == 'paypal_smart_button') {
+                        if ((this.selectedPaymentMethod || this.cart?.payment_method) == 'paypal_smart_button') {
                             return;
                         }
 
@@ -280,7 +280,10 @@
                             })
                             .catch(error => {
                                 this.isPlacingOrder = false;
-                                this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                                this.$emitter.emit('add-flash', {
+                                    type: 'error',
+                                    message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')',
+                                });
                             });
                     }
                 },

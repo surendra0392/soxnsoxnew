@@ -5,6 +5,7 @@ namespace Webkul\Sales\Repositories;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Core\Eloquent\Repository;
+use Webkul\Inventory\Models\InventoryMovementProxy;
 use Webkul\Sales\Contracts\OrderItem;
 
 class OrderItemRepository extends Repository
@@ -84,14 +85,14 @@ class OrderItemRepository extends Repository
 
         if ($orderItem->getTypeInstance()->isComposite()) {
             foreach ($orderItem->children as $child) {
-                if (! $child->product->manage_stock) {
+                if (! $child->product?->manage_stock) {
                     continue;
                 }
 
                 $orderItems[] = $child;
             }
         } else {
-            if ($orderItem->product->manage_stock) {
+            if ($orderItem->product?->manage_stock) {
                 $orderItems[] = $orderItem;
             }
         }
@@ -102,8 +103,16 @@ class OrderItemRepository extends Repository
             }
 
             if ($item->product->inventories->count()) {
+                $channelSourceIds = $orderItem->order?->channel?->inventory_sources?->pluck('id')->all() ?? [];
+
+                $lockedInventories = $item->product->inventories()
+                    ->when(! empty($channelSourceIds), fn ($query) => $query->whereIn('inventory_source_id', $channelSourceIds))
+                    ->lockForUpdate()
+                    ->get();
+
                 $orderedInventory = $item->product->ordered_inventories()
                     ->where('channel_id', $orderItem->order->channel_id)
+                    ->lockForUpdate()
                     ->first();
 
                 if (isset($item->qty_ordered)) {
@@ -112,15 +121,22 @@ class OrderItemRepository extends Repository
                     $qty = $item?->parent?->qty_ordered ?? 1;
                 }
 
+                $availableQty = (int) $lockedInventories->sum('qty') - (int) ($orderedInventory?->qty ?? 0);
+
+                if (
+                    ! core()->getConfigData('catalog.inventory.stock_options.back_orders')
+                    && $availableQty < $qty
+                ) {
+                    throw new \DomainException(trans('shop::app.checkout.cart.inventory-warning'));
+                }
+
                 if ($orderedInventory) {
-                    $orderedInventory->update([
-                        'qty' => $orderedInventory->qty + $qty,
-                    ]);
+                    $orderedInventory->increment('qty', $qty);
                 } else {
                     $item->product->ordered_inventories()->create([
                         'qty' => $qty,
                         'product_id' => $item->product_id,
-                        'channel_id' => $orderItem->order->channel->id,
+                        'channel_id' => $orderItem->order->channel_id,
                     ]);
                 }
             }
@@ -143,7 +159,7 @@ class OrderItemRepository extends Repository
         $this->updateProductOrderedInventories($orderItem);
 
         if ($orderItem->getTypeInstance()->isStockable()) {
-            $shipmentItems = $orderItem?->parent->shipment_items ?? $orderItem->shipment_items;
+            $shipmentItems = $orderItem->parent?->shipment_items ?? $orderItem->shipment_items;
 
             foreach ($shipmentItems as $shipmentItem) {
                 if ($orderItem->parent) {
@@ -161,7 +177,7 @@ class OrderItemRepository extends Repository
                     ->first();
 
                 if ($inventory && $shippedQty > 0) {
-                    \Webkul\Inventory\Models\InventoryMovementProxy::modelClass()::create([
+                    InventoryMovementProxy::modelClass()::create([
                         'product_id' => $orderItem->product->id,
                         'inventory_source_id' => $shipmentItem->shipment->inventory_source_id,
                         'quantity' => $shippedQty,
@@ -183,7 +199,7 @@ class OrderItemRepository extends Repository
     public function updateProductOrderedInventories(OrderItem $orderItem): void
     {
         $orderedInventory = $orderItem->product->ordered_inventories()
-            ->where('channel_id', $orderItem->order->channel->id)
+            ->where('channel_id', $orderItem->order->channel_id)
             ->first();
 
         if (! $orderedInventory) {
@@ -191,9 +207,9 @@ class OrderItemRepository extends Repository
         }
 
         $qty = (
-            $orderedInventory->qty + ($orderItem->qty_shipped ?? $orderItem->parent->qty_shipped)
+            $orderedInventory->qty + ($orderItem->qty_shipped ?? $orderItem->parent?->qty_shipped ?? 0)
         ) - (
-            $orderItem->qty_ordered ?? $orderItem->parent->qty_ordered
+            $orderItem->qty_ordered ?? $orderItem->parent?->qty_ordered ?? 0
         );
 
         if ($qty < 0) {

@@ -196,7 +196,7 @@
                             <x-slot:content>
                                 <div class="grid gap-y-3">
                                     <div class="flex items-center gap-3 pb-2 border-b border-gray-100">
-                                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full overflow-hidden border border-slate-200/80 shadow-xs">
+                                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full overflow-hidden border border-slate-200/80 shadow-sm">
                                             <img
                                                 :src="customer.avatar_url || customer.image_url || getSoxnsoxAvatar(`${customer.first_name} ${customer.last_name}`, 48)"
                                                 class="h-full w-full object-cover"

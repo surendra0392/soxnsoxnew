@@ -299,43 +299,46 @@
                     v-slot="{ meta, errors, handleSubmit }"
                     as="div"
                 >
-                    <form
-                        @submit="handleSubmit($event, rmaSubmit)"
-                        ref="rmaSubmit"
+                    <x-shop::modal
+                        ref="rmaModel"
+                        panel-class="max-w-[768px]"
                     >
-                        <x-shop::modal
-                            ref="rmaModel"
-                            panel-class="max-w-[768px]"
-                        >
-                            <!-- Modal Header -->
-                            <x-slot:header>
-                                <h2 class="text-lg font-semibold text-gray-800 max-md:text-base">
-                                    @lang('shop::app.rma.customer.create.heading')
-                                </h2>
-                            </x-slot>
+                        <!-- Modal Header -->
+                        <x-slot:header>
+                            <h2 class="text-lg font-semibold text-gray-800 max-md:text-base">
+                                @lang('shop::app.rma.customer.create.heading')
+                            </h2>
+                        </x-slot>
 
-                            <!-- Modal Content -->
-                            <x-slot:content class="bg-gray-50 p-5 max-sm:p-3">
+                        <!-- Modal Content -->
+                        <x-slot:content class="bg-gray-50 p-5 max-sm:p-3">
+                            <form
+                                id="rma-create-form"
+                                @submit="handleSubmit($event, rmaSubmit)"
+                                ref="rmaSubmit"
+                                novalidate
+                            >
                                 <div class="journal-scroll flex flex-col gap-3 overflow-auto ltr:pr-1.5 rtl:pl-1.5" style="min-height: 420px; max-height: 60vh;">
                                     <v-order-items-list :key="refreshComponent" :order-id="isSelect"></v-order-items-list>
                                 </div>
-                            </x-slot>
+                            </form>
+                        </x-slot>
 
-                            <x-slot:footer>
-                                <div class="flex justify-end">
-                                    <button
-                                        type="submit"
-                                        :disabled="!rmaFormButton || !rmaFormSubmit"
-                                        class="primary-button"
-                                    >
-                                        <i v-if="!rmaFormSubmit" class="fa-solid fa-spinner fa-spin text-sm mr-1"></i>
+                        <x-slot:footer>
+                            <div class="flex justify-end">
+                                <button
+                                    type="submit"
+                                    form="rma-create-form"
+                                    :disabled="!rmaFormButton || !rmaFormSubmit"
+                                    class="primary-button"
+                                >
+                                    <i v-if="!rmaFormSubmit" class="fa-solid fa-spinner fa-spin text-sm mr-1"></i>
 
-                                        @lang('shop::app.rma.customer.submit-req')
-                                    </button>
-                                </div>
-                            </x-slot>
-                        </x-shop::modal>
-                    </form>
+                                    @lang('shop::app.rma.customer.submit-req')
+                                </button>
+                            </div>
+                        </x-slot>
+                    </x-shop::modal>
                 </x-shop::form>
             </div>
         </script>
@@ -404,7 +407,7 @@
                                 <p class="flex text-sm justify-between">
                                     <template v-if="product.url_key && product.visible_individually">
                                         <a
-                                            :href="'{{ route('shop.products.view', ':slug') }}'.replace(':slug', product.url_key)"
+                                            :href="'{{ route('shop.products.view', ['category' => 'socks', 'slug' => ':slug']) }}'.replace(':slug', product.url_key)"
                                             target='_blank'
                                             class="text-blue-600 text-base font-semibold hover:underline"
                                         >
@@ -788,9 +791,9 @@
                                         type="multiselect"
                                         id="{{ $attribute->id }}"
                                         class="cursor-pointer"
-                                        name="{{ $attribute->id }}[]"
+                                        name="customAttributes[{{ $attribute->id }}][]"
                                         rules="{{ $attribute->is_required }}"
-                                        :value="old($attribute->id)"
+                                        :value="old('customAttributes.' . $attribute->id)"
                                         label="{{ $attribute->label }}"
                                     >
                                         <!-- Here! All Needed types are defined -->
@@ -825,7 +828,7 @@
                                                     type="checkbox"
                                                     class="peer sr-only"
                                                     id="{{ $attribute->id }}-{{ $index }}"
-                                                    rules="required"
+                                                    rules="{{ $attribute->is_required }}"
                                                     name="customAttributes[{{ $attribute->id }}]"
                                                     value="{{ $option->value }}"
                                                     v-bind="field"
@@ -862,7 +865,7 @@
                                                 <input
                                                     type="radio"
                                                     class="sr-only peer"
-                                                    id="option_{{ $loop->index }}"
+                                                    id="{{ $attribute->id }}_option_{{ $loop->index }}"
                                                     rules="{{ $attribute->is_required }}"
                                                     name="customAttributes[{{ $attribute->id }}]"
                                                     value="{{ $option->name }}"
@@ -872,7 +875,7 @@
 
                                             <label
                                                 class="icon-radio-unselect text-base peer-checked:icon-radio-select peer-checked:text-navyBlue cursor-pointer"
-                                                for="option_{{ $loop->index }}"
+                                                for="{{ $attribute->id }}_option_{{ $loop->index }}"
                                             >
                                                 {{ $option->name }}
                                             </label>
@@ -1016,7 +1019,7 @@
                         } catch (error) {
                             this.rmaFormSubmit = true;
 
-                            if (error.response.status == 422) {
+                            if (error.response?.status == 422 && error.response?.data?.errors) {
                                 setErrors(error.response.data.errors);
                             }
                         }
@@ -1060,7 +1063,7 @@
 
                 methods: {
                     formatPrice(price) {
-                        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+                        return new Intl.NumberFormat('en-IN', { style: 'currency', currency: '{{ core()->getCurrentCurrencyCode() }}' }).format(price || 0);
                     },
 
                     selectOnlyOne(productId) {
@@ -1115,13 +1118,9 @@
                     },
 
                     sanitizeInput(value) {
-                        if (!value) return '';
+                        if (! value) return '';
 
-                        return String(value)
-                            .replace(/[<>]/g, '')
-                            .replace(/&/g, '&amp;')
-                            .replace(/"/g, '&quot;')
-                            .replace(/'/g, '&#39;');
+                        return String(value).replace(/[<>]/g, '');
                     },
 
                     calculateReturnWindow(createdAt, returnDays = null) {

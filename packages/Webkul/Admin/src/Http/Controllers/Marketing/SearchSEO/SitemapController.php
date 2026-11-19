@@ -39,9 +39,9 @@ class SitemapController extends Controller
     public function store(): JsonResponse
     {
         $this->validate(request(), [
-            'file_name' => 'required|regex:/^[\w\-\.]+$/|ends_with:.xml',
-            'path' => 'required|starts_with:/|regex:/^(?!.*\/\/)[\w\-\.\/]+$/|ends_with:/',
-            'channels' => 'required|array|min:1',
+            'file_name' => ['required', 'regex:/^[\w\-\.]+$/', 'ends_with:.xml'],
+            'path' => ['required', 'starts_with:/', 'regex:/^(?!.*(?:\.\.|\/\/))[\w\-\.\/]+$/', 'ends_with:/'],
+            'channels' => ['required', 'array', 'min:1'],
         ]);
 
         Event::dispatch('marketing.search_seo.sitemap.create.before');
@@ -81,10 +81,10 @@ class SitemapController extends Controller
     public function update(): JsonResponse
     {
         $this->validate(request(), [
-            'id' => 'required|integer|exists:sitemaps,id',
-            'file_name' => 'required|regex:/^[\w\-\.]+$/|ends_with:.xml',
-            'path' => 'required|starts_with:/|regex:/^(?!.*\/\/)[\w\-\.\/]+$/|ends_with:/',
-            'channels' => 'required|array|min:1',
+            'id' => ['required', 'integer', 'exists:sitemaps,id'],
+            'file_name' => ['required', 'regex:/^[\w\-\.]+$/', 'ends_with:.xml'],
+            'path' => ['required', 'starts_with:/', 'regex:/^(?!.*(?:\.\.|\/\/))[\w\-\.\/]+$/', 'ends_with:/'],
+            'channels' => ['required', 'array', 'min:1'],
         ]);
 
         $id = request()->id;

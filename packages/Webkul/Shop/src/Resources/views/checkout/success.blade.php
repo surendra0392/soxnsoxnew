@@ -2,6 +2,7 @@
     :has-header="true"
     :has-feature="false"
     :has-footer="true"
+    :noindex="true"
 >
     <!-- Page Title -->
     <x-slot:title>
@@ -10,7 +11,7 @@
 
     <div class="bg-[#f5f7fa] min-h-[calc(100vh-80px)]">
         <!-- Page content -->
-        <main class="site-container py-12 lg:py-20">
+        <div class="site-container py-12 lg:py-20">
             <div class="rounded-3xl border border-slate-200 bg-white p-8 sm:p-14 lg:p-16 text-center max-w-2xl mx-auto shadow-sm space-y-6">
                 {{ view_render_event('bagisto.shop.checkout.success.image.before', ['order' => $order]) }}
 
@@ -45,7 +46,7 @@
 
                     <p class="text-xs sm:text-sm text-[#6b7280] leading-relaxed max-w-md mx-auto pt-2">
                         @if (! empty($order->checkout_message))
-                            {!! nl2br($order->checkout_message) !!}
+                            {!! nl2br(e($order->checkout_message)) !!}
                         @else
                             A confirmation receipt has been dispatched to <strong>{{ $order->customer_email }}</strong>. Your bamboo socks are being carefully prepared for express dispatch.
                         @endif
@@ -75,6 +76,6 @@
 
                 {{ view_render_event('bagisto.shop.checkout.success.continue-shopping.after', ['order' => $order]) }}
             </div>
-        </main>
+        </div>
     </div>
 </x-shop::layouts>

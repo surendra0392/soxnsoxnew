@@ -10,13 +10,13 @@ return [
     [
         'key' => 'blogs.create',
         'name' => 'blog::app.admin.acl.create',
-        'route' => 'admin.blogs.store',
+        'route' => ['admin.blogs.create', 'admin.blogs.store'],
         'sort' => 1,
     ],
     [
         'key' => 'blogs.edit',
         'name' => 'blog::app.admin.acl.edit',
-        'route' => 'admin.blogs.update',
+        'route' => ['admin.blogs.edit', 'admin.blogs.update'],
         'sort' => 2,
     ],
     [

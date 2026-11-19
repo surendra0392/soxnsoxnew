@@ -54,7 +54,7 @@ class GDPRRequestsDatagrid extends DataGrid
                 'gdpr.created_at',
                 'gdpr.updated_at'
             )
-            ->where('gdpr.customer_id', auth()->guard('customer')->user()->id);
+            ->where('gdpr.customer_id', auth()->guard('customer')->id());
 
         return $queryBuilder;
     }

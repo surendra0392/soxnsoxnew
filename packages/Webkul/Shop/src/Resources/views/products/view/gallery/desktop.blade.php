@@ -56,7 +56,7 @@
             <img
                 class="w-full h-full object-cover rounded-xl cursor-zoom-in transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                 :src="baseFile.path"
-                v-if="baseFile.type == 'image'"
+                v-if="baseFile.type == 'image' && baseFile.path"
                 alt="{{ $product->name }}"
                 width="660"
                 height="660"

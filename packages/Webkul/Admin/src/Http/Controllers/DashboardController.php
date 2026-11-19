@@ -49,7 +49,15 @@ class DashboardController extends Controller
      */
     public function stats()
     {
-        $stats = $this->dashboardHelper->{$this->typeFunctions[request()->query('type')]}();
+        $type = request()->query('type');
+
+        if (! $type || ! isset($this->typeFunctions[$type])) {
+            return response()->json([
+                'message' => 'Invalid or missing statistics type.',
+            ], 400);
+        }
+
+        $stats = $this->dashboardHelper->{$this->typeFunctions[$type]}();
 
         return response()->json([
             'statistics' => $stats,

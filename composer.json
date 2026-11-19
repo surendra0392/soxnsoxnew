@@ -121,9 +121,11 @@
             "Webkul\\Installer\\Tests\\": "packages/Webkul/Installer/tests",
             "Webkul\\Payment\\Tests\\": "packages/Webkul/Payment/tests",
             "Webkul\\PayU\\Tests\\": "packages/Webkul/PayU/tests",
+            "Webkul\\PhonePe\\Tests\\": "packages/Webkul/PhonePe/tests",
             "Webkul\\Razorpay\\Tests\\": "packages/Webkul/Razorpay/tests",
             "Webkul\\Shop\\Tests\\": "packages/Webkul/Shop/tests",
-            "Webkul\\Stripe\\Tests\\": "packages/Webkul/Stripe/tests"
+            "Webkul\\Stripe\\Tests\\": "packages/Webkul/Stripe/tests",
+            "Webkul\\Blog\\Tests\\": "packages/Webkul/Blog/tests"
         }
     },
     "scripts": {

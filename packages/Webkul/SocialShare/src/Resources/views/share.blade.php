@@ -32,7 +32,7 @@
         <script>
             function shareProduct() {
                 let productName = "{{ $product->name }}";
-                let productUrl = "{{ route('shop.products.view', [$product->url_key]) }}";
+                let productUrl = "{{ route('shop.products.view', ['category' => $product->getPrimaryCategorySlug(), 'slug' => $product->url_key]) }}";
 
                 if (navigator.share) {
                     navigator.share({

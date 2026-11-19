@@ -44,30 +44,32 @@ class CustomerSocialAccountRepository extends Repository
 
         if ($account) {
             return $account->customer;
-        } else {
-            $customer = $providerUser->getEmail() ? $this->customerRepository->findOneByField('email', $providerUser->getEmail()) : null;
-
-            if (! $customer) {
-                $names = $this->getFirstLastName($providerUser->getName());
-
-                $customer = $this->customerRepository->create([
-                    'email' => $providerUser->getEmail(),
-                    'first_name' => $names['first_name'],
-                    'last_name' => $names['last_name'],
-                    'status' => 1,
-                    'is_verified' => ! core()->getConfigData('customer.settings.email.verification'),
-                    'customer_group_id' => $this->customerGroupRepository->findOneWhere(['code' => 'general'])->id,
-                ]);
-            }
-
-            $this->create([
-                'customer_id' => $customer->id,
-                'provider_id' => $providerUser->getId(),
-                'provider_name' => $provider,
-            ]);
-
-            return $customer;
         }
+
+        $email = $providerUser->getEmail() ?: ($providerUser->getId().'@'.$provider.'.local');
+
+        $customer = $this->customerRepository->findOneByField('email', $email);
+
+        if (! $customer) {
+            $names = $this->getFirstLastName($providerUser->getName());
+
+            $customer = $this->customerRepository->create([
+                'email' => $email,
+                'first_name' => $names['first_name'],
+                'last_name' => $names['last_name'],
+                'status' => 1,
+                'is_verified' => ! core()->getConfigData('customer.settings.email.verification'),
+                'customer_group_id' => $this->customerGroupRepository->findOneWhere(['code' => 'general'])->id,
+            ]);
+        }
+
+        $this->create([
+            'customer_id' => $customer->id,
+            'provider_id' => $providerUser->getId(),
+            'provider_name' => $provider,
+        ]);
+
+        return $customer;
     }
 
     /**
@@ -78,14 +80,21 @@ class CustomerSocialAccountRepository extends Repository
      */
     public function getFirstLastName($name)
     {
-        $name = trim($name);
+        $name = trim((string) $name);
 
-        $lastName = (strpos($name, ' ') === false) ? '' : preg_replace('#.*\s([\w-]*)$#', '$1', $name);
+        if ($name === '') {
+            return [
+                'first_name' => 'Customer',
+                'last_name' => '',
+            ];
+        }
 
-        $firstName = trim(preg_replace('#'.$lastName.'#', '', $name));
+        $parts = preg_split('/\s+/', $name) ?: [];
+        $lastName = count($parts) > 1 ? array_pop($parts) : '';
+        $firstName = trim(implode(' ', $parts));
 
         return [
-            'first_name' => $firstName,
+            'first_name' => $firstName ?: 'Customer',
             'last_name' => $lastName,
         ];
     }

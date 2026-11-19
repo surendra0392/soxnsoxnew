@@ -8,6 +8,16 @@ use Webkul\Sales\Models\OrderTransaction;
 use Webkul\Stripe\Payment\Stripe;
 
 beforeEach(function () {
+    CoreConfig::where('code', 'like', 'sales.payment_methods.stripe.%')->delete();
+    CoreConfig::where('code', 'sales.order_settings.minimum_order.enable')->delete();
+    cache()->flush();
+
+    CoreConfig::factory()->create([
+        'code' => 'sales.order_settings.minimum_order.enable',
+        'value' => '0',
+        'channel_code' => 'default',
+    ]);
+
     CoreConfig::factory()->create([
         'code' => 'sales.payment_methods.stripe.active',
         'value' => '1',

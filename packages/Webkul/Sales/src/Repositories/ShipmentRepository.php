@@ -52,20 +52,31 @@ class ShipmentRepository extends Repository
                 'order_id' => $order->id,
                 'total_qty' => 0,
                 'total_weight' => 0,
-                'carrier_title' => $data['shipment']['carrier_title'],
-                'track_number' => $data['shipment']['track_number'],
+                'carrier_title' => $data['shipment']['carrier_title'] ?? null,
+                'track_number' => $data['shipment']['track_number'] ?? null,
                 'customer_id' => $order->customer_id,
                 'customer_type' => $order->customer_type,
-                'order_address_id' => $order->shipping_address->id,
+                'order_address_id' => $order->shipping_address?->id,
                 'inventory_source_id' => $data['shipment']['source'],
             ]);
 
             $totalQty = $totalWeight = 0;
 
             foreach ($data['shipment']['items'] as $itemId => $inventorySource) {
-                $qty = $inventorySource[$data['shipment']['source']];
+                $qty = $inventorySource[$data['shipment']['source']] ?? 0;
 
-                $orderItem = $this->orderItemRepository->find($itemId);
+                if ($qty <= 0) {
+                    continue;
+                }
+
+                $orderItem = $this->orderItemRepository->findOneWhere([
+                    'id' => $itemId,
+                    'order_id' => $order->id,
+                ]);
+
+                if (! $orderItem) {
+                    throw new \InvalidArgumentException('Invalid order item for shipment.');
+                }
 
                 if ($qty > $orderItem->qty_to_ship) {
                     $qty = $orderItem->qty_to_ship;
@@ -101,16 +112,18 @@ class ShipmentRepository extends Repository
                             $finalQty = ($child->qty_ordered / $orderItem->qty_ordered) * $qty;
                         }
 
-                        $this->shipmentItemRepository->updateProductInventory([
-                            'shipment' => $shipment,
-                            'product' => $child->product,
-                            'qty' => $finalQty,
-                            'vendor_id' => $data['vendor_id'] ?? 0,
-                        ]);
+                        if ($child->product) {
+                            $this->shipmentItemRepository->updateProductInventory([
+                                'shipment' => $shipment,
+                                'product' => $child->product,
+                                'qty' => $finalQty,
+                                'vendor_id' => $data['vendor_id'] ?? 0,
+                            ]);
+                        }
 
                         $this->orderItemRepository->update(['qty_shipped' => $child->qty_shipped + $finalQty], $child->id);
                     }
-                } else {
+                } elseif ($orderItem->product) {
                     $this->shipmentItemRepository->updateProductInventory([
                         'shipment' => $shipment,
                         'product' => $orderItem->product,
@@ -125,7 +138,7 @@ class ShipmentRepository extends Repository
             $shipment->update([
                 'total_qty' => $totalQty,
                 'total_weight' => $totalWeight,
-                'inventory_source_name' => $shipment->inventory_source->name,
+                'inventory_source_name' => $shipment->inventory_source?->name ?? '',
             ]);
 
             if (isset($orderState)) {

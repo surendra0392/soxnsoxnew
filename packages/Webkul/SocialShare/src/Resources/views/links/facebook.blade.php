@@ -1,5 +1,5 @@
 @php
-    $url = urlencode(route('shop.products.view', $product->url_key));
+    $url = urlencode(route('shop.products.view', ['category' => $product->getPrimaryCategorySlug(), 'slug' => $product->url_key]));
 
     $facebookURL = 'https://www.facebook.com/sharer/sharer.php?u=' . $url;
 @endphp

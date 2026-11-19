@@ -74,7 +74,7 @@
                         class="block w-full h-full"
                     >
                         <x-shop::media.images.lazy
-                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                             ::src="product.base_image?.medium_image_url"
                             ::srcset="product.base_image ? `
                                 ${product.base_image.small_image_url} 150w,
@@ -93,45 +93,43 @@
 
                     <!-- Brand Badges (Top-Left) -->
                     <div
-                        class="absolute flex flex-col gap-1.5 z-[2] pointer-events-none"
-                        style="top: 0.85rem; left: 0.85rem; right: auto;"
+                        class="absolute top-2 left-2 sm:top-3.5 sm:left-3.5 right-auto flex flex-col gap-1 z-[2] pointer-events-none max-w-[calc(100%-3.25rem)]"
                     >
                         <span
-                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md truncate"
                             style="background: linear-gradient(135deg, #f29a38 0%, #e07a2f 100%); box-shadow: 0 4px 12px rgba(242,154,56,0.35);"
                             v-if="product.on_sale"
                         >
-                            <i class="fa-solid fa-fire text-[8px]"></i>
-                            Special Offer
+                            <i class="fa-solid fa-fire text-[8px] shrink-0"></i>
+                            <span class="truncate">Special Offer</span>
                         </span>
 
                         <span
-                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider text-white shadow-md backdrop-blur-md truncate"
                             style="background: linear-gradient(135deg, #2ca7a3 0%, #1e8380 100%); box-shadow: 0 4px 12px rgba(44,167,163,0.35);"
                             v-else-if="product.is_new"
                         >
-                            <i class="fa-solid fa-leaf text-[8px]"></i>
-                            100% Bamboo
+                            <i class="fa-solid fa-leaf text-[8px] shrink-0"></i>
+                            <span class="truncate">100% Bamboo</span>
                         </span>
 
                         <span
-                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-sm border border-slate-200/80 backdrop-blur-md"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-sm border border-slate-200/80 backdrop-blur-md truncate"
                             v-else
                         >
-                            <span class="w-1.5 h-1.5 rounded-full bg-[#2ca7a3] animate-pulse"></span>
-                            Premium
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#2ca7a3] animate-pulse shrink-0"></span>
+                            <span class="truncate">Premium</span>
                         </span>
                     </div>
 
                     <!-- Quick Floating Actions (Top-Right) -->
                     <div
-                        class="absolute flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 z-[2] max-lg:opacity-100"
-                        style="top: 0.85rem; right: 0.85rem; left: auto;"
+                        class="absolute top-2 right-2 sm:top-3.5 sm:right-3.5 left-auto flex flex-col gap-1 sm:gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 z-[2] max-lg:opacity-100"
                     >
                         @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
                             <button
                                 type="button"
-                                class="soxnsox-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
+                                class="soxnsox-action-btn flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full shadow-md"
                                 aria-label="@lang('shop::app.components.products.card.add-to-wishlist')"
                                 :class="product.is_wishlist ? '!text-rose-500 !bg-rose-50 !border-rose-200' : ''"
                                 @click="addToWishlist()"
@@ -143,7 +141,7 @@
                         @if (core()->getConfigData('catalog.products.settings.compare_option'))
                             <button
                                 type="button"
-                                class="soxnsox-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
+                                class="soxnsox-action-btn flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full shadow-md"
                                 aria-label="@lang('shop::app.components.products.card.add-to-compare')"
                                 title="@lang('shop::app.components.products.card.add-to-compare')"
                                 @click="addToCompare(product.id)"
@@ -154,7 +152,7 @@
 
                         <button
                             type="button"
-                            class="soxnsox-action-btn flex h-8 w-8 items-center justify-center rounded-full shadow-md"
+                            class="soxnsox-action-btn flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full shadow-md"
                             aria-label="Quick View"
                             title="Quick View"
                             @click="openQuickView()"
@@ -177,8 +175,11 @@
                             Pure Bamboo
                         </span>
 
-                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200/60 text-amber-700 font-bold text-[10px] shrink-0">
-                            <i class="fa-solid fa-star text-[9px] text-[#f29a38]"></i><span>4.9</span>
+                        <span
+                            v-if="product.ratings && parseFloat(product.ratings.average) > 0"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200/60 text-amber-700 font-bold text-[10px] shrink-0"
+                        >
+                            <i class="fa-solid fa-star text-[9px] text-[#f29a38]"></i><span>@{{ product.ratings.average }}</span>
                         </span>
                     </div>
 
@@ -275,7 +276,7 @@
                     class="block w-full h-full"
                 >
                     <x-shop::media.images.lazy
-                        class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         ::src="product.base_image?.medium_image_url"
                         ::key="product.id"
                         ::index="product.id"
@@ -323,8 +324,11 @@
                             Pure Bamboo
                         </span>
 
-                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200/60 text-amber-700 font-bold text-[10px] shrink-0">
-                            <i class="fa-solid fa-star text-[9px] text-[#f29a38]"></i><span>4.9 (Verified)</span>
+                        <span
+                            v-if="product.ratings && parseFloat(product.ratings.average) > 0"
+                            class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200/60 text-amber-700 font-bold text-[10px] shrink-0"
+                        >
+                            <i class="fa-solid fa-star text-[9px] text-[#f29a38]"></i><span>@{{ product.ratings.average }} (Verified)</span>
                         </span>
                     </div>
 
@@ -465,13 +469,13 @@
                                 this.$emitter.emit('add-flash', { type: 'success', message: response.data.data.message });
                             })
                             .catch(error => {
-                                if ([400, 422].includes(error.response.status)) {
-                                    this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.data.message });
+                                if ([400, 422].includes(error.response?.status)) {
+                                    this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.data?.message || error.response?.data?.message || "@lang('shop::app.components.products.card.already-in-compare')" });
 
                                     return;
                                 }
 
-                                this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message});
+                                this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || 'Unable to add item to compare.' });
                             });
 
                         return;
@@ -503,7 +507,15 @@
                         return [];
                     }
 
-                    return JSON.parse(value);
+                    try {
+                        const parsed = JSON.parse(value);
+
+                        return Array.isArray(parsed) ? parsed : [];
+                    } catch (e) {
+                        localStorage.removeItem('compare_items');
+
+                        return [];
+                    }
                 },
 
                 addToCart() {
@@ -532,9 +544,9 @@
                             this.isAddingToCart = false;
                         })
                         .catch(error => {
-                            this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                            this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || 'Unable to add item to bag.' });
 
-                            if (error.response.data.redirect_uri) {
+                            if (error.response?.data?.redirect_uri) {
                                 window.location.href = error.response.data.redirect_uri;
                             }
 

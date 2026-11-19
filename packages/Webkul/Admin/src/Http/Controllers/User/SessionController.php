@@ -21,8 +21,11 @@ class SessionController extends Controller
             return redirect()->route('admin.dashboard.index');
         }
 
-        if (strpos(url()->previous(), 'admin') !== false) {
-            $intendedUrl = url()->previous();
+        $previousUrl = url()->previous();
+        $previousHost = parse_url($previousUrl, PHP_URL_HOST);
+
+        if ($previousHost === request()->getHost() && str_contains($previousUrl, config('app.admin_url'))) {
+            $intendedUrl = $previousUrl;
         } else {
             $intendedUrl = route('admin.dashboard.index');
         }
@@ -60,6 +63,8 @@ class SessionController extends Controller
             return redirect()->route('admin.session.create');
         }
 
+        request()->session()->regenerate();
+
         if (! bouncer()->hasPermission('dashboard')) {
             return $this->redirectToFirstAccessibleRoute();
         }
@@ -77,6 +82,8 @@ class SessionController extends Controller
         auth()->guard('admin')->logout();
 
         session()->forget('two_factor_passed');
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
 
         return redirect()->route('admin.session.create');
     }

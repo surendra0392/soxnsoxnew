@@ -23,13 +23,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('storage/{path}', function (string $path) {
     $sanitized = str_replace(['../', '..\\', '/..', '\\..'], '', $path);
     $fullPath = realpath(storage_path('app/public/'.ltrim($sanitized, '/\\')));
-    $basePath = realpath(storage_path('app/public'));
+    $rawBasePath = realpath(storage_path('app/public'));
+    $basePath = $rawBasePath ? rtrim($rawBasePath, '/\\').DIRECTORY_SEPARATOR : null;
 
     if (
         ! $fullPath
         || ! $basePath
         || ! str_starts_with($fullPath, $basePath)
-        || ! file_exists($fullPath)
+        || ! is_file($fullPath)
     ) {
         abort(404);
     }

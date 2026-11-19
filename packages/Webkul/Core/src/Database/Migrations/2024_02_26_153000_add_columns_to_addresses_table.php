@@ -28,6 +28,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::table('addresses', function (Blueprint $table) {
+            $table->dropForeign(['parent_address_id']);
+            $table->dropColumn(['parent_address_id', 'use_for_shipping']);
+        });
     }
 };

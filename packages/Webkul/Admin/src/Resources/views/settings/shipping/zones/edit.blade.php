@@ -212,7 +212,7 @@
                     }
 
                     return [
-                        'type'         => $loc->location_type,
+                        'type'         => $loc->location_type ?: 'country',
                         'code'         => $loc->location_code,
                         'country_code' => $countryCode
                     ];

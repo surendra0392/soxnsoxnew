@@ -36,6 +36,10 @@ class CacheResponse extends BaseCacheResponseMiddleware
             return parent::handle($request, $next, ...$args);
         }
 
+        if ($this->responseCache->hasBeenCached($request)) {
+            return parent::handle($request, $next, ...$args);
+        }
+
         /**
          * Redirect to the search term redirect url if the search term is found.
          */

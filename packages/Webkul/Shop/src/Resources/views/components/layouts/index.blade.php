@@ -1,7 +1,11 @@
 @props([
-    'hasHeader'  => true,
-    'hasFeature' => true,
-    'hasFooter'  => true,
+    'hasHeader'    => true,
+    'hasFeature'   => true,
+    'hasFooter'    => true,
+    'canonical'    => null,
+    'robots'       => null,
+    'noindex'      => false,
+    'hasCanonical' => true,
 ])
 
 <!DOCTYPE html>
@@ -44,15 +48,22 @@
             content="SOX N SOX Bamboo Socks"
         >
 
-        <!-- Canonical URL -->
-        <link rel="canonical" href="{{ url()->current() }}" />
+        @php
+            $resolvedCanonical = $canonical ?? url()->current();
+            $resolvedRobots = $robots ?: ($noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+        @endphp
+
+        @if ($hasCanonical && ! $noindex)
+            <!-- Canonical URL -->
+            <link rel="canonical" href="{{ $resolvedCanonical }}" />
+        @endif
 
         <!-- Robots Meta -->
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="robots" content="{{ $resolvedRobots }}" />
 
         <!-- Open Graph Meta Tags -->
         <meta property="og:site_name" content="SOX N SOX Bamboo Socks" />
-        <meta property="og:url" content="{{ url()->current() }}" />
+        <meta property="og:url" content="{{ $resolvedCanonical }}" />
         <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
 
         <!-- Twitter Card Meta Tags -->
@@ -141,6 +152,17 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ $faviconIco }}" />
         <link rel="apple-touch-icon" sizes="180x180" href="{{ $appleIcon }}" />
 
+        <!-- PWA Web App Manifest & Mobile Meta -->
+        <link rel="manifest" href="{{ asset('manifest.webmanifest') }}" />
+        <meta name="theme-color" content="#133b63" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="SOX N SOX" />
+        <meta name="application-name" content="SOX N SOX" />
+        <meta name="msapplication-TileColor" content="#133b63" />
+        <meta name="msapplication-TileImage" content="{{ asset('images/pwa/icon-192x192.png') }}" />
+
         @bagistoVite(['src/Resources/assets/css/app.css', 'src/Resources/assets/js/app.js'])
 
         <link
@@ -170,7 +192,7 @@
 
         <!-- Font Awesome 6 Free & Lucide Icons Providers -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://unpkg.com/lucide@latest"></script>
+        <script defer src="https://unpkg.com/lucide@latest"></script>
 
         <style>
             :root {
@@ -1115,7 +1137,7 @@
         </a>
 
         <!-- Built With Bagisto -->
-        <div id="app" class="min-h-screen flex flex-col justify-between">
+        <div id="app" class="min-h-screen flex flex-col">
             <!-- Flash Message Blade Component -->
             <x-shop::flash-group />
 
@@ -1295,5 +1317,7 @@
                 app.config.globalProperties.getSoxnsoxAvatar = window.getSoxnsoxAvatar;
             }
         </script>
+        <!-- Progressive Web App (PWA) Component -->
+        <x-shop::pwa />
     </body>
 </html>

@@ -51,12 +51,12 @@ class SearchController extends Controller
     {
         // 1. Strict Input Validation & SQL Injection Prevention
         $this->validate(request(), [
-            'query'       => ['sometimes', 'nullable', 'string', 'max:100', 'regex:/^[^<>\/\\\]+$/u'],
+            'query' => ['sometimes', 'nullable', 'string', 'max:100', 'regex:/^[^<>\/\\\]+$/u'],
             'category_id' => ['sometimes', 'nullable', 'integer', 'min:1'],
-            'price'       => ['sometimes', 'nullable', 'string', 'max:50', 'regex:/^(\d+(\.\d+)?)(,(\d+(\.\d+)?))?$/'],
-            'sort'        => ['sometimes', 'nullable', 'string', 'in:' . implode(',', self::ALLOWED_SORTS)],
-            'limit'       => ['sometimes', 'nullable', 'integer', 'in:' . implode(',', self::ALLOWED_LIMITS)],
-            'mode'        => ['sometimes', 'nullable', 'string', 'in:' . implode(',', self::ALLOWED_MODES)],
+            'price' => ['sometimes', 'nullable', 'string', 'max:50', 'regex:/^(\d+(\.\d+)?)(,(\d+(\.\d+)?))?$/'],
+            'sort' => ['sometimes', 'nullable', 'string', 'in:'.implode(',', self::ALLOWED_SORTS)],
+            'limit' => ['sometimes', 'nullable', 'integer', 'in:'.implode(',', self::ALLOWED_LIMITS)],
+            'mode' => ['sometimes', 'nullable', 'string', 'in:'.implode(',', self::ALLOWED_MODES)],
         ]);
 
         $rawQuery = request()->query('query');
@@ -64,9 +64,9 @@ class SearchController extends Controller
 
         if ($query) {
             $searchTerm = $this->searchTermRepository->findOneWhere([
-                'term'       => $query,
+                'term' => $query,
                 'channel_id' => core()->getCurrentChannel()->id,
-                'locale'     => app()->getLocale(),
+                'locale' => app()->getLocale(),
             ]);
 
             if ($searchTerm?->redirect_url) {
@@ -94,12 +94,12 @@ class SearchController extends Controller
         $mode = in_array(request()->query('mode'), self::ALLOWED_MODES) ? request()->query('mode') : 'grid';
 
         return view('shop::search.index', [
-            'query'      => $query,
+            'query' => $query,
             'suggestion' => $suggestion,
-            'params'     => [
-                'sort'  => $sort,
+            'params' => [
+                'sort' => $sort,
                 'limit' => $limit,
-                'mode'  => $mode,
+                'mode' => $mode,
             ],
         ]);
     }
@@ -110,7 +110,7 @@ class SearchController extends Controller
     public function upload(): JsonResponse
     {
         request()->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $imageUrl = $this->searchRepository->uploadSearchImage(request()->all());
@@ -134,8 +134,8 @@ class SearchController extends Controller
 
         return response()->json([
             'image_url' => $imageUrl,
-            'keywords'  => $keywords,
-            'engine'    => $useAi ? 'ai' : 'tensorflow',
+            'keywords' => $keywords,
+            'engine' => $useAi ? 'ai' : 'tensorflow',
         ]);
     }
 }

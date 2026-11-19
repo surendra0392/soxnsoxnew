@@ -264,7 +264,7 @@
     "isDynamicEntry": true
   },
   "src/Resources/assets/css/app.css": {
-    "file": "assets/app-CyJbwHVs.css",
+    "file": "assets/app-dLBfrIgK.css",
     "src": "src/Resources/assets/css/app.css",
     "isEntry": true
   },
@@ -289,7 +289,7 @@
     "src": "src/Resources/assets/images/customers.svg"
   },
   "src/Resources/assets/images/dark-logo.svg": {
-    "file": "assets/dark-logo-BKR93G29.svg",
+    "file": "assets/dark-logo-CqeYBnuv.svg",
     "src": "src/Resources/assets/images/dark-logo.svg"
   },
   "src/Resources/assets/images/empty-placeholders/customers.svg": {
@@ -317,11 +317,11 @@
     "src": "src/Resources/assets/images/error.svg"
   },
   "src/Resources/assets/images/favicon.ico": {
-    "file": "assets/favicon-x6hNAc1Z.ico",
+    "file": "assets/favicon-DYo5-dac.ico",
     "src": "src/Resources/assets/images/favicon.ico"
   },
   "src/Resources/assets/images/favicon.png": {
-    "file": "assets/favicon-C-9n0FfM.png",
+    "file": "assets/favicon-BaCno8GV.png",
     "src": "src/Resources/assets/images/favicon.png"
   },
   "src/Resources/assets/images/favicon.svg": {
@@ -340,12 +340,16 @@
     "file": "assets/icon-options-B9pp5RQf.svg",
     "src": "src/Resources/assets/images/icon-options.svg"
   },
+  "src/Resources/assets/images/logo-white.png": {
+    "file": "assets/logo-white-MxwQkXG-.png",
+    "src": "src/Resources/assets/images/logo-white.png"
+  },
   "src/Resources/assets/images/logo.png": {
-    "file": "assets/logo-D1YY0s-R.png",
+    "file": "assets/logo-C577GLTH.png",
     "src": "src/Resources/assets/images/logo.png"
   },
   "src/Resources/assets/images/logo.svg": {
-    "file": "assets/logo-BVq6Bozl.svg",
+    "file": "assets/logo-BybWEeH7.svg",
     "src": "src/Resources/assets/images/logo.svg"
   },
   "src/Resources/assets/images/product-placeholders/front.svg": {
@@ -485,7 +489,7 @@
     "src": "src/Resources/assets/images/unpaid-invoices.svg"
   },
   "src/Resources/assets/js/app.js": {
-    "file": "assets/app-CHNWAGnZ.js",
+    "file": "assets/app-PIkeiyx_.js",
     "name": "app",
     "src": "src/Resources/assets/js/app.js",
     "isEntry": true,

@@ -109,10 +109,12 @@ class RoleController extends Controller
             'description' => 'required',
         ]);
 
+        $role = $this->roleRepository->findOrFail($id);
+
         /**
          * Check for other admins if the role has been changed from all to custom.
          */
-        $isChangedFromAll = request('permission_type') == 'custom' && $this->roleRepository->find($id)->permission_type == 'all';
+        $isChangedFromAll = request('permission_type') == 'custom' && $role->permission_type == 'all';
 
         if (
             $isChangedFromAll

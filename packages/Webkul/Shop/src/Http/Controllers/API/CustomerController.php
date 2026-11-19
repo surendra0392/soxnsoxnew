@@ -17,13 +17,19 @@ class CustomerController extends APIController
      */
     public function login(LoginRequest $request)
     {
-        if (! auth()->guard('customer')->attempt($request->only(['email', 'password']))) {
+        $credentials = $request->only(['email', 'password']);
+
+        $credentials['channel_id'] = core()->getCurrentChannel()->id;
+
+        if (! auth()->guard('customer')->attempt($credentials)) {
             return response()->json([
                 'message' => trans('shop::app.customers.login-form.invalid-credentials'),
             ], Response::HTTP_FORBIDDEN);
         }
 
-        if (! auth()->guard('customer')->user()->status) {
+        $customer = auth()->guard('customer')->user();
+
+        if (! $customer->status) {
             auth()->guard('customer')->logout();
 
             return response()->json([
@@ -31,7 +37,15 @@ class CustomerController extends APIController
             ], Response::HTTP_FORBIDDEN);
         }
 
-        if (! auth()->guard('customer')->user()->is_verified) {
+        if ($customer->is_suspended) {
+            auth()->guard('customer')->logout();
+
+            return response()->json([
+                'message' => trans('shop::app.checkout.cart.suspended-account-message'),
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        if (! $customer->is_verified) {
             Cookie::queue(Cookie::make('enable-resend', 'true', 1));
 
             Cookie::queue(Cookie::make('email-for-resend', $request->get('email'), 1));
@@ -43,10 +57,12 @@ class CustomerController extends APIController
             ], Response::HTTP_FORBIDDEN);
         }
 
+        $request->session()->regenerate();
+
         /**
          * Event passed to prepare cart after login.
          */
-        Event::dispatch('customer.after.login', auth()->guard()->user());
+        Event::dispatch('customer.after.login', auth()->guard('customer')->user());
 
         return response()->json([]);
     }

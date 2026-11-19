@@ -27,7 +27,7 @@
                 <div class="flex w-full items-center gap-x-1">
                     <!-- Search Panel -->
                     <div class="flex max-w-[445px] items-center max-md:w-full max-md:max-w-[250px]">
-                        <div class="relative w-full">
+                        <div class="relative flex items-center w-full">
                             <input
                                 type="text"
                                 name="search"
@@ -38,7 +38,7 @@
                                 @keyup.enter="search"
                             >
 
-                            <i class="fa-solid fa-magnifying-glass pointer-events-none absolute top-3 flex items-center text-sm text-gray-400 max-sm:top-2.5 ltr:right-3 rtl:left-3"></i>
+                            <i class="fa-solid fa-magnifying-glass pointer-events-none absolute inset-y-0 flex items-center justify-center leading-none text-sm text-gray-400 ltr:right-3 rtl:left-3"></i>
                         </div>
                     </div>
 

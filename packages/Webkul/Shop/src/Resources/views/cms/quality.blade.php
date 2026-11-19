@@ -14,7 +14,7 @@
     <section class="site-container pt-8 pb-16 sm:pt-14 sm:pb-20 border-b border-slate-200 reveal-on-scroll">
         <div class="max-w-3xl mx-auto text-center space-y-5 mb-8">
             <!-- Brand Tagline Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-xs">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-sm">
                 <i class="fa-solid fa-shield-halved text-[#2ca7a3] text-sm"></i>
                 <span>The SOX N SOX Quality Standard</span>
             </div>
@@ -173,7 +173,7 @@
                     </a>
                     <a
                         href="{{ route('shop.home.contact_us') }}"
-                        class="inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-full border border-slate-300 bg-white text-[#133b63] hover:bg-slate-50 hover:border-[#2ca7a3]/50 transition-all duration-300 active:scale-95 shadow-xs hover:shadow-md"
+                        class="inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-full border border-slate-300 bg-white text-[#133b63] hover:bg-slate-50 hover:border-[#2ca7a3]/50 transition-all duration-300 active:scale-95 shadow-sm hover:shadow-md"
                     >
                         <span>Contact Quality Team</span>
                     </a>

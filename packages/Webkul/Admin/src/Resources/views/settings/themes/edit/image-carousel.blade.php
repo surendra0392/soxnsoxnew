@@ -100,7 +100,7 @@
 
                                     <span class="text-gray-600 transition-all">
                                         <a
-                                            :href="'{{ config('app.url') }}/' + image.image"
+                                            :href="'{{ rtrim(url('/'), '/') }}/' + image.image"
                                             :ref="'image_' + index"
                                             target="_blank"
                                             class="text-[#133b63] transition-all hover:underline ltr:ml-2 rtl:mr-2"
@@ -365,7 +365,7 @@
                     setTimeout(() => {
                         this.$refs['image_' + index][0].href = URL.createObjectURL(file);
 
-                        this.$refs['imageName_' + index][0].innerHTML = file.name;
+                        this.$refs['imageName_' + index][0].textContent = file.name;
 
                         this.$refs['imageInput_' + index][0].files = dataTransfer.files;
                     }, 0);

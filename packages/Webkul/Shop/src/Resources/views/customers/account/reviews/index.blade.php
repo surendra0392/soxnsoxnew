@@ -57,8 +57,8 @@
                         <div class="mt-14 grid gap-5 max-1060:grid-cols-[1fr] max-md:mt-5">
                             @foreach($reviews as $review)
                                 <a
-                                    href="{{ $review->product?->url_key ? route('shop.products.view', $review->product->url_key) : '#' }}"
-                                    id="{{ $review->product_id }}"
+                                    href="{{ $review->product?->url_key ? route('shop.products.view', ['category' => $review->product->getPrimaryCategorySlug(), 'slug' => $review->product->url_key]) : '#' }}"
+                                    id="review-{{ $review->id }}"
                                     aria-label="{{ $review->title }}"
                                 >
                                     <!-- For Desktop View -->

@@ -1,7 +1,7 @@
 {!! view_render_event('bagisto.shop.layout.webmcp.before') !!}
 
 <!-- Declared for agents, never drawn. The tools are read with querySelectorAll and sent with form.submit(), neither of which minds being hidden; hiding the block rather than each field is what stops a form added later from surfacing a stray input. -->
-<div class="hidden">
+<div class="hidden" hidden>
     <form
         action="{{ route('shop.webmcp.product') }}"
         method="GET"

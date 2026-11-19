@@ -95,16 +95,15 @@
                                                 :name="'super_attribute[' + attribute.id + ']'"
                                                 :value="option.id"
                                                 v-bind="field"
-                                                :id="'attribute_' + attribute.id"
-                                                :aria-labelledby="'color-choice-' + index + '-label'"
+                                                :id="'attribute_' + attribute.id + '_' + option.id"
+                                                :aria-label="attribute.label + ': ' + option.label"
                                                 class="peer sr-only"
                                                 @click="configure(attribute, $event.target.value)"
                                             />
                                         </v-field>
 
                                         <span
-                                            class="h-8 w-8 rounded-full border border-soxnsox-border max-sm:h-[25px] max-sm:w-[25px]"
-                                            tabindex="0"
+                                            class="h-8 w-8 rounded-full border border-soxnsox-border max-sm:h-[25px] max-sm:w-[25px] peer-focus-visible:ring-2 peer-focus-visible:ring-soxnsox-teal"
                                             :style="{ 'background-color': option.swatch_value }"
                                         ></span>
                                     </label>
@@ -131,8 +130,8 @@
                                                 :name="'super_attribute[' + attribute.id + ']'"
                                                 :value="option.id"
                                                 v-bind="field"
-                                                :id="'attribute_' + attribute.id"
-                                                :aria-labelledby="'color-choice-' + index + '-label'"
+                                                :id="'attribute_' + attribute.id + '_' + option.id"
+                                                :aria-label="attribute.label + ': ' + option.label"
                                                 class="peer sr-only"
                                                 @click="configure(attribute, $event.target.value)"
                                             />
@@ -167,9 +166,9 @@
                                                 :name="'super_attribute[' + attribute.id + ']'"
                                                 :value="option.id"
                                                 v-bind="field"
-                                                :id="'attribute_' + attribute.id"
+                                                :id="'attribute_' + attribute.id + '_' + option.id"
                                                 class="peer sr-only"
-                                                :aria-labelledby="'color-choice-' + index + '-label'"
+                                                :aria-label="attribute.label + ': ' + option.label"
                                                 @click="configure(attribute, $event.target.value)"
                                             />
                                         </v-field>
@@ -179,7 +178,7 @@
                                         </span>
 
                                         <span
-                                            class="pointer-events-none absolute -inset-px rounded-full"
+                                            class="pointer-events-none absolute -inset-px rounded-xl"
                                             role="presentation"
                                         >
                                         </span>

@@ -2,6 +2,7 @@
     :has-header="true"
     :has-feature="false"
     :has-footer="true"
+    :noindex="true"
 >
     <!-- Page Title -->
     <x-slot:title>
@@ -9,7 +10,7 @@
     </x-slot>
 
     <div class="bg-[#f5f7fa] min-h-[calc(100vh-160px)] flex items-center justify-center">
-        <main class="site-container py-16 sm:py-24 text-center space-y-6">
+        <div class="site-container py-16 sm:py-24 text-center space-y-6">
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e9f2fa] text-[#1d5b8f] text-xs font-semibold tracking-widest uppercase">
                 <i class="fa-solid fa-triangle-exclamation text-xs"></i>
                 <span>Error {{ $errorCode }}</span>
@@ -46,6 +47,6 @@
                     <span>Explore Bamboo Socks</span>
                 </a>
             </div>
-        </main>
+        </div>
     </div>
 </x-shop::layouts>

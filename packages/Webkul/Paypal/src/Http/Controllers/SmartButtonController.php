@@ -4,6 +4,7 @@ namespace Webkul\Paypal\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Paypal\Payment\SmartButton;
 use Webkul\Sales\Models\Order;
@@ -33,12 +34,23 @@ class SmartButtonController extends Controller
      */
     public function createOrder()
     {
+        $cart = Cart::getCart();
+
+        if (
+            Cart::hasError()
+            || ! $cart
+            || ! $cart->billing_address
+            || $cart->payment?->method !== 'paypal_smart_button'
+        ) {
+            return response()->json(['redirect_url' => route('shop.checkout.cart.index')], 400);
+        }
+
         try {
             $order = $this->smartButton->createOrder($this->buildRequestBody());
 
             return response()->json(['result' => $order]);
-        } catch (\Exception $e) {
-            return response()->json(json_decode($e->getMessage()), 400);
+        } catch (\Throwable $e) {
+            return response()->json(json_decode($e->getMessage()) ?: ['message' => 'Unable to create PayPal order.'], 400);
         }
     }
 
@@ -49,8 +61,20 @@ class SmartButtonController extends Controller
      */
     public function captureOrder()
     {
+        $cart = Cart::getCart();
+
+        if (Cart::hasError() || ! $cart || $cart->payment?->method !== 'paypal_smart_button') {
+            return response()->json(['redirect_url' => route('shop.checkout.cart.index')], 403);
+        }
+
         try {
-            $this->smartButton->captureOrder(request()->input('orderData.orderID'));
+            $orderId = request()->input('orderData.orderID');
+
+            if (! $orderId) {
+                return response()->json(['message' => 'Missing PayPal order ID.'], 400);
+            }
+
+            $this->smartButton->captureOrder($orderId);
 
             return $this->saveOrder();
         } catch (\Exception $e) {
@@ -142,13 +166,15 @@ class SmartButtonController extends Controller
             $cart->haveStockableItems()
             && $cart->shipping_address
         ) {
+            $shippingAddressLines = $this->getAddressLines($cart->shipping_address->address);
+
             $data['application_context']['shipping_preference'] = 'SET_PROVIDED_ADDRESS';
 
             $data['purchase_units'][0] = array_merge($data['purchase_units'][0], [
                 'shipping' => [
                     'address' => [
-                        'address_line_1' => current($billingAddressLines),
-                        'address_line_2' => last($billingAddressLines),
+                        'address_line_1' => current($shippingAddressLines),
+                        'address_line_2' => last($shippingAddressLines),
                         'admin_area_2' => $cart->shipping_address->city,
                         'admin_area_1' => $cart->shipping_address->state,
                         'postal_code' => $cart->shipping_address->postcode,
@@ -226,21 +252,54 @@ class SmartButtonController extends Controller
 
             $cart = Cart::getCart();
 
-            $data = (new OrderResource($cart))->jsonSerialize();
+            if (! $cart || $cart->payment?->method !== 'paypal_smart_button') {
+                return response()->json(['redirect_url' => route('shop.checkout.cart.index')], 403);
+            }
 
-            $order = $this->orderRepository->create($data);
+            $orderData = request()->input('orderData');
 
-            $this->orderRepository->update(['status' => 'processing'], $order->id);
+            if (empty($orderData['orderID'])) {
+                return response()->json(['message' => 'Missing PayPal order ID.'], 400);
+            }
 
-            if ($order->canInvoice()) {
-                $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
+            $transactionDetails = $this->smartButton->getOrder($orderData['orderID']);
+            $transactionDetails = json_decode(json_encode($transactionDetails), true);
 
-                $orderData = request()->input('orderData');
+            $capturedStatus = strtoupper((string) ($transactionDetails['status'] ?? ''));
+            $capturedAmount = (float) ($transactionDetails['purchase_units'][0]['amount']['value'] ?? 0);
+            $capturedCurrency = strtoupper((string) ($transactionDetails['purchase_units'][0]['amount']['currency_code'] ?? ''));
+            $expectedAmount = (float) $this->smartButton->formatCurrencyValue((float) $cart->grand_total);
+            $expectedCurrency = strtoupper((string) $cart->cart_currency_code);
 
-                if (isset($orderData['orderID'])) {
-                    $transactionDetails = $this->smartButton->getOrder($orderData['orderID']);
+            if (
+                $capturedStatus !== 'COMPLETED'
+                || $capturedCurrency !== $expectedCurrency
+                || abs($capturedAmount - $expectedAmount) > 0.01
+            ) {
+                session()->flash('error', trans('shop::app.common.error'));
 
-                    $transactionDetails = json_decode(json_encode($transactionDetails), true);
+                return response()->json(['redirect_url' => route('shop.checkout.cart.index')], 400);
+            }
+
+            return Cache::lock("paypal_order_{$cart->id}", 15)->block(10, function () use ($cart, $transactionDetails) {
+                $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cart->id]);
+
+                if ($existingOrder) {
+                    session()->flash('order_id', $existingOrder->id);
+
+                    return response()->json([
+                        'success' => true,
+                    ]);
+                }
+
+                $data = (new OrderResource($cart))->jsonSerialize();
+
+                $order = $this->orderRepository->create($data);
+
+                $this->orderRepository->update(['status' => 'processing'], $order->id);
+
+                if ($order->canInvoice()) {
+                    $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
 
                     $this->orderTransactionRepository->create([
                         'transaction_id' => $transactionDetails['id'],
@@ -252,19 +311,19 @@ class SmartButtonController extends Controller
                         'invoice_id' => $invoice->id,
                         'data' => json_encode([
                             'purchase_units' => $transactionDetails['purchase_units'],
-                            'payer' => $transactionDetails['payer'],
+                            'payer' => $transactionDetails['payer'] ?? [],
                         ]),
                     ]);
                 }
-            }
 
-            Cart::deActivateCart();
+                Cart::deActivateCart();
 
-            session()->flash('order_id', $order->id);
+                session()->flash('order_id', $order->id);
 
-            return response()->json([
-                'success' => true,
-            ]);
+                return response()->json([
+                    'success' => true,
+                ]);
+            });
         } catch (\Exception $e) {
             session()->flash('error', trans('shop::app.common.error'));
 

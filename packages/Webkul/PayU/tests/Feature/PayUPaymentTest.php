@@ -11,6 +11,16 @@ use Webkul\Sales\Models\Order;
 use Webkul\Sales\Models\OrderTransaction;
 
 beforeEach(function () {
+    CoreConfig::where('code', 'like', 'sales.payment_methods.payu.%')->delete();
+    CoreConfig::where('code', 'sales.order_settings.minimum_order.enable')->delete();
+    cache()->flush();
+
+    CoreConfig::factory()->create([
+        'code' => 'sales.order_settings.minimum_order.enable',
+        'value' => '0',
+        'channel_code' => 'default',
+    ]);
+
     CoreConfig::factory()->create([
         'code' => 'sales.payment_methods.payu.active',
         'value' => '1',

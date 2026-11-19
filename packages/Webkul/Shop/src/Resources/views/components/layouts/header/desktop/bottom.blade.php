@@ -137,8 +137,8 @@
                         @lang('shop::app.components.layouts.header.desktop.bottom.search')
                     </label>
 
-                    <div class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center text-soxnsox-muted">
-                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                    <div class="pointer-events-none absolute inset-y-0 ltr:left-3.5 rtl:right-3.5 flex items-center justify-center leading-none text-soxnsox-muted">
+                        <i class="fa-solid fa-magnifying-glass text-sm leading-none"></i>
                     </div>
 
                     <input
@@ -147,7 +147,7 @@
                         name="query"
                         value="{{ request('query') }}"
                         toolparamdescription="{{ trans('shop::app.components.layouts.webmcp.search-products-query') }}"
-                        class="w-full h-11 pl-10 pr-11 text-xs text-[#133b63] placeholder:text-[#6b7280]/70 bg-[#f5f7fa] border border-soxnsox-border rounded-xl focus:bg-white focus:border-[#2ca7a3] focus:ring-2 focus:ring-[#2ca7a3]/20 transition-all outline-none"
+                        class="w-full h-11 pl-10 pr-10 text-xs text-[#133b63] placeholder:text-[#6b7280]/70 bg-[#f5f7fa] border border-soxnsox-border rounded-xl focus:bg-white focus:border-[#2ca7a3] focus:ring-2 focus:ring-[#2ca7a3]/20 transition-all outline-none"
                         minlength="{{ core()->getConfigData('catalog.products.search.min_query_length') }}"
                         maxlength="{{ core()->getConfigData('catalog.products.search.max_query_length') }}"
                         placeholder="Search socks, diabetic, athletic, pack of 6..."
@@ -254,7 +254,7 @@
                         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.sign_in_button.before') !!}
 
                         <a
-                            href="{{ route('shop.customer.session.create') }}"
+                            href="{{ route('shop.customer.session.index') }}"
                             class="soxnsox-btn-primary !px-4 !py-2 text-[11px]"
                         >
                             @lang('shop::app.components.layouts.header.desktop.bottom.sign-in')
@@ -285,7 +285,7 @@
                 <!-- Customers Dropdown -->
                 @auth('customer')
                     <div class="flex items-center gap-3 p-1 pb-1">
-                        <div class="h-10 w-10 shrink-0 overflow-hidden rounded-full ring-1 ring-slate-200 shadow-2xs">
+                        <div class="h-10 w-10 shrink-0 overflow-hidden rounded-full ring-1 ring-slate-200 shadow-sm">
                             <img
                                 src="{{ auth()->guard('customer')->user()->avatar_url }}"
                                 alt="{{ auth()->guard('customer')->user()->first_name }}"
@@ -294,7 +294,7 @@
                         </div>
                         <div class="min-w-0" v-pre>
                             <p class="text-sm font-display font-bold text-[#133b63] truncate">
-                                @lang('shop::app.components.layouts.header.desktop.bottom.welcome')’ {{ auth()->guard('customer')->user()->first_name }}
+                                @lang('shop::app.components.layouts.header.desktop.bottom.welcome') {{ auth()->guard('customer')->user()->first_name }}
                             </p>
                             <p class="text-xs text-soxnsox-muted truncate">
                                 {{ auth()->guard('customer')->user()->email }}
@@ -333,13 +333,13 @@
                         <x-shop::form
                             method="DELETE"
                             action="{{ route('shop.customer.session.destroy') }}"
-                            id="customerLogout"
+                            id="customerLogoutDesktop"
                         />
 
                         <a
                             class="px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 rounded-md transition-colors"
                             href="{{ route('shop.customer.session.destroy') }}"
-                            onclick="event.preventDefault(); document.getElementById('customerLogout').submit();"
+                            onclick="event.preventDefault(); document.getElementById('customerLogoutDesktop').submit();"
                         >
                             @lang('shop::app.components.layouts.header.desktop.bottom.logout')
                         </a>

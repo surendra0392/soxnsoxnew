@@ -3653,3 +3653,15 @@ it('should not change the inclusive-tax grand total when apply tax on is set to 
     // only affects exclusive pricing, so inclusive tax is unchanged).
     $this->assertPrice(round($subTotalInclTax * $taxRate->tax_rate / (100 + $taxRate->tax_rate), 2), $response->json('data.tax_total'));
 });
+
+it('cleans up stale guest cart without crashing on mergeCart', function () {
+    $customer = Customer::factory()->create();
+
+    session(['cart' => (object) ['id' => 999999]]);
+
+    expect(session()->has('cart'))->toBeTrue();
+
+    app(Webkul\Checkout\Cart::class)->mergeCart($customer);
+
+    expect(session()->has('cart'))->toBeFalse();
+});

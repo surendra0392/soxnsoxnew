@@ -67,6 +67,8 @@ class ResetPasswordController extends Controller
 
                 Event::dispatch('customer.password.update.after', $customer);
 
+                session()->flash('success', trans($response));
+
                 return redirect()->route('shop.customers.account.profile.index');
             }
 
@@ -98,6 +100,10 @@ class ResetPasswordController extends Controller
         $customer->save();
 
         event(new PasswordReset($customer));
+
+        auth()->guard('customer')->login($customer);
+
+        request()->session()->regenerate();
     }
 
     /**

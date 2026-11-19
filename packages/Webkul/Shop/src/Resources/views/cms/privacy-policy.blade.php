@@ -14,7 +14,7 @@
     <section class="site-container pt-8 pb-14 sm:pt-12 sm:pb-16 border-b border-slate-200">
         <div class="max-w-3xl mx-auto text-center space-y-5 mb-8">
             <!-- Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-xs">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-sm">
                 <i class="fa-solid fa-user-shield text-[#2ca7a3] text-sm"></i>
                 <span>DPDP Act 2023 &bull; RBI &bull; 256-Bit SSL Protection</span>
             </div>
@@ -139,7 +139,7 @@
                     </div>
                     <a
                         href="{{ route('shop.home.contact_us') }}"
-                        class="w-full text-center py-2.5 px-4 rounded-full text-xs font-bold uppercase tracking-wider bg-[#2ca7a3] text-white hover:bg-[#238a87] transition-all block shadow-xs"
+                        class="w-full text-center py-2.5 px-4 rounded-full text-xs font-bold uppercase tracking-wider bg-[#2ca7a3] text-white hover:bg-[#238a87] transition-all block shadow-sm"
                     >
                         Contact Support Team
                     </a>

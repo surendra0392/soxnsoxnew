@@ -100,12 +100,6 @@
                                         <!-- Eyebrow Category -->
                                         <div class="flex items-center justify-between gap-3">
                                             <span class="soxnsox-eyebrow">@{{ product.category_name || 'Bamboo Socks' }}</span>
-                                            <span
-                                                v-if="product.formatted_weight"
-                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] font-semibold text-[#6b7280]"
-                                            >
-                                                @{{ product.formatted_weight }}
-                                            </span>
                                         </div>
 
                                         <!-- Product Title -->
@@ -269,7 +263,7 @@
                                         <!-- View Full Details Link -->
                                         <div class="text-center pt-2">
                                             <a
-                                                :href="'{{ route('shop.products.view', ':slug') }}'.replace(':slug', product.url_key)"
+                                                :href="product.url || ('{{ route('shop.products.view', [':cat', ':slug']) }}'.replace(':cat', product.category_slug || 'socks').replace(':slug', product.url_key))"
                                                 class="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-[#1d5b8f] hover:text-[#133b63] underline underline-offset-4 transition-colors"
                                             >
                                                 <span>View Full Sock Details &amp; Sizing</span>

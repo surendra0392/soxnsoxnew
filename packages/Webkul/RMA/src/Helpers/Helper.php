@@ -145,11 +145,18 @@ class Helper
         /**
          * Fetch RMA quantities for the order items to avoid N+1 query issue.
          */
-        $rmaQuantities = $this->rmaItemsRepository
-            ->whereIn('order_item_id', $orderItemIds)
-            ->groupBy('order_item_id')
-            ->selectRaw('order_item_id, SUM(quantity) as total_quantity')
-            ->pluck('total_quantity', 'order_item_id');
+        $rmaQuantities = empty($orderItemIds)
+            ? collect()
+            : $this->rmaItemsRepository
+                ->join('rma', 'rma.id', '=', 'rma_items.rma_id')
+                ->whereIn('rma_items.order_item_id', $orderItemIds)
+                ->whereNotIn('rma.rma_status_id', [
+                    DefaultRMAStatusEnum::DECLINED->value,
+                    DefaultRMAStatusEnum::CANCELED->value,
+                ])
+                ->groupBy('rma_items.order_item_id')
+                ->selectRaw("{$tablePrefix}rma_items.order_item_id, SUM({$tablePrefix}rma_items.quantity) as total_quantity")
+                ->pluck('total_quantity', 'rma_items.order_item_id');
 
         /**
          * Filter items within the return window and enrich with additional data.

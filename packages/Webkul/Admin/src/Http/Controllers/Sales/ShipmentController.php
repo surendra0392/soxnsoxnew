@@ -14,6 +14,7 @@ use Webkul\Sales\Repositories\ShipmentRepository;
 class ShipmentController extends Controller
 {
     use PDFHandler;
+
     /**
      * Create a new controller instance.
      *
@@ -73,13 +74,16 @@ class ShipmentController extends Controller
         }
 
         $this->validate(request(), [
-            'shipment.source' => 'required',
+            'shipment.source' => 'required|integer|exists:inventory_sources,id',
+            'shipment.items' => 'required|array',
             'shipment.items.*.*' => 'required|numeric|min:0',
+            'shipment.carrier_title' => 'nullable|string|max:255',
+            'shipment.track_number' => 'nullable|string|max:255',
         ]);
 
         $data = request()->only(['shipment', 'carrier_name']);
 
-        if (! $this->isInventoryValidate($data)) {
+        if (! $this->isInventoryValidate($data, (int) $orderId)) {
             session()->flash('error', trans('admin::app.sales.shipments.create.quantity-invalid'));
 
             return redirect()->back();
@@ -100,10 +104,10 @@ class ShipmentController extends Controller
      * @param  array  $data
      * @return bool
      */
-    public function isInventoryValidate(&$data)
+    public function isInventoryValidate(&$data, ?int $orderId = null)
     {
-        if (! isset($data['shipment']['items'])) {
-            return;
+        if (! isset($data['shipment']['items']) || ! is_array($data['shipment']['items'])) {
+            return false;
         }
 
         $valid = false;
@@ -111,12 +115,22 @@ class ShipmentController extends Controller
         $inventorySourceId = $data['shipment']['source'];
 
         foreach ($data['shipment']['items'] as $itemId => $inventorySource) {
+            if (! is_array($inventorySource) || ! array_key_exists($inventorySourceId, $inventorySource)) {
+                continue;
+            }
+
             $qty = $inventorySource[$inventorySourceId];
 
             if ((int) $qty) {
-                $orderItem = $this->orderItemRepository->find($itemId);
+                $criteria = ['id' => $itemId];
 
-                if ($orderItem->qty_to_ship < $qty) {
+                if ($orderId !== null) {
+                    $criteria['order_id'] = $orderId;
+                }
+
+                $orderItem = $this->orderItemRepository->findOneWhere($criteria);
+
+                if (! $orderItem || $orderItem->qty_to_ship < $qty) {
                     return false;
                 }
 
@@ -124,6 +138,10 @@ class ShipmentController extends Controller
                     foreach ($orderItem->children as $child) {
                         if (! $child->qty_ordered) {
                             continue;
+                        }
+
+                        if (! $child->product) {
+                            return false;
                         }
 
                         $finalQty = ($child->qty_ordered / $orderItem->qty_ordered) * $qty;
@@ -140,6 +158,10 @@ class ShipmentController extends Controller
                         }
                     }
                 } else {
+                    if (! $orderItem->product) {
+                        return false;
+                    }
+
                     $availableQty = $orderItem->product->inventories()
                         ->where('inventory_source_id', $inventorySourceId)
                         ->sum('qty');

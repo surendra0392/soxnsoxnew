@@ -38,7 +38,7 @@ class Refund extends Base
     {
         $order = $refund->order;
 
-        if ($order->payment->method !== 'paypal_smart_button') {
+        if ($order->payment?->method !== 'paypal_smart_button') {
             return;
         }
 

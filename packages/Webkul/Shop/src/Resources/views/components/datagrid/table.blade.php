@@ -140,10 +140,16 @@
                                 <!-- Actions -->
                                 <p v-if="available.actions.length">
                                     <span
+                                        role="button"
+                                        tabindex="0"
                                         class="float-right cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200"
                                         :class="action.icon"
+                                        :title="action.title || ''"
+                                        :aria-label="action.title || 'Action'"
                                         v-for="action in record.actions"
                                         @click="performAction(action)"
+                                        @keydown.enter.prevent="performAction(action)"
+                                        @keydown.space.prevent="performAction(action)"
                                     >
                                         @{{ ! action.icon ? action.title : '' }}
                                     </span>
@@ -186,13 +192,13 @@
                                     type="button"
                                     :disabled="$parent.available.meta.current_page <= 1"
                                     @click="changePage('previous')"
-                                    class="h-9 w-9 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    class="h-9 w-9 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
                                     aria-label="@lang('shop::app.components.datagrid.table.previous-page')"
                                 >
                                     <i class="fa-solid fa-chevron-left text-[10px]"></i>
                                 </button>
 
-                                <div class="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 shadow-xs">
+                                <div class="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 shadow-sm">
                                     <span class="text-xs font-semibold text-slate-500 mr-1.5">Page</span>
                                     <input
                                         type="text"
@@ -208,7 +214,7 @@
                                     type="button"
                                     :disabled="$parent.available.meta.current_page >= $parent.available.meta.last_page"
                                     @click="changePage('next')"
-                                    class="h-9 w-9 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    class="h-9 w-9 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
                                     aria-label="@lang('shop::app.components.datagrid.table.next-page')"
                                 >
                                     <i class="fa-solid fa-chevron-right text-[10px]"></i>
@@ -335,9 +341,9 @@
                                             this.$emit('actionSuccess', response.data);
                                         })
                                         .catch((error) => {
-                                            this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                                            this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')' });
 
-                                            this.$emit('actionError', error.response.data);
+                                            this.$emit('actionError', error.response?.data || error);
                                         });
                                 }
                             });

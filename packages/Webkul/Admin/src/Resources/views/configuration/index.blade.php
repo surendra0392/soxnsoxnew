@@ -110,7 +110,7 @@
 
                 <input
                     type="text"
-                    class="block w-full rounded-[12px] border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20 shadow-xs"
+                    class="block w-full rounded-[12px] border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20 shadow-sm"
                     placeholder="@lang('admin::app.configuration.index.search')"
                 >
             </div>
@@ -129,7 +129,7 @@
                 <!-- Section Header -->
                 <div class="flex items-center justify-between border-b border-slate-200/80 pb-3">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#133b63]/10 text-[#133b63] font-semibold text-xs shadow-xs">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#133b63]/10 text-[#133b63] font-semibold text-xs shadow-sm">
                             {{ substr($item->getName(), 0, 2) }}
                         </div>
                         <div>
@@ -160,7 +160,7 @@
 
                         <a
                             href="{{ $url }}"
-                            class="config-card group relative flex flex-col justify-between rounded-[16px] border border-slate-200/90 bg-white p-5 shadow-xs cursor-pointer hover:bg-slate-50/40"
+                            class="config-card group relative flex flex-col justify-between rounded-[16px] border border-slate-200/90 bg-white p-5 shadow-sm cursor-pointer hover:bg-slate-50/40"
                         >
                             <div>
                                 <!-- Top Row: Icon Badge & Direction Indicator -->
@@ -205,7 +205,7 @@
 
                 <input
                     type="text"
-                    class="peer block w-full rounded-[12px] border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20 shadow-xs"
+                    class="peer block w-full rounded-[12px] border border-slate-200 bg-white py-2 pl-10 pr-4 text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20 shadow-sm"
                     :class="{'border-[#133b63] ring-2 ring-[#133b63]/20': isDropdownOpen}"
                     placeholder="@lang('admin::app.configuration.index.search')"
                     v-model.lazy="searchTerm"
@@ -270,7 +270,7 @@
                     window.addEventListener('click', this.handleFocusOut);
                 },
 
-                beforeDestroy() {
+                beforeUnmount() {
                     window.removeEventListener('click', this.handleFocusOut);
                 },
 

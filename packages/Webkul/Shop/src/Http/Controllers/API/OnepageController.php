@@ -4,6 +4,7 @@ namespace Webkul\Shop\Http\Controllers\API;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Webkul\CartRule\Exceptions\CouponUsageLimitExceededException;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -33,6 +34,12 @@ class OnepageController extends APIController
     {
         $cart = Cart::getCart();
 
+        if (! $cart) {
+            return new JsonResource([
+                'data' => null,
+            ]);
+        }
+
         return new CartResource($cart);
     }
 
@@ -43,20 +50,20 @@ class OnepageController extends APIController
     {
         $params = $cartAddressRequest->all();
 
-        if (
-            ! auth()->guard('customer')->check()
-            && ! Cart::getCart()->hasGuestCheckoutItems()
-        ) {
-            return new JsonResource([
-                'redirect' => true,
-                'data' => route('shop.customer.session.index'),
-            ]);
-        }
+        $cart = Cart::getCart();
 
-        if (Cart::hasError()) {
+        if (! $cart) {
             return new JsonResource([
                 'redirect' => true,
                 'redirect_url' => route('shop.checkout.cart.index'),
+            ]);
+        }
+
+        if (! $this->isGuestCheckoutAllowed($cart)) {
+            return new JsonResource([
+                'redirect' => true,
+                'data' => route('shop.customer.session.index'),
+                'redirect_url' => route('shop.customer.session.index'),
             ]);
         }
 
@@ -155,6 +162,15 @@ class OnepageController extends APIController
             ]);
         }
 
+        $cart = Cart::getCart();
+
+        if ($cart && ! $this->isGuestCheckoutAllowed($cart)) {
+            return new JsonResource([
+                'redirect' => true,
+                'redirect_url' => route('shop.customer.session.index'),
+            ]);
+        }
+
         Cart::collectTotals();
 
         try {
@@ -177,7 +193,19 @@ class OnepageController extends APIController
         $data = (new OrderResource($cart))->jsonSerialize();
 
         try {
-            $order = $this->orderRepository->create($data);
+            $order = Cache::lock("cart_order_{$cart->id}", 10)->block(5, function () use ($cart, $data) {
+                $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cart->id]);
+
+                if ($existingOrder) {
+                    return $existingOrder;
+                }
+
+                $order = $this->orderRepository->create($data);
+
+                Cart::deActivateCart();
+
+                return $order;
+            });
         } catch (CouponUsageLimitExceededException $e) {
             cart()->removeCouponCode();
 
@@ -189,9 +217,7 @@ class OnepageController extends APIController
             ]);
         }
 
-        Cart::deActivateCart();
-
-        session()->flash('order_id', $order->id);
+        session()->flash('order_id', $order?->id);
 
         return new JsonResource([
             'redirect' => true,
@@ -271,5 +297,18 @@ class OnepageController extends APIController
 
         return collect(Payment::getSupportedPaymentMethods()['payment_methods'] ?? [])
             ->contains('method', $method);
+    }
+
+    /**
+     * Determine whether the current actor is permitted to proceed with checkout for this cart.
+     */
+    protected function isGuestCheckoutAllowed($cart): bool
+    {
+        return auth()->guard('customer')->check()
+            || (
+                (bool) core()->getConfigData('sales.checkout.shopping_cart.allow_guest_checkout')
+                && ! $cart->hasDownloadableItems()
+                && $cart->hasGuestCheckoutItems()
+            );
     }
 }

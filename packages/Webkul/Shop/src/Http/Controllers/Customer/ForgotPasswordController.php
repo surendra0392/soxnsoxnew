@@ -47,19 +47,14 @@ class ForgotPasswordController extends Controller
                 return redirect()->route('shop.customers.forgot_password.create');
             }
 
-            return redirect()->route('shop.customers.forgot_password.create')
-                ->withInput($request->only(['email']))
-                ->withErrors([
-                    'email' => trans('shop::app.customers.forgot-password.email-not-exist'),
-                ]);
-        } catch (\Swift_RfcComplianceException $e) {
             session()->flash('success', trans('shop::app.customers.forgot-password.reset-link-sent'));
 
             return redirect()->route('shop.customers.forgot_password.create');
+
         } catch (\Exception $e) {
             report($e);
 
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', trans('shop::app.search.images.index.something-went-wrong'));
 
             return redirect()->route('shop.customers.forgot_password.create');
         }

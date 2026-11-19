@@ -84,6 +84,10 @@ class OrderRepository extends Repository
             }
 
             Event::dispatch('checkout.order.save.after', $order);
+
+            DB::commit();
+
+            return $order;
         } catch (\Exception $e) {
             /* rolling back first */
             DB::rollBack();
@@ -92,7 +96,10 @@ class OrderRepository extends Repository
              * Do not retry when coupon usage limits are exceeded — this is a
              * definitive business-logic failure, not a transient DB error.
              */
-            if ($e instanceof CouponUsageLimitExceededException) {
+            if (
+                $e instanceof CouponUsageLimitExceededException
+                || $e instanceof \DomainException
+            ) {
                 throw $e;
             }
 
@@ -109,12 +116,7 @@ class OrderRepository extends Repository
 
             /* rethrow the exception if max attempts reached */
             throw $e;
-        } finally {
-            /* commit in each case */
-            DB::commit();
         }
-
-        return $order;
     }
 
     /**
@@ -146,51 +148,55 @@ class OrderRepository extends Repository
             return false;
         }
 
-        Event::dispatch('sales.order.cancel.before', $order);
+        return DB::transaction(function () use ($order, $force) {
+            Event::dispatch('sales.order.cancel.before', $order);
 
-        foreach ($order->items as $item) {
-            if (! $item->canCancel($force)) {
-                continue;
-            }
-
-            $orderItems = [];
-
-            if ($item->getTypeInstance()->isComposite()) {
-                foreach ($item->children as $child) {
-                    $orderItems[] = $child;
+            foreach ($order->items as $item) {
+                if (! $item->canCancel($force)) {
+                    continue;
                 }
-            } else {
-                $orderItems[] = $item;
-            }
 
-            foreach ($orderItems as $orderItem) {
-                $this->orderItemRepository->returnQtyToProductInventory($orderItem);
+                $orderItems = [];
 
-                if ($orderItem->qty_ordered) {
-                    $orderItem->qty_canceled += $orderItem->qty_to_cancel;
-                    $orderItem->save();
-
-                    if (
-                        $orderItem->parent
-                        && $orderItem->parent->qty_ordered
-                    ) {
-                        $orderItem->parent->qty_canceled += $orderItem->parent->qty_to_cancel;
-                        $orderItem->parent->save();
+                if ($item->getTypeInstance()->isComposite()) {
+                    foreach ($item->children as $child) {
+                        $orderItems[] = $child;
                     }
                 } else {
-                    $orderItem->parent->qty_canceled += $orderItem->parent->qty_to_cancel;
-                    $orderItem->parent->save();
+                    $orderItems[] = $item;
                 }
+
+                foreach ($orderItems as $orderItem) {
+                    $this->orderItemRepository->returnQtyToProductInventory($orderItem);
+
+                    if ($orderItem->qty_ordered) {
+                        $orderItem->qty_canceled += $orderItem->qty_to_cancel;
+                        $orderItem->save();
+
+                        if (
+                            $orderItem->parent
+                            && $orderItem->parent->qty_ordered
+                        ) {
+                            $orderItem->parent->qty_canceled += $orderItem->parent->qty_to_cancel;
+                            $orderItem->parent->save();
+                        }
+                    } else {
+                        if ($orderItem->parent) {
+                            $orderItem->parent->qty_canceled += $orderItem->parent->qty_to_cancel;
+                            $orderItem->parent->save();
+                        }
+                    }
+                }
+
+                $this->downloadableLinkPurchasedRepository->updateStatus($item, 'expired');
             }
 
-            $this->downloadableLinkPurchasedRepository->updateStatus($item, 'expired');
-        }
+            $this->updateOrderStatus($order);
 
-        $this->updateOrderStatus($order);
+            Event::dispatch('sales.order.cancel.after', $order);
 
-        Event::dispatch('sales.order.cancel.after', $order);
-
-        return true;
+            return true;
+        });
     }
 
     /**
@@ -213,7 +219,7 @@ class OrderRepository extends Repository
     {
         $totalQtyOrdered = $totalQtyInvoiced = $totalQtyShipped = $totalQtyRefunded = $totalQtyCanceled = 0;
 
-        foreach ($order->items()->get() as $item) {
+        foreach ($order->items as $item) {
             $totalQtyOrdered += $item->qty_ordered;
             $totalQtyInvoiced += $item->qty_invoiced;
 
@@ -278,7 +284,7 @@ class OrderRepository extends Repository
     {
         $totalQtyOrdered = $totalQtyCanceled = 0;
 
-        foreach ($order->items()->get() as $item) {
+        foreach ($order->items as $item) {
             $totalQtyOrdered += $item->qty_ordered;
             $totalQtyCanceled += $item->qty_canceled;
         }
@@ -296,7 +302,7 @@ class OrderRepository extends Repository
     {
         $totalQtyOrdered = $totalQtyRefunded = $totalQtyCanceled = 0;
 
-        foreach ($order->items()->get() as $item) {
+        foreach ($order->items as $item) {
             $totalQtyOrdered += $item->qty_ordered;
             $totalQtyRefunded += $item->qty_refunded;
             $totalQtyCanceled += $item->qty_canceled;

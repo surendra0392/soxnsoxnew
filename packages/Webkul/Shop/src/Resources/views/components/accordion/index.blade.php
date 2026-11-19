@@ -13,15 +13,16 @@
                     {{ $header->attributes->merge(['class' => 'flex cursor-pointer select-none items-center justify-between p-4']) }}
                     role="button"
                     tabindex="0"
+                    :aria-expanded="isOpen ? 'true' : 'false'"
                     @click="toggle"
+                    @keydown.enter.prevent="toggle"
+                    @keydown.space.prevent="toggle"
                 >
                     {{ $header }}
 
                     <i
                         v-bind:class="isOpen ? 'fa-solid fa-chevron-up text-base' : 'fa-solid fa-chevron-down text-base'"
-                        role="button"
-                        aria-label="Toggle accordion"
-                        tabindex="0"
+                        aria-hidden="true"
                     ></i>
                 </div>
             </template>

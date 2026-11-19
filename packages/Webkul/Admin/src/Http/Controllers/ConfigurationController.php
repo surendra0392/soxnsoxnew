@@ -106,6 +106,8 @@ class ConfigurationController extends Controller
 
         $config = $this->coreConfigRepository->findOneByField('value', $fileName);
 
+        abort_if(! $config || empty($config['value']) || ! Storage::exists($config['value']), 404);
+
         return Storage::download($config['value']);
     }
 }

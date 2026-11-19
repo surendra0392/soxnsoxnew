@@ -72,7 +72,7 @@ class ProductCardResource extends JsonResource
 
         $weight = (float) ($this->weight ?? 0);
         $formattedWeight = null;
-        if ($weight > 0) {
+        if ($weight > 0 && filter_var(core()->getConfigData('catalog.rich_snippets.products.show_weight'), FILTER_VALIDATE_BOOLEAN)) {
             $unit = core()->getConfigData('general.general.locale_options.weight_unit') ?: 'kgs';
             if ($unit === 'lbs') {
                 $formattedWeight = ((float) $weight).' lbs Net Wt';
@@ -91,7 +91,7 @@ class ProductCardResource extends JsonResource
         $nonRootCategories = $this->categories->filter(fn ($c) => $c->id != 1);
         $primaryCategory = $nonRootCategories->last() ?? $nonRootCategories->first() ?? $this->categories->first();
         $categoryName = $primaryCategory?->name ?? null;
-        $categorySlug = $primaryCategory?->slug ?? 'socks';
+        $categorySlug = $this->getPrimaryCategorySlug();
 
         return [
             'id' => $this->id,

@@ -3,6 +3,7 @@
 namespace Webkul\Admin\Http\Controllers\Sales;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -14,8 +15,8 @@ use Webkul\Admin\Http\Resources\AddressResource;
 use Webkul\Admin\Http\Resources\CartResource;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
-use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Core\Traits\PDFHandler;
+use Webkul\Customer\Repositories\CustomerGroupRepository;
 use Webkul\Sales\Repositories\OrderCommentRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Transformers\OrderResource;
@@ -23,6 +24,7 @@ use Webkul\Sales\Transformers\OrderResource;
 class OrderController extends Controller
 {
     use PDFHandler;
+
     /**
      * Create a new controller instance.
      *
@@ -58,15 +60,19 @@ class OrderController extends Controller
      *
      * @return View
      */
-    public function create(int $cartId)
+    public function create(?int $cartId = null)
     {
+        if (! $cartId) {
+            return redirect()->route('admin.sales.orders.index');
+        }
+
         $cart = $this->cartRepository->find($cartId);
 
         if (! $cart) {
             return redirect()->route('admin.sales.orders.index');
         }
 
-        $addresses = AddressResource::collection($cart->customer->addresses);
+        $addresses = AddressResource::collection($cart->customer?->addresses ?? []);
 
         $cart = new CartResource($cart);
 
@@ -100,7 +106,7 @@ class OrderController extends Controller
 
         $cart = Cart::getCart();
 
-        if (! in_array($cart->payment->method, ['cashondelivery', 'moneytransfer'])) {
+        if (! in_array($cart->payment?->method, ['cashondelivery', 'moneytransfer'])) {
             return response()->json([
                 'message' => trans('admin::app.sales.orders.create.payment-not-supported'),
             ], Response::HTTP_BAD_REQUEST);
@@ -163,9 +169,13 @@ class OrderController extends Controller
                 continue;
             }
 
+            if (! $item->product) {
+                continue;
+            }
+
             try {
                 Cart::addProduct($item->product, $item->additional);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // do nothing
             }
         }
@@ -202,6 +212,8 @@ class OrderController extends Controller
      */
     public function comment(int $id)
     {
+        $this->orderRepository->findOrFail($id);
+
         $validatedData = $this->validate(request(), [
             'comment' => 'required',
             'customer_notified' => 'sometimes|sometimes',
@@ -223,15 +235,14 @@ class OrderController extends Controller
     /**
      * Update operational status.
      *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function updateOperationalStatus(int $id)
     {
         $order = $this->orderRepository->findOrFail($id);
-        
+
         $validatedData = $this->validate(request(), [
-            'operational_status' => 'required|string',
+            'operational_status' => 'required|string|in:PAYMENT PENDING,PAYMENT CONFIRMED,PACKING,READY TO SHIP,SHIPPED,DELIVERED',
         ]);
 
         $order->update(['operational_status' => $validatedData['operational_status']]);
@@ -239,7 +250,7 @@ class OrderController extends Controller
         // Add timeline comment
         $this->orderCommentRepository->create([
             'order_id' => $id,
-            'comment' => 'Fulfillment status updated to: ' . $validatedData['operational_status'],
+            'comment' => 'Fulfillment status updated to: '.$validatedData['operational_status'],
             'customer_notified' => 0,
         ]);
 
@@ -315,7 +326,7 @@ class OrderController extends Controller
     /**
      * Print and download the packing slip for the specified order.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function printPackingSlip(int $id)
     {
@@ -332,7 +343,7 @@ class OrderController extends Controller
     /**
      * Print and download the delivery slip / proof of delivery for the specified order.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function printDeliverySlip(int $id)
     {

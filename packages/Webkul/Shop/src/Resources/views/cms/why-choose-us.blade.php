@@ -14,7 +14,7 @@
     <section class="site-container pt-6 pb-12 sm:pt-10 sm:pb-16 border-b border-slate-200 reveal-on-scroll">
         <div class="max-w-3xl mx-auto text-center space-y-5 mb-8">
             <!-- Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-xs">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-sm">
                 <i class="fa-solid fa-shield-halved text-[#2ca7a3] text-sm"></i>
                 <span>The Comfort System &bull; Simple Comfort &bull; Everyday Life</span>
             </div>
@@ -126,7 +126,7 @@
                             class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                             loading="lazy"
                         />
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#133b63] shadow-xs">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#133b63] shadow-sm">
                             Everyday Support
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                             class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                             loading="lazy"
                         />
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#f29a38] shadow-xs">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#f29a38] shadow-sm">
                             Breathable Design
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                             class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                             loading="lazy"
                         />
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#2ca7a3] shadow-xs">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#2ca7a3] shadow-sm">
                             Made To Last
                         </div>
                     </div>
@@ -214,9 +214,9 @@
                     </div>
 
                     <!-- Floating Feature Card: positioned under the image with slight overlap over the bottom edge -->
-                    <div style="margin-top: -52px;" class="relative mx-4 sm:mx-6 z-10 bg-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-4.5 shadow-xl border border-slate-200/90 transition-all duration-300 ease-out hover:shadow-2xl hover:-translate-y-1.5 hover:border-[#2ca7a3]/50 hover:ring-2 hover:ring-[#2ca7a3]/20 group/card cursor-default">
+                    <div style="margin-top: -52px;" class="relative mx-4 sm:mx-6 z-10 bg-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-5 shadow-xl border border-slate-200/90 transition-all duration-300 ease-out hover:shadow-2xl hover:-translate-y-1.5 hover:border-[#2ca7a3]/50 hover:ring-2 hover:ring-[#2ca7a3]/20 group/card cursor-default">
                         <div class="flex items-center gap-3.5">
-                            <div class="h-11 w-11 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center text-lg flex-shrink-0 transition-all duration-300 ease-out group-hover/card:scale-110 group-hover/card:rotate-6 group-hover/card:bg-[#2ca7a3] group-hover/card:text-white shadow-xs">
+                            <div class="h-11 w-11 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center text-lg flex-shrink-0 transition-all duration-300 ease-out group-hover/card:scale-110 group-hover/card:rotate-6 group-hover/card:bg-[#2ca7a3] group-hover/card:text-white shadow-sm">
                                 <i class="fa-solid fa-certificate"></i>
                             </div>
                             <div class="flex-1 min-w-0">
@@ -246,7 +246,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 reveal-stagger">
                         <!-- Pillar 1 -->
-                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-1 hover:border-[#2ca7a3]/40 transition-all duration-300 flex items-start gap-3.5">
+                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-[#2ca7a3]/40 transition-all duration-300 flex items-start gap-3.5">
                             <span class="h-9 w-9 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center flex-shrink-0 text-sm">
                                 <i class="fa-solid fa-heart"></i>
                             </span>
@@ -257,7 +257,7 @@
                         </div>
 
                         <!-- Pillar 2 -->
-                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-1 hover:border-[#f29a38]/40 transition-all duration-300 flex items-start gap-3.5">
+                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-[#f29a38]/40 transition-all duration-300 flex items-start gap-3.5">
                             <span class="h-9 w-9 rounded-xl bg-[#fff4e8] text-[#f29a38] flex items-center justify-center flex-shrink-0 text-sm">
                                 <i class="fa-solid fa-leaf"></i>
                             </span>
@@ -268,7 +268,7 @@
                         </div>
 
                         <!-- Pillar 3 -->
-                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-1 hover:border-[#1d5b8f]/40 transition-all duration-300 flex items-start gap-3.5">
+                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-[#1d5b8f]/40 transition-all duration-300 flex items-start gap-3.5">
                             <span class="h-9 w-9 rounded-xl bg-[#e9f2fa] text-[#1d5b8f] flex items-center justify-center flex-shrink-0 text-sm">
                                 <i class="fa-solid fa-shield-halved"></i>
                             </span>
@@ -279,7 +279,7 @@
                         </div>
 
                         <!-- Pillar 4 -->
-                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-1 hover:border-[#2ca7a3]/40 transition-all duration-300 flex items-start gap-3.5">
+                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-[#2ca7a3]/40 transition-all duration-300 flex items-start gap-3.5">
                             <span class="h-9 w-9 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center flex-shrink-0 text-sm">
                                 <i class="fa-solid fa-person-walking"></i>
                             </span>
@@ -290,7 +290,7 @@
                         </div>
 
                         <!-- Pillar 5 -->
-                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-1 hover:border-[#f29a38]/40 transition-all duration-300 flex items-start gap-3.5">
+                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-[#f29a38]/40 transition-all duration-300 flex items-start gap-3.5">
                             <span class="h-9 w-9 rounded-xl bg-[#fff4e8] text-[#f29a38] flex items-center justify-center flex-shrink-0 text-sm">
                                 <i class="fa-solid fa-bolt"></i>
                             </span>
@@ -301,7 +301,7 @@
                         </div>
 
                         <!-- Pillar 6 -->
-                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-1 hover:border-[#1d5b8f]/40 transition-all duration-300 flex items-start gap-3.5">
+                        <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-[#1d5b8f]/40 transition-all duration-300 flex items-start gap-3.5">
                             <span class="h-9 w-9 rounded-xl bg-[#e9f2fa] text-[#1d5b8f] flex items-center justify-center flex-shrink-0 text-sm">
                                 <i class="fa-solid fa-people-group"></i>
                             </span>
@@ -410,7 +410,7 @@
 
                     <a
                         href="{{ route('shop.cms.page', 'how-it-works') }}"
-                        class="inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-full border border-slate-300 bg-white text-[#133b63] hover:bg-slate-50 hover:border-[#2ca7a3]/50 transition-all duration-300 active:scale-95 shadow-xs hover:shadow-md"
+                        class="inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-full border border-slate-300 bg-white text-[#133b63] hover:bg-slate-50 hover:border-[#2ca7a3]/50 transition-all duration-300 active:scale-95 shadow-sm hover:shadow-md"
                     >
                         <span>See How It Works</span>
                         <i class="fa-solid fa-chevron-right text-xs text-[#2ca7a3]"></i>

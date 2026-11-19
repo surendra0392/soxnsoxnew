@@ -37,7 +37,9 @@ class CartItemResource extends JsonResource
             'options' => $this->formatAdditionalAttributes(),
             'can_change_qty' => $this->product ? $this->product->getTypeInstance()->showQuantityBox() : false,
             'weight' => $weight = (float) ($this->weight ?? $this->product?->weight ?? 0),
-            'formatted_weight' => $this->formatWeight($weight),
+            'formatted_weight' => filter_var(core()->getConfigData('catalog.rich_snippets.products.show_weight'), FILTER_VALIDATE_BOOLEAN)
+                ? $this->formatWeight($weight)
+                : null,
             'regular_price' => $regularPrice = (float) ($this->child?->product?->price ?? $this->product?->price ?? $this->price),
             'formatted_regular_price' => core()->formatPrice($regularPrice),
             'has_discount' => ($regularPrice > (float) $this->price),
@@ -60,12 +62,12 @@ class CartItemResource extends JsonResource
         if ($weight < 1) {
             $grams = round($weight * 1000);
 
-            return $grams . 'g';
+            return $grams.'g';
         }
 
         $kg = (float) rtrim(rtrim(number_format($weight, 2, '.', ''), '0'), '.');
 
-        return $kg . 'kg';
+        return $kg.'kg';
     }
 
     /**

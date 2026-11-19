@@ -8,7 +8,7 @@ return [
         'title' => 'PhonePe',
         'description' => 'PhonePe',
         'class' => PhonePe::class,
-        'active' => true,
+        'active' => false,
         'sandbox' => true,
         'client_id' => 'CLIENT_ID',
         'client_secret' => 'CLIENT_SECRET',

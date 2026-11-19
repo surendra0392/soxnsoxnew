@@ -44,9 +44,13 @@ class RefundRepository extends Repository
         try {
             Event::dispatch('sales.refund.save.before', $data);
 
-            $order = $this->orderRepository->find($data['order_id']);
+            $order = $this->orderRepository->findOrFail($data['order_id']);
 
             $totalQty = array_sum($data['refund']['items'] ?? []) ?? 0;
+
+            $adjustmentRefund = (float) (($data['refund']['adjustment_refund'] ?? 0) ?: 0);
+            $adjustmentFee = (float) (($data['refund']['adjustment_fee'] ?? 0) ?: 0);
+            $shippingAmount = (float) (($data['refund']['shipping'] ?? 0) ?: 0);
 
             $refund = parent::create([
                 'order_id' => $order->id,
@@ -55,12 +59,12 @@ class RefundRepository extends Repository
                 'base_currency_code' => $order->base_currency_code,
                 'channel_currency_code' => $order->channel_currency_code,
                 'order_currency_code' => $order->order_currency_code,
-                'adjustment_refund' => core()->convertPrice($data['refund']['adjustment_refund'], $order->order_currency_code),
-                'base_adjustment_refund' => $data['refund']['adjustment_refund'],
-                'adjustment_fee' => core()->convertPrice($data['refund']['adjustment_fee'], $order->order_currency_code),
-                'base_adjustment_fee' => $data['refund']['adjustment_fee'],
-                'shipping_amount' => core()->convertPrice($data['refund']['shipping'], $order->order_currency_code),
-                'base_shipping_amount' => $data['refund']['shipping'],
+                'adjustment_refund' => core()->convertPrice($adjustmentRefund, $order->order_currency_code),
+                'base_adjustment_refund' => $adjustmentRefund,
+                'adjustment_fee' => core()->convertPrice($adjustmentFee, $order->order_currency_code),
+                'base_adjustment_fee' => $adjustmentFee,
+                'shipping_amount' => core()->convertPrice($shippingAmount, $order->order_currency_code),
+                'base_shipping_amount' => $shippingAmount,
             ]);
 
             foreach ($data['refund']['items'] ?? [] as $itemId => $qty) {
@@ -68,15 +72,26 @@ class RefundRepository extends Repository
                     continue;
                 }
 
-                $orderItem = $this->orderItemRepository->find($itemId);
+                $orderItem = $this->orderItemRepository->findOneWhere([
+                    'id' => $itemId,
+                    'order_id' => $order->id,
+                ]);
+
+                if (! $orderItem) {
+                    throw new InvalidRefundQuantityException(trans('admin::app.sales.refunds.create.invalid-qty'));
+                }
 
                 if ($qty > $orderItem->qty_to_refund) {
                     $qty = $orderItem->qty_to_refund;
                 }
 
-                $taxAmount = (($orderItem->tax_amount / $orderItem->qty_ordered) * $qty);
+                $taxAmount = $orderItem->qty_ordered > 0
+                    ? (($orderItem->tax_amount / $orderItem->qty_ordered) * $qty)
+                    : 0;
 
-                $baseTaxAmount = (($orderItem->base_tax_amount / $orderItem->qty_ordered) * $qty);
+                $baseTaxAmount = $orderItem->qty_ordered > 0
+                    ? (($orderItem->base_tax_amount / $orderItem->qty_ordered) * $qty)
+                    : 0;
 
                 $refundItem = $this->refundItemRepository->create([
                     'refund_id' => $refund->id,
@@ -94,8 +109,12 @@ class RefundRepository extends Repository
                     'base_total_incl_tax' => ($orderItem->base_price * $qty) + $baseTaxAmount,
                     'tax_amount' => $taxAmount,
                     'base_tax_amount' => $baseTaxAmount,
-                    'discount_amount' => (($orderItem->discount_amount / $orderItem->qty_ordered) * $qty),
-                    'base_discount_amount' => (($orderItem->base_discount_amount / $orderItem->qty_ordered) * $qty),
+                    'discount_amount' => $orderItem->qty_ordered > 0
+                        ? (($orderItem->discount_amount / $orderItem->qty_ordered) * $qty)
+                        : 0,
+                    'base_discount_amount' => $orderItem->qty_ordered > 0
+                        ? (($orderItem->base_discount_amount / $orderItem->qty_ordered) * $qty)
+                        : 0,
                     'product_id' => $orderItem->product_id,
                     'product_type' => $orderItem->product_type,
                     'additional' => $orderItem->additional,
@@ -103,7 +122,7 @@ class RefundRepository extends Repository
 
                 if ($orderItem->getTypeInstance()->isComposite()) {
                     foreach ($orderItem->children as $childOrderItem) {
-                        $finalQty = $childOrderItem->qty_ordered
+                        $finalQty = ($childOrderItem->qty_ordered && $orderItem->qty_ordered > 0)
                             ? ($childOrderItem->qty_ordered / $orderItem->qty_ordered) * $qty
                             : $orderItem->qty_ordered;
 
@@ -237,31 +256,42 @@ class RefundRepository extends Repository
             'grand_total' => ['price' => 0],
         ];
 
+        $shipping = (float) (($data['shipping'] ?? 0) ?: 0);
+        $adjustmentRefund = (float) (($data['adjustment_refund'] ?? 0) ?: 0);
+        $adjustmentFee = (float) (($data['adjustment_fee'] ?? 0) ?: 0);
+
         foreach ($data['items'] ?? [] as $orderItemId => $qty) {
             if (! $qty) {
                 continue;
             }
 
-            $orderItem = $this->orderItemRepository->find($orderItemId);
+            $orderItem = $this->orderItemRepository->findOneWhere([
+                'id' => $orderItemId,
+                'order_id' => $order->id,
+            ]);
 
-            if ($qty > $orderItem->qty_to_refund) {
+            if (! $orderItem || $qty > $orderItem->qty_to_refund) {
                 throw new InvalidRefundQuantityException(trans('admin::app.sales.refunds.create.invalid-qty'));
             }
 
             $totals['subtotal']['price'] += $orderItem->base_price * $qty;
 
-            $totals['discount']['price'] += ($orderItem->base_discount_amount / $orderItem->qty_ordered) * $qty;
+            $totals['discount']['price'] += $orderItem->qty_ordered > 0
+                ? ($orderItem->base_discount_amount / $orderItem->qty_ordered) * $qty
+                : 0;
 
-            $totals['tax']['price'] += ($orderItem->base_tax_amount / $orderItem->qty_ordered) * $qty;
+            $totals['tax']['price'] += $orderItem->qty_ordered > 0
+                ? ($orderItem->base_tax_amount / $orderItem->qty_ordered) * $qty
+                : 0;
         }
 
         if ((float) $order->base_shipping_invoiced) {
-            $totals['tax']['price'] += ($order->base_shipping_tax_amount / $order->base_shipping_invoiced) * $data['shipping'];
+            $totals['tax']['price'] += ($order->base_shipping_tax_amount / $order->base_shipping_invoiced) * $shipping;
         }
 
-        $totals['shipping']['price'] += $data['shipping'];
+        $totals['shipping']['price'] += $shipping;
 
-        $totals['grand_total']['price'] += $totals['subtotal']['price'] + $totals['tax']['price'] + $totals['shipping']['price'] + $data['adjustment_refund'] - $data['adjustment_fee'] - $totals['discount']['price'];
+        $totals['grand_total']['price'] += $totals['subtotal']['price'] + $totals['tax']['price'] + $totals['shipping']['price'] + $adjustmentRefund - $adjustmentFee - $totals['discount']['price'];
 
         $totals = array_map(function ($item) {
             $item['formatted_price'] = core()->formatBasePrice($item['price']);

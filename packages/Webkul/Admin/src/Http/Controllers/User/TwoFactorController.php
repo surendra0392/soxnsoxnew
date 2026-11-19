@@ -64,6 +64,12 @@ class TwoFactorController extends Controller
 
         $admin = auth('admin')->user();
 
+        if (! $admin || ! $admin->two_factor_secret) {
+            return response()->json([
+                'message' => trans('admin::app.errors.401.title'),
+            ], 401);
+        }
+
         $decryptedSecret = decrypt($admin->two_factor_secret);
 
         $isValidCode = two_factor_authentication()->verifyQrCode($decryptedSecret, $request->code);
@@ -167,6 +173,12 @@ class TwoFactorController extends Controller
         $request->validate(['code' => 'required|digits:6']);
 
         $admin = auth('admin')->user();
+
+        if (! $admin || ! $admin->two_factor_secret) {
+            return $request->expectsJson()
+                ? response()->json(['message' => trans('admin::app.errors.401.title')], 401)
+                : redirect()->route('admin.session.create');
+        }
 
         $decryptedSecret = decrypt($admin->two_factor_secret);
 

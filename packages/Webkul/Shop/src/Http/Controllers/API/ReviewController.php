@@ -4,6 +4,7 @@ namespace Webkul\Shop\Http\Controllers\API;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Webkul\MagicAI\Facades\MagicAI;
 use Webkul\Product\Repositories\ProductRepository;
@@ -61,13 +62,37 @@ class ReviewController extends APIController
      */
     public function store(int $id): JsonResource
     {
-        $this->validate(request(), [
+        abort_unless(
+            app(ProductRepository::class)->find($id),
+            404
+        );
+
+        $customerId = auth()->guard('customer')->id();
+
+        if (! core()->getConfigData('catalog.products.review.customer_review')) {
+            abort(403);
+        }
+
+        if (
+            ! $customerId
+            && ! core()->getConfigData('catalog.products.review.guest_review')
+        ) {
+            abort(403);
+        }
+
+        $rules = [
             'title' => 'required',
             'comment' => 'required',
             'rating' => 'required|numeric|min:1|max:5',
             'attachments' => 'array',
-            'attachments.*' => 'file|mimetypes:image/*,video/*',
-        ]);
+            'attachments.*' => 'file|mimetypes:image/jpeg,image/png,image/gif,image/webp,video/mp4,video/webm,video/quicktime|max:10240',
+        ];
+
+        if (! $customerId) {
+            $rules['name'] = 'required|string|max:100';
+        }
+
+        $this->validate(request(), $rules);
 
         $data = array_merge(request()->only([
             'title',
@@ -80,7 +105,7 @@ class ReviewController extends APIController
         ]);
 
         $data['name'] = auth()->guard('customer')->user()?->name ?? request()->input('name');
-        $data['customer_id'] = auth()->guard('customer')->id() ?? null;
+        $data['customer_id'] = $customerId;
 
         Event::dispatch('customer.review.create.before', $id);
 
@@ -102,15 +127,26 @@ class ReviewController extends APIController
     {
         $review = $this->productReviewRepository->find($reviewId);
 
-        if ($review?->status !== self::STATUS_APPROVED) {
+        if (
+            ! $review
+            || (int) $review->product_id !== $productId
+            || $review->status !== self::STATUS_APPROVED
+        ) {
             return new JsonResponse([
                 'message' => trans('shop::app.products.view.reviews.empty-review'),
             ], 400);
         }
 
         try {
+            $locale = core()->getCurrentLocale()?->code ?? 'en';
+            $cacheKey = "review_translation_{$reviewId}_{$locale}";
+
+            $translatedContent = Cache::rememberForever($cacheKey, function () use ($review) {
+                return MagicAI::translate($review->comment, core()->getCurrentLocale()->name);
+            });
+
             return new JsonResponse([
-                'content' => MagicAI::translate($review->comment, core()->getCurrentLocale()->name),
+                'content' => $translatedContent,
             ]);
         } catch (\Exception $e) {
             return new JsonResponse([

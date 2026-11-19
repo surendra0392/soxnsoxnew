@@ -22,8 +22,6 @@ class OnepageController extends Controller
             abort(404);
         }
 
-        Event::dispatch('checkout.load.index');
-
         /**
          * If guest checkout is not allowed then redirect back to the cart page.
          */
@@ -65,6 +63,8 @@ class OnepageController extends Controller
         ) {
             return redirect()->route('shop.customer.session.index');
         }
+
+        Event::dispatch('checkout.load.index');
 
         return view('shop::checkout.onepage.index', compact('cart'));
     }

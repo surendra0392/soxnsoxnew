@@ -132,14 +132,14 @@
 
                     <!-- Phone -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isPhoneNumberRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
+                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.phone')
                         </x-shop::form.control-group.label>
 
                         <x-shop::form.control-group.control
                             type="text"
                             name="phone"
-                            rules="{{ core()->isPhoneNumberRequired() ? 'required' : '' }}|phone"
+                            rules="required|phone"
                             class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
                             :value="old('phone') ?? $customer->phone"
                             :label="trans('shop::app.customers.account.profile.edit.phone')"
@@ -154,7 +154,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Gender -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isGenderRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
+                        <x-shop::form.control-group.label class="required text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.gender')
                         </x-shop::form.control-group.label>
 
@@ -162,7 +162,7 @@
                             type="select"
                             name="gender"
                             class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
-                            rules="{{ core()->isGenderRequired() ? 'required' : '' }}"
+                            rules="required"
                             :value="old('gender') ?? $customer->gender"
                             :label="trans('shop::app.customers.account.profile.edit.gender')"
                         >
@@ -177,7 +177,7 @@
 
                     <!-- DOB -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isDOBRequired() ? 'required' : '' }} text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
+                        <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
                             @lang('shop::app.customers.account.profile.edit.dob')
                         </x-shop::form.control-group.label>
 
@@ -185,7 +185,7 @@
                             type="date"
                             name="date_of_birth"
                             class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
-                            rules="{{ core()->isDOBRequired() ? 'required' : '' }}"
+                            rules=""
                             :value="old('date_of_birth') ?? $customer->date_of_birth"
                             :label="trans('shop::app.customers.account.profile.edit.dob')"
                             :placeholder="trans('shop::app.customers.account.profile.edit.dob')"

@@ -18,6 +18,7 @@ use Webkul\Sales\Models\OrderAddress;
 use Webkul\Sales\Models\OrderItem;
 use Webkul\Sales\Models\OrderPayment;
 use Webkul\Sales\Models\Shipment;
+use Webkul\Sales\Repositories\ShipmentRepository;
 use Webkul\Shop\Mail\Order\ShippedNotification as ShopShippedNotification;
 
 use function Pest\Laravel\get;
@@ -895,4 +896,27 @@ it('should return the view page of shipments', function () {
             ],
         ],
     ]);
+});
+
+it('should create shipment even when order has no shipping address', function () {
+    $order = Order::factory()->create([
+        'customer_email' => 'customer@example.com',
+        'customer_first_name' => 'John',
+        'customer_last_name' => 'Doe',
+    ]);
+    $inventorySource = $order->channel->inventory_sources->first();
+    $shipmentRepository = app(ShipmentRepository::class);
+
+    $shipment = $shipmentRepository->create([
+        'order_id' => $order->id,
+        'shipment' => [
+            'carrier_title' => 'Test Carrier',
+            'track_number' => '123456',
+            'source' => $inventorySource->id,
+            'items' => [],
+        ],
+    ]);
+
+    expect($shipment->order_address_id)->toBeNull();
+    expect($shipment->order_id)->toBe($order->id);
 });

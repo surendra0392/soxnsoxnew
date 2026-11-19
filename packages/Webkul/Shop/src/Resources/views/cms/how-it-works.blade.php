@@ -14,7 +14,7 @@
     <section class="site-container pt-6 pb-12 sm:pt-10 sm:pb-16 border-b border-slate-200 reveal-on-scroll">
         <div class="max-w-3xl mx-auto text-center space-y-5 mb-8">
             <!-- Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-xs">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-widest uppercase border border-[#2ca7a3]/25 shadow-sm">
                 <i class="fa-solid fa-gears text-[#2ca7a3] text-sm"></i>
                 <span>The Comfort System &bull; Step-By-Step Engineering</span>
             </div>
@@ -43,7 +43,7 @@
                             class="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
                             loading="eager"
                         />
-                        <div class="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/95 backdrop-blur-md border border-slate-200 text-[#133b63] shadow-xs z-10">
+                        <div class="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/95 backdrop-blur-md border border-slate-200 text-[#133b63] shadow-sm z-10">
                             <i class="fa-solid fa-microchip text-[#2ca7a3]"></i> Medical-Grade 200-Needle Knit
                         </div>
                     </div>
@@ -54,22 +54,22 @@
                             <i class="fa-solid fa-certificate"></i> Precision Engineering
                         </div>
 
-                        <h3 class="font-display text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-tight">
+                        <h2 class="font-display text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-tight">
                             Engineered For Better Everyday Movement
-                        </h3>
+                        </h2>
 
                         <p class="text-slate-200 text-xs sm:text-sm leading-relaxed">
                             Crafted with sustainable bamboo fiber that breathes naturally, cushions plantar stress, and supports healthy all-day circulation without tight pinch points.
                         </p>
 
                         <div class="flex flex-wrap gap-2 pt-2">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase text-white shadow-xs" style="background-color: #2ca7a3;">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase text-white shadow-sm" style="background-color: #2ca7a3;">
                                 <i class="fa-solid fa-microchip text-xs"></i> 200-Needle Weave
                             </span>
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase text-white shadow-xs" style="background-color: #f29a38;">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase text-white shadow-sm" style="background-color: #f29a38;">
                                 <i class="fa-solid fa-shield-halved text-xs"></i> Non-Binding Cuff
                             </span>
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase text-white shadow-xs" style="background-color: #1d5b8f;">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase text-white shadow-sm" style="background-color: #1d5b8f;">
                                 <i class="fa-solid fa-feather text-xs"></i> 0mm Seamless Toe
                             </span>
                         </div>
@@ -104,7 +104,7 @@
                             class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                             loading="lazy"
                         />
-                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#2ca7a3] border border-teal-200/60 shadow-xs">
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#2ca7a3] border border-teal-200/60 shadow-sm">
                             Ergonomic Architecture
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                             class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                             loading="lazy"
                         />
-                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#f29a38] border border-amber-200/60 shadow-xs">
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#f29a38] border border-amber-200/60 shadow-sm">
                             Dynamic Elasticity
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                             class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                             loading="lazy"
                         />
-                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#1d5b8f] border border-sky-200/60 shadow-xs">
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#1d5b8f] border border-sky-200/60 shadow-sm">
                             Thermal Balance
                         </div>
                     </div>
@@ -204,9 +204,9 @@
             <!-- 4 Process Steps -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 reveal-stagger">
                 <!-- Step 01 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#2ca7a3]/50 transition-all duration-300 shadow-xs relative">
+                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#2ca7a3]/50 transition-all duration-300 shadow-sm relative">
                     <div class="flex items-center justify-between">
-                        <div class="h-12 w-12 rounded-2xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-xs">
+                        <div class="h-12 w-12 rounded-2xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-sm">
                             <i class="fa-solid fa-leaf"></i>
                         </div>
                         <span class="font-display text-4xl font-black text-[#2ca7a3]/30 select-none">01</span>
@@ -218,9 +218,9 @@
                 </div>
 
                 <!-- Step 02 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#f29a38]/50 transition-all duration-300 shadow-xs relative">
+                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#f29a38]/50 transition-all duration-300 shadow-sm relative">
                     <div class="flex items-center justify-between">
-                        <div class="h-12 w-12 rounded-2xl bg-[#fff4e8] text-[#f29a38] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-xs">
+                        <div class="h-12 w-12 rounded-2xl bg-[#fff4e8] text-[#f29a38] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-sm">
                             <i class="fa-solid fa-microchip"></i>
                         </div>
                         <span class="font-display text-4xl font-black text-[#f29a38]/30 select-none">02</span>
@@ -232,9 +232,9 @@
                 </div>
 
                 <!-- Step 03 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#1d5b8f]/50 transition-all duration-300 shadow-xs relative">
+                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#1d5b8f]/50 transition-all duration-300 shadow-sm relative">
                     <div class="flex items-center justify-between">
-                        <div class="h-12 w-12 rounded-2xl bg-[#e9f2fa] text-[#1d5b8f] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-xs">
+                        <div class="h-12 w-12 rounded-2xl bg-[#e9f2fa] text-[#1d5b8f] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-sm">
                             <i class="fa-solid fa-hand-holding-heart"></i>
                         </div>
                         <span class="font-display text-4xl font-black text-[#1d5b8f]/30 select-none">03</span>
@@ -246,9 +246,9 @@
                 </div>
 
                 <!-- Step 04 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#2ca7a3]/50 transition-all duration-300 shadow-xs relative">
+                <div class="group p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 hover:shadow-xl hover:-translate-y-2 hover:border-[#2ca7a3]/50 transition-all duration-300 shadow-sm relative">
                     <div class="flex items-center justify-between">
-                        <div class="h-12 w-12 rounded-2xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-xs">
+                        <div class="h-12 w-12 rounded-2xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300 shadow-sm">
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
                         <span class="font-display text-4xl font-black text-[#2ca7a3]/30 select-none">04</span>
@@ -263,7 +263,7 @@
             <!-- 3 Innovation Technical Diagram Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 reveal-stagger">
                 <div class="group p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-[#2ca7a3]/40 transition-all duration-300 flex items-center gap-5">
-                    <div class="w-20 h-20 p-1.5 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center border border-slate-200/80 shadow-xs" style="background-color: #f5f5f4;">
+                    <div class="w-20 h-20 p-1.5 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center border border-slate-200/80 shadow-sm" style="background-color: #f5f5f4;">
                         <img
                             src="{{ asset('images/about/tech-breathability.png') }}"
                             alt="Breathability Micro-Mesh Diagram"
@@ -278,7 +278,7 @@
                 </div>
 
                 <div class="group p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-[#f29a38]/40 transition-all duration-300 flex items-center gap-5">
-                    <div class="w-20 h-20 p-1.5 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center border border-slate-200/80 shadow-xs" style="background-color: #f8f7f6;">
+                    <div class="w-20 h-20 p-1.5 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center border border-slate-200/80 shadow-sm" style="background-color: #f8f7f6;">
                         <img
                             src="{{ asset('images/about/tech-arch-support.png') }}"
                             alt="360 Arch Support Diagram"
@@ -293,7 +293,7 @@
                 </div>
 
                 <div class="group p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-[#1d5b8f]/40 transition-all duration-300 flex items-center gap-5">
-                    <div class="w-20 h-20 p-1.5 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center border border-slate-200/80 shadow-xs" style="background-color: #f5f5f4;">
+                    <div class="w-20 h-20 p-1.5 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center border border-slate-200/80 shadow-sm" style="background-color: #f5f5f4;">
                         <img
                             src="{{ asset('images/about/tech-cushion.png') }}"
                             alt="Plush Terry Cushion Diagram"
@@ -458,7 +458,7 @@
                         <span>Everyday Foot Challenges</span>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-shoe-prints"></i>
                         </span>
@@ -468,7 +468,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-temperature-arrow-up"></i>
                         </span>
@@ -478,7 +478,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-compress"></i>
                         </span>
@@ -488,7 +488,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-bandage"></i>
                         </span>
@@ -527,7 +527,7 @@
                         <span>Our Comfort Approach</span>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-crosshairs"></i>
                         </span>
@@ -537,7 +537,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-wind"></i>
                         </span>
@@ -547,7 +547,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-feather"></i>
                         </span>
@@ -557,7 +557,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-start gap-3.5">
                         <span class="h-9 w-9 rounded-xl bg-[#e6f8f7] text-[#2ca7a3] flex items-center justify-center shrink-0 text-sm">
                             <i class="fa-solid fa-link-slash"></i>
                         </span>
@@ -686,7 +686,7 @@
 
                     <a
                         href="{{ route('shop.home.contact_us') }}"
-                        class="inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-full border border-slate-300 bg-white text-[#133b63] hover:bg-slate-50 hover:border-[#2ca7a3]/50 transition-all duration-300 active:scale-95 shadow-xs hover:shadow-md"
+                        class="inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest rounded-full border border-slate-300 bg-white text-[#133b63] hover:bg-slate-50 hover:border-[#2ca7a3]/50 transition-all duration-300 active:scale-95 shadow-sm hover:shadow-md"
                     >
                         <span>Contact Us</span>
                         <i class="fa-solid fa-headset text-xs text-[#2ca7a3]"></i>

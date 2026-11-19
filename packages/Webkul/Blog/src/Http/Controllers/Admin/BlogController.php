@@ -61,7 +61,14 @@ class BlogController extends Controller
      */
     public function create(): View
     {
-        $products = $this->productRepository->all();
+        $products = $this->productRepository
+            ->scopeQuery(function ($query) {
+                return $query->whereNull('parent_id')
+                    ->whereHas('product_flats', fn ($q) => $q->where('status', 1))
+                    ->orderBy('id', 'desc')
+                    ->limit(100);
+            })
+            ->all();
 
         return view('blog::admin.create', compact('products'));
     }
@@ -94,18 +101,18 @@ class BlogController extends Controller
         $blogData = [
             'status' => (bool) ($data['status'] ?? 0),
             'featured_image' => $featuredImagePath,
-            'author_name' => $data['author_name'] ?: 'SOX N SOX Team',
-            'author_title' => $data['author_title'] ?: 'Footwear & Ergonomics Specialist',
-            'read_time' => (int) ($data['read_time'] ?: 5),
+            'author_name' => ($data['author_name'] ?? '') ?: 'SOX N SOX Team',
+            'author_title' => ($data['author_title'] ?? '') ?: 'Footwear & Ergonomics Specialist',
+            'read_time' => (int) (($data['read_time'] ?? 0) ?: 5),
             'published_at' => ! empty($data['published_at']) ? $data['published_at'] : now(),
             $locale => [
                 'name' => $data['name'],
                 'url_key' => $data['url_key'],
                 'short_description' => $data['short_description'] ?? '',
                 'content' => $data['content'] ?? '',
-                'category' => $data['category'] ?: 'Foot Care',
-                'meta_title' => $data['meta_title'] ?: $data['name'],
-                'meta_description' => $data['meta_description'] ?: ($data['short_description'] ?? ''),
+                'category' => ($data['category'] ?? '') ?: 'Foot Care',
+                'meta_title' => ($data['meta_title'] ?? '') ?: $data['name'],
+                'meta_description' => ($data['meta_description'] ?? '') ?: ($data['short_description'] ?? ''),
                 'meta_keywords' => $data['meta_keywords'] ?? '',
             ],
         ];
@@ -131,7 +138,23 @@ class BlogController extends Controller
     public function edit(int $id): View
     {
         $blog = $this->blogRepository->findOrFail($id);
-        $products = $this->productRepository->all();
+
+        $linkedIds = $blog->products->pluck('id')->all();
+
+        $products = $this->productRepository
+            ->scopeQuery(function ($query) use ($linkedIds) {
+                return $query->whereNull('parent_id')
+                    ->where(function ($q) use ($linkedIds) {
+                        $q->whereHas('product_flats', fn ($sub) => $sub->where('status', 1));
+
+                        if (! empty($linkedIds)) {
+                            $q->orWhereIn('id', $linkedIds);
+                        }
+                    })
+                    ->orderBy('id', 'desc')
+                    ->limit(100);
+            })
+            ->all();
 
         return view('blog::admin.edit', compact('blog', 'products'));
     }
@@ -171,18 +194,18 @@ class BlogController extends Controller
         $blogData = [
             'status' => (bool) ($data['status'] ?? 0),
             'featured_image' => $featuredImagePath,
-            'author_name' => $data['author_name'] ?: 'SOX N SOX Team',
-            'author_title' => $data['author_title'] ?: 'Footwear & Ergonomics Specialist',
-            'read_time' => (int) ($data['read_time'] ?: 5),
+            'author_name' => ($data['author_name'] ?? '') ?: 'SOX N SOX Team',
+            'author_title' => ($data['author_title'] ?? '') ?: 'Footwear & Ergonomics Specialist',
+            'read_time' => (int) (($data['read_time'] ?? 0) ?: 5),
             'published_at' => ! empty($data['published_at']) ? $data['published_at'] : $blog->published_at,
             $locale => [
                 'name' => $data['name'],
                 'url_key' => $data['url_key'],
                 'short_description' => $data['short_description'] ?? '',
                 'content' => $data['content'] ?? '',
-                'category' => $data['category'] ?: 'Foot Care',
-                'meta_title' => $data['meta_title'] ?: $data['name'],
-                'meta_description' => $data['meta_description'] ?: ($data['short_description'] ?? ''),
+                'category' => ($data['category'] ?? '') ?: 'Foot Care',
+                'meta_title' => ($data['meta_title'] ?? '') ?: $data['name'],
+                'meta_description' => ($data['meta_description'] ?? '') ?: ($data['short_description'] ?? ''),
                 'meta_keywords' => $data['meta_keywords'] ?? '',
             ],
         ];

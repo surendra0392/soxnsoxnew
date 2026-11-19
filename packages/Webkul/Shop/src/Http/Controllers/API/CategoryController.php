@@ -130,6 +130,8 @@ class CategoryController extends APIController
 
         if ($categoryId && $categoryId == core()->getCurrentChannel()->root_category_id) {
             $categoryId = null;
+        } elseif ($categoryId && ($category = $this->categoryRepository->find($categoryId))) {
+            $categoryId = $category->descendantsAndSelf($categoryId)->pluck('id')->all();
         }
 
         $maxPrice = $this->productRepository

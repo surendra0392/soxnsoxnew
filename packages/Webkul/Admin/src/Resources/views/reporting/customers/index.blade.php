@@ -66,7 +66,7 @@
                         <x-slot:toggle>
                             <button
                                 type="button"
-                                class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 focus:border-[#133b63]"
+                                class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:border-[#133b63]"
                             >
                                 @{{ channels.find(channel => channel.code == filters.channel).name }}
                                 
@@ -89,7 +89,7 @@
 
                 <x-admin::flat-picker.date class="!w-[140px]" ::allow-input="false">
                     <input
-                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-xs transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
+                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-sm transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
                         v-model="filters.start"
                         placeholder="@lang('admin::app.reporting.customers.index.start-date')"
                     />
@@ -97,7 +97,7 @@
 
                 <x-admin::flat-picker.date class="!w-[140px]" ::allow-input="false">
                     <input
-                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-xs transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
+                        class="flex min-h-[38px] w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 shadow-sm transition-all hover:border-slate-300 focus:border-[#133b63] focus:ring-2 focus:ring-[#133b63]/20"
                         v-model="filters.end"
                         placeholder="@lang('admin::app.reporting.customers.index.end-date')"
                     />

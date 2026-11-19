@@ -61,7 +61,7 @@ if (! function_exists('clean_path')) {
     function clean_path(string $path): string
     {
         return collect(explode('/', $path))
-            ->filter(fn ($segment) => ! empty($segment))
+            ->filter(fn ($segment) => ! empty($segment) && $segment !== '.' && $segment !== '..')
             ->join('/');
     }
 }

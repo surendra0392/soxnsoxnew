@@ -35,7 +35,7 @@
                     @foreach ($menuItem->getChildren() as $subMenuItem)
                         <a
                             href="{{ $subMenuItem->getUrl() }}"
-                            class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all {{ $subMenuItem->isActive() ? 'bg-teal-50 text-[#2ca7a3] font-bold border border-[#2ca7a3]/40 shadow-xs' : 'text-[#133b63] hover:bg-slate-50 hover:text-[#2ca7a3]' }}"
+                            class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all {{ $subMenuItem->isActive() ? 'bg-teal-50 text-[#2ca7a3] font-bold border border-[#2ca7a3]/40 shadow-sm' : 'text-[#133b63] hover:bg-slate-50 hover:text-[#2ca7a3]' }}"
                         >
                             <span class="flex items-center gap-3">
                                 <span class="{{ $subMenuItem->getIcon() }} text-base text-[#2ca7a3]"></span>

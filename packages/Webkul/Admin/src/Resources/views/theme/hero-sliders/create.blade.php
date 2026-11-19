@@ -19,7 +19,7 @@
                     href="{{ route('admin.cms.hero_sliders.index') }}"
                     class="transparent-button hover:bg-gray-200"
                 >
-                    @lang('admin::app.cms.create.back-btn')
+                    @lang('admin::app.cms.edit.back-btn')
                 </a>
 
                 <!-- Save Button -->

@@ -4,6 +4,9 @@ use Webkul\Core\Models\CoreConfig;
 use Webkul\Razorpay\Payment\RazorpayPayment;
 
 beforeEach(function () {
+    CoreConfig::where('code', 'like', 'sales.payment_methods.razorpay.%')->delete();
+    cache()->flush();
+
     $this->razorpay = app(RazorpayPayment::class);
 });
 
@@ -363,4 +366,26 @@ it('returns merchant description from configuration', function () {
 
     // Assert
     expect($merchantDescription)->toBe('Test Description');
+});
+
+it('rejects amounts below 100 paise in createOrderFromAmount', function () {
+    expect(fn () => $this->razorpay->createOrderFromAmount(99, 'INR'))
+        ->toThrow(InvalidArgumentException::class);
+});
+
+it('falls back to configured env credentials when db config row is absent', function () {
+    CoreConfig::where('code', 'like', 'sales.payment_methods.razorpay.%')->delete();
+    cache()->flush();
+
+    config()->set('services.razorpay.key_id', 'rzp_test_env_key');
+    config()->set('services.razorpay.key_secret', 'env_test_secret');
+
+    CoreConfig::factory()->create([
+        'code' => 'sales.payment_methods.razorpay.sandbox',
+        'value' => '1',
+        'channel_code' => 'default',
+    ]);
+
+    expect($this->razorpay->getApiKey())->toBe('rzp_test_env_key')
+        ->and($this->razorpay->getApiSecret())->toBe('env_test_secret');
 });

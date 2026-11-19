@@ -66,6 +66,14 @@ class HomeController extends Controller
     }
 
     /**
+     * Loads the offline fallback page for PWA.
+     */
+    public function offline(): View
+    {
+        return view('shop::home.offline');
+    }
+
+    /**
      * Summary of store.
      *
      * @return RedirectResponse

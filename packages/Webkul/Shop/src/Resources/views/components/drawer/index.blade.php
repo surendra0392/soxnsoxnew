@@ -26,7 +26,7 @@
                 <button
                     type="button"
                     class="flex h-9 w-9 items-center justify-center rounded-full text-soxnsox-charcoal hover:bg-black/5 hover:text-soxnsox-teal transition-colors focus:outline-none focus:ring-2 focus:ring-soxnsox-teal"
-                    aria-label="Close Navigation"
+                    aria-label="Close drawer"
                     @click="close"
                 >
                     <i class="fa-solid fa-xmark text-lg" role="presentation"></i>

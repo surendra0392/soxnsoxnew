@@ -3,6 +3,7 @@
 namespace Webkul\PayU\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
@@ -54,6 +55,12 @@ class PayUController extends Controller
             return redirect()->route('shop.checkout.cart.index');
         }
 
+        if (Cart::hasError()) {
+            session()->flash('error', trans('shop::app.checkout.cart.inventory-warning'));
+
+            return redirect()->route('shop.checkout.cart.index');
+        }
+
         $paymentData = $this->payU->getPaymentData($cart);
 
         return view('payu::checkout.redirect', [
@@ -77,6 +84,12 @@ class PayUController extends Controller
             return redirect()->route('shop.checkout.cart.index');
         }
 
+        if (($response['status'] ?? '') !== self::PAYMENT_SUCCESS) {
+            session()->flash('error', trans('payu::app.response.invalid-transaction'));
+
+            return redirect()->route('shop.checkout.cart.index');
+        }
+
         try {
             $cartId = $response['udf1'] ?? null;
 
@@ -88,47 +101,63 @@ class PayUController extends Controller
 
             $cart = $this->cartRepository->find($cartId);
 
-            if (! $cart || ! $cart->is_active) {
+            if (! $cart || ! $cart->is_active || $cart->payment?->method !== 'payu') {
                 session()->flash('error', trans('payu::app.response.cart-not-found'));
 
                 return redirect()->route('shop.checkout.cart.index');
             }
 
-            Cart::setCart($cart);
+            $order = Cache::lock("payu_order_{$cartId}", 15)->block(10, function () use ($cart, $response) {
+                $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cart->id]);
 
-            Cart::collectTotals();
+                if ($existingOrder) {
+                    return $existingOrder;
+                }
 
-            $data = (new OrderResource($cart))->jsonSerialize();
+                Cart::setCart($cart);
 
-            $data['payment']['additional'] = [
-                'payu_txnid' => $response['txnid'] ?? '',
-                'payu_mihpayid' => $response['mihpayid'] ?? '',
-                'payu_mode' => $response['mode'] ?? '',
-                'payu_status' => $response['status'] ?? '',
-            ];
+                Cart::collectTotals();
 
-            $order = $this->orderRepository->create($data);
+                $paidAmount = isset($response['amount']) ? (float) $response['amount'] : -1.0;
 
-            $this->orderRepository->update(['status' => 'processing'], $order->id);
+                if (abs($paidAmount - round((float) $cart->base_grand_total, 2)) > 0.01) {
+                    throw new \RuntimeException('PayU payment amount mismatch.');
+                }
 
-            if ($order->canInvoice()) {
-                $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
+                $data = (new OrderResource($cart))->jsonSerialize();
 
-                $this->orderTransactionRepository->create([
-                    'transaction_id' => $response['txnid'] ?? '',
-                    'status' => self::PAYMENT_SUCCESS,
-                    'type' => $order->payment->method,
-                    'payment_method' => $order->payment->method,
-                    'order_id' => $order->id,
-                    'invoice_id' => $invoice->id,
-                    'amount' => $response['amount'] ?? $order->base_grand_total,
-                    'data' => json_encode($response),
-                ]);
-            }
+                $data['payment']['additional'] = [
+                    'payu_txnid' => $response['txnid'] ?? '',
+                    'payu_mihpayid' => $response['mihpayid'] ?? '',
+                    'payu_mode' => $response['mode'] ?? '',
+                    'payu_status' => $response['status'] ?? '',
+                ];
 
-            Cart::deActivateCart();
+                $order = $this->orderRepository->create($data);
 
-            session()->flash('order_id', $order->id);
+                $this->orderRepository->update(['status' => 'processing'], $order->id);
+
+                if ($order->canInvoice()) {
+                    $invoice = $this->invoiceRepository->create($this->prepareInvoiceData($order));
+
+                    $this->orderTransactionRepository->create([
+                        'transaction_id' => $response['txnid'] ?? '',
+                        'status' => self::PAYMENT_SUCCESS,
+                        'type' => $order->payment->method,
+                        'payment_method' => $order->payment->method,
+                        'order_id' => $order->id,
+                        'invoice_id' => $invoice->id,
+                        'amount' => $response['amount'] ?? $order->base_grand_total,
+                        'data' => json_encode($response),
+                    ]);
+                }
+
+                Cart::deActivateCart();
+
+                return $order;
+            });
+
+            session()->flash('order_id', $order?->id);
 
             session()->flash('success', trans('payu::app.response.payment-success'));
 

@@ -36,7 +36,7 @@
                     <!-- Billing Address Form -->
                     <v-checkout-address-form
                         control-name="billing"
-                        :address="cart.billing_address || undefined"
+                        :address="sanitizeCheckoutAddress(cart.billing_address)"
                     ></v-checkout-address-form>
 
                     <!-- Use for Shipping Checkbox -->
@@ -83,7 +83,7 @@
                         <!-- Shipping Address Form -->
                         <v-checkout-address-form
                             control-name="shipping"
-                            :address="cart.shipping_address || undefined"
+                            :address="sanitizeCheckoutAddress(cart.shipping_address)"
                         ></v-checkout-address-form>
 
                         {!! view_render_event('bagisto.shop.checkout.onepage.address.guest.shipping.after') !!}
@@ -120,12 +120,46 @@
             },
 
             created() {
-                if (this.cart.billing_address) {
+                if (this.cart?.billing_address) {
                     this.useBillingAddressForShipping = this.cart.billing_address.use_for_shipping;
                 }
             },
 
             methods: {
+                isEstimatePlaceholder(addr) {
+                    return !! (
+                        addr
+                        && addr.first_name === 'Guest'
+                        && addr.last_name === 'Customer'
+                        && addr.city === 'N/A'
+                        && addr.phone === '0000000000'
+                    );
+                },
+
+                sanitizeCheckoutAddress(addr) {
+                    if (! addr) {
+                        return undefined;
+                    }
+
+                    if (! this.isEstimatePlaceholder(addr)) {
+                        return addr;
+                    }
+
+                    return {
+                        id: 0,
+                        company_name: '',
+                        first_name: '',
+                        last_name: '',
+                        email: '',
+                        address: [],
+                        country: addr.country || '',
+                        state: addr.state || '',
+                        city: '',
+                        postcode: addr.postcode || '',
+                        phone: '',
+                    };
+                },
+
                 addAddress(params, { setErrors }) {
                     this.isStoring = true;
 
@@ -140,7 +174,7 @@
                             if (response.data.data.redirect_url) {
                                 window.location.href = response.data.data.redirect_url;
                             } else {
-                                if (this.cart.have_stockable_items) {
+                                if (this.cart?.have_stockable_items) {
                                     this.$emit('processed', response.data.data.shippingMethods);
                                 } else {
                                     this.$emit('processed', response.data.data.payment_methods);
@@ -152,14 +186,21 @@
 
                             this.$emit('processing', 'address');
 
-                            if (error.response.status == 422) {
+                            if (error.response?.status == 422) {
                                 setErrors(error.response.data.errors);
+                            } else if (error.response?.data?.redirect_url) {
+                                window.location.href = error.response.data.redirect_url;
+                            } else {
+                                this.$emitter.emit('add-flash', {
+                                    type: 'error',
+                                    message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')',
+                                });
                             }
                         });
                 },
 
                 moveToNextStep() {
-                    if (this.cart.have_stockable_items) {
+                    if (this.cart?.have_stockable_items) {
                         this.$emit('processing', 'shipping');
                     } else {
                         this.$emit('processing', 'payment');

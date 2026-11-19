@@ -55,7 +55,7 @@
 
                         <a 
                             href="{{ route('shop.customers.account.orders.view', $rma->order_id) }}" 
-                            class="text-blue-600 hover:underline" target="_blank"
+                            class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer"
                         >
                             #{{ $rma->order_id }}
                         </a>
@@ -223,7 +223,7 @@
                                         <div class="min-w-0">
                                             @if ($item->orderItem->product?->url_key && $item->orderItem->product?->visible_individually)
                                                 <a
-                                                    href="{{ route('shop.products.view', $item->orderItem->product->url_key) }}"
+                                                    href="{{ route('shop.products.view', ['category' => $item->orderItem->product->getPrimaryCategorySlug(), 'slug' => $item->orderItem->product->url_key]) }}"
                                                     class="text-sm font-medium text-blue-600 hover:underline"
                                                     target="_blank"
                                                 >
@@ -301,7 +301,7 @@
                             <div class="flex-1">
                                 @if ($item->orderItem->product?->url_key && $item->orderItem->product?->visible_individually)
                                     <a
-                                        href="{{ route('shop.products.view', $item->orderItem->product->url_key) }}"
+                                        href="{{ route('shop.products.view', ['category' => $item->orderItem->product->getPrimaryCategorySlug(), 'slug' => $item->orderItem->product->url_key]) }}"
                                         class="text-blue-600 hover:underline text-sm font-medium"
                                         target="_blank"
                                     >
@@ -511,13 +511,13 @@
                     <x-slot:content>
                         <img
                             v-if="messagePath && (getAttachmentExtension === 'jpg' || getAttachmentExtension === 'jpeg' || getAttachmentExtension === 'png' || getAttachmentExtension === 'gif')"
-                            :src="'{{ config('app.url') }}' + '/storage/' + messagePath"
+                            :src="'{{ rtrim(url('/'), '/') }}' + '/storage/' + messagePath"
                             class="min-h-[500px] min-w-[500px] max-h-[500px] max-w-[500px] max-md:min-h-[300px] max-md:min-w-[300px] max-md:max-h-[300px] max-md:max-w-[300px] rounded m-auto"
                         />
 
                         <embed
                             v-if="messagePath && getAttachmentExtension === 'pdf'"
-                            :src="'{{ config('app.url') }}' + '/storage/' + messagePath"
+                            :src="'{{ rtrim(url('/'), '/') }}' + '/storage/' + messagePath"
                             width="100%" height="500px"
                             type="application/pdf"
                         />
@@ -527,7 +527,7 @@
                             controls
                             class="w-full h-auto max-h-[500px] max-md:max-h-[300px] rounded m-auto"
                         >
-                            <source :src="'{{ config('app.url') }}' + '/storage/' + messagePath" />
+                            <source :src="'{{ rtrim(url('/'), '/') }}' + '/storage/' + messagePath" />
                         </video>
                     </x-slot>
 
@@ -612,7 +612,7 @@
                     },
 
                     downloadAttachment(messagePath) {
-                        const imageUrl = `{{ config('app.url') }}/storage/${messagePath}`;
+                        const imageUrl = `{{ rtrim(url('/'), '/') }}/storage/${messagePath}`;
                         const link = document.createElement('a');
                         link.href = imageUrl;
                         link.download = imageUrl.split('/').pop();
@@ -651,11 +651,11 @@
                         return `${day}-${month}-${year} ${hours}:${minutes}`;
                     },
 
-                    handleFileSelect($event) {
+                    handleFileSelect(event) {
                         const attachmentPreview = document.getElementById('attachmentPreview');
                         attachmentPreview.innerHTML = '';
                         const inputElement = event.target;
-                        const files = event.target.files;
+                        const files = inputElement.files;
                         const fileNames = Array.from(files).map(file => file.name);
 
                         if (this.allowedFileTypesArray.length) {
@@ -668,7 +668,6 @@
                                     type: 'warning',
                                     message: "@lang('shop::app.customers.account.rma.view.allowed-file-types')"
                                 });
-                                event.target.value = '';
                                 inputElement.value = '';
                                 return;
                             }
@@ -676,16 +675,16 @@
 
                         const fileParagraph = document.createElement('p');
                         fileParagraph.classList.add('attachmentPreview', 'border', 'p-3', 'my-2', 'rounded-md');
-                        fileParagraph.innerHTML = fileNames;
+                        fileParagraph.textContent = fileNames.join(', ');
 
                         const removeButton = document.createElement('button');
+                        removeButton.type = 'button';
                         removeButton.classList.add('removeFile', 'text-blue-600');
                         removeButton.textContent = "@lang('shop::app.customers.account.rma.view.remove')";
                         removeButton.style.float = 'right';
 
                         removeButton.addEventListener('click', function() {
                             attachmentPreview.innerHTML = '';
-                            event.target.value = '';
                             inputElement.value = '';
                         });
 

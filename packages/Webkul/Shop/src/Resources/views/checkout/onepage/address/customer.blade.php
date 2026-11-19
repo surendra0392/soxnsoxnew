@@ -101,7 +101,7 @@
                             <div
                                 class="flex max-w-[414px] cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-[#e5e7eb] hover:border-[#1d5b8f] p-5 bg-white/50 transition-all min-h-[110px]"
                                 @click="activeAddressForm = 'billing'"
-                                v-if="! cart.billing_address"
+                                v-if="! cart.billing_address || isEstimatePlaceholder(cart.billing_address)"
                             >
                                 <div
                                     class="flex items-center gap-x-2 text-[#1d5b8f] font-semibold text-xs uppercase tracking-wider"
@@ -216,7 +216,7 @@
                                     <div
                                         class="flex max-w-[414px] cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-[#e5e7eb] hover:border-[#1d5b8f] p-5 bg-white/50 transition-all min-h-[110px]"
                                         @click="selectedAddressForEdit = null; activeAddressForm = 'shipping'"
-                                        v-if="! cart.shipping_address"
+                                        v-if="! cart.shipping_address || isEstimatePlaceholder(cart.shipping_address)"
                                     >
                                         <div
                                             class="flex items-center gap-x-2 text-[#1d5b8f] font-semibold text-xs uppercase tracking-wider"
@@ -290,7 +290,6 @@
                                 id="save_address"
                                 value="1"
                                 v-model="saveAddress"
-                                @change="saveAddress = ! saveAddress"
                                 class="h-4 w-4 rounded border-[#e5e7eb] text-[#1d5b8f] focus:ring-[#1d5b8f] cursor-pointer"
                             />
 
@@ -378,8 +377,19 @@
                             this.isLoading = false;
                         })
                         .catch((error) => {
+                            this.isLoading = false;
                             console.error(error);
                         });
+                },
+
+                isEstimatePlaceholder(addr) {
+                    return !! (
+                        addr
+                        && addr.first_name === 'Guest'
+                        && addr.last_name === 'Customer'
+                        && addr.city === 'N/A'
+                        && addr.phone === '0000000000'
+                    );
                 },
 
                 initializeAddresses(type, addresses) {
@@ -387,7 +397,7 @@
 
                     let cartAddress = this.cart[type + '_address'];
 
-                    if (! cartAddress) {
+                    if (! cartAddress || this.isEstimatePlaceholder(cartAddress)) {
                         addresses.forEach(address => {
                             if (address.default_address) {
                                 this.selectedAddresses[type + '_address_id'] = address.id;
@@ -501,7 +511,7 @@
                         .catch(error => {
                             this.isStoring = false;
 
-                            if (error.response.status == 422) {
+                            if (error.response?.status == 422) {
                                 let errors = {};
 
                                 Object.keys(error.response.data.errors).forEach(key => {
@@ -527,7 +537,7 @@
                         .catch(error => {
                             this.isStoring = false;
 
-                            if (error.response.status == 422) {
+                            if (error.response?.status == 422) {
                                 let errors = {};
 
                                 Object.keys(error.response.data.errors).forEach(key => {
@@ -576,7 +586,7 @@
 
                             this.$emit('processing', 'address');
 
-                            if (error.response.status == 422) {
+                            if (error.response?.status == 422) {
                                 const billingRegex = /^billing\./;
 
                                 if (Object.keys(error.response.data.errors).some(key => billingRegex.test(key))) {
@@ -588,6 +598,11 @@
                                         'shipping.id': error.response.data.message
                                     });
                                 }
+                            } else {
+                                this.$emitter.emit('add-flash', {
+                                    type: 'error',
+                                    message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')',
+                                });
                             }
                         });
                 },

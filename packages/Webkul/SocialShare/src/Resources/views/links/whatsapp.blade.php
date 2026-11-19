@@ -1,6 +1,6 @@
 @php
     $text = [
-        'text' => $message . ' ' . route('shop.products.view', $product->url_key),
+        'text' => $message . ' ' . route('shop.products.view', ['category' => $product->getPrimaryCategorySlug(), 'slug' => $product->url_key]),
     ];
 
     $whatsappURL = 'whatsapp://send?' . http_build_query($text);

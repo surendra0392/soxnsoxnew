@@ -48,7 +48,7 @@ class EnvValidatorServiceProvider extends ServiceProvider
 
         if ($validator->fails()) {
             $errorKey = collect($validator->errors()->keys())->first();
-            $errorValue = env($errorKey);
+            $errorValue = $_ENV[$errorKey] ?? '';
 
             $this->writeErrorAndDie(new InvalidFileException(
                 $this->getErrorMessage('some invalid values', $errorValue)

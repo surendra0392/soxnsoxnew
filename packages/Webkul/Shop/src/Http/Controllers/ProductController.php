@@ -40,9 +40,9 @@ class ProductController extends Controller
             'attribute_id' => $attributeId,
         ]);
 
-        return isset($productAttribute['text_value'])
+        return isset($productAttribute['text_value']) && Storage::exists($productAttribute['text_value'])
             ? Storage::download($productAttribute['text_value'])
-            : null;
+            : abort(404);
     }
 
     /**
@@ -59,7 +59,7 @@ class ProductController extends Controller
                 if ($productDownloadableLink->sample_type == 'file') {
                     $privateDisk = Storage::disk('private');
 
-                    return $privateDisk->exists($productDownloadableLink->sample_file)
+                    return ! empty($productDownloadableLink->sample_file) && $privateDisk->exists($productDownloadableLink->sample_file)
                         ? $privateDisk->download($productDownloadableLink->sample_file)
                         : abort(404);
                 } else {
@@ -67,13 +67,15 @@ class ProductController extends Controller
 
                     $tempImage = tempnam(sys_get_temp_dir(), $fileName);
 
-                    if (! $this->validateExternalUrl($productDownloadableLink->sample_url)) {
+                    if (
+                        ! $tempImage
+                        || ! $this->validateExternalUrl($productDownloadableLink->sample_url)
+                        || ! @copy($productDownloadableLink->sample_url, $tempImage)
+                    ) {
                         abort(404);
                     }
 
-                    copy($productDownloadableLink->sample_url, $tempImage);
-
-                    return response()->download($tempImage, $fileName);
+                    return response()->download($tempImage, $fileName)->deleteFileAfterSend(true);
                 }
             } else {
                 $productDownloadableSample = $this->productDownloadableSampleRepository->findOrFail(request('id'));
@@ -85,19 +87,23 @@ class ProductController extends Controller
                 }
 
                 if ($productDownloadableSample->type == 'file') {
-                    return Storage::download($productDownloadableSample->file);
+                    return ! empty($productDownloadableSample->file) && Storage::exists($productDownloadableSample->file)
+                        ? Storage::download($productDownloadableSample->file)
+                        : abort(404);
                 } else {
                     $fileName = substr($productDownloadableSample->url, strrpos($productDownloadableSample->url, '/') + 1);
 
                     $tempImage = tempnam(sys_get_temp_dir(), $fileName);
 
-                    if (! $this->validateExternalUrl($productDownloadableSample->url)) {
+                    if (
+                        ! $tempImage
+                        || ! $this->validateExternalUrl($productDownloadableSample->url)
+                        || ! @copy($productDownloadableSample->url, $tempImage)
+                    ) {
                         abort(404);
                     }
 
-                    copy($productDownloadableSample->url, $tempImage);
-
-                    return response()->download($tempImage, $fileName);
+                    return response()->download($tempImage, $fileName)->deleteFileAfterSend(true);
                 }
             }
         } catch (\Exception $e) {

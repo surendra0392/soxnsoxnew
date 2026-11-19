@@ -43,10 +43,12 @@ class DownloadableProductController extends Controller
      */
     public function download($id)
     {
-        $downloadableLinkPurchased = $this->downloadableLinkPurchasedRepository->findOneByField([
+        $downloadableLinkPurchased = $this->downloadableLinkPurchasedRepository->findOneWhere([
             'id' => $id,
             'customer_id' => auth()->guard('customer')->user()->id,
         ]);
+
+        abort_if(! $downloadableLinkPurchased, 404);
 
         if ($downloadableLinkPurchased->status == 'pending') {
             abort(403);
@@ -60,8 +62,10 @@ class DownloadableProductController extends Controller
             }
         }
 
-        $orderedQty = $downloadableLinkPurchased->order->total_qty_ordered;
-        $totalInvoiceQty = $totalInvoiceQty * ($downloadableLinkPurchased->download_bought / $orderedQty);
+        $orderedQty = $downloadableLinkPurchased->order?->total_qty_ordered ?? 0;
+        $totalInvoiceQty = $orderedQty > 0
+            ? $totalInvoiceQty * ($downloadableLinkPurchased->download_bought / $orderedQty)
+            : 0;
 
         if (
             $downloadableLinkPurchased->download_used == $totalInvoiceQty
@@ -105,9 +109,11 @@ class DownloadableProductController extends Controller
 
             $tempImage = tempnam(sys_get_temp_dir(), $fileName);
 
-            copy($downloadableLinkPurchased->url, $tempImage);
+            if (! $tempImage || ! @copy($downloadableLinkPurchased->url, $tempImage)) {
+                abort(404);
+            }
 
-            return response()->download($tempImage, $fileName);
+            return response()->download($tempImage, $fileName)->deleteFileAfterSend(true);
         }
     }
 }

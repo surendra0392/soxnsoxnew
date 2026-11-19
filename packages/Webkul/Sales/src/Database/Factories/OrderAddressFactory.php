@@ -27,6 +27,15 @@ class OrderAddressFactory extends Factory
     public function definition(): array
     {
         return [
+            'first_name' => preg_replace('/[^a-zA-Z ]/', '', $this->faker->firstName()),
+            'last_name' => preg_replace('/[^a-zA-Z ]/', '', $this->faker->lastName()),
+            'email' => $this->faker->safeEmail(),
+            'address' => $this->faker->streetAddress(),
+            'city' => $this->faker->city(),
+            'state' => $this->faker->state(),
+            'country' => $this->faker->countryCode(),
+            'postcode' => $this->faker->postcode(),
+            'phone' => $this->faker->phoneNumber(),
             'address_type' => OrderAddress::ADDRESS_TYPE_BILLING,
         ];
     }

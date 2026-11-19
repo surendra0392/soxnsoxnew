@@ -437,7 +437,7 @@ class SoxnsoxConfigSeeder extends Seeder
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
-            // Razorpay Payment Gateway (Live Credentials)
+            // Razorpay Payment Gateway (Environment-configured credentials)
             [
                 'code' => 'sales.payment_methods.razorpay.active',
                 'value' => '1',
@@ -452,25 +452,25 @@ class SoxnsoxConfigSeeder extends Seeder
             ],
             [
                 'code' => 'sales.payment_methods.razorpay.client_id',
-                'value' => 'rzp_live_Sv7HztStWsQKPE',
+                'value' => (string) (config('services.razorpay.key') ?: ''),
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
             [
                 'code' => 'sales.payment_methods.razorpay.client_secret',
-                'value' => 'jjAs7N9hPz7QdSR5lEPwgkfw',
+                'value' => (string) (config('services.razorpay.secret') ?: ''),
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
             [
                 'code' => 'sales.payment_methods.razorpay.test_client_id',
-                'value' => 'rzp_live_Sv7HztStWsQKPE',
+                'value' => (string) (config('services.razorpay.key_id') ?: config('services.razorpay.key') ?: ''),
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
             [
                 'code' => 'sales.payment_methods.razorpay.test_client_secret',
-                'value' => 'jjAs7N9hPz7QdSR5lEPwgkfw',
+                'value' => (string) (config('services.razorpay.key_secret') ?: config('services.razorpay.secret') ?: ''),
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
@@ -504,7 +504,34 @@ class SoxnsoxConfigSeeder extends Seeder
                 'channel_code' => 'default',
                 'locale_code' => null,
             ],
+            // EU Withdrawal (Disabled for domestic Indian operations)
+            [
+                'code' => 'sales.eu_withdrawal.general.enabled',
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ],
         ];
+
+        // Disable all payment gateways except Razorpay
+        $disabledPaymentMethods = [
+            'stripe',
+            'payu',
+            'phonepe',
+            'paypal_smart_button',
+            'paypal_standard',
+            'cashondelivery',
+            'moneytransfer',
+        ];
+
+        foreach ($disabledPaymentMethods as $paymentMethodCode) {
+            $configs[] = [
+                'code' => "sales.payment_methods.{$paymentMethodCode}.active",
+                'value' => '0',
+                'channel_code' => 'default',
+                'locale_code' => null,
+            ];
+        }
 
         foreach ($configs as $config) {
             DB::table('core_config')->updateOrInsert(

@@ -16,15 +16,13 @@ class SEO
      */
     public function getProductJsonLd($product)
     {
-        $nonRootCats = $product->categories->filter(fn ($c) => $c->id != 1);
-        $primaryCat = $nonRootCats->last() ?? $nonRootCats->first();
-        $catSlug = $primaryCat?->slug ?? 'socks';
+        $catSlug = $product->getPrimaryCategorySlug();
 
         $data = [
             '@context' => 'https://schema.org/',
             '@type' => 'Product',
             'name' => $product->name,
-            'description' => htmlspecialchars(trim(strip_tags($product->description))),
+            'description' => trim(html_entity_decode(strip_tags((string) $product->description), ENT_QUOTES | ENT_HTML5, 'UTF-8')),
             'url' => route('shop.products.view', ['category' => $catSlug, 'slug' => $product->url_key]),
             'brand' => [
                 '@type' => 'Brand',
@@ -36,12 +34,23 @@ class SEO
             $data['sku'] = $product->sku;
         }
 
-        if (core()->getConfigData('catalog.rich_snippets.products.show_weight')) {
-            $data['weight'] = $product->weight;
+        if (core()->getConfigData('catalog.rich_snippets.products.show_weight') && (float) $product->weight > 0) {
+            $weightUnit = core()->getConfigData('general.general.locale_options.weight_unit') ?: 'kgs';
+            $unitCode = match ($weightUnit) {
+                'grams' => 'GRM',
+                'lbs' => 'LBR',
+                default => 'KGM',
+            };
+
+            $data['weight'] = [
+                '@type' => 'QuantitativeValue',
+                'value' => (float) $product->weight,
+                'unitCode' => $unitCode,
+            ];
         }
 
         if (core()->getConfigData('catalog.rich_snippets.products.show_categories')) {
-            $data['categories'] = $this->getProductCategories($product);
+            $data['category'] = $this->getProductCategories($product);
         }
 
         if (core()->getConfigData('catalog.rich_snippets.products.show_images')) {
@@ -103,7 +112,17 @@ class SEO
                 continue;
             }
 
-            $images[] = $image->url;
+            $url = $image->url;
+            $images[] = str_starts_with($url, 'http') ? $url : url($url);
+        }
+
+        if (empty($images)) {
+            $base = product_image()->getProductBaseImage($product);
+            if (! empty($base['large_image_url'])) {
+                $images[] = str_starts_with($base['large_image_url'], 'http')
+                    ? $base['large_image_url']
+                    : url($base['large_image_url']);
+            }
         }
 
         return $images;
@@ -162,16 +181,17 @@ class SEO
      */
     public function getProductOffers($product)
     {
-        $nonRootCats = $product->categories->filter(fn ($c) => $c->id != 1);
-        $primaryCat = $nonRootCats->last() ?? $nonRootCats->first();
-        $catSlug = $primaryCat?->slug ?? 'socks';
+        $typeInstance = $product->getTypeInstance();
+        $catSlug = $product->getPrimaryCategorySlug();
 
         return [
             '@type' => 'Offer',
             'priceCurrency' => core()->getCurrentCurrencyCode(),
-            'price' => (float) $product->getTypeInstance()->getMinimalPrice(),
+            'price' => (float) $typeInstance->getMinimalPrice(),
             'priceValidUntil' => now()->addYear()->format('Y-12-31'),
-            'availability' => 'https://schema.org/InStock',
+            'availability' => $typeInstance->isSaleable()
+                ? 'https://schema.org/InStock'
+                : 'https://schema.org/OutOfStock',
             'itemCondition' => 'https://schema.org/NewCondition',
             'url' => route('shop.products.view', ['category' => $catSlug, 'slug' => $product->url_key]),
             'seller' => [
@@ -187,22 +207,26 @@ class SEO
      * @param  Category  $category
      * @return array
      */
-    public function getCategoryJsonLd($category)
+    public function getCategoryJsonLd($category, ?string $canonicalUrl = null)
     {
+        $resolvedUrl = $canonicalUrl ?: (
+            $category->id == (core()->getCurrentChannel()->root_category_id ?? 1)
+                ? route('shop.products.index')
+                : route('shop.category.view', $category->slug)
+        );
+
         $data = [
-            '@type' => 'WebSite',
-            '@context' => 'http://schema.org',
-            'url' => config('app.url'),
+            '@context' => 'https://schema.org',
+            '@type' => 'CollectionPage',
+            '@id' => $resolvedUrl.'#collectionpage',
+            'url' => $resolvedUrl,
+            'name' => $category->name,
+            'description' => trim(html_entity_decode(strip_tags((string) $category->description), ENT_QUOTES | ENT_HTML5, 'UTF-8')),
+            'isPartOf' => [
+                '@id' => url('/').'/#website',
+            ],
         ];
 
-        if (core()->getConfigData('catalog.rich_snippets.categories.show_search_input_field')) {
-            $data['potentialAction'] = [
-                '@type' => 'SearchAction',
-                'target' => config('app.url').'/search/?term={search_term_string}',
-                'query-input' => 'required name=search_term_string',
-            ];
-        }
-
-        return json_encode($data);
+        return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 }

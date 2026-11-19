@@ -1,26 +1,29 @@
-<x-shop::layouts :has-feature="false">
+@php
+    $rawPageTitle = $page->meta_title ?: $page->page_title;
+    $pageSeoTitle = (stripos($rawPageTitle, 'SOX N SOX') !== false || stripos($rawPageTitle, 'SOXNSOX') !== false)
+        ? $rawPageTitle
+        : $rawPageTitle . ' | SOX N SOX';
+@endphp
+
+<x-shop::layouts :has-feature="false" :canonical="route('shop.cms.page', $page->url_key)">
     <!-- Page Title -->
     <x-slot:title>
-        {{ str_contains($page->meta_title ?: $page->page_title, 'SOXNSOX') ? ($page->meta_title ?: $page->page_title) : ($page->meta_title ?: $page->page_title) . ' | SOXNSOX' }}
+        {{ $pageSeoTitle }}
     </x-slot>
 
     <!-- SEO Meta Content -->
     @push('meta')
-        <meta name="title" content="{{ str_contains($page->meta_title ?: $page->page_title, 'SOXNSOX') ? ($page->meta_title ?: $page->page_title) : ($page->meta_title ?: $page->page_title) . ' | SOXNSOX' }}" />
+        <meta name="title" content="{{ $pageSeoTitle }}" />
         <meta name="description" content="{{ $page->meta_description }}" />
         <meta name="keywords" content="{{ $page->meta_keywords }}" />
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <link rel="canonical" href="{{ url('/page/' . $page->url_key) }}" />
 
         <!-- Open Graph -->
         <meta property="og:type" content="article" />
-        <meta property="og:title" content="{{ str_contains($page->meta_title ?: $page->page_title, 'SOXNSOX') ? ($page->meta_title ?: $page->page_title) : ($page->meta_title ?: $page->page_title) . ' | SOXNSOX' }}" />
+        <meta property="og:title" content="{{ $pageSeoTitle }}" />
         <meta property="og:description" content="{{ $page->meta_description }}" />
-        <meta property="og:url" content="{{ url('/page/' . $page->url_key) }}" />
 
         <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="{{ str_contains($page->meta_title ?: $page->page_title, 'SOXNSOX') ? ($page->meta_title ?: $page->page_title) : ($page->meta_title ?: $page->page_title) . ' | SOXNSOX' }}" />
+        <meta name="twitter:title" content="{{ $pageSeoTitle }}" />
         <meta name="twitter:description" content="{{ $page->meta_description }}" />
 
         <!-- JSON-LD BreadcrumbList & WebPage Schema -->
@@ -114,7 +117,7 @@
                 @endif
 
                 <!-- Page Content in Authoritative Global Site Container -->
-                <main class="site-container pt-6 pb-20 space-y-8">
+                <div class="site-container pt-6 pb-20 space-y-8">
                     <header class="text-center space-y-3">
                         <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#133b63]">
                             {{ $page->page_title }}
@@ -127,7 +130,7 @@
                             {!! $page->html_content !!}
                         </article>
                     </div>
-                </main>
+                </div>
             </div>
         @endif
     @endif

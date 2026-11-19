@@ -75,12 +75,22 @@ class AddressController extends APIController
      */
     public function update(AddressRequest $request): JsonResource
     {
+        $request->validate([
+            'id' => ['required', 'integer', 'exists:addresses,id'],
+        ]);
+
         $customer = auth()->guard('customer')->user();
 
         $addressToUpdate = $this->customerAddressRepository->findOrFail($request->input('id'));
 
         if ($addressToUpdate->customer_id !== $customer->id) {
             abort(403);
+        }
+
+        if (! empty($request->input('default_address'))) {
+            $this->customerAddressRepository->where('customer_id', $customer->id)
+                ->where('default_address', 1)
+                ->update(['default_address' => 0]);
         }
 
         Event::dispatch('customer.addresses.update.before');

@@ -87,6 +87,24 @@
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.company_name.after', ['address' => $address]) !!}
 
+                    <!-- Vat Id -->
+                    <x-shop::form.control-group>
+                        <x-shop::form.control-group.label class="text-xs font-semibold uppercase tracking-wider text-soxnsox-charcoal">
+                            @lang('shop::app.customers.account.addresses.edit.vat-id')
+                        </x-shop::form.control-group.label>
+
+                        <x-shop::form.control-group.control
+                            type="text"
+                            name="vat_id"
+                            :value="old('vat_id') ?? $address->vat_id"
+                            class="rounded-xl border border-soxnsox-border bg-white px-4 py-3 text-sm text-soxnsox-charcoal focus:border-soxnsox-teal focus:ring-soxnsox-teal"
+                            :label="trans('shop::app.customers.account.addresses.edit.vat-id')"
+                            :placeholder="trans('shop::app.customers.account.addresses.edit.vat-id')"
+                        />
+
+                        <x-shop::form.control-group.error control-name="vat_id" />
+                    </x-shop::form.control-group>
+
                     <!-- First & Last Name Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- First Name -->

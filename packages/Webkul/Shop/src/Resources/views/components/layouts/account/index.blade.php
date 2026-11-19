@@ -1,4 +1,4 @@
-<x-shop::layouts :has-header="true" :has-feature="false" :has-footer="true">
+<x-shop::layouts :has-header="true" :has-feature="false" :has-footer="true" :noindex="true">
     <!-- Page Title -->
     <x-slot:title>
         {{ $title ?? 'Account' }} | SOXNSOX

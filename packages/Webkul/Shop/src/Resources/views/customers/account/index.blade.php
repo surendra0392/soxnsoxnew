@@ -24,13 +24,13 @@
                 <x-shop::form
                     method="DELETE"
                     action="{{ route('shop.customer.session.destroy') }}"
-                    id="customerLogout"
+                    id="customerLogoutPage"
                 />
 
                 <a
                     class="flex items-center justify-center gap-1.5 text-base hover:bg-gray-100"
                     href="{{ route('shop.customer.session.destroy') }}"
-                    onclick="event.preventDefault(); document.getElementById('customerLogout').submit();"
+                    onclick="event.preventDefault(); document.getElementById('customerLogoutPage').submit();"
                 >
                     @lang('shop::app.components.layouts.header.desktop.bottom.logout')
                 </a>
@@ -38,4 +38,4 @@
         </div>
     @endauth
 
-</x-shop::layouts.accounts>
+</x-shop::layouts.account>

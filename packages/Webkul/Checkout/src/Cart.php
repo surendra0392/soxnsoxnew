@@ -223,7 +223,19 @@ class Cart
             'is_active' => 1,
         ]);
 
-        $guestCart = $this->cartRepository->find(session()->get('cart')->id);
+        $cartSession = session()->get('cart');
+
+        $guestCartId = is_object($cartSession)
+            ? ($cartSession->id ?? null)
+            : (is_array($cartSession) ? ($cartSession['id'] ?? null) : $cartSession);
+
+        $guestCart = $guestCartId ? $this->cartRepository->find($guestCartId) : null;
+
+        if (! $guestCart) {
+            session()->forget('cart');
+
+            return;
+        }
 
         /**
          * When the logged in customer is not having any of the cart instance previously and are active.
@@ -245,9 +257,13 @@ class Cart
         $this->setCart($cart);
 
         foreach ($guestCart->items as $guestCartItem) {
+            if (! $guestCartItem->product) {
+                continue;
+            }
+
             try {
                 $this->addProduct($guestCartItem->product, $guestCartItem->additional);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // Ignore exception
             }
         }
@@ -347,6 +363,10 @@ class Cart
      */
     public function updateItems(array $data): bool|\Exception
     {
+        if (empty($data['qty']) || ! is_array($data['qty'])) {
+            throw new \InvalidArgumentException(trans('shop::app.checkout.cart.illegal'));
+        }
+
         foreach ($data['qty'] as $itemId => $quantity) {
             $item = $this->cartItemRepository->find($itemId);
 
@@ -358,15 +378,17 @@ class Cart
                 continue;
             }
 
-            if (! $item->product->status) {
+            if (! $item->product?->status) {
                 throw new \Exception(trans('shop::app.checkout.cart.inactive'));
             }
 
-            if ($quantity <= 0) {
+            if (! is_numeric($quantity) || (int) $quantity <= 0) {
                 $this->removeItem($itemId);
 
                 throw new \Exception(trans('shop::app.checkout.cart.illegal'));
             }
+
+            $quantity = (int) $quantity;
 
             $item->quantity = $quantity;
 
@@ -553,9 +575,9 @@ class Cart
      */
     public function setCustomerPersonnelDetails(): void
     {
-        $this->cart->customer_email = $this->cart->customer?->email ?? $this->cart->billing_address->email;
-        $this->cart->customer_first_name = $this->cart->customer?->first_name ?? $this->cart->billing_address->first_name;
-        $this->cart->customer_last_name = $this->cart->customer?->last_name ?? $this->cart->billing_address->last_name;
+        $this->cart->customer_email = $this->cart->customer?->email ?? $this->cart->billing_address?->email;
+        $this->cart->customer_first_name = $this->cart->customer?->first_name ?? $this->cart->billing_address?->first_name;
+        $this->cart->customer_last_name = $this->cart->customer?->last_name ?? $this->cart->billing_address?->last_name;
 
         $this->cart->save();
     }
@@ -677,6 +699,10 @@ class Cart
      */
     public function moveToWishlist(int $itemId, int $quantity = 1): bool
     {
+        if (! $this->cart?->customer_id) {
+            return false;
+        }
+
         $cartItem = $this->cart->items()->find($itemId);
 
         if (! $cartItem) {
@@ -793,19 +819,19 @@ class Cart
     /**
      * Check minimum Order Amount of cart.
      */
-    public function getOrderAmount(): int
+    public function getOrderAmount(): float
     {
-        $minimumOrderAmount = $this->cart->sub_total;
+        $minimumOrderAmount = (float) ($this->cart?->sub_total ?? 0);
 
         if (core()->getConfigData('sales.order_settings.minimum_order.include_tax_to_amount')) {
-            $minimumOrderAmount += $this->cart->tax_total;
+            $minimumOrderAmount += (float) ($this->cart?->tax_total ?? 0);
         }
 
         if (core()->getConfigData('sales.order_settings.minimum_order.include_discount_amount')) {
-            $minimumOrderAmount -= $this->cart->tax_total;
+            $minimumOrderAmount -= (float) ($this->cart?->tax_total ?? 0);
 
-            if ($this->cart->discount_amount) {
-                $minimumOrderAmount -= $this->cart->discount_amount;
+            if ($this->cart?->discount_amount) {
+                $minimumOrderAmount -= (float) $this->cart->discount_amount;
             }
         }
 
@@ -821,7 +847,7 @@ class Cart
             return true;
         }
 
-        return $this->getOrderAmount() >= ((int) core()->getConfigData('sales.order_settings.minimum_order.minimum_order_amount') ?: 0);
+        return $this->getOrderAmount() >= (float) (core()->getConfigData('sales.order_settings.minimum_order.minimum_order_amount') ?: 0);
     }
 
     /**

@@ -20,8 +20,11 @@ class ForgetPasswordController extends Controller
         if (auth()->guard('admin')->check()) {
             return redirect()->route('admin.dashboard.index');
         } else {
-            if (strpos(url()->previous(), 'admin') !== false) {
-                $intendedUrl = url()->previous();
+            $previousUrl = url()->previous();
+            $previousHost = parse_url($previousUrl, PHP_URL_HOST);
+
+            if ($previousHost === request()->getHost() && str_contains($previousUrl, config('app.admin_url'))) {
+                $intendedUrl = $previousUrl;
             } else {
                 $intendedUrl = route('admin.dashboard.index');
             }
@@ -48,19 +51,19 @@ class ForgetPasswordController extends Controller
                 request(['email'])
             );
 
-            if ($response == Password::RESET_LINK_SENT) {
-                session()->flash('success', trans('admin::app.users.forget-password.create.reset-link-sent'));
+            if ($response == Password::RESET_THROTTLED) {
+                session()->flash('warning', trans('admin::app.users.forget-password.create.already-sent', ['default' => 'Password reset link already sent. Please check your email.']));
 
                 return redirect()->route('admin.forget_password.create');
             }
 
-            return redirect()->route('admin.forget_password.create')
-                ->withInput(request(['email']))
-                ->withErrors([
-                    'email' => trans('admin::app.users.forget-password.create.email-not-exist'),
-                ]);
+            session()->flash('success', trans('admin::app.users.forget-password.create.reset-link-sent'));
+
+            return redirect()->route('admin.forget_password.create');
         } catch (\Exception $e) {
-            session()->flash('error', trans($e->getMessage()));
+            report($e);
+
+            session()->flash('error', trans('admin::app.users.forget-password.create.error', ['default' => 'Something went wrong, please try again later.']));
 
             return redirect()->back();
         }

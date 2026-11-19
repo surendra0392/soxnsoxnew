@@ -39,7 +39,7 @@
                         <div class="relative aspect-[0.5/1] w-full bg-slate-100">
                             <div
                                 class="absolute bottom-0 w-full bg-emerald-400"
-                                :style="{ 'height': (report.statistics.carts.progress).toFixed(2) + '%' }"
+                                :style="{ 'height': Number(report.statistics?.carts?.progress ?? 0).toFixed(2) + '%' }"
                             ></div>
                         </div>
 
@@ -64,7 +64,7 @@
                         <div class="relative aspect-[0.5/1] w-full bg-slate-100">
                             <div
                                 class="absolute bottom-0 w-full bg-emerald-400"
-                                :style="{ 'height': report.statistics.orders.progress + '%' }"
+                                :style="{ 'height': Number(report.statistics?.orders?.progress ?? 0).toFixed(2) + '%' }"
                             ></div>
                         </div>
 

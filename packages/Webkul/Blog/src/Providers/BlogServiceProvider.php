@@ -19,6 +19,8 @@ class BlogServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'blog');
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'blog');
 
+        $this->app['url']->defaults(['category_slug' => 'general']);
+
         $this->app->rebinding('request', function ($app, $request) {
             $app['url']->defaults(['category_slug' => 'general']);
         });

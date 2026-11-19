@@ -21,7 +21,7 @@
                 <div class="shrink-0 w-12 h-12 rounded-xl bg-[#f8fafc] border border-soxnsox-border/70 overflow-hidden flex items-center justify-center">
                     <img
                         class="w-full h-full object-cover"
-                        :src="item.base_image.small_image_url"
+                        :src="item.base_image?.small_image_url"
                         :alt="item.name"
                     />
                 </div>
@@ -175,14 +175,20 @@
 
         <!-- Mobile Place Order CTA -->
         <div class="block lg:hidden pt-3" v-if="canPlaceOrder">
-            <x-shop::button
-                type="button"
-                class="soxnsox-btn-primary h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-soxnsox-card"
-                :title="trans('shop::app.checkout.onepage.summary.place-order')"
-                ::disabled="isPlacingOrder"
-                ::loading="isPlacingOrder"
-                @click="placeOrder"
-            />
+            <template v-if="(selectedPaymentMethod || cart?.payment_method) == 'paypal_smart_button'">
+                <v-paypal-smart-button></v-paypal-smart-button>
+            </template>
+
+            <template v-else>
+                <x-shop::button
+                    type="button"
+                    class="soxnsox-btn-primary h-12 w-full text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 shadow-soxnsox-card"
+                    :title="trans('shop::app.checkout.onepage.summary.place-order')"
+                    ::disabled="isPlacingOrder"
+                    ::loading="isPlacingOrder"
+                    @click="placeOrder"
+                />
+            </template>
         </div>
 
         <!-- Trust Badges -->

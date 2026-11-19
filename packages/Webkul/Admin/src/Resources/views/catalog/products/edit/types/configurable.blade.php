@@ -24,7 +24,7 @@
             <div class="p-5 border-b border-slate-100 bg-slate-50/50">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#133b63] border border-blue-200/80 shadow-2xs">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#133b63] border border-blue-200/80 shadow-sm">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
@@ -50,14 +50,14 @@
                     <!-- Header Stats & Action -->
                     <div class="flex flex-wrap items-center gap-3">
                         <!-- Stat: Total Stock -->
-                        <div class="hidden sm:flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-2xs">
+                        <div class="hidden sm:flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-sm">
                             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
                             <span class="text-xs text-slate-500 font-medium">In Stock:</span>
                             <span class="text-xs font-bold text-slate-800">@{{ totalUnitsInStock }} units</span>
                         </div>
 
                         <!-- Stat: Price Range -->
-                        <div class="hidden md:flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-2xs">
+                        <div class="hidden md:flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-sm">
                             <span class="text-xs text-slate-500 font-medium">Range:</span>
                             <span class="text-xs font-bold text-blue-700">@{{ formattedPriceRange }}</span>
                         </div>
@@ -89,7 +89,7 @@
                                 type="text"
                                 v-model="searchQuery"
                                 placeholder="Filter by SKU, color, or pack size..."
-                                class="w-full rounded-xl border border-slate-200 bg-white py-2 pr-8 text-xs text-slate-700 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all shadow-2xs"
+                                class="w-full rounded-xl border border-slate-200 bg-white py-2 pr-8 text-xs text-slate-700 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all shadow-sm"
                                 style="padding-left: 36px;"
                             />
                             <button
@@ -105,7 +105,7 @@
                         <!-- Attribute Filter Dropdown -->
                         <select
                             v-model="filterAttribute"
-                            class="custom-select rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs font-medium text-slate-700 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-2xs"
+                            class="custom-select rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs font-medium text-slate-700 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-sm"
                         >
                             <option value="all">All Variations (@{{ variants.length }})</option>
                             <optgroup
@@ -329,7 +329,7 @@
                 <x-slot:toggle>
                     <button
                         type="button"
-                        class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs hover:bg-slate-50 transition-all cursor-pointer"
+                        class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all cursor-pointer"
                     >
                         <i class="icon-settings text-sm text-[#133b63]"></i>
                         <span>Bulk Actions</span>
@@ -699,7 +699,7 @@
             <!-- Col 2: Image Thumbnail -->
             <div class="w-14 shrink-0 flex items-center justify-center">
                 <div
-                    class="relative h-11 w-11 shrink-0 rounded-xl border border-slate-200 bg-slate-50 overflow-hidden cursor-pointer hover:border-blue-600 transition-all group/img shadow-2xs"
+                    class="relative h-11 w-11 shrink-0 rounded-xl border border-slate-200 bg-slate-50 overflow-hidden cursor-pointer hover:border-blue-600 transition-all group/img shadow-sm"
                     @click="$refs.editVariantDrawer.open()"
                     title="Click to view/change images"
                 >
@@ -714,7 +714,7 @@
                         <img :src="variant.images[0].url" class="h-full w-full object-cover">
                         <span
                             v-if="variant.images.length > 1"
-                            class="absolute bottom-0.5 right-0.5 rounded-full px-1 text-[9px] font-bold text-white leading-tight shadow-xs"
+                            class="absolute bottom-0.5 right-0.5 rounded-full px-1 text-[9px] font-bold text-white leading-tight shadow-sm"
                             style="background-color: #133b63;"
                         >
                             @{{ variant.images.length }}
@@ -729,14 +729,14 @@
                     <span
                         v-for="attribute in attributes"
                         :key="attribute.id"
-                        class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-bold shadow-2xs"
+                        class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-bold shadow-sm"
                         :class="attribute.code === 'color' ? 'bg-slate-100 text-slate-800 border border-slate-200' : 'bg-teal-50 text-teal-800 border border-teal-200'"
                     >
                         @{{ optionName(attribute, variant[attribute.code]) }}
                     </span>
 
                     <span
-                        class="inline-flex items-center rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200 shadow-2xs"
+                        class="inline-flex items-center rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200 shadow-sm"
                         v-if="isDefault"
                     >
                         Default
@@ -755,14 +755,14 @@
                     :name="'variants[' + variant.id + '][sku]'"
                     v-model="variant.sku"
                     placeholder="Variant SKU"
-                    class="w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-mono font-medium text-slate-800 transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-2xs truncate focus:overflow-visible"
+                    class="w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-mono font-medium text-slate-800 transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-sm truncate focus:overflow-visible"
                     :title="variant.sku"
                 />
             </div>
 
             <!-- Col 5: Regular Price (Modern Input Group) -->
             <div class="w-36 shrink-0">
-                <div class="flex items-stretch rounded-lg border border-slate-200 bg-white transition-all focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20 shadow-2xs overflow-hidden">
+                <div class="flex items-stretch rounded-lg border border-slate-200 bg-white transition-all focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20 shadow-sm overflow-hidden">
                     <span
                         class="inline-flex items-center justify-center bg-slate-50 px-2.5 text-xs font-bold text-slate-500 border-r border-slate-200 select-none pointer-events-none"
                         v-pre
@@ -784,7 +784,7 @@
 
             <!-- Col 6: Sale Price (Modern Input Group) -->
             <div class="w-36 shrink-0 relative">
-                <div class="flex items-stretch rounded-lg border border-emerald-300 bg-white transition-all focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 shadow-2xs overflow-hidden">
+                <div class="flex items-stretch rounded-lg border border-emerald-300 bg-white transition-all focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 shadow-sm overflow-hidden">
                     <span
                         class="inline-flex items-center justify-center bg-emerald-50 px-2.5 text-xs font-bold text-emerald-700 border-r border-emerald-200 select-none pointer-events-none"
                         v-pre
@@ -806,7 +806,7 @@
                 <!-- Tiny Sale Badge Indicator -->
                 <span
                     v-if="variant.special_price && parseFloat(variant.special_price) > 0"
-                    class="absolute -top-2 right-1 inline-flex items-center rounded-full bg-emerald-600 px-1.5 py-0.2 text-[8px] font-black uppercase text-white shadow-2xs leading-tight"
+                    class="absolute -top-2 right-1 inline-flex items-center rounded-full bg-emerald-600 px-1.5 py-0.2 text-[8px] font-black uppercase text-white shadow-sm leading-tight"
                 >
                     SALE
                 </span>
@@ -820,7 +820,7 @@
                     :name="'variants[' + variant.id + '][inventories][' + primaryInventorySourceId + ']'"
                     v-model="variant.inventories[primaryInventorySourceId]"
                     placeholder="0"
-                    class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-center transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-2xs"
+                    class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-center transition-all focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 shadow-sm"
                     :class="parseInt(variant.inventories[primaryInventorySourceId]) > 0 ? 'text-slate-800' : 'text-rose-500 border-rose-300 bg-rose-50/40'"
                 />
             </div>
@@ -1110,7 +1110,7 @@
                                                 </p>
                                                 <a
                                                     :href="'{{ route('admin.catalog.products.edit', ':id') }}'.replace(':id', variant.id)" 
-                                                    class="inline-flex items-center gap-1.5 rounded-lg border border-[#133b63]/30 bg-white px-3 py-1.5 text-xs font-semibold text-[#133b63] shadow-2xs hover:bg-[#133b63] hover:text-white transition-all"
+                                                    class="inline-flex items-center gap-1.5 rounded-lg border border-[#133b63]/30 bg-white px-3 py-1.5 text-xs font-semibold text-[#133b63] shadow-sm hover:bg-[#133b63] hover:text-white transition-all"
                                                     target="_blank"
                                                 >
                                                     <span>Open Advanced Variant Editor</span>

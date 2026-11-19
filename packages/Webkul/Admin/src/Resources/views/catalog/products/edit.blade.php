@@ -25,7 +25,7 @@
             v-slot="{ activeTab, setTab, productType }"
         >
             <!-- Page Header (Shopify / WooCommerce Style Sticky Header) -->
-            <div class="sticky top-0 z-20 -mx-4 -mt-4 mb-4 bg-white/95 px-6 py-3.5 backdrop-blur-md border-b border-slate-200/80 shadow-2xs">
+            <div class="sticky top-0 z-20 -mx-4 -mt-4 mb-4 bg-white/95 px-6 py-3.5 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
                 <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
                     <!-- Left: Title & Badges -->
                     <div class="flex items-center gap-3">

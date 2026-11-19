@@ -98,7 +98,7 @@
 
                                                         <!-- If Allow Single Value -->
                                                         <span
-                                                            v-text="column.filterable_options.find((option => option.value === getAppliedColumnValues(column.index)))?.label ?? '@lang('shop::app.components.datagrid.filters.select')'"
+                                                            v-text="column.filterable_options.find((option => option.value === getAppliedColumnValues(column.index)))?.label ?? '@lang('shop::app.components.datagrid.toolbar.filter.dropdown.select')'"
                                                             v-else
                                                         >
                                                         </span>

@@ -21,10 +21,12 @@
                     role="button"
                     tabindex="0"
                     v-for="tab in tabs"
-                    class="group relative cursor-pointer px-4 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm md:text-sm font-bold uppercase tracking-wider transition-all duration-200 select-none focus:outline-none"
+                    class="group relative cursor-pointer px-4 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm md:text-sm font-bold uppercase tracking-wider transition-all duration-200 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2ca7a3]"
                     :class="tab.isActive ? 'text-[#133b63]' : 'text-slate-400 hover:text-[#133b63]'"
                     :id="tab.$attrs.id + '-button'"
                     @click="change(tab)"
+                    @keydown.enter.prevent="change(tab)"
+                    @keydown.space.prevent="change(tab)"
                 >
                     <span>@{{ tab.title }}</span>
                     <!-- Active Brand Teal Underline Indicator -->

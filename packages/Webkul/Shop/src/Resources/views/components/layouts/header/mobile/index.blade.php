@@ -107,7 +107,7 @@
                                         {!! view_render_event('bagisto.shop.components.layouts.header.mobile.index.sign_in_button.before') !!}
 
                                         <a
-                                            href="{{ route('shop.customer.session.create') }}"
+                                            href="{{ route('shop.customer.session.index') }}"
                                             class="soxnsox-btn-primary soxnsox-btn-shimmer !py-2.5 !px-5 text-xs uppercase tracking-wider font-bold rounded-full"
                                         >
                                             @lang('shop::app.components.layouts.header.mobile.sign-in')
@@ -132,7 +132,7 @@
                                     <x-slot:content class="!p-0">
                                         <div class="grid gap-2.5 p-5 pb-0">
                                             <p class="text-lg font-display font-bold text-[#133b63]" v-pre>
-                                        @lang('shop::app.components.layouts.header.mobile.welcome')’
+                                        @lang('shop::app.components.layouts.header.mobile.welcome')
                                                 {{ auth()->guard('customer')->user()->first_name }}
                                             </p>
 
@@ -174,13 +174,13 @@
                                         <x-shop::form
                                             method="DELETE"
                                             action="{{ route('shop.customer.session.destroy') }}"
-                                            id="customerLogout"
+                                            id="customerLogoutMobile"
                                         />
 
                                         <a
                                             class="px-5 py-2 text-base cursor-pointer"
                                                     href="{{ route('shop.customer.session.destroy') }}"
-                                            onclick="event.preventDefault(); document.getElementById('customerLogout').submit();"
+                                            onclick="event.preventDefault(); document.getElementById('customerLogoutMobile').submit();"
                                         >
                                                     @lang('shop::app.components.layouts.header.mobile.logout')
                                                 </a>
@@ -197,7 +197,7 @@
                 <div class="md:hidden">
                     @guest('customer')
                         <a
-                            href="{{ route('shop.customer.session.create') }}"
+                            href="{{ route('shop.customer.session.index') }}"
                             aria-label="@lang('shop::app.components.layouts.header.mobile.account')"
                             class="flex h-9 w-9 items-center justify-center text-[#133b63]"
                         >
@@ -231,14 +231,15 @@
             @lang('shop::app.components.layouts.header.mobile.search')
         </label>
 
-        <div class="relative w-full">
-            <div class="pointer-events-none absolute top-3.5 flex items-center text-gray-400 text-sm ltr:left-3.5 rtl:right-3.5">
-                <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="relative flex items-center w-full">
+            <div class="pointer-events-none absolute inset-y-0 flex items-center justify-center text-gray-400 text-sm ltr:left-3.5 rtl:right-3.5 leading-none">
+                <i class="fa-solid fa-magnifying-glass leading-none"></i>
             </div>
 
             <input
                 type="text"
-                class="block w-full rounded-xl border border-['#E3E3E3'] px-11 py-3.5 text-sm font-medium text-gray-900 max-md:rounded-lg max-md:px-10 max-md:py-3 max-md:font-normal max-sm:text-xs"
+                id="mobile-search"
+                class="block w-full rounded-xl border border-[#E3E3E3] px-10 py-3.5 text-sm font-medium text-gray-900 max-md:rounded-lg max-md:px-10 max-md:py-3 max-md:font-normal max-sm:text-xs"
                 name="query"
                 value="{{ request('query') }}"
                 placeholder="@lang('shop::app.components.layouts.header.mobile.search-text')"
@@ -331,16 +332,28 @@
                                 @if ($categoryTranslation)
                                     @php $categoryUrl = $categoryTranslation->url_path ?: $categoryTranslation->slug; @endphp
                                     <a href="{{ $categoryUrl ? route('shop.product_or_category.index', $categoryUrl) : '#' }}" class="flex items-center justify-between py-3 text-sm font-semibold uppercase tracking-wider {{ request()->is($categoryUrl.'*') ? 'text-[#f29a38] font-bold' : 'text-[#133b63] hover:text-[#1d5b8f]' }} border-b border-slate-100 transition-colors">
-                                        <span>{!! $item['title'] ?? $categoryTranslation->name !!}</span>
+                                        <span>{{ $item['title'] ?? $categoryTranslation->name }}</span>
                                         <i class="fa-solid fa-chevron-right text-xs text-[#6b7280]"></i>
                                     </a>
                                 @endif
                             @elseif ($item['type'] === 'custom')
                                 @php
-                                    $targetPath = trim(parse_url($item['url'], PHP_URL_PATH) ?? '', '/');
-                                    $isCustomActive = request()->fullUrlIs($item['url'].'*') || ($targetPath && request()->is($targetPath.'*'));
+                                    $itemUrl = $item['url'] ?? '#';
+                                    $parsedHost = parse_url($itemUrl, PHP_URL_HOST);
+                                    $appHost = parse_url((string) config('app.url'), PHP_URL_HOST);
+                                    $requestHost = request()->getHost();
+
+                                    // Keep stored same-site URLs scheme-aligned with the active request (HTTP vs HTTPS).
+                                    if ($parsedHost && in_array($parsedHost, array_filter([$appHost, $requestHost]), true)) {
+                                        $parsedPath = parse_url($itemUrl, PHP_URL_PATH) ?: '/';
+                                        $parsedQuery = parse_url($itemUrl, PHP_URL_QUERY);
+                                        $itemUrl = url($parsedPath).($parsedQuery ? '?'.$parsedQuery : '');
+                                    }
+
+                                    $targetPath = trim(parse_url($itemUrl, PHP_URL_PATH) ?? '', '/');
+                                    $isCustomActive = request()->fullUrlIs($itemUrl.'*') || ($targetPath && request()->is($targetPath.'*'));
                                 @endphp
-                                <a href="{{ $item['url'] }}" class="flex items-center justify-between py-3 text-sm font-semibold uppercase tracking-wider {{ $isCustomActive ? 'text-[#f29a38] font-bold' : 'text-[#133b63] hover:text-[#1d5b8f]' }} border-b border-slate-100 transition-colors">
+                                <a href="{{ $itemUrl }}" class="flex items-center justify-between py-3 text-sm font-semibold uppercase tracking-wider {{ $isCustomActive ? 'text-[#f29a38] font-bold' : 'text-[#133b63] hover:text-[#1d5b8f]' }} border-b border-slate-100 transition-colors">
                                     <span>{{ $item['title'] }}</span>
                                     <i class="fa-solid fa-chevron-right text-xs text-[#6b7280]"></i>
                                 </a>
@@ -356,7 +369,7 @@
                         </a>
 
                         <!-- Products Section -->
-                        <div x-data="{ expanded: false }" class="border-b border-slate-100">
+                        <div class="border-b border-slate-100">
                             <div class="flex items-center justify-between py-3">
                                 <a
                                     href="{{ route('shop.products.index') }}"
@@ -366,15 +379,16 @@
                                 </a>
                                 <button
                                     type="button"
-                                    @click="expanded = !expanded"
+                                    @click="productsExpanded = !productsExpanded"
+                                    :aria-expanded="productsExpanded"
                                     class="p-1 text-slate-400 hover:text-[#133b63] focus:outline-none"
                                     aria-label="Toggle categories"
                                 >
-                                    <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200" :class="{ 'rotate-180': expanded }"></i>
+                                    <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200" :class="{ 'rotate-180': productsExpanded }"></i>
                                 </button>
                             </div>
 
-                            <div x-show="expanded" x-collapse class="pl-4 pb-3 space-y-2 border-l-2 border-[#2ca7a3]/30 ml-2">
+                            <div v-show="productsExpanded" class="pl-4 pb-3 space-y-2 border-l-2 border-[#2ca7a3]/30 ml-2">
                                 <a href="{{ route('shop.products.index') }}" class="block text-xs font-bold text-[#1d5b8f] py-1">
                                     All Socks &amp; Products &rarr;
                                 </a>
@@ -450,7 +464,7 @@
 
                         @guest('customer')
                             <a
-                                href="{{ route('shop.customer.session.create') }}"
+                                href="{{ route('shop.customer.session.index') }}"
                                 class="flex items-center text-sm font-semibold text-soxnsox-charcoal hover:text-soxnsox-teal"
                             >
                                 @lang('shop::app.components.layouts.header.mobile.login')
@@ -464,7 +478,7 @@
                                 class="flex flex-col justify-between gap-0.5"
                                 v-pre
                             >
-                                <p class="text-sm font-bold text-soxnsox-charcoal">Hello, {{ auth()->user()?->first_name }}</p>
+                                <p class="text-sm font-bold text-soxnsox-charcoal">Hello, {{ $mobileCustomer?->first_name }}</p>
 
                                 <a href="{{ route('shop.customers.account.profile.index') }}" class="text-xs text-soxnsox-teal font-medium hover:underline inline-flex items-center gap-1">
                                     <span>View Account</span>
@@ -496,6 +510,12 @@
     <script type="module">
         app.component('v-mobile-drawer', {
             template: '#v-mobile-drawer-template',
+
+            data() {
+                return {
+                    productsExpanded: false,
+                };
+            },
         });
     </script>
 @endPushOnce

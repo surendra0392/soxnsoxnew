@@ -45,6 +45,16 @@
             <directory suffix="Test.php">packages/Webkul/PayU/tests/Feature</directory>
         </testsuite>
 
+        <!-- PhonePe package testsuites. -->
+        <testsuite name="PhonePe Unit Test">
+            <directory suffix="Test.php">packages/Webkul/PhonePe/tests/Unit</directory>
+        </testsuite>
+
+        <!-- Blog package testsuites. -->
+        <testsuite name="Blog Feature Test">
+            <directory suffix="Test.php">packages/Webkul/Blog/tests/Feature</directory>
+        </testsuite>
+
         <!-- Razorpay package testsuites. -->
         <testsuite name="Razorpay Unit Test">
             <directory suffix="Test.php">packages/Webkul/Razorpay/tests/Unit</directory>

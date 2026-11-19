@@ -44,12 +44,7 @@ class ProductsCategoriesProxyController extends Controller
          * Support url for chinese, japanese, arabic and english with numbers.
          */
         if (! preg_match('/^([\p{L}\p{N}\p{M}\x{0900}-\x{097F}\x{0590}-\x{05FF}\x{0600}-\x{06FF}\x{0400}-\x{04FF}_-]+\/?)+$/u', $slugOrURLKey)) {
-            $customizations = $this->themeCustomizationRepository->orderBy('sort_order')->findWhere([
-                'status' => self::STATUS,
-                'channel_id' => core()->getCurrentChannel()->id,
-            ]);
-
-            return view('shop::home.index', compact('customizations'));
+            abort(404);
         }
 
         $category = $this->categoryRepository->findBySlug($slugOrURLKey);
@@ -119,7 +114,36 @@ class ProductsCategoriesProxyController extends Controller
         ]);
 
         if ($urlRewrite) {
-            return redirect()->to($urlRewrite->target_path, $urlRewrite->redirect_type);
+            $targetPath = trim((string) $urlRewrite->target_path);
+
+            if (
+                $targetPath !== ''
+                && ! preg_match('#^https?://#i', $targetPath)
+                && ! str_starts_with($targetPath, '/')
+            ) {
+                if ($urlRewrite->entity_type === 'cms_page') {
+                    return redirect()->route('shop.cms.page', ltrim($targetPath, '/'), $urlRewrite->redirect_type);
+                }
+
+                if ($urlRewrite->entity_type === 'category') {
+                    return redirect()->route('shop.category.view', ltrim($targetPath, '/'), $urlRewrite->redirect_type);
+                }
+
+                if ($urlRewrite->entity_type === 'product') {
+                    $targetProduct = $this->productRepository
+                        ->setSearchEngine($searchEngine ?? 'database')
+                        ->findBySlug(ltrim($targetPath, '/'));
+
+                    if ($targetProduct) {
+                        return redirect()->route('shop.products.view', [
+                            'category' => $this->getProductPrimaryCategorySlug($targetProduct),
+                            'slug' => $targetProduct->url_key,
+                        ], $urlRewrite->redirect_type);
+                    }
+                }
+            }
+
+            return redirect()->to($targetPath, $urlRewrite->redirect_type);
         }
 
         abort(404);
@@ -186,8 +210,12 @@ class ProductsCategoriesProxyController extends Controller
 
             $isMatchingCategory = $validCategories->contains(fn ($c) => $c->slug === $categorySlug);
 
-            // Redirect if category in URL doesn't belong to this product or is the placeholder 'socks'
-            if (! $isMatchingCategory || $categorySlug === 'socks') {
+            $shouldRedirectCategory = $canonicalCategory
+                ? (! $isMatchingCategory || $categorySlug === 'socks')
+                : $categorySlug !== 'socks';
+
+            // Avoid redirect loops if product has no non-root categories and already targets 'socks'
+            if ($shouldRedirectCategory) {
                 return redirect()->route('shop.products.view', [
                     'category' => $canonicalCatSlug,
                     'slug' => $product->url_key,

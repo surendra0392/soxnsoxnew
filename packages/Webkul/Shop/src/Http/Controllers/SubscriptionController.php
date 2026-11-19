@@ -3,8 +3,9 @@
 namespace Webkul\Shop\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Webkul\Core\Repositories\SubscribersListRepository;
 
 class SubscriptionController extends Controller
@@ -49,14 +50,41 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * To unsubscribe from a the subscription list.
+     * Display unsubscribe confirmation page.
      *
      * @param  string  $token
-     * @return Response
+     * @return View|RedirectResponse
+     */
+    public function unsubscribe($token)
+    {
+        $subscription = $this->subscriptionRepository->findOneWhere(['token' => $token]);
+
+        if (! $subscription) {
+            session()->flash('info', trans('shop::app.subscription.unsubscribe-success'));
+
+            return redirect()->route('shop.home.index');
+        }
+
+        return view('shop::subscription.unsubscribe', compact('subscription'));
+    }
+
+    /**
+     * To unsubscribe from the subscription list.
+     *
+     * @param  string  $token
+     * @return RedirectResponse
      */
     public function destroy($token)
     {
-        $this->subscriptionRepository->deleteWhere(['token' => $token]);
+        $subscription = $this->subscriptionRepository->findOneWhere(['token' => $token]);
+
+        if ($subscription) {
+            if ($subscription->customer) {
+                $subscription->customer->update(['subscribed_to_news_letter' => 0]);
+            }
+
+            $subscription->delete();
+        }
 
         session()->flash('success', trans('shop::app.subscription.unsubscribe-success'));
 
@@ -81,11 +109,11 @@ class SubscriptionController extends Controller
      */
     private function upsertSubscription(string $email): mixed
     {
-        $customer = auth()->user();
+        $customer = auth()->guard('customer')->user();
 
         $payload = [
             'is_subscribed' => 1,
-            'token' => uniqid(),
+            'token' => Str::random(60),
             'customer_id' => $customer?->id,
         ];
 
@@ -108,7 +136,7 @@ class SubscriptionController extends Controller
      */
     private function syncCustomerNewsletterFlag(): void
     {
-        $customer = auth()->user();
+        $customer = auth()->guard('customer')->user();
 
         if (! $customer) {
             return;

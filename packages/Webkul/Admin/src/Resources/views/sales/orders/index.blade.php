@@ -168,7 +168,7 @@
 
                         <a 
                             :href="'{{ route('admin.sales.orders.view', ':id') }}'.replace(':id', record.id)"
-                            class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:text-[#133b63] hover:border-[#133b63]/40 hover:bg-[#133b63]/5 shadow-2xs transition-all"
+                            class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:text-[#133b63] hover:border-[#133b63]/40 hover:bg-[#133b63]/5 shadow-sm transition-all"
                             title="@lang('admin::app.sales.orders.index.datagrid.view')"
                         >
                             <i class="fa-solid fa-chevron-right text-xs"></i>

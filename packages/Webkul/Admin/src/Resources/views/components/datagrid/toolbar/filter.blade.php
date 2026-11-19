@@ -42,7 +42,7 @@
                     <x-slot:toggle>
                         <div>
                             <div
-                                class="relative inline-flex w-full max-w-max cursor-pointer select-none appearance-none items-center justify-between gap-x-1.5 rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 shadow-xs transition-all hover:border-slate-300 hover:bg-slate-50 focus:outline-none"
+                                class="relative inline-flex w-full max-w-max cursor-pointer select-none appearance-none items-center justify-between gap-x-1.5 rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50 focus:outline-none"
                                 :class="{'border-[#133b63] bg-[#133b63]/5 !text-[#133b63]': hasAnyAppliedColumn() }"
                             >
                                 <span class="icon-filter text-base text-slate-500" :class="{'!text-[#133b63]': hasAnyAppliedColumn()}"></span>

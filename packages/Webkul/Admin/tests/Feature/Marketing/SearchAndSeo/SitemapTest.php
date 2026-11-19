@@ -106,3 +106,15 @@ it('should delete the sitemap', function () {
         'id' => $sitemap->id,
     ]);
 });
+
+it('should reject path traversal in sitemap path', function () {
+    $this->loginAsAdmin();
+
+    postJson(route('admin.marketing.search_seo.sitemaps.store'), [
+        'file_name' => 'test.xml',
+        'path' => '/../../',
+        'channels' => [core()->getCurrentChannel()->id],
+    ])
+        ->assertJsonValidationErrorFor('path')
+        ->assertUnprocessable();
+});

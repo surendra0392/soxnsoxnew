@@ -104,14 +104,14 @@ class RMADataGrid extends DataGrid
             'closure' => function ($row) {
                 if (
                     $row->order_status == Order::STATUS_CANCELED
-                    && $row->order_status == Order::STATUS_CLOSED
+                    || $row->order_status == Order::STATUS_CLOSED
                 ) {
                     return '<p class="label-canceled">'.trans('admin::app.sales.rma.all-rma.index.datagrid.item-canceled').'</p>';
                 }
 
-                $color = $row->rma_status_color ?? '';
+                $color = e($row->rma_status_color ?? '');
 
-                return '<p class="label-active" style="background:'.$color.';">'.$row->title.'</p>';
+                return '<p class="label-active" style="background:'.$color.';">'.e($row->title).'</p>';
             },
         ]);
 

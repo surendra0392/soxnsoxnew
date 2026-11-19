@@ -165,7 +165,7 @@ class AddressController extends Controller
         if ($addressToSetDefault) {
             $addressToSetDefault->update(['default_address' => 1]);
         } else {
-            session()->flash('success', trans('shop::app.customers.account.addresses.index.default-delete'));
+            session()->flash('warning', trans('shop::app.customers.account.addresses.index.security-warning'));
         }
 
         return redirect()->back();

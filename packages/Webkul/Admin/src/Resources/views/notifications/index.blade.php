@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="flex h-[calc(100vh-179px)] w-full max-w-4xl flex-col justify-between rounded-[16px] border border-slate-200 bg-white shadow-xs overflow-hidden">
+                <div class="flex h-[calc(100vh-179px)] w-full max-w-4xl flex-col justify-between rounded-[16px] border border-slate-200 bg-white shadow-sm overflow-hidden">
                     <div>
                         <div class="journal-scroll flex overflow-auto border-b border-slate-200/80 bg-slate-50/50 px-2">
                             <div

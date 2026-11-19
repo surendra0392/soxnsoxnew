@@ -170,7 +170,7 @@
 
             computed: {
                 sortLabel() {
-                    return this.filters.available.sort.find(sort => sort.value === this.filters.applied.sort).title;
+                    return this.filters.available.sort.find(sort => sort.value === this.filters.applied.sort)?.title ?? '';
                 }
             },
 

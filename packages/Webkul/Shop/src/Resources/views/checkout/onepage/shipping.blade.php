@@ -27,7 +27,7 @@
                 <div class="rounded-3xl border border-[#e5e7eb] bg-white p-6 sm:p-8 shadow-sm space-y-6">
                     <div class="flex items-center justify-between border-b border-[#e5e7eb]/60 pb-4">
                         <div class="flex items-center gap-3">
-                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#1d5b8f] text-white text-xs font-bold font-mono shadow-xs">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#1d5b8f] text-white text-xs font-bold font-mono shadow-sm">
                                 02
                             </span>
                             <h2 class="font-display text-xl sm:text-2xl font-extrabold text-[#133b63]">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
 
-                    <div class="space-y-3 pt-1">
+                    <div class="space-y-3 pt-1" v-if="hasShippingRates">
                         <template v-for="method in methods">
                             {!! view_render_event('bagisto.shop.checkout.onepage.shipping_method.before') !!}
 
@@ -94,6 +94,13 @@
                             {!! view_render_event('bagisto.shop.checkout.onepage.shipping_method.after') !!}
                         </template>
                     </div>
+
+                    <div
+                        class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs sm:text-sm text-amber-800"
+                        v-else
+                    >
+                        No shipping methods are currently available for this delivery address. Please verify your address details or contact support.
+                    </div>
                 </div>
             </template>
         </div>
@@ -117,6 +124,20 @@
                 return {
                     selectedMethod: null,
                 };
+            },
+
+            computed: {
+                hasShippingRates() {
+                    if (! this.methods) return false;
+
+                    for (let key in this.methods) {
+                        if (this.methods[key]?.rates?.length) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                },
             },
 
             mounted() {
@@ -169,8 +190,13 @@
                         .catch(error => {
                             this.$emit('processing', 'shipping');
 
-                            if (error.response.data.redirect_url) {
+                            if (error.response?.data?.redirect_url) {
                                 window.location.href = error.response.data.redirect_url;
+                            } else {
+                                this.$emitter.emit('add-flash', {
+                                    type: 'error',
+                                    message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')',
+                                });
                             }
                         });
                 },

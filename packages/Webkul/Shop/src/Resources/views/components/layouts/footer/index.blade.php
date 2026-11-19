@@ -149,6 +149,7 @@
                             type="email"
                             name="email"
                             required
+                            aria-label="Email address for newsletter"
                             placeholder="Enter your email"
                             style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(44, 167, 163, 0.4); color: #ffffff; border-radius: 9999px; height: 40px; padding: 0 1.25rem; font-size: 0.75rem; width: 100%; box-sizing: border-box; outline: none;"
                         />
@@ -164,13 +165,13 @@
                     <!-- Social Channels -->
                     <div style="padding-top: 0.25rem;">
                         <div style="display: flex; align-items: center; gap: 0.65rem;">
-                            <a href="https://instagram.com" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(44, 167, 163, 0.3); color: #f5f7fa; text-decoration: none;" class="hover:bg-[#2ca7a3] hover:text-white hover:scale-110 active:scale-95 transition-all duration-300" aria-label="Instagram">
+                            <a href="{{ $socialLinks['instagram'] ?? 'https://instagram.com/soxnsox' }}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(44, 167, 163, 0.3); color: #f5f7fa; text-decoration: none;" class="hover:bg-[#2ca7a3] hover:text-white hover:scale-110 active:scale-95 transition-all duration-300" aria-label="Instagram">
                                 <i class="fa-brands fa-instagram text-sm"></i>
                             </a>
-                            <a href="https://facebook.com" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(44, 167, 163, 0.3); color: #f5f7fa; text-decoration: none;" class="hover:bg-[#1d5b8f] hover:text-white hover:scale-110 active:scale-95 transition-all duration-300" aria-label="Facebook">
+                            <a href="{{ $socialLinks['facebook'] ?? 'https://facebook.com/soxnsox' }}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(44, 167, 163, 0.3); color: #f5f7fa; text-decoration: none;" class="hover:bg-[#1d5b8f] hover:text-white hover:scale-110 active:scale-95 transition-all duration-300" aria-label="Facebook">
                                 <i class="fa-brands fa-facebook-f text-sm"></i>
                             </a>
-                            <a href="https://youtube.com" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(44, 167, 163, 0.3); color: #f5f7fa; text-decoration: none;" class="hover:bg-[#f29a38] hover:text-white hover:scale-110 active:scale-95 transition-all duration-300" aria-label="YouTube">
+                            <a href="{{ $socialLinks['youtube'] ?? 'https://youtube.com/@soxnsox' }}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(44, 167, 163, 0.3); color: #f5f7fa; text-decoration: none;" class="hover:bg-[#f29a38] hover:text-white hover:scale-110 active:scale-95 transition-all duration-300" aria-label="YouTube">
                                 <i class="fa-brands fa-youtube text-sm"></i>
                             </a>
                         </div>

@@ -531,9 +531,9 @@
                 <td>
                     <div class="meta-label">@lang('shop::app.customers.account.orders.invoice-pdf.payment-method')</div>
                     <div style="font-size: 10px; color: #173622; font-weight: 600;">
-                        {{ core()->getConfigData('sales.payment_methods.' . $invoice->order->payment->method . '.title') ?? $invoice->order->payment->method_title ?? 'Online Payment' }}
+                        {{ ($invoice->order->payment?->method ? core()->getConfigData('sales.payment_methods.' . $invoice->order->payment->method . '.title') : null) ?? $invoice->order->payment?->method_title ?? 'Online Payment' }}
                     </div>
-                    @php $additionalDetails = \Webkul\Payment\Payment::getAdditionalDetails($invoice->order->payment->method); @endphp
+                    @php $additionalDetails = $invoice->order->payment?->method ? \Webkul\Payment\Payment::getAdditionalDetails($invoice->order->payment->method) : null; @endphp
                     @if (! empty($additionalDetails))
                         <div class="small-text" style="margin-top: 2px;">
                             {{ $additionalDetails['title'] }}: {{ $additionalDetails['value'] }}

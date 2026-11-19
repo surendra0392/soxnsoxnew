@@ -97,9 +97,14 @@ class RazorpayPayment extends Payment
      */
     public function getApiKey()
     {
-        return $this->isSandbox()
-            ? $this->getConfigData('test_client_id')
-            : $this->getConfigData('client_id');
+        if ($this->isSandbox()) {
+            return $this->getConfigData('test_client_id')
+                ?? config('services.razorpay.key_id');
+        }
+
+        return $this->getConfigData('client_id')
+            ?? config('services.razorpay.key')
+            ?? config('services.razorpay.key_id');
     }
 
     /**
@@ -109,9 +114,14 @@ class RazorpayPayment extends Payment
      */
     public function getApiSecret()
     {
-        return $this->isSandbox()
-            ? $this->getConfigData('test_client_secret')
-            : $this->getConfigData('client_secret');
+        if ($this->isSandbox()) {
+            return $this->getConfigData('test_client_secret')
+                ?? config('services.razorpay.key_secret');
+        }
+
+        return $this->getConfigData('client_secret')
+            ?? config('services.razorpay.secret')
+            ?? config('services.razorpay.key_secret');
     }
 
     /**
@@ -176,6 +186,61 @@ class RazorpayPayment extends Payment
     }
 
     /**
+     * Minimum allowed order amount in smallest currency unit (100 paise = ₹1.00).
+     */
+    public const MIN_AMOUNT_PAISE = 100;
+
+    /**
+     * Create a Razorpay order for an explicit amount in paise.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
+    public function createOrderFromAmount(
+        int $amountInPaise,
+        string $currency = 'INR',
+        ?string $receipt = null,
+        array $notes = []
+    ): array {
+        $currency = strtoupper($currency);
+
+        if ($amountInPaise < self::MIN_AMOUNT_PAISE) {
+            throw new \InvalidArgumentException('Amount must be at least 100 paise.');
+        }
+
+        if (! $this->isCurrencySupported($currency)) {
+            throw new \InvalidArgumentException(trans('razorpay::app.response.supported-currency-error', [
+                'currency' => $currency,
+                'supportedCurrencies' => implode(', ', $this->supportedCurrencies),
+            ]));
+        }
+
+        if (! $this->hasValidCredentials()) {
+            throw new \RuntimeException('Razorpay credentials are missing or invalid.', 401);
+        }
+
+        $payload = [
+            'amount' => $amountInPaise,
+            'currency' => $currency,
+            'receipt' => $receipt ?: self::RECEIPT_PREFIX.uniqid(),
+            'payment_capture' => 1,
+        ];
+
+        if (! empty($notes)) {
+            $payload['notes'] = $notes;
+        }
+
+        $order = $this->getApi()->order->create($payload);
+        $orderArray = is_array($order) ? $order : $order->toArray();
+
+        return array_merge($orderArray, [
+            'order_id' => $orderArray['id'],
+            'amount' => (int) ($orderArray['amount'] ?? $amountInPaise),
+            'currency' => strtoupper((string) ($orderArray['currency'] ?? $currency)),
+        ]);
+    }
+
+    /**
      * Create Razorpay order.
      *
      * @param  \Webkul\Checkout\Contracts\Cart|null  $cart
@@ -190,25 +255,14 @@ class RazorpayPayment extends Payment
         }
 
         $currency = strtoupper($cart->base_currency_code ?? core()->getBaseCurrencyCode());
+        $amountInPaise = (int) round((float) $cart->base_grand_total * 100);
 
-        if (! $this->isCurrencySupported($currency)) {
-            throw new \Exception(trans('razorpay::app.response.supported-currency-error', [
-                'currency' => $currency,
-                'supportedCurrencies' => implode(', ', $this->supportedCurrencies),
-            ]));
-        }
-
-        $api = $this->getApi();
-
-        return $api->order->create([
-            'amount' => (int) ($cart->base_grand_total * 100),
-            'currency' => $currency,
-            'receipt' => self::RECEIPT_PREFIX.$cart->id,
-            'payment_capture' => 1,
-            'notes' => [
-                'cart_id' => $cart->id,
-            ],
-        ]);
+        return $this->createOrderFromAmount(
+            $amountInPaise,
+            $currency,
+            self::RECEIPT_PREFIX.$cart->id,
+            ['cart_id' => $cart->id]
+        );
     }
 
     /**
@@ -222,17 +276,17 @@ class RazorpayPayment extends Payment
     {
         return [
             'key' => $this->getApiKey(),
-            'amount' => (int) ($cart->base_grand_total * 100),
+            'amount' => (int) ($razorpayOrder['amount'] ?? round((float) $cart->base_grand_total * 100)),
             'currency' => strtoupper($cart->base_currency_code ?? core()->getBaseCurrencyCode()),
             'name' => $this->getMerchantName(),
             'description' => $this->getMerchantDescription(),
             'image' => $this->getImage(),
-            'order_id' => $razorpayOrder['id'],
+            'order_id' => $razorpayOrder['id'] ?? $razorpayOrder['order_id'],
             'theme_color' => '#0041FF',
             'prefill' => [
-                'name' => $cart->billing_address->name,
-                'email' => $cart->billing_address->email,
-                'contact' => $cart->billing_address->phone,
+                'name' => $cart->billing_address?->name,
+                'email' => $cart->billing_address?->email,
+                'contact' => $cart->billing_address?->phone,
             ],
         ];
     }
@@ -256,5 +310,55 @@ class RazorpayPayment extends Payment
         $generatedSignature = hash_hmac('sha256', $expectedSignature, $this->getApiSecret());
 
         return hash_equals($generatedSignature, $signature);
+    }
+
+    /**
+     * Fetch and verify Razorpay payment details against cart totals and cart ID binding.
+     */
+    public function verifyCapturedPayment(string $orderId, string $paymentId, $cart): bool
+    {
+        if (! $orderId || ! $paymentId || ! $cart) {
+            return false;
+        }
+
+        try {
+            $api = $this->getApi();
+            $payment = $api->payment->fetch($paymentId);
+            $paymentData = is_array($payment) ? $payment : $payment->toArray();
+
+            $status = strtolower((string) ($paymentData['status'] ?? ''));
+
+            if (! in_array($status, ['captured', 'authorized'], true)) {
+                return false;
+            }
+
+            if ((string) ($paymentData['order_id'] ?? '') !== $orderId) {
+                return false;
+            }
+
+            $expectedCurrency = strtoupper((string) ($cart->base_currency_code ?? core()->getBaseCurrencyCode()));
+            $expectedAmountPaise = (int) round((float) $cart->base_grand_total * 100);
+
+            if (
+                strtoupper((string) ($paymentData['currency'] ?? '')) !== $expectedCurrency
+                || (int) ($paymentData['amount'] ?? 0) !== $expectedAmountPaise
+            ) {
+                return false;
+            }
+
+            $order = $api->order->fetch($orderId);
+            $orderData = is_array($order) ? $order : $order->toArray();
+            $noteCartId = $orderData['notes']['cart_id'] ?? $paymentData['notes']['cart_id'] ?? null;
+
+            if ($noteCartId === null || (int) $noteCartId !== (int) $cart->id) {
+                return false;
+            }
+
+            return true;
+        } catch (\Throwable $e) {
+            report($e);
+
+            return false;
+        }
     }
 }

@@ -91,7 +91,7 @@
             <!-- Admin Dropdown -->
             <x-slot:content class="!p-0 !bg-white !border !border-slate-200 !rounded-[14px] shadow-xl overflow-hidden">
                 <div class="flex items-center gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3">
-                    <div class="h-10 w-10 shrink-0 overflow-hidden rounded-xl shadow-xs border border-slate-200/80">
+                    <div class="h-10 w-10 shrink-0 overflow-hidden rounded-xl shadow-sm border border-slate-200/80">
                         <img
                             src="{{ $admin->avatar_url }}"
                             alt="{{ $admin->name }}"
@@ -493,7 +493,7 @@
                 window.addEventListener('click', this.handleFocusOut);
             },
 
-            beforeDestroy() {
+            beforeUnmount() {
                 window.removeEventListener('click', this.handleFocusOut);
             },
 

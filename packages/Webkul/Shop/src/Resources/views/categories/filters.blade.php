@@ -20,7 +20,7 @@
     <!-- Filter Drawer -->
     <x-shop::drawer
         position="left"
-        width="100%"
+        width="min(100vw, 360px)"
         ::is-active="isDrawerActive.filter"
     >
         <!-- Drawer Toggler -->
@@ -42,12 +42,13 @@
                     @lang('shop::app.categories.filters.filters')
                 </p>
 
-                <p
-                    class="cursor-pointer text-sm font-medium ltr:mr-[50px] rtl:ml-[50px]"
-                    @click="clearFilters('filter', '')"
+                <button
+                    type="button"
+                    class="cursor-pointer text-sm font-medium text-amber-700 ltr:mr-4 rtl:ml-4"
+                    @click="$refs.mobileFilters?.clear(); clearFilters('filter', '')"
                 >
                     @lang('shop::app.categories.filters.clear-all')
-                </p>
+                </button>
             </div>
         </x-slot>
 
@@ -55,6 +56,7 @@
         <x-slot:content>
             <!-- Filters Vue Component -->
             <v-filters
+                ref="mobileFilters"
                 @filter-applied="setFilters('filter', $event)"
                 @filter-clear="clearFilters('filter', $event)"
             >
@@ -116,7 +118,7 @@
 
         <!-- Filters Container -->
         <template v-else>
-            <div class="panel-side journal-scroll grid max-h-[1320px] min-w-[250px] grid-cols-[1fr] overflow-y-auto overflow-x-hidden max-xl:min-w-[250px] md:max-w-[250px] md:ltr:pr-7 md:rtl:pl-7">
+            <div class="panel-side journal-scroll grid max-h-[1320px] w-full md:min-w-[250px] grid-cols-[1fr] overflow-y-auto overflow-x-hidden md:max-w-[250px] md:ltr:pr-7 md:rtl:pl-7">
                 <!-- Filters Header Container -->
                 <div class="flex h-[50px] items-center justify-between border-b border-slate-200/80 pb-2.5 max-md:hidden">
                     <p class="text-base font-bold font-display text-[#133b63]">
@@ -160,8 +162,8 @@
                                     @endphp
                                     <li>
                                         <a 
-                                            href="{{ route('shop.product_or_category.index', $catUrl) }}" 
-                                            class="block w-full cursor-pointer rounded-xl px-3 py-2 transition-all {{ request()->is($catUrl) || request()->is($cat->slug) || (isset($category) && $category->id == $cat->id) ? 'font-bold text-[#2ca7a3] bg-teal-50/80 border-l-2 border-[#2ca7a3]' : 'text-slate-600 hover:text-[#133b63] hover:bg-slate-50' }}"
+                                            href="{{ route('shop.category.view', $catUrl) }}" 
+                                            class="block w-full cursor-pointer rounded-xl px-3 py-2 transition-all {{ request()->is('shop/category/'.$catUrl) || request()->is($catUrl) || request()->is($cat->slug) || (isset($category) && $category->id == $cat->id) ? 'font-bold text-[#2ca7a3] bg-teal-50/80 border-l-2 border-[#2ca7a3]' : 'text-slate-600 hover:text-[#133b63] hover:bg-slate-50' }}"
                                         >
                                             {{ $cat->name }}
                                         </a>
@@ -222,8 +224,8 @@
                         class="flex flex-col gap-1"
                         v-if="filter.type !== 'boolean'"
                     >
-                        <div class="relative">
-                            <i class="fa-solid fa-magnifying-glass pointer-events-none absolute top-4 flex items-center text-sm text-zinc-400 max-md:text-xs max-sm:top-3.5 ltr:left-4 rtl:right-4"></i>
+                        <div class="relative flex items-center">
+                            <i class="fa-solid fa-magnifying-glass pointer-events-none absolute inset-y-0 flex items-center justify-center leading-none text-sm text-zinc-400 max-md:text-xs ltr:left-4 rtl:right-4"></i>
 
                             <input
                                 type="text"
@@ -256,7 +258,7 @@
                                 <div class="flex select-none items-center gap-x-4 rounded hover:bg-gray-100 max-sm:gap-x-1 max-sm:!p-0 ltr:pl-2 rtl:pr-2">
                                     <input
                                         type="checkbox"
-                                        :id="`filter_${filter.id}_option_ ${option.id}`"
+                                        :id="`filter_${instanceUid}_${filter.id}_option_${option.id}`"
                                         class="peer hidden"
                                         :value="option.id"
                                         v-model="appliedValues"
@@ -268,16 +270,16 @@
                                         role="checkbox"
                                         aria-checked="false"
                                         :aria-label="option.name"
-                                        :aria-labelledby="'label_option_' + option.id"
+                                        :aria-labelledby="`label_${instanceUid}_option_${option.id}`"
                                         tabindex="0"
-                                        :for="`filter_${filter.id}_option_ ${option.id}`"
+                                        :for="`filter_${instanceUid}_${filter.id}_option_${option.id}`"
                                     >
                                     </label>
 
                                     <label
                                         class="w-full cursor-pointer p-2 text-base text-gray-900 max-sm:p-1 max-sm:text-sm ltr:pl-0 rtl:pr-0"
-                                        :id="'label_option_' + option.id"
-                                        :for="`filter_${filter.id}_option_ ${option.id}`"
+                                        :id="`label_${instanceUid}_option_${option.id}`"
+                                        :for="`filter_${instanceUid}_${filter.id}_option_${option.id}`"
                                         role="button"
                                         tabindex="0"
                                     >
@@ -463,6 +465,8 @@
             },
         });
 
+        let filterItemInstanceCounter = 0;
+
         app.component('v-filter-item', {
             template: '#v-filter-item-template',
 
@@ -470,6 +474,8 @@
 
             data() {
                 return {
+                    instanceUid: ++filterItemInstanceCounter,
+
                     options: [],
 
                     meta: null,

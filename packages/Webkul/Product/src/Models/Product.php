@@ -515,11 +515,24 @@ class Product extends Model implements ProductContract
     }
 
     /**
+     * Resolve the primary non-root category slug for canonical storefront URLs.
+     */
+    public function getPrimaryCategorySlug(): string
+    {
+        $nonRootCategories = $this->categories->filter(fn ($c) => $c->id != 1);
+        $primary = $nonRootCategories->last() ?? $nonRootCategories->first();
+
+        return $primary?->slug ?: 'socks';
+    }
+
+    /**
      * Get the product storefront URL.
      */
     public function getUrlAttribute(): string
     {
-        return $this->url_key ? url('shop/'.$this->url_key) : '';
+        return $this->url_key
+            ? url('shop/'.$this->getPrimaryCategorySlug().'/'.$this->url_key)
+            : '';
     }
 
     /**

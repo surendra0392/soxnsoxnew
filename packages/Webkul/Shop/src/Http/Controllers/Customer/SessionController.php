@@ -51,6 +51,14 @@ class SessionController extends Controller
             return redirect()->back();
         }
 
+        if (auth()->guard('customer')->user()->is_suspended) {
+            auth()->guard('customer')->logout();
+
+            session()->flash('warning', trans('shop::app.checkout.cart.suspended-account-message'));
+
+            return redirect()->back();
+        }
+
         if (! auth()->guard('customer')->user()->is_verified) {
             session()->flash('info', trans('shop::app.customers.login-form.verify-first'));
 
@@ -63,10 +71,12 @@ class SessionController extends Controller
             return redirect()->back();
         }
 
+        request()->session()->regenerate();
+
         /**
          * Event passed to prepare cart after login.
          */
-        Event::dispatch('customer.after.login', auth()->guard()->user());
+        Event::dispatch('customer.after.login', auth()->guard('customer')->user());
 
         if (core()->getConfigData('customer.settings.login_options.redirected_to_page') == 'account') {
             return redirect()->route('shop.customers.account.profile.index');
@@ -82,11 +92,16 @@ class SessionController extends Controller
      */
     public function destroy()
     {
-        $id = auth()->guard('customer')->user()->id;
+        $id = auth()->guard('customer')->user()?->id;
 
         auth()->guard('customer')->logout();
 
-        Event::dispatch('customer.after.logout', $id);
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        if ($id) {
+            Event::dispatch('customer.after.logout', $id);
+        }
 
         return redirect()->route('shop.home.index');
     }

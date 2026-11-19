@@ -108,7 +108,13 @@ class PhonePe extends Payment
                 ]
             );
 
-            return $response->json('access_token') ?? '';
+            $token = $response->json('access_token');
+
+            if (! $response->successful() || empty($token)) {
+                throw new \RuntimeException('Failed to obtain PhonePe OAuth access token.');
+            }
+
+            return $token;
         });
     }
 

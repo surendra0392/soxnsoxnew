@@ -8,10 +8,9 @@
 @push('meta')
     <meta name="title" content="{{ $title }} | SOX N SOX" />
     <meta name="description" content="Search SOX N SOX's collection of ultra-soft bamboo socks, diabetic footcare socks, and athletic packs." />
-    <meta name="robots" content="noindex, follow" />
 @endPush
 
-<x-shop::layouts :has-feature="false">
+<x-shop::layouts :has-feature="false" :noindex="true" robots="noindex, follow">
     <!-- Page Title -->
     <x-slot:title>
         {{ $title }} | SOX N SOX
@@ -127,11 +126,14 @@
         </section>
 
         <!-- Product Search Results Vue Component -->
-        <main class="site-container pb-20">
-            <v-search>
+        <div class="site-container pb-20">
+            <v-search
+                :initial-query='@json($query)'
+                :initial-suggest='@json(request("suggest"))'
+            >
                 <x-shop::shimmer.categories.view />
             </v-search>
-        </main>
+        </div>
     </div>
 
     @pushOnce('scripts')
@@ -265,7 +267,7 @@
                                     type="button"
                                     :disabled="page <= 1"
                                     @click="changePage(page - 1)"
-                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
                                     aria-label="Previous page"
                                 >
                                     <i class="fa-solid fa-chevron-left text-[11px]"></i>
@@ -281,7 +283,7 @@
                                         @click="changePage(pageNum)"
                                         :class="pageNum === page 
                                             ? 'h-10 w-10 inline-flex items-center justify-center rounded-full bg-[#133b63] text-white font-bold text-xs shadow-md border border-[#133b63] cursor-default' 
-                                            : 'h-10 w-10 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 font-semibold text-xs shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 active:scale-95'"
+                                            : 'h-10 w-10 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 font-semibold text-xs shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 active:scale-95'"
                                     >
                                         @{{ pageNum }}
                                     </button>
@@ -292,7 +294,7 @@
                                     type="button"
                                     :disabled="page >= meta.last_page"
                                     @click="changePage(page + 1)"
-                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
                                     aria-label="Next page"
                                 >
                                     <span class="hidden sm:inline">Next</span>
@@ -309,11 +311,29 @@
             app.component('v-search', {
                 template: '#v-search-template',
 
+                props: {
+                    initialQuery: {
+                        type: String,
+                        default: '',
+                    },
+
+                    initialSuggest: {
+                        type: [String, Number, Boolean],
+                        default: null,
+                    },
+                },
+
                 data() {
                     return {
+                        query: this.initialQuery || '',
+
+                        suggest: this.initialSuggest ?? null,
+
                         isMobile: window.innerWidth <= 767,
 
                         isLoading: true,
+
+                        suppressPushState: false,
 
                         isDrawerActive: {
                             toolbar: false,
@@ -347,6 +367,15 @@
 
                 created() {
                     let urlParams = new URLSearchParams(window.location.search);
+
+                    if (urlParams.has('query')) {
+                        this.query = urlParams.get('query') || '';
+                    }
+
+                    if (urlParams.has('suggest')) {
+                        this.suggest = urlParams.get('suggest');
+                    }
+
                     if (urlParams.has('page')) {
                         let pageVal = parseInt(urlParams.get('page'));
                         if (pageVal > 0) {
@@ -361,16 +390,34 @@
                     window.addEventListener('popstate', () => {
                         let urlParams = new URLSearchParams(window.location.search);
                         let pageFromUrl = urlParams.has('page') ? parseInt(urlParams.get('page')) : 1;
-                        if (pageFromUrl > 0 && pageFromUrl !== this.page) {
+                        let queryFromUrl = urlParams.get('query') || '';
+                        let suggestFromUrl = urlParams.has('suggest') ? urlParams.get('suggest') : null;
+
+                        this.suppressPushState = true;
+                        this.query = queryFromUrl;
+                        this.suggest = suggestFromUrl;
+
+                        if (pageFromUrl > 0) {
                             this.page = pageFromUrl;
-                            this.getProducts();
                         }
+
+                        this.getProducts();
+
+                        this.$nextTick(() => {
+                            this.suppressPushState = false;
+                        });
                     });
                 },
 
                 computed: {
                     queryParams() {
-                        let queryParams = Object.assign({}, this.filters.filter, this.filters.toolbar.applied);
+                        let queryParams = Object.assign(
+                            {},
+                            this.query ? { query: this.query } : {},
+                            this.suggest !== null && this.suggest !== '' ? { suggest: this.suggest } : {},
+                            this.filters.filter,
+                            this.filters.toolbar.applied
+                        );
 
                         delete queryParams.page;
 
@@ -425,6 +472,10 @@
                     },
 
                     queryString() {
+                        if (this.suppressPushState) {
+                            return;
+                        }
+
                         const newUrl = this.queryString ? '?' + this.queryString : window.location.pathname;
                         window.history.pushState({}, '', newUrl);
                     },

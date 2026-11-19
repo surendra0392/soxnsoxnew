@@ -3,9 +3,11 @@
 namespace Webkul\Paypal\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Paypal\Helpers\Ipn;
+use Webkul\Paypal\Payment\Standard;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Transformers\OrderResource;
 
@@ -52,13 +54,37 @@ class StandardController extends Controller
     {
         $cart = Cart::getCart();
 
-        $data = (new OrderResource($cart))->jsonSerialize();
+        if (
+            ! $cart
+            || ! app(Standard::class)->isAvailable()
+            || $cart->payment?->method !== 'paypal_standard'
+        ) {
+            return redirect()->route('shop.checkout.cart.index');
+        }
 
-        $order = $this->orderRepository->create($data);
+        if (Cart::hasError()) {
+            session()->flash('error', trans('shop::app.checkout.cart.inventory-warning'));
 
-        Cart::deActivateCart();
+            return redirect()->route('shop.checkout.cart.index');
+        }
 
-        session()->flash('order_id', $order->id);
+        $order = Cache::lock("paypal_standard_order_{$cart->id}", 15)->block(10, function () use ($cart) {
+            $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cart->id]);
+
+            if ($existingOrder) {
+                return $existingOrder;
+            }
+
+            $data = (new OrderResource($cart))->jsonSerialize();
+
+            $order = $this->orderRepository->create($data);
+
+            Cart::deActivateCart();
+
+            return $order;
+        });
+
+        session()->flash('order_id', $order?->id);
 
         return redirect()->route('shop.checkout.onepage.success');
     }
@@ -71,5 +97,7 @@ class StandardController extends Controller
     public function ipn()
     {
         $this->ipnHelper->processIpn(request()->all());
+
+        return response('OK', 200);
     }
 }

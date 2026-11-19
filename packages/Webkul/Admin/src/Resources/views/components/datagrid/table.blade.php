@@ -230,7 +230,11 @@
 
                     switch (method) {
                         case 'get':
-                            window.location.href = action.url;
+                            if (action.target === '_blank') {
+                                window.open(action.url, '_blank', 'noopener,noreferrer');
+                            } else {
+                                window.location.href = action.url;
+                            }
 
                             break;
 
@@ -247,9 +251,9 @@
                                             this.$emit('actionSuccess', response.data);
                                         })
                                         .catch((error) => {
-                                            this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                                            this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || 'Something went wrong.' });
 
-                                            this.$emit('actionError', error.response.data);
+                                            this.$emit('actionError', error.response?.data || error);
                                         });
                                 }
                             });

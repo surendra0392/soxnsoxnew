@@ -24,33 +24,36 @@
                     v-slot="{ meta, errors, handleSubmit }"
                     as="div"
                 >
-                    <!-- Apply coupon form -->
-                    <form @submit="handleSubmit($event, applyCoupon)">
-                        {!! view_render_event('bagisto.shop.checkout.cart.coupon.coupon_form_controls.before') !!}
+                    {!! view_render_event('bagisto.shop.checkout.cart.coupon.coupon_form_controls.before') !!}
 
-                        <!-- Apply coupon modal -->
-                        <x-shop::modal ref="couponModel">
-                            <!-- Modal Toggler -->
-                            <x-slot:toggle>
-                                <span 
-                                    class="cursor-pointer text-xs font-semibold uppercase tracking-wider text-[#1d5b8f] hover:text-[#133b63] transition-colors underline underline-offset-4"
-                                    role="button"
-                                    tabindex="0"
-                                    v-if="! cart.coupon_code"
-                                >
-                                    @lang('shop::app.checkout.coupon.apply')
-                                </span>
-                            </x-slot>
+                    <!-- Apply coupon modal -->
+                    <x-shop::modal ref="couponModel">
+                        <!-- Modal Toggler -->
+                        <x-slot:toggle>
+                            <span 
+                                class="cursor-pointer text-xs font-semibold uppercase tracking-wider text-[#1d5b8f] hover:text-[#133b63] transition-colors underline underline-offset-4"
+                                role="button"
+                                tabindex="0"
+                                v-if="! cart.coupon_code"
+                            >
+                                @lang('shop::app.checkout.coupon.apply')
+                            </span>
+                        </x-slot>
 
-                            <!-- Modal Header -->
-                            <x-slot:header class="max-md:p-5">
-                                <h2 class="font-display text-2xl font-extrabold text-[#133b63] max-md:text-base">
-                                    @lang('shop::app.checkout.coupon.apply')
-                                </h2>
-                            </x-slot>
+                        <!-- Modal Header -->
+                        <x-slot:header class="max-md:p-5">
+                            <h2 class="font-display text-2xl font-extrabold text-[#133b63] max-md:text-base">
+                                @lang('shop::app.checkout.coupon.apply')
+                            </h2>
+                        </x-slot>
 
-                            <!-- Modal Content -->
-                            <x-slot:content class="!px-4">
+                        <!-- Modal Content -->
+                        <x-slot:content class="!px-4">
+                            <form
+                                :id="formId"
+                                @submit="handleSubmit($event, applyCoupon)"
+                                novalidate
+                            >
                                 <x-shop::form.control-group class="!mb-0">
                                     <x-shop::form.control-group.control
                                         type="text"
@@ -65,34 +68,36 @@
                                         control-name="code"
                                     />
                                 </x-shop::form.control-group>
-                            </x-slot>
+                            </form>
+                        </x-slot>
 
-                            <!-- Modal Footer -->
-                            <x-slot:footer>
-                                <!-- Coupon Form Action Container -->
-                                <div class="flex flex-wrap items-center gap-4 max-md:justify-between">
-                                    <div class="flex items-center gap-4 max-md:block">
-                                        <p class="text-sm font-medium text-zinc-500 max-md:text-left max-md:text-xs">
-                                            @lang('shop::app.checkout.coupon.subtotal')
-                                        </p>
+                        <!-- Modal Footer -->
+                        <x-slot:footer>
+                            <!-- Coupon Form Action Container -->
+                            <div class="flex flex-wrap items-center gap-4 max-md:justify-between">
+                                <div class="flex items-center gap-4 max-md:block">
+                                    <p class="text-sm font-medium text-zinc-500 max-md:text-left max-md:text-xs">
+                                        @lang('shop::app.checkout.coupon.subtotal')
+                                    </p>
 
-                                        <p class="font-display text-3xl font-extrabold text-[#133b63] max-md:text-lg">
-                                            @{{ cart.formatted_sub_total }}
-                                        </p>
-                                    </div>
-
-                                    <x-shop::button
-                                        class="soxnsox-btn-primary soxnsox-btn-shimmer active:scale-95 h-12 flex-auto text-xs uppercase tracking-widest font-semibold flex items-center justify-center shadow-soxnsox-card px-8 rounded-full transition-all"
-                                        :title="trans('shop::app.checkout.coupon.button-title')"
-                                        ::loading="isStoring"
-                                        ::disabled="isStoring"
-                                    />
+                                    <p class="font-display text-3xl font-extrabold text-[#133b63] max-md:text-lg">
+                                        @{{ cart.formatted_sub_total }}
+                                    </p>
                                 </div>
-                            </x-slot>
-                        </x-shop::modal>
 
-                        {!! view_render_event('bagisto.shop.checkout.cart.coupon.coupon_form_controls.after') !!}
-                    </form>
+                                <x-shop::button
+                                    type="submit"
+                                    ::form="formId"
+                                    class="soxnsox-btn-primary soxnsox-btn-shimmer active:scale-95 h-12 flex-auto text-xs uppercase tracking-widest font-semibold flex items-center justify-center shadow-soxnsox-card px-8 rounded-full transition-all"
+                                    :title="trans('shop::app.checkout.coupon.button-title')"
+                                    ::loading="isStoring"
+                                    ::disabled="isStoring"
+                                />
+                            </div>
+                        </x-slot>
+                    </x-shop::modal>
+
+                    {!! view_render_event('bagisto.shop.checkout.cart.coupon.coupon_form_controls.after') !!}
                 </x-shop::form>
 
                 <!-- Applied Coupon Information Container -->
@@ -131,6 +136,7 @@
             data() {
                 return {
                     isStoring: false,
+                    formId: 'coupon-apply-form-' + Math.random().toString(36).slice(2, 8),
                 }
             },
 
@@ -155,15 +161,15 @@
 
                             this.$refs.couponModel.toggle();
 
-                            if ([400, 422].includes(error.response.request.status)) {
-                                this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                            if ([400, 422].includes(error.response?.request?.status ?? error.response?.status)) {
+                                this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.invalid')' });
 
                                 resetForm();
 
                                 return;
                             }
 
-                            this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                            this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')' });
                         });
                 },
 

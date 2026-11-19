@@ -1,5 +1,5 @@
 <!-- Page Layout -->
-<x-shop::layouts>
+<x-shop::layouts :canonical="route('shop.home.contact_us')">
     <!-- Page Title -->
     <x-slot:title>
         Contact SOX N SOX | Bamboo &amp; Diabetic Socks Customer Care
@@ -32,20 +32,16 @@
     @endphp
 
     @push('meta')
-        <meta name="title" content="Contact SOX N SOX | Bamboo &amp; Diabetic Socks Customer Support" />
+        <meta name="title" content="Contact SOX N SOX | Bamboo & Diabetic Socks Customer Support" />
         <meta name="description" content="Reach out to the SOX N SOX footcare team for sizing guidance, diabetic footcare recommendations, order tracking, and wholesale inquiries." />
         <meta name="keywords" content="contact soxnsox, diabetic socks support, bamboo socks customer care, soxnsox wholesale, socks helpline" />
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <link rel="canonical" href="{{ route('shop.home.contact_us') }}" />
 
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Contact SOX N SOX | Bamboo &amp; Diabetic Socks Customer Support" />
+        <meta name="twitter:title" content="Contact SOX N SOX | Bamboo & Diabetic Socks Customer Support" />
         <meta name="twitter:description" content="Reach out to the SOX N SOX footcare team for sizing guidance, diabetic footcare recommendations, order tracking, and wholesale inquiries." />
 
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Contact SOX N SOX | Bamboo &amp; Diabetic Socks Customer Support" />
+        <meta property="og:title" content="Contact SOX N SOX | Bamboo & Diabetic Socks Customer Support" />
         <meta property="og:description" content="Reach out to the SOX N SOX footcare team for sizing guidance, diabetic footcare recommendations, order tracking, and wholesale inquiries." />
-        <meta property="og:url" content="{{ route('shop.home.contact_us') }}" />
 
         <!-- JSON-LD ContactPage & FAQPage Schema -->
         @php
@@ -192,7 +188,7 @@
         <section class="site-container pt-6 pb-12 sm:pt-10 sm:pb-16 border-b border-slate-200">
             <div class="max-w-3xl mx-auto text-center space-y-5 mb-8">
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-[0.2em] uppercase border border-[#2ca7a3]/25 shadow-xs">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e6f8f7] text-[#2ca7a3] text-xs font-bold tracking-[0.2em] uppercase border border-[#2ca7a3]/25 shadow-sm">
                     <i class="fa-solid fa-headset text-sm"></i>
                     <span>We Would Love To Hear From You</span>
                 </div>
@@ -237,15 +233,15 @@
 
                 <!-- Quick SLA Highlight Strip -->
                 <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 pt-2 text-xs font-bold uppercase tracking-wider text-[#133b63]">
-                    <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
+                    <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm">
                         <i class="fa-solid fa-clock text-xs text-[#f29a38]"></i>
                         <span>24h Response SLA</span>
                     </div>
-                    <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
+                    <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm">
                         <i class="fa-solid fa-circle-check text-xs text-[#2ca7a3]"></i>
                         <span>Doctor-Approved Fit</span>
                     </div>
-                    <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
+                    <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm">
                         <i class="fa-solid fa-truck text-xs text-[#1d5b8f]"></i>
                         <span>Pan-India Dispatch</span>
                     </div>
@@ -253,7 +249,7 @@
         </section>
 
         <!-- SECTION 2: MAIN CONTACT EXPERIENCE -->
-        <main class="site-container py-12 lg:py-16">
+        <div class="site-container py-12 lg:py-16">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
                 
                 <!-- Left Column: Detailed Contact Cards & Visual Facility Badge (5 Columns) -->
@@ -319,15 +315,15 @@
                             <a
                                 href="https://wa.me/918106155111"
                                 target="_blank"
-                                rel="noopener"
-                                class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#25D366]/10 text-[#128C7E] text-xs font-bold hover:bg-[#25D366] hover:text-white transition-all shadow-xs"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#25D366]/10 text-[#128C7E] text-xs font-bold hover:bg-[#25D366] hover:text-white transition-all shadow-sm"
                             >
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                                 <span>WhatsApp</span>
                             </a>
                             <a
                                 href="tel:+918106155111"
-                                class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-[#133b63] text-xs font-bold hover:border-[#133b63] hover:text-[#133b63] transition-all shadow-xs"
+                                class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-[#133b63] text-xs font-bold hover:border-[#133b63] hover:text-[#133b63] transition-all shadow-sm"
                             >
                                 <i class="fa-solid fa-phone text-sm"></i>
                                 <span>Call Direct</span>
@@ -578,7 +574,7 @@
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
 
         <!-- SECTION 3: EMBEDDED GOOGLE MAP LOCATION -->
         <section class="py-12 bg-white border-t border-slate-200">
@@ -697,7 +693,7 @@
         <section class="py-12 bg-white border-t border-slate-200">
             <div class="site-container">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-xs">
+                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-sm">
                         <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#e6f8f7] text-[#2ca7a3] shrink-0">
                             <i class="fa-solid fa-leaf text-base"></i>
                         </span>
@@ -707,7 +703,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-xs">
+                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-sm">
                         <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#fff4e8] text-[#f29a38] shrink-0">
                             <i class="fa-solid fa-heart-pulse text-base"></i>
                         </span>
@@ -717,7 +713,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-xs">
+                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-sm">
                         <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#e9f2fa] text-[#1d5b8f] shrink-0">
                             <i class="fa-solid fa-circle-check text-base"></i>
                         </span>
@@ -727,7 +723,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-xs">
+                    <div class="flex items-center gap-3 p-4 rounded-xl bg-[#f5f7fa] border border-slate-200 shadow-sm">
                         <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#e6f8f7] text-[#2ca7a3] shrink-0">
                             <i class="fa-solid fa-wind text-base"></i>
                         </span>

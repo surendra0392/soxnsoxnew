@@ -3,6 +3,7 @@
 namespace Webkul\Stripe\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
@@ -48,6 +49,12 @@ class StripeController extends Controller
             return redirect()->route('shop.checkout.cart.index');
         }
 
+        if (Cart::hasError()) {
+            session()->flash('error', trans('shop::app.checkout.cart.inventory-warning'));
+
+            return redirect()->route('shop.checkout.cart.index');
+        }
+
         try {
             $checkoutSession = $this->stripe->createCheckoutSession($cart);
 
@@ -83,6 +90,12 @@ class StripeController extends Controller
                 return redirect()->route('shop.checkout.cart.index');
             }
 
+            if ($session->payment_status !== 'paid') {
+                session()->flash('error', trans('stripe::app.response.payment-failed'));
+
+                return redirect()->route('shop.checkout.cart.index');
+            }
+
             $cartId = $session->metadata->cart_id ?? null;
 
             if (! $cartId) {
@@ -93,58 +106,85 @@ class StripeController extends Controller
 
             $cart = $this->cartRepository->find($cartId);
 
-            if (! $cart || ! $cart->is_active) {
+            if (! $cart || ! $cart->is_active || $cart->payment?->method !== 'stripe') {
                 session()->flash('error', trans('stripe::app.response.cart-processed'));
 
                 return redirect()->route('shop.checkout.cart.index');
             }
 
-            Cart::setCart($cart);
+            $order = Cache::lock("stripe_order_{$cartId}", 15)->block(10, function () use ($cart, $session, $sessionId) {
+                $existingOrder = $this->orderRepository->findOneWhere(['cart_id' => $cart->id]);
 
-            Cart::collectTotals();
-
-            $data = (new OrderResource($cart))->jsonSerialize();
-
-            $data['payment']['additional'] = [
-                'stripe_session_id' => $sessionId,
-                'stripe_payment_intent_id' => $session->payment_intent,
-                'stripe_payment_status' => $session->payment_status,
-            ];
-
-            $order = $this->orderRepository->create($data);
-
-            $this->orderRepository->update(['status' => 'processing'], $order->id);
-
-            if ($order->canInvoice()) {
-                $invoiceData = [
-                    'order_id' => $order->id,
-                ];
-
-                foreach ($order->items as $item) {
-                    $invoiceData['invoice']['items'][$item->id] = $item->qty_to_invoice;
+                if ($existingOrder) {
+                    return $existingOrder;
                 }
 
-                $invoice = $this->invoiceRepository->create($invoiceData);
+                Cart::setCart($cart);
 
-                $this->orderTransactionRepository->create([
-                    'transaction_id' => $session->payment_intent,
-                    'status' => $session->payment_status,
-                    'type' => $order->payment->method,
-                    'payment_method' => $order->payment->method,
-                    'order_id' => $order->id,
-                    'invoice_id' => $invoice->id,
-                    'amount' => $order->base_grand_total,
-                    'data' => json_encode([
-                        'stripe_session_id' => $sessionId,
-                        'stripe_payment_intent_id' => $session->payment_intent,
-                        'stripe_payment_status' => $session->payment_status,
-                    ]),
-                ]);
-            }
+                Cart::collectTotals();
 
-            Cart::deActivateCart();
+                if (isset($session->amount_total)) {
+                    $decimal = core()->getBaseCurrency()->decimal ?? 2;
+                    $expectedTotal = (int) round((float) $cart->base_grand_total * (10 ** $decimal));
 
-            session()->flash('order_id', $order->id);
+                    if ((int) $session->amount_total < $expectedTotal) {
+                        throw new \RuntimeException('Stripe payment amount mismatch.');
+                    }
+                }
+
+                if (isset($session->currency)) {
+                    $expectedCurrency = strtolower((string) core()->getBaseCurrencyCode());
+
+                    if (strtolower((string) $session->currency) !== $expectedCurrency) {
+                        throw new \RuntimeException('Stripe payment currency mismatch.');
+                    }
+                }
+
+                $data = (new OrderResource($cart))->jsonSerialize();
+
+                $data['payment']['additional'] = [
+                    'stripe_session_id' => $sessionId,
+                    'stripe_payment_intent_id' => $session->payment_intent,
+                    'stripe_payment_status' => $session->payment_status,
+                ];
+
+                $order = $this->orderRepository->create($data);
+
+                $this->orderRepository->update(['status' => 'processing'], $order->id);
+
+                if ($order->canInvoice()) {
+                    $invoiceData = [
+                        'order_id' => $order->id,
+                    ];
+
+                    foreach ($order->items as $item) {
+                        $invoiceData['invoice']['items'][$item->id] = $item->qty_to_invoice;
+                    }
+
+                    $invoice = $this->invoiceRepository->create($invoiceData);
+
+                    $this->orderTransactionRepository->create([
+                        'transaction_id' => $session->payment_intent,
+                        'status' => $session->payment_status,
+                        'type' => $order->payment->method,
+                        'payment_method' => $order->payment->method,
+                        'order_id' => $order->id,
+                        'invoice_id' => $invoice->id,
+                        'amount' => $order->base_grand_total,
+                        'data' => json_encode([
+                            'stripe_session_id' => $sessionId,
+                            'stripe_payment_intent_id' => $session->payment_intent,
+                            'stripe_payment_status' => $session->payment_status,
+                        ]),
+                    ]);
+                }
+
+                Cart::deActivateCart();
+
+                return $order;
+            });
+
+            session()->flash('order_id', $order?->id);
 
             session()->flash('success', trans('stripe::app.response.payment-success'));
 

@@ -46,6 +46,8 @@ class ShopServiceProvider extends ServiceProvider
 
         Route::bind('category', fn ($value) => $value);
 
+        $this->app['url']->defaults(['category' => 'socks']);
+
         $this->app->rebinding('request', function ($app, $request) {
             $app['url']->defaults(['category' => 'socks']);
         });

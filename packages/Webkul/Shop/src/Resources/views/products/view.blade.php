@@ -10,16 +10,6 @@
 
     $attributeData = collect($customAttributeValues)->filter(fn ($item) => ! empty($item['value']));
 
-    $weightUnit = core()->getConfigData('general.general.locale_options.weight_unit') ?: 'kgs';
-    $wVal = (float) ($product->weight ?? 0);
-    if ($weightUnit === 'lbs') {
-        $formattedProductWeight = $wVal . ' lbs';
-    } elseif ($weightUnit === 'grams') {
-        $formattedProductWeight = ($wVal < 1 ? ((int) round($wVal * 1000)) : $wVal) . ' g';
-    } else {
-        $formattedProductWeight = $wVal >= 1 ? ($wVal . ' kg') : (($wVal * 1000) . ' g');
-    }
-
     $isReviewEnabled = filter_var(core()->getConfigData('catalog.products.review.customer_review'), FILTER_VALIDATE_BOOLEAN)
         || filter_var(core()->getConfigData('catalog.products.review.guest_review'), FILTER_VALIDATE_BOOLEAN);
 @endphp
@@ -30,6 +20,14 @@
     $seoDesc  = trim($productFlat?->meta_description ?: ($product->meta_description ?: '')) ?: \Illuminate\Support\Str::limit(strip_tags($product->description), 160, '');
     $seoKeys  = trim($productFlat?->meta_keywords ?: ($product->meta_keywords ?: '')) ?: 'bamboo socks, diabetic socks, seamless socks, arch support, SOXNSOX';
     $productBaseImage = product_image()->getProductBaseImage($product);
+    $rawProductOgImg = $productBaseImage['medium_image_url'] ?? '';
+    $productOgImg = $rawProductOgImg
+        ? (str_starts_with($rawProductOgImg, 'http') ? $rawProductOgImg : url($rawProductOgImg))
+        : asset('images/hero-slide-1.webp');
+    $nonRootCategories = $product->categories->filter(fn ($c) => $c->id != 1);
+    $primaryCategory = $nonRootCategories->last() ?? $nonRootCategories->first() ?? $product->categories->first();
+    $primaryCatSlug = $primaryCategory?->slug ?? 'socks';
+    $productViewUrl = route('shop.products.view', ['category' => $primaryCatSlug, 'slug' => $product->url_key]);
 @endphp
 
 <!-- SEO Meta Content -->
@@ -39,17 +37,6 @@
     <meta name="description" content="{{ $seoDesc }}"/>
 
     <meta name="keywords" content="{{ $seoKeys }}"/>
-
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-
-@php
-    $nonRootCategories = $product->categories->filter(fn ($c) => $c->id != 1);
-    $primaryCategory = $nonRootCategories->last() ?? $nonRootCategories->first() ?? $product->categories->first();
-    $primaryCatSlug = $primaryCategory?->slug ?? 'socks';
-    $productViewUrl = route('shop.products.view', ['category' => $primaryCatSlug, 'slug' => $product->url_key]);
-@endphp
-
-    <link rel="canonical" href="{{ $productViewUrl }}" />
 
     @if (core()->getConfigData('catalog.rich_snippets.products.enable') ?? true)
         <script type="application/ld+json">
@@ -100,40 +87,34 @@
         {!! json_encode($breadcrumbJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
 
-    <meta name="twitter:card" content="summary_large_image" />
-
     <meta name="twitter:title" content="{{ $seoTitle }}" />
 
     <meta name="twitter:description" content="{{ $seoDesc }}" />
 
     <meta name="twitter:image:alt" content="{{ $product->name }}" />
 
-    <meta name="twitter:image" content="{{ $productBaseImage['medium_image_url'] }}" />
+    <meta name="twitter:image" content="{{ $productOgImg }}" />
 
-    <meta property="og:type" content="og:product" />
-
-    <meta property="og:site_name" content="{{ core()->getCurrentChannel()->name ?? 'SOX N SOX' }}" />
+    <meta property="og:type" content="product" />
 
     <meta property="og:title" content="{{ $seoTitle }}" />
 
-    <meta property="og:image" content="{{ $productBaseImage['medium_image_url'] }}" />
+    <meta property="og:image" content="{{ $productOgImg }}" />
 
     <meta property="og:description" content="{{ $seoDesc }}" />
-
-    <meta property="og:url" content="{{ $productViewUrl }}" />
 
     <meta property="product:price:amount" content="{{ $product->getTypeInstance()->getMinimalPrice() }}" />
 
     <meta property="product:price:currency" content="{{ core()->getCurrentCurrencyCode() }}" />
 
-    <meta property="product:availability" content="in stock" />
+    <meta property="product:availability" content="{{ $product->getTypeInstance()->isSaleable() ? 'in stock' : 'out of stock' }}" />
 @endPush
 
 <!-- Page Layout -->
-<x-shop::layouts>
+<x-shop::layouts :canonical="$productViewUrl">
     <!-- Page Title -->
     <x-slot:title>
-        {{ trim($product->meta_title) != "" ? $product->meta_title : $product->name }}
+        {{ $seoTitle }}
     </x-slot>
 
     {!! view_render_event('bagisto.shop.products.view.before', ['product' => $product]) !!}
@@ -168,7 +149,7 @@
             >
                 <div class="w-full mt-8 sm:mt-10 space-y-8">
                     <div class="product-description-content text-slate-600 leading-relaxed font-sans text-sm sm:text-base [&_h2]:font-display [&_h2]:text-2xl sm:[&_h2]:text-3xl [&_h2]:font-extrabold [&_h2]:text-[#133b63] [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-xl sm:[&_h3]:text-2xl [&_h3]:font-bold [&_h3]:text-[#133b63] [&_h3]:mt-6 [&_h3]:mb-3 [&_h3:first-of-type]:mt-0 [&_h5]:font-display [&_h5]:text-xs [&_h5]:font-extrabold [&_h5]:uppercase [&_h5]:tracking-wider [&_h5]:text-[#2ca7a3] [&_h5]:mt-8 [&_h5]:mb-3.5 [&_h5]:flex [&_h5]:items-center [&_h5]:gap-2.5 [&_h5]:after:h-px [&_h5]:after:flex-1 [&_h5]:after:bg-slate-200/80 [&_p]:text-sm sm:[&_p]:text-base [&_p]:leading-relaxed [&_p]:text-slate-600 [&_p]:mb-4 [&_ul]:grid [&_ul]:grid-cols-1 sm:[&_ul]:grid-cols-2 [&_ul]:gap-3 [&_ul]:my-4 [&_ul]:list-none [&_ul]:pl-0 [&_li]:flex [&_li]:items-center [&_li]:gap-3 [&_li]:p-3.5 [&_li]:rounded-xl [&_li]:bg-[#f8fafc] [&_li]:border [&_li]:border-slate-200/80 [&_li]:text-xs sm:[&_li]:text-sm [&_li]:font-semibold [&_li]:text-[#133b63] [&_li]:hover:border-[#2ca7a3]/60 [&_li]:hover:bg-white [&_li]:hover:shadow-sm [&_li]:transition-all [&_li]:duration-200 [&_li]:before:content-['✓'] [&_li]:before:flex [&_li]:before:h-6 [&_li]:before:w-6 [&_li]:before:shrink-0 [&_li]:before:items-center [&_li]:before:justify-center [&_li]:before:rounded-full [&_li]:before:bg-teal-50 [&_li]:before:text-[#2ca7a3] [&_li]:before:font-extrabold [&_li]:before:text-xs [&_li]:before:border [&_li]:before:border-[#2ca7a3]/30 [&_hr]:border-slate-200/70 [&_hr]:my-4">
-                        {!! $product->description !!}
+                        {!! Stevebauman\Purify\Facades\Purify::clean($product->description) !!}
                     </div>
 
                     <!-- Bamboo Craft & Technology Highlight Strip -->
@@ -203,7 +184,7 @@
             {!! view_render_event('bagisto.shop.products.view.description.after', ['product' => $product]) !!}
 
             <!-- Additional Information / Specifications Tab -->
-            @if(count($attributeData) || $product->weight || $product->sku)
+            @if(count($attributeData) || $product->sku)
                 <x-shop::tabs.item
                     id="information-tab"
                     class="!p-0"
@@ -218,13 +199,6 @@
                                         <th class="py-3.5 px-6 font-medium text-soxnsox-charcoal w-1/3 bg-[#f8fafc]/30">SKU</th>
                                         <td class="py-3.5 px-6 text-soxnsox-muted font-mono text-xs">{{ $product->sku }}</td>
                                     </tr>
-
-                                    @if ($product->weight)
-                                        <tr class="hover:bg-[#f8fafc]/50 transition-colors">
-                                            <th class="py-3.5 px-6 font-medium text-soxnsox-charcoal w-1/3 bg-[#f8fafc]/30">Net Weight</th>
-                                            <td class="py-3.5 px-6 text-soxnsox-muted">{{ $formattedProductWeight }}</td>
-                                        </tr>
-                                    @endif
 
                                     @foreach ($customAttributeValues as $customAttributeValue)
                                         @if (! empty($customAttributeValue['value']))
@@ -332,7 +306,7 @@
         </x-shop::accordion>
 
         <!-- Additional Information Accordion -->
-        @if (count($attributeData) || $product->weight || $product->sku)
+        @if (count($attributeData) || $product->sku)
             <x-shop::accordion
                 class="rounded-xl border border-soxnsox-border bg-white overflow-hidden"
                 :is-active="false"
@@ -349,13 +323,6 @@
                             <span class="font-medium text-soxnsox-charcoal">SKU</span>
                             <span class="font-mono">{{ $product->sku }}</span>
                         </div>
-
-                        @if ($product->weight)
-                            <div class="flex justify-between py-1.5 border-b border-soxnsox-border/40">
-                                <span class="font-medium text-soxnsox-charcoal">Net Weight</span>
-                                <span>{{ $formattedProductWeight }}</span>
-                            </div>
-                        @endif
 
                         @foreach ($customAttributeValues as $customAttributeValue)
                             @if (! empty($customAttributeValue['value']))
@@ -565,7 +532,7 @@
 
                                 @if ($product->short_description)
                                     <div class="text-sm leading-relaxed text-soxnsox-muted">
-                                        {!! $product->short_description !!}
+                                        {!! Stevebauman\Purify\Facades\Purify::clean($product->short_description) !!}
                                     </div>
                                 @endif
 
@@ -861,7 +828,7 @@
                             .catch(error => {
                                 this.isStoring[operation] = false;
 
-                                this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                                this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')' });
                             });
                     },
 
@@ -914,13 +881,13 @@
                                     this.$emitter.emit('add-flash', { type: 'success', message: response.data.data.message });
                                 })
                                 .catch(error => {
-                                    if ([400, 422].includes(error.response.status)) {
-                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.data.message });
+                                    if ([400, 422].includes(error.response?.status)) {
+                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.data?.message || error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')' });
 
                                         return;
                                     }
 
-                                    this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message});
+                                    this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')' });
                                 });
 
                             return;

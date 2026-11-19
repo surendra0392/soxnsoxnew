@@ -8,6 +8,7 @@
     :has-header="true"
     :has-feature="false"
     :has-footer="true"
+    :noindex="true"
 >
     <!-- Page Title -->
     <x-slot:title>
@@ -15,7 +16,7 @@
     </x-slot>
 
     <div class="bg-[#f5f7fa] min-h-[calc(100vh-80px)]">
-        <main class="site-container py-12 sm:py-16">
+        <div class="site-container py-12 sm:py-16">
             <!-- Form Container Card -->
             <div class="max-w-lg mx-auto rounded-3xl border border-slate-200 bg-white p-8 sm:p-10 shadow-sm space-y-6">
                 <!-- Header -->
@@ -121,7 +122,6 @@
                                 id="password"
                                 name="password"
                                 rules="required|min:6"
-                                :value="old('password')"
                                 :label="trans('shop::app.customers.signup-form.password')"
                                 :placeholder="trans('shop::app.customers.signup-form.password')"
                                 :aria-label="trans('shop::app.customers.signup-form.password')"
@@ -143,7 +143,6 @@
                                 id="password_confirmation"
                                 name="password_confirmation"
                                 rules="confirmed:@password"
-                                :value="old('password_confirmation')"
                                 :label="trans('shop::app.customers.signup-form.confirm-pass')"
                                 :placeholder="trans('shop::app.customers.signup-form.confirm-pass')"
                                 :aria-label="trans('shop::app.customers.signup-form.confirm-pass')"
@@ -204,6 +203,6 @@
                     </a>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 </x-shop::layouts>

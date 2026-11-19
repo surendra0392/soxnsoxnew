@@ -116,13 +116,12 @@
                                     class="flex items-center justify-center gap-2.5 overflow-x-auto w-full pt-1"
                                     v-if="attachments.length > 1"
                                 >
-                                    <template v-for="(attachment, index) in attachments">
+                                    <template v-for="(attachment, index) in attachments" :key="index">
                                         <button
                                             type="button"
                                             class="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border-2 transition-all cursor-pointer"
                                             :class="currentIndex === index + 1 ? 'border-[#1d5b8f] ring-2 ring-[#1d5b8f]/20' : 'border-[#e5e7eb] opacity-60 hover:opacity-100'"
                                             @click="navigate(currentIndex = index + 1)"
-                                            :key="index"
                                         >
                                             <img
                                                 :src="attachment.url"

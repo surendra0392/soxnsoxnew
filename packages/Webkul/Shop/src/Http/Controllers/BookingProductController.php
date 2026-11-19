@@ -41,7 +41,9 @@ class BookingProductController extends Controller
      */
     public function index(int $id): JsonResource
     {
-        $bookingProduct = $this->bookingProductRepository->find($id);
+        $bookingProduct = $this->bookingProductRepository->findOrFail($id);
+
+        abort_if(! isset($this->bookingHelpers[$bookingProduct->type]), 404);
 
         return new JsonResource([
             'data' => $this->bookingHelpers[$bookingProduct->type]->getSlotsByDate($bookingProduct, request()->date),

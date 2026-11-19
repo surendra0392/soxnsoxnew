@@ -88,9 +88,11 @@ class RMADataGrid extends DataGrid
             'filterable' => true,
             'filterable_options' => $this->rmaStatusRepository->all(['title as label', 'title as value'])->toArray(),
             'closure' => function ($row) {
-                $color = $row->rma_status_color ?? '';
+                $color = preg_match('/^#[0-9a-fA-F]{3,8}$/', (string) ($row->rma_status_color ?? ''))
+                    ? $row->rma_status_color
+                    : '#6b7280';
 
-                return '<p class="label-active" style="background:'.$color.';">'.$row->title.'</p>';
+                return '<p class="label-active" style="background:'.e($color).';">'.e($row->title).'</p>';
             },
         ]);
 

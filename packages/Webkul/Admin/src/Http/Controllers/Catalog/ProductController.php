@@ -102,7 +102,7 @@ class ProductController extends Controller
             && ! request()->has('super_attributes')
         ) {
             $configurableFamily = $this->attributeFamilyRepository
-                ->find(request()->input('attribute_family_id'));
+                ->findOrFail(request()->input('attribute_family_id'));
 
             return new JsonResponse([
                 'data' => [
@@ -209,6 +209,12 @@ class ProductController extends Controller
 
             Event::dispatch('catalog.product.create.after', $product);
         } catch (\Exception $e) {
+            if (request()->ajax()) {
+                return response()->json([
+                    'message' => $e->getMessage(),
+                ], 400);
+            }
+
             session()->flash('error', $e->getMessage());
 
             return redirect()->to(route('admin.catalog.products.index'));
@@ -312,9 +318,15 @@ class ProductController extends Controller
      */
     public function toggleAttribute(): JsonResponse
     {
-        $productId = request()->input('product_id');
-        $attribute = request()->input('attribute');
-        $value = request()->input('value');
+        $validated = request()->validate([
+            'product_id' => 'required|integer|exists:products,id',
+            'attribute' => 'required|string',
+            'value' => 'required|boolean',
+        ]);
+
+        $productId = $validated['product_id'];
+        $attribute = $validated['attribute'];
+        $value = (int) $validated['value'];
 
         if (! in_array($attribute, ['featured', 'best_sellers'])) {
             return new JsonResponse([
@@ -421,6 +433,8 @@ class ProductController extends Controller
             'product_id' => $productId,
             'attribute_id' => $attributeId,
         ]);
+
+        abort_if(! $productAttribute || empty($productAttribute['text_value']) || ! Storage::exists($productAttribute['text_value']), 404);
 
         return Storage::download($productAttribute['text_value']);
     }

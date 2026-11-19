@@ -22,7 +22,7 @@ class Category extends BaseCategory implements Sitemapable
             return [];
         }
 
-        return Url::create(route('shop.product_or_category.index', $this->slug))
+        return Url::create(route('shop.category.view', $this->slug))
             ->setLastModificationDate(Carbon::create($this->updated_at));
     }
 

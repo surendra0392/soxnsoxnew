@@ -50,34 +50,34 @@
                     <div class="tabs">
                         <div class="mb-4 flex gap-4 border-b-2 pt-2 max-sm:hidden">
                             <!-- HTML Tab Header -->
-                            <p @click="switchEditor('v-html-editor-theme', 1)">
-                                <div
-                                    class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition"
-                                    :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-html-editor-theme'}"
-                                >
-                                    @lang('admin::app.settings.themes.edit.html')
-                                </div>
-                            </p>
+                            <button
+                                type="button"
+                                class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition focus:outline-none"
+                                :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-html-editor-theme'}"
+                                @click="switchEditor('v-html-editor-theme', 1)"
+                            >
+                                @lang('admin::app.settings.themes.edit.html')
+                            </button>
 
                             <!-- CSS Tab Editor -->
-                            <p @click="switchEditor('v-css-editor-theme', 0);">
-                                <div
-                                    class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition"
-                                    :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-css-editor-theme'}"
-                                >
-                                    @lang('admin::app.settings.themes.edit.css')
-                                </div>
-                            </p>
+                            <button
+                                type="button"
+                                class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition focus:outline-none"
+                                :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-css-editor-theme'}"
+                                @click="switchEditor('v-css-editor-theme', 0);"
+                            >
+                                @lang('admin::app.settings.themes.edit.css')
+                            </button>
 
                             <!-- Preview Tab Editor -->
-                            <p @click="switchEditor('v-static-content-previewer', 0);">
-                                <div
-                                    class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition"
-                                    :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-static-content-previewer'}"
-                                >
-                                    @lang('admin::app.settings.themes.edit.preview')
-                                </div>
-                            </p>
+                            <button
+                                type="button"
+                                class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-600 transition focus:outline-none"
+                                :class="{'-mb-px border-b-2 border-[#133b63]': inittialEditor == 'v-static-content-previewer'}"
+                                @click="switchEditor('v-static-content-previewer', 0);"
+                            >
+                                @lang('admin::app.settings.themes.edit.preview')
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -149,8 +149,8 @@
 
             created() {
                 if (this.options === null) {
-                    this.options = { html: {} };
-                }   
+                    this.options = { html: '', css: '' };
+                }
             },
 
             mounted() {
@@ -166,7 +166,7 @@
                     this.$nextTick(() => {
                         this.applydarkColor();
 
-                        if (editor == 'v-static-content-previewer') {
+                        if (editor == 'v-static-content-previewer' && this.$refs.editor) {
                             this.$refs.editor.review = this.options;
                         }
                     });
@@ -200,8 +200,8 @@
                         return;
                     }
 
-                    imageInput.files.forEach((file, index) => {
-                        this.$refs.editor.storeImage($event);
+                    Array.from(imageInput.files).forEach((file, index) => {
+                        this.$refs.editor?.storeImage?.($event);
                     });
                 },
 
@@ -226,7 +226,7 @@
             data() {
                 return {
                     options:{
-                        html: `{!! $theme->translate($currentLocale->code)['options']['html'] ?? '' !!}`,
+                        html: @json($theme->translate($currentLocale->code)['options']['html'] ?? ''),
                     },
 
                     cursorPointer: {},
@@ -315,7 +315,7 @@
             data() {
                 return {
                     options:{
-                        css: `{!! $theme->translate($currentLocale->code)['options']['css'] ?? '' !!}`,
+                        css: @json($theme->translate($currentLocale->code)['options']['css'] ?? ''),
                     }
                 };
             },
@@ -361,11 +361,12 @@
 
             methods: {
                 getPreviewContent() {
-                    let html = this.options.html.slice();
+                    let html = (typeof this.options?.html === 'string' ? this.options.html : '').slice();
+                    const css = typeof this.options?.css === 'string' ? this.options.css : '';
 
-                    html = html.replaceAll('src=""', '').replaceAll('data-src', 'src').replaceAll('src="storage/theme/', "src=\"{{ config('app.url') }}/storage/theme/");
+                    html = html.replaceAll('src=""', '').replaceAll('data-src', 'src').replaceAll('src="storage/theme/', "src=\"{{ rtrim(url('/'), '/') }}/storage/theme/");
 
-                    return html + '<style type=\"text/css\">' +   this.options.css + '</style>';
+                    return html + '<style type="text/css">' + css + '</style>';
                 },
             },
         });

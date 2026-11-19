@@ -423,9 +423,12 @@
                 </div>
 
                 <div class="flex items-center gap-0.5">
-                    @for ($i = 1; $i <= 5; $i++)
-                        <i class="fa-solid fa-star text-sm {{ $avgRatings >= $i ? 'text-amber-500' : 'text-zinc-500' }}"></i>
-                    @endfor
+                    <i
+                        v-for="n in 5"
+                        :key="n"
+                        class="fa-solid fa-star text-sm"
+                        :class="review.rating >= n ? 'text-amber-500' : 'text-zinc-500'"
+                    ></i>
                 </div>
 
                 <div class="w-full">
@@ -595,9 +598,9 @@
                         .catch(error => {
                             setErrors({'attachments': ["@lang('shop::app.products.view.reviews.failed-to-upload')"]});
 
-                            this.$refs.reviewImages.uploadedFiles.forEach(element => {
+                            (this.$refs.reviewImages?.uploadedFiles || []).forEach(element => {
                                 setTimeout(() => {
-                                    this.$refs.reviewImages.removeFile();
+                                    this.$refs.reviewImages?.removeFile();
                                 }, 0);
                             });
                         });
@@ -646,7 +649,7 @@
                         .catch(error => {
                             this.isLoading = false;
 
-                            this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message });
+                            this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || '@lang('shop::app.checkout.coupon.error')' });
                         });
                 },
             },

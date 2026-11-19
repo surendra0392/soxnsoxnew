@@ -3,12 +3,14 @@
 namespace Webkul\Admin\Http\Controllers\Settings;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
+use Webkul\Admin\DataGrids\Settings\ShippingZoneDataGrid;
 use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\Shipping\Repositories\ShippingZoneRepository;
 use Webkul\Shipping\Repositories\ShippingZoneLocationRepository;
 use Webkul\Shipping\Repositories\ShippingZoneMethodRepository;
-use Webkul\Admin\DataGrids\Settings\ShippingZoneDataGrid;
-use Illuminate\Support\Facades\Event;
+use Webkul\Shipping\Repositories\ShippingZoneRepository;
 
 class ShippingZoneController extends Controller
 {
@@ -21,13 +23,12 @@ class ShippingZoneController extends Controller
         protected ShippingZoneRepository $shippingZoneRepository,
         protected ShippingZoneLocationRepository $shippingZoneLocationRepository,
         protected ShippingZoneMethodRepository $shippingZoneMethodRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -41,7 +42,7 @@ class ShippingZoneController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create()
     {
@@ -51,37 +52,24 @@ class ShippingZoneController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store()
     {
-        $this->validate(request(), [
-            'name'      => 'required|string',
-            'is_active' => 'required|boolean',
-        ]);
+        $validated = $this->validateZoneRequest();
 
-        $data = request()->only(['name', 'is_active']);
-        $locations = request()->input('locations', []);
-        $methods = request()->input('methods', []);
-
-        $zone = $this->shippingZoneRepository->create($data);
-
-        foreach ($locations as $location) {
-            $this->shippingZoneLocationRepository->create([
-                'shipping_zone_id' => $zone->id,
-                'location_type'    => $location['type'],
-                'location_code'    => $location['code'],
+        DB::transaction(function () use ($validated) {
+            $zone = $this->shippingZoneRepository->create([
+                'name' => $validated['name'],
+                'is_active' => $validated['is_active'],
             ]);
-        }
 
-        foreach ($methods as $method) {
-            $this->shippingZoneMethodRepository->create(array_merge($method, [
-                'shipping_zone_id' => $zone->id,
-                'is_active'        => $method['is_active'] ?? 1,
-                'price'            => $method['price'] ?? 0,
-                'priority'         => $method['priority'] ?? 0,
-            ]));
-        }
+            $this->syncZoneRelations(
+                $zone->id,
+                $validated['locations'] ?? [],
+                $validated['methods'] ?? []
+            );
+        });
 
         session()->flash('success', 'Shipping Zone created successfully.');
 
@@ -92,7 +80,7 @@ class ShippingZoneController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function edit($id)
     {
@@ -105,41 +93,25 @@ class ShippingZoneController extends Controller
      * Update the specified resource in storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update($id)
     {
-        $this->validate(request(), [
-            'name'      => 'required|string',
-            'is_active' => 'required|boolean',
-        ]);
+        $validated = $this->validateZoneRequest();
 
-        $data = request()->only(['name', 'is_active']);
-        $locations = request()->input('locations', []);
-        $methods = request()->input('methods', []);
+        DB::transaction(function () use ($validated, $id) {
+            $this->shippingZoneRepository->update([
+                'name' => $validated['name'],
+                'is_active' => $validated['is_active'],
+            ], $id);
 
-        $zone = $this->shippingZoneRepository->update($data, $id);
-
-        // Sync Locations (delete old, create new)
-        $this->shippingZoneLocationRepository->deleteWhere(['shipping_zone_id' => $id]);
-        foreach ($locations as $location) {
-            $this->shippingZoneLocationRepository->create([
-                'shipping_zone_id' => $id,
-                'location_type'    => $location['type'],
-                'location_code'    => $location['code'],
-            ]);
-        }
-
-        // Sync Methods
-        $this->shippingZoneMethodRepository->deleteWhere(['shipping_zone_id' => $id]);
-        foreach ($methods as $method) {
-            $this->shippingZoneMethodRepository->create(array_merge($method, [
-                'shipping_zone_id' => $id,
-                'is_active'        => $method['is_active'] ?? 1,
-                'price'            => $method['price'] ?? 0,
-                'priority'         => $method['priority'] ?? 0,
-            ]));
-        }
+            $this->syncZoneRelations(
+                (int) $id,
+                $validated['locations'] ?? [],
+                $validated['methods'] ?? [],
+                true
+            );
+        });
 
         session()->flash('success', 'Shipping Zone updated successfully.');
 
@@ -147,10 +119,69 @@ class ShippingZoneController extends Controller
     }
 
     /**
+     * Validate shipping zone payload including regions and methods.
+     */
+    protected function validateZoneRequest(): array
+    {
+        return $this->validate(request(), [
+            'name' => ['required', 'string', 'max:255'],
+            'is_active' => ['required', 'boolean'],
+            'locations' => ['nullable', 'array'],
+            'locations.*.type' => ['required', 'in:country,state,postcode'],
+            'locations.*.code' => ['required', 'string', 'max:255'],
+            'methods' => ['nullable', 'array'],
+            'methods.*.title' => ['required', 'string', 'max:255'],
+            'methods.*.type' => ['required', 'in:flat_rate,free_shipping'],
+            'methods.*.price' => ['nullable', 'numeric', 'min:0'],
+            'methods.*.is_active' => ['nullable', 'boolean'],
+            'methods.*.priority' => ['nullable', 'integer', 'min:0'],
+            'methods.*.min_subtotal' => ['nullable', 'numeric', 'min:0'],
+            'methods.*.max_subtotal' => ['nullable', 'numeric', 'min:0'],
+            'methods.*.min_weight' => ['nullable', 'numeric', 'min:0'],
+            'methods.*.max_weight' => ['nullable', 'numeric', 'min:0'],
+        ]);
+    }
+
+    /**
+     * Persist shipping zone locations and methods, replacing existing rows on update.
+     */
+    protected function syncZoneRelations(int $zoneId, array $locations, array $methods, bool $replaceExisting = false): void
+    {
+        if ($replaceExisting) {
+            $this->shippingZoneLocationRepository->deleteWhere(['shipping_zone_id' => $zoneId]);
+            $this->shippingZoneMethodRepository->deleteWhere(['shipping_zone_id' => $zoneId]);
+        }
+
+        foreach ($locations as $location) {
+            $this->shippingZoneLocationRepository->create([
+                'shipping_zone_id' => $zoneId,
+                'location_type' => $location['type'],
+                'location_code' => $location['code'],
+            ]);
+        }
+
+        foreach ($methods as $method) {
+            $type = $method['type'];
+
+            $this->shippingZoneMethodRepository->create([
+                'shipping_zone_id' => $zoneId,
+                'type' => $type,
+                'title' => $method['title'],
+                'is_active' => $method['is_active'] ?? 1,
+                'price' => $type === 'free_shipping' ? 0 : ($method['price'] ?? 0),
+                'priority' => $method['priority'] ?? 0,
+                'min_subtotal' => ($method['min_subtotal'] ?? '') !== '' ? $method['min_subtotal'] : null,
+                'max_subtotal' => ($method['max_subtotal'] ?? '') !== '' ? $method['max_subtotal'] : null,
+                'min_weight' => ($method['min_weight'] ?? '') !== '' ? $method['min_weight'] : null,
+                'max_weight' => ($method['max_weight'] ?? '') !== '' ? $method['max_weight'] : null,
+            ]);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id): JsonResponse
     {

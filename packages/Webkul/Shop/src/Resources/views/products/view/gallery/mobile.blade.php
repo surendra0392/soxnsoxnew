@@ -54,7 +54,7 @@
                         <img
                             class="aspect-square w-full object-cover rounded-xl select-none transition-transform duration-300 ease-in-out"
                             :src="media.large_image_url"
-                            :alt="media.large_image_url"
+                            alt="{{ $product->name }}"
                         />
                     </template>
                 </div>
@@ -65,13 +65,15 @@
                 class="absolute bottom-3 left-0 flex w-full justify-center gap-1.5"
                 v-if="options?.length > 1"
             >
-                <div
+                <button
+                    type="button"
                     v-for="(media, index) in options"
+                    :key="index"
                     class="h-1.5 w-1.5 cursor-pointer rounded-full transition-all duration-300"
                     :class="{ 'bg-soxnsox-teal w-4': index === Math.abs(currentIndex), 'opacity-40 bg-soxnsox-charcoal': index !== Math.abs(currentIndex) }"
-                    role="button"
-                >
-                </div>
+                    :aria-label="'Slide ' + (index + 1)"
+                    @click="currentIndex = index; setPositionByIndex()"
+                ></button>
             </div>
         </div>
     </script>

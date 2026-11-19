@@ -93,7 +93,7 @@ class HeroSliderController extends Controller
         } catch (\Exception $e) {
         }
 
-        session()->flash('success', trans('admin::app.theme.hero-sliders.create-success'));
+        session()->flash('success', 'Hero slider created successfully.');
 
         return redirect()->route('admin.cms.hero_sliders.edit', $heroSlider->id);
     }
@@ -142,7 +142,10 @@ class HeroSliderController extends Controller
         // Handle slides JSON payload from Vue/Alpine component
         if (isset($data['slides_data'])) {
             $slidesData = json_decode($data['slides_data'], true);
-            $this->processSlides($heroSlider, $slidesData);
+
+            if (is_array($slidesData)) {
+                $this->processSlides($heroSlider, $slidesData);
+            }
         }
 
         Event::dispatch('theme.hero_sliders.update.after', $heroSlider);
@@ -159,7 +162,7 @@ class HeroSliderController extends Controller
         } catch (\Exception $e) {
         }
 
-        session()->flash('success', trans('admin::app.theme.hero-sliders.update-success'));
+        session()->flash('success', 'Hero slider updated successfully.');
 
         return redirect()->route('admin.cms.hero_sliders.index');
     }
@@ -172,9 +175,17 @@ class HeroSliderController extends Controller
         // Sync slides: simple implementation for now, deleting all and recreating
         // In a production scenario, we'd sync properly by ID to preserve media
 
+        if (! is_array($slidesData)) {
+            return;
+        }
+
         $existingSlideIds = [];
 
         foreach ($slidesData as $index => $slideData) {
+            if (! is_array($slideData)) {
+                continue;
+            }
+
             $slidePayload = [
                 'hero_slider_id' => $heroSlider->id,
                 'name' => $slideData['name'] ?? 'Slide '.($index + 1),
@@ -188,8 +199,14 @@ class HeroSliderController extends Controller
                 'settings' => $slideData['settings'] ?? null,
             ];
 
-            if (isset($slideData['id']) && $slideData['id']) {
-                $slide = $this->heroSlideRepository->update($slidePayload, $slideData['id']);
+            $existingSlide = ! empty($slideData['id'])
+                ? $this->heroSlideRepository->getModel()
+                    ->where('hero_slider_id', $heroSlider->id)
+                    ->find($slideData['id'])
+                : null;
+
+            if ($existingSlide) {
+                $slide = $this->heroSlideRepository->update($slidePayload, $existingSlide->id);
                 $existingSlideIds[] = $slide->id;
             } else {
                 $slide = $this->heroSlideRepository->create($slidePayload);
@@ -197,9 +214,13 @@ class HeroSliderController extends Controller
             }
 
             // Handle layers
-            if (isset($slideData['layers'])) {
+            if (isset($slideData['layers']) && is_array($slideData['layers'])) {
                 $existingLayerIds = [];
                 foreach ($slideData['layers'] as $layerIndex => $layerData) {
+                    if (! is_array($layerData)) {
+                        continue;
+                    }
+
                     $layerPayload = [
                         'hero_slide_id' => $slide->id,
                         'type' => $layerData['type'] ?? 'text',
@@ -211,8 +232,14 @@ class HeroSliderController extends Controller
                         'settings' => $layerData['settings'] ?? [],
                     ];
 
-                    if (isset($layerData['id']) && $layerData['id']) {
-                        $layer = $this->heroLayerRepository->update($layerPayload, $layerData['id']);
+                    $existingLayer = ! empty($layerData['id'])
+                        ? $this->heroLayerRepository->getModel()
+                            ->where('hero_slide_id', $slide->id)
+                            ->find($layerData['id'])
+                        : null;
+
+                    if ($existingLayer) {
+                        $layer = $this->heroLayerRepository->update($layerPayload, $existingLayer->id);
                         $existingLayerIds[] = $layer->id;
                     } else {
                         $layer = $this->heroLayerRepository->create($layerPayload);
@@ -246,9 +273,9 @@ class HeroSliderController extends Controller
 
             Event::dispatch('theme.hero_sliders.delete.after', $id);
 
-            return response()->json(['message' => trans('admin::app.theme.hero-sliders.delete-success')]);
+            return response()->json(['message' => 'Hero slider deleted successfully.']);
         } catch (\Exception $e) {
-            return response()->json(['message' => trans('admin::app.theme.hero-sliders.delete-failed')], 500);
+            return response()->json(['message' => 'Failed to delete hero slider.'], 500);
         }
     }
 }

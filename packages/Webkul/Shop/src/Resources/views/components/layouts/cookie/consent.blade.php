@@ -1,4 +1,4 @@
-<x-shop::layouts>
+<x-shop::layouts :noindex="true">
     <!-- Page Title -->
     <x-slot:title>
         @lang('shop::app.components.layouts.cookie.consent.your-cookie-consent-preferences')
@@ -119,7 +119,7 @@
                             'strictly_necessary',
                             'basic_interaction',
                             'experience_enhancement',
-                            'measurement',
+                            'measurements',
                             'targeting_advertising'
                         ],
                     };

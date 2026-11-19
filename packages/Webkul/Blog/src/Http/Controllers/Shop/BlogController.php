@@ -4,6 +4,8 @@ namespace Webkul\Blog\Http\Controllers\Shop;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Webkul\Blog\Repositories\BlogRepository;
@@ -44,20 +46,12 @@ class BlogController extends Controller
             ->orderBy('published_at', 'desc')
             ->orderBy('id', 'desc');
 
-        $allPublished = (clone $query)->get();
-        $featuredBlog = $allPublished->first();
+        $featuredBlog = (clone $query)->first();
 
         $blogs = $query->paginate(9);
 
         // Get unique categories for filter tabs
-        $categories = $this->blogRepository->getModel()
-            ->where('status', 1)
-            ->with('translations')
-            ->get()
-            ->pluck('category')
-            ->filter()
-            ->unique()
-            ->values();
+        $categories = $this->getPublishedCategories();
 
         $selectedCategory = null;
         $selectedCategorySlug = null;
@@ -70,14 +64,7 @@ class BlogController extends Controller
      */
     public function category(string $categorySlug): View|RedirectResponse
     {
-        $categories = $this->blogRepository->getModel()
-            ->where('status', 1)
-            ->with('translations')
-            ->get()
-            ->pluck('category')
-            ->filter()
-            ->unique()
-            ->values();
+        $categories = $this->getPublishedCategories();
 
         $matchedCategory = $categories->first(function ($cat) use ($categorySlug) {
             return Str::slug($cat) === $categorySlug;
@@ -143,10 +130,12 @@ class BlogController extends Controller
         if ($products->isEmpty()) {
             $products = app(ProductRepository::class)
                 ->scopeQuery(function ($query) {
-                    return $query->whereNull('parent_id');
+                    return $query->whereNull('parent_id')
+                        ->whereHas('product_flats', fn ($q) => $q->where('status', 1))
+                        ->orderBy('id', 'desc')
+                        ->limit(4);
                 })
-                ->all()
-                ->take(4);
+                ->all();
         }
 
         return view('blog::shop.view', compact('blog', 'relatedBlogs', 'products'));
@@ -185,13 +174,7 @@ class BlogController extends Controller
         $cleanKey = trim($urlKey, '/');
 
         // Check if it matches a category slug
-        $categories = $this->blogRepository->getModel()
-            ->where('status', 1)
-            ->with('translations')
-            ->get()
-            ->pluck('category')
-            ->filter()
-            ->unique();
+        $categories = $this->getPublishedCategories();
 
         $matchedCat = $categories->first(function ($cat) use ($cleanKey) {
             return Str::slug($cat) === $cleanKey;
@@ -203,5 +186,28 @@ class BlogController extends Controller
 
         // Check if it matches an article url_key
         return $this->legacyArticleRedirect($cleanKey);
+    }
+
+    /**
+     * Get unique published blog categories efficiently via database distinct query.
+     *
+     * @return Collection
+     */
+    protected function getPublishedCategories()
+    {
+        $locale = core()->getCurrentLocale()?->code ?? app()->getLocale();
+
+        return DB::table('blog_translations')
+            ->join('blogs', 'blogs.id', '=', 'blog_translations.blog_id')
+            ->where('blogs.status', 1)
+            ->where(function ($query) use ($locale) {
+                $query->where('blog_translations.locale', $locale)
+                    ->orWhere('blog_translations.locale', app()->getFallbackLocale());
+            })
+            ->whereNotNull('blog_translations.category')
+            ->where('blog_translations.category', '!=', '')
+            ->distinct()
+            ->pluck('blog_translations.category')
+            ->values();
     }
 }

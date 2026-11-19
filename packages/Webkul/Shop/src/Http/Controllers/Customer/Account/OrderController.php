@@ -80,9 +80,13 @@ class OrderController extends Controller
                 continue;
             }
 
+            if (! $item->product) {
+                continue;
+            }
+
             try {
                 Cart::addProduct($item->product, $item->additional);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
             }
         }
 

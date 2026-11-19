@@ -26,6 +26,12 @@ Breadcrumbs::for('profile.edit', function (BreadcrumbTrail $trail) {
     $trail->push(trans('shop::app.customers.account.profile.edit.edit'), route('shop.customers.account.profile.index'));
 });
 
+// Home > My Account > GDPR Requests
+Breadcrumbs::for('gdpr', function (BreadcrumbTrail $trail) {
+    $trail->parent('account');
+    $trail->push(trans('shop::app.customers.account.gdpr.index.title'), route('shop.customers.account.gdpr.index'));
+});
+
 // Home > My Account > Address
 Breadcrumbs::for('addresses', function (BreadcrumbTrail $trail) {
     $trail->parent('account');

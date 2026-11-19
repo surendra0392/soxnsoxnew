@@ -65,16 +65,16 @@ class SoxnsoxShipping extends AbstractShipping
             return false;
         }
 
-        $cartWeight = 0;
-        $cartSubTotal = $cart->base_sub_total;
+        $cartWeight = 0.0;
+        $cartSubTotal = (float) ($cart->base_sub_total ?? 0);
 
         foreach ($cart->items as $item) {
-            $cartWeight += $item->weight * $item->quantity;
+            $cartWeight += (float) ($item->weight ?? 0) * $item->quantity;
         }
 
-        $country = $shippingAddress->country;
-        $state = $shippingAddress->state;
-        $postcode = $shippingAddress->postcode;
+        $country = (string) ($shippingAddress->country ?? '');
+        $state = (string) ($shippingAddress->state ?? '');
+        $postcode = (string) ($shippingAddress->postcode ?? '');
 
         // Fetch all active zones with locations and active methods
         $zones = ShippingZone::where('is_active', 1)
@@ -100,19 +100,19 @@ class SoxnsoxShipping extends AbstractShipping
             foreach ($zone->locations as $location) {
                 if ($location->location_type === 'postcode') {
                     // Support wildcards e.g. 9021*
-                    $pattern = str_replace('*', '.*', preg_quote($location->location_code, '/'));
+                    $pattern = str_replace('\*', '.*', preg_quote((string) $location->location_code, '/'));
                     if (preg_match('/^'.$pattern.'$/i', $postcode)) {
                         if ($highestSpecificity < 3) {
                             $matchedZone = $zone;
                             $highestSpecificity = 3;
                         }
                     }
-                } elseif ($location->location_type === 'state' && $location->location_code === $state) {
+                } elseif ($location->location_type === 'state' && strcasecmp((string) $location->location_code, $state) === 0) {
                     if ($highestSpecificity < 2) {
                         $matchedZone = $zone;
                         $highestSpecificity = 2;
                     }
-                } elseif ($location->location_type === 'country' && $location->location_code === $country) {
+                } elseif ($location->location_type === 'country' && strcasecmp((string) $location->location_code, $country) === 0) {
                     if ($highestSpecificity < 1) {
                         $matchedZone = $zone;
                         $highestSpecificity = 1;

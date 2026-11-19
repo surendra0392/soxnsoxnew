@@ -13,6 +13,7 @@ use Webkul\Checkout\Contracts\Cart;
 use Webkul\Checkout\Models\CartItem;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Rule\Helpers\Validator;
+use Webkul\Sales\Models\Order;
 
 class CartRule
 {
@@ -204,12 +205,14 @@ class CartRule
                     break;
 
                 case 'cart_fixed':
-                    if ($this->itemTotals[$rule->id]['total_items'] <= 1) {
+                    $baseTotalPrice = (float) ($this->itemTotals[$rule->id]['base_total_price'] ?? 0);
+
+                    if ($this->itemTotals[$rule->id]['total_items'] <= 1 || $baseTotalPrice <= 0) {
                         $discountAmount = core()->convertPrice($rule->discount_amount);
 
                         $baseDiscountAmount = min($item->base_price * $quantity, $rule->discount_amount);
                     } else {
-                        $discountRate = $item->base_price * $quantity / $this->itemTotals[$rule->id]['base_total_price'];
+                        $discountRate = $item->base_price * $quantity / $baseTotalPrice;
 
                         $maxDiscount = $rule->discount_amount * $discountRate;
 
@@ -489,11 +492,11 @@ class CartRule
             ->where('cart_rule_customer_groups.customer_group_id', $customerGroup->id)
             ->where('cart_rule_channels.channel_id', core()->getCurrentChannel()->id)
             ->where(function ($query) {
-                $query->where('cart_rules.starts_from', '<=', Carbon::now()->format('Y-m-d H:m:s'))
+                $query->where('cart_rules.starts_from', '<=', Carbon::now()->format('Y-m-d H:i:s'))
                     ->orWhereNull('cart_rules.starts_from');
             })
             ->where(function ($query) {
-                $query->where('cart_rules.ends_till', '>=', Carbon::now()->format('Y-m-d H:m:s'))
+                $query->where('cart_rules.ends_till', '>=', Carbon::now()->format('Y-m-d H:i:s'))
                     ->orWhereNull('cart_rules.ends_till');
             })
             ->where('status', 1)
@@ -617,12 +620,12 @@ class CartRule
             $hasPreviousOrder = false;
 
             if ($this->cart->customer_id) {
-                $hasPreviousOrder = \Webkul\Sales\Models\Order::query()
+                $hasPreviousOrder = Order::query()
                     ->where('customer_id', $this->cart->customer_id)
                     ->where('status', '!=', 'canceled')
                     ->exists();
             } elseif ($this->cart->customer_email) {
-                $hasPreviousOrder = \Webkul\Sales\Models\Order::query()
+                $hasPreviousOrder = Order::query()
                     ->where('customer_email', $this->cart->customer_email)
                     ->where('status', '!=', 'canceled')
                     ->exists();

@@ -60,9 +60,9 @@ class RegistrationController extends Controller
             'password' => bcrypt(request()->input('password')),
             'api_token' => Str::random(80),
             'is_verified' => ! core()->getConfigData('customer.settings.email.verification'),
-            'customer_group_id' => $this->customerGroupRepository->findOneWhere(['code' => $customerGroup])->id,
+            'customer_group_id' => $this->customerGroupRepository->findOneWhere(['code' => $customerGroup])?->id ?? 1,
             'channel_id' => core()->getCurrentChannel()->id,
-            'token' => md5(uniqid(rand(), true)),
+            'token' => Str::random(60),
             'subscribed_to_news_letter' => (bool) (request()->input('is_subscribed') ?? $subscription?->is_subscribed),
         ]);
 
@@ -87,7 +87,7 @@ class RegistrationController extends Controller
                 'customer_id' => $customer->id,
                 'channel_id' => core()->getCurrentChannel()->id,
                 'is_subscribed' => 1,
-                'token' => uniqid(),
+                'token' => Str::random(60),
             ]);
 
             Event::dispatch('customer.subscription.after', $subscription);
@@ -139,12 +139,19 @@ class RegistrationController extends Controller
     /**
      * Resend verification email.
      *
-     * @param  string  $email
      * @return Response
      */
-    public function resendVerificationEmail($email)
+    public function resendVerificationEmail(?string $email = null)
     {
-        $customer = $this->customerRepository->findOneByField('email', $email);
+        $targetEmail = request()->input('email', $email);
+
+        if (! $targetEmail) {
+            session()->flash('warning', trans('shop::app.customers.signup-form.verification-not-sent'));
+
+            return redirect()->back();
+        }
+
+        $customer = $this->customerRepository->findOneByField('email', $targetEmail);
 
         if (! $customer) {
             session()->flash('success', trans('shop::app.customers.signup-form.verification-sent'));
@@ -153,7 +160,7 @@ class RegistrationController extends Controller
         }
 
         $customer = $this->customerRepository->update(
-            ['token' => md5(uniqid(rand(), true))],
+            ['token' => Str::random(60)],
             $customer->id
         );
 

@@ -26,7 +26,12 @@ class CompareController extends APIController
      */
     public function index(): JsonResource
     {
-        $productIds = request()->input('product_ids') ?? [];
+        $validated = $this->validate(request(), [
+            'product_ids' => 'sometimes|array',
+            'product_ids.*' => 'integer',
+        ]);
+
+        $productIds = $validated['product_ids'] ?? [];
 
         /**
          * This will handle for customers.
@@ -56,8 +61,14 @@ class CompareController extends APIController
             'product_id' => 'required|integer|exists:products,id',
         ]);
 
-        $compareProduct = $this->compareItemRepository->findOneByField([
-            'customer_id' => auth()->guard('customer')->user()->id,
+        $customer = auth()->guard('customer')->user();
+
+        if (! $customer) {
+            abort(401);
+        }
+
+        $compareProduct = $this->compareItemRepository->findOneWhere([
+            'customer_id' => $customer->id,
             'product_id' => request()->input('product_id'),
         ]);
 
@@ -70,7 +81,7 @@ class CompareController extends APIController
         Event::dispatch('customer.compare.create.before');
 
         $compareProduct = $this->compareItemRepository->create([
-            'customer_id' => auth()->guard('customer')->user()->id,
+            'customer_id' => $customer->id,
             'product_id' => request()->input('product_id'),
         ]);
 
@@ -86,12 +97,18 @@ class CompareController extends APIController
      */
     public function destroy(): JsonResource
     {
+        $customer = auth()->guard('customer')->user();
+
+        if (! $customer) {
+            abort(401);
+        }
+
         $productId = request()->input('product_id');
 
         Event::dispatch('customer.compare.delete.before', $productId);
 
         $success = $this->compareItemRepository->deleteWhere([
-            'customer_id' => auth()->guard('customer')->user()->id,
+            'customer_id' => $customer->id,
             'product_id' => $productId,
         ]);
 
@@ -125,10 +142,16 @@ class CompareController extends APIController
      */
     public function destroyAll(): JsonResource
     {
+        $customer = auth()->guard('customer')->user();
+
+        if (! $customer) {
+            abort(401);
+        }
+
         Event::dispatch('customer.compare.delete-all.before');
 
         $success = $this->compareItemRepository->deleteWhere([
-            'customer_id' => auth()->guard('customer')->user()->id,
+            'customer_id' => $customer->id,
         ]);
 
         Event::dispatch('customer.compare.delete-all.after');

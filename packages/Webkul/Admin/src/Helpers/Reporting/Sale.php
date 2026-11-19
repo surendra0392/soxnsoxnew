@@ -645,7 +645,7 @@ class Sale extends AbstractReporting
         return $this->orderRepository
             ->resetModel()
             ->leftJoin('order_payment', 'orders.id', '=', 'order_payment.order_id')
-            ->select('method', 'method_title as title')
+            ->select('method', DB::raw('MAX(method_title) as title'))
             ->addSelect(DB::raw('COUNT(*) as total'))
             ->addSelect(DB::raw('SUM(base_grand_total) as base_total'))
             ->whereIn('orders.channel_id', $this->channelIds)

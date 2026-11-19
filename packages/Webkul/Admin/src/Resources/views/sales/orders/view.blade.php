@@ -19,20 +19,22 @@
                 </span>
 
                 <!-- Operational Status Form -->
-                <div class="flex items-center ml-2 border-l pl-4">
-                    <form action="{{ route('admin.sales.orders.update_operational_status', $order->id) }}" method="POST" class="flex items-center gap-2">
-                        @csrf
-                        <select name="operational_status" class="custom-select rounded-lg border-gray-300 px-3 py-1 text-sm shadow-sm transition-all focus:border-blue-500 focus:ring-blue-500">
-                            <option value="PAYMENT PENDING" {{ $order->operational_status == 'PAYMENT PENDING' ? 'selected' : '' }}>Payment Pending</option>
-                            <option value="PAYMENT CONFIRMED" {{ $order->operational_status == 'PAYMENT CONFIRMED' ? 'selected' : '' }}>Payment Confirmed</option>
-                            <option value="PACKING" {{ $order->operational_status == 'PACKING' ? 'selected' : '' }}>Packing</option>
-                            <option value="READY TO SHIP" {{ $order->operational_status == 'READY TO SHIP' ? 'selected' : '' }}>Ready to Ship</option>
-                            <option value="SHIPPED" {{ $order->operational_status == 'SHIPPED' ? 'selected' : '' }}>Shipped</option>
-                            <option value="DELIVERED" {{ $order->operational_status == 'DELIVERED' ? 'selected' : '' }}>Delivered</option>
-                        </select>
-                        <button type="submit" class="primary-button text-sm px-3 py-1">Update</button>
-                    </form>
-                </div>
+                @if (bouncer()->hasPermission('sales.orders.view'))
+                    <div class="flex items-center ml-2 border-l pl-4">
+                        <form action="{{ route('admin.sales.orders.update_operational_status', $order->id) }}" method="POST" class="flex items-center gap-2">
+                            @csrf
+                            <select name="operational_status" class="custom-select rounded-lg border-gray-300 px-3 py-1 text-sm shadow-sm transition-all focus:border-blue-500 focus:ring-blue-500">
+                                <option value="PAYMENT PENDING" {{ $order->operational_status == 'PAYMENT PENDING' ? 'selected' : '' }}>Payment Pending</option>
+                                <option value="PAYMENT CONFIRMED" {{ $order->operational_status == 'PAYMENT CONFIRMED' ? 'selected' : '' }}>Payment Confirmed</option>
+                                <option value="PACKING" {{ $order->operational_status == 'PACKING' ? 'selected' : '' }}>Packing</option>
+                                <option value="READY TO SHIP" {{ $order->operational_status == 'READY TO SHIP' ? 'selected' : '' }}>Ready to Ship</option>
+                                <option value="SHIPPED" {{ $order->operational_status == 'SHIPPED' ? 'selected' : '' }}>Shipped</option>
+                                <option value="DELIVERED" {{ $order->operational_status == 'DELIVERED' ? 'selected' : '' }}>Delivered</option>
+                            </select>
+                            <button type="submit" class="primary-button text-sm px-3 py-1">Update</button>
+                        </form>
+                    </div>
+                @endif
             </div>
 
             {!! view_render_event('bagisto.admin.sales.order.title.after', ['order' => $order]) !!}
@@ -69,7 +71,7 @@
             @if (
                 $order->canInvoice()
                 && bouncer()->hasPermission('sales.invoices.create')
-                && $order->payment->method !== 'paypal_standard'
+                && $order->payment?->method !== 'paypal_standard'
             )
                 @include('admin::sales.invoices.create')
             @endif
@@ -800,7 +802,7 @@
                         <div>
                             <!-- Payment method -->
                             <p class="font-semibold text-gray-800">
-                                {{ core()->getConfigData('sales.payment_methods.' . $order->payment->method . '.title') }}
+                                {{ ($order->payment?->method ? core()->getConfigData('sales.payment_methods.' . $order->payment->method . '.title') : null) ?? $order->payment?->method_title ?? 'Online Payment' }}
                             </p>
 
                             <p class="text-gray-600">
@@ -819,7 +821,7 @@
                                 @lang('admin::app.sales.orders.view.currency')
                             </p>
 
-                            @php $additionalDetails = \Webkul\Payment\Payment::getAdditionalDetails($order->payment->method); @endphp
+                            @php $additionalDetails = $order->payment?->method ? \Webkul\Payment\Payment::getAdditionalDetails($order->payment->method) : null; @endphp
 
                             <!-- Additional details -->
                             @if (! empty($additionalDetails))

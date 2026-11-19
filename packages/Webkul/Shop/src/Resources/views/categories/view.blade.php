@@ -1,18 +1,22 @@
 <!-- SEO Meta Content -->
-@push('meta')
-    @php
-        $categoryTitle = trim($category->meta_title) != '' ? $category->meta_title : $category->name . ' | SOX N SOX Bamboo Socks';
-        $categoryDesc  = trim($category->meta_description) != '' ? $category->meta_description : \Illuminate\Support\Str::limit(strip_tags($category->description), 160, '');
-        $categoryKeys  = trim($category->meta_keywords) != '' ? $category->meta_keywords : 'bamboo socks, diabetic socks, seamless socks, soxnsox';
-        $categoryImage = $category->banner_url ?: asset('images/hero-slide-1.webp');
-    @endphp
+@php
+    $isCatalogRoot = ($category->id == (core()->getCurrentChannel()->root_category_id ?? 1));
+    $categoryCanonicalUrl = $isCatalogRoot
+        ? route('shop.products.index')
+        : route('shop.category.view', $category->slug);
+    $rawCategoryTitle = trim((string) $category->meta_title);
+    $categoryTitle = $rawCategoryTitle !== '' ? $rawCategoryTitle : $category->name . ' | SOX N SOX Bamboo Socks';
+    $categoryDesc  = trim((string) $category->meta_description) !== '' ? $category->meta_description : \Illuminate\Support\Str::limit(strip_tags((string) $category->description), 160, '');
+    $categoryKeys  = trim((string) $category->meta_keywords) !== '' ? $category->meta_keywords : 'bamboo socks, diabetic socks, seamless socks, soxnsox';
+    $rawCategoryImage = $category->banner_url ?: asset('images/hero-slide-1.webp');
+    $categoryImage = str_starts_with($rawCategoryImage, 'http') ? $rawCategoryImage : url($rawCategoryImage);
+@endphp
 
+@push('meta')
     <meta name="title" content="{{ $categoryTitle }}" />
     <meta name="description" content="{{ $categoryDesc }}" />
     <meta name="keywords" content="{{ $categoryKeys }}" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ $categoryTitle }}" />
     <meta name="twitter:description" content="{{ $categoryDesc }}" />
     <meta name="twitter:image" content="{{ $categoryImage }}" />
@@ -21,7 +25,6 @@
     <meta property="og:type" content="product.group" />
     <meta property="og:title" content="{{ $categoryTitle }}" />
     <meta property="og:description" content="{{ $categoryDesc }}" />
-    <meta property="og:url" content="{{ url('/' . $category->slug) }}" />
     <meta property="og:image" content="{{ $categoryImage }}" />
     <meta property="og:image:alt" content="{{ $category->name }} Bamboo Socks" />
 
@@ -40,10 +43,10 @@
                 ],
                 [
                     '@type'    => 'ListItem',
-                    '@id'      => url('/' . $category->slug) . '#breadcrumb-category',
+                    '@id'      => $categoryCanonicalUrl . '#breadcrumb-category',
                     'position' => 2,
                     'name'     => $category->name,
-                    'item'     => url('/' . $category->slug),
+                    'item'     => $categoryCanonicalUrl,
                 ],
             ],
         ];
@@ -54,15 +57,15 @@
 
     @if (core()->getConfigData('catalog.rich_snippets.categories.enable') ?? true)
         <script type="application/ld+json">
-            {!! app('Webkul\Product\Helpers\SEO')->getCategoryJsonLd($category) !!}
+            {!! app('Webkul\Product\Helpers\SEO')->getCategoryJsonLd($category, $categoryCanonicalUrl) !!}
         </script>
     @endif
 @endPush
 
-<x-shop::layouts>
+<x-shop::layouts :canonical="$categoryCanonicalUrl">
     <!-- Page Title -->
     <x-slot:title>
-        {{ trim($category->meta_title) != "" ? $category->meta_title : $category->name }}
+        {{ $categoryTitle }}
     </x-slot>
 
     @if (core()->getConfigData('general.general.breadcrumbs.shop'))
@@ -249,7 +252,7 @@
                                     type="button"
                                     :disabled="page <= 1"
                                     @click="changePage(page - 1)"
-                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
                                     aria-label="Previous page"
                                 >
                                     <i class="fa-solid fa-chevron-left text-[11px]"></i>
@@ -265,7 +268,7 @@
                                         @click="changePage(pageNum)"
                                         :class="pageNum === page 
                                             ? 'h-10 w-10 inline-flex items-center justify-center rounded-full bg-[#133b63] text-white font-bold text-xs shadow-md border border-[#133b63] cursor-default' 
-                                            : 'h-10 w-10 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 font-semibold text-xs shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 active:scale-95'"
+                                            : 'h-10 w-10 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 font-semibold text-xs shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 active:scale-95'"
                                     >
                                         @{{ pageNum }}
                                     </button>
@@ -276,7 +279,7 @@
                                     type="button"
                                     :disabled="page >= meta.last_page"
                                     @click="changePage(page + 1)"
-                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-xs transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
+                                    class="h-10 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-[#133b63] shadow-sm transition-all hover:border-[#2ca7a3] hover:text-[#2ca7a3] hover:bg-teal-50/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-slate-200 disabled:hover:text-[#133b63] disabled:hover:bg-white active:scale-95"
                                     aria-label="Next page"
                                 >
                                     <span class="hidden sm:inline">Next</span>
@@ -328,6 +331,8 @@
                         loader: false,
 
                         isMounted: false,
+
+                        suppressPushState: false,
                     }
                 },
 
@@ -347,10 +352,18 @@
                     window.addEventListener('popstate', () => {
                         let urlParams = new URLSearchParams(window.location.search);
                         let pageFromUrl = urlParams.has('page') ? parseInt(urlParams.get('page')) : 1;
-                        if (pageFromUrl > 0 && pageFromUrl !== this.page) {
+
+                        this.suppressPushState = true;
+
+                        if (pageFromUrl > 0) {
                             this.page = pageFromUrl;
-                            this.getProducts();
                         }
+
+                        this.getProducts();
+
+                        this.$nextTick(() => {
+                            this.suppressPushState = false;
+                        });
                     });
                 },
 
@@ -411,6 +424,10 @@
                     },
 
                     queryString() {
+                        if (this.suppressPushState) {
+                            return;
+                        }
+
                         const newUrl = this.queryString ? '?' + this.queryString : window.location.pathname;
                         window.history.pushState({}, '', newUrl);
                     },
@@ -447,7 +464,7 @@
                             filter: false,
                         };
 
-                        document.body.style.overflow ='scroll';
+                        document.body.style.overflow = '';
 
                         this.isLoading = true;
 

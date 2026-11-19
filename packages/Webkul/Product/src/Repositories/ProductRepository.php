@@ -452,11 +452,13 @@ class ProductRepository extends Repository
             $sortOptions = $this->getSortOptions($params);
 
             if ($sortOptions['order'] != 'rand') {
+                $sortDirection = strtolower($sortOptions['order']) === 'asc' ? 'asc' : 'desc';
+
                 $attribute = $this->attributeRepository->findOneByField('code', $sortOptions['sort']);
 
                 if ($attribute) {
                     if ($attribute->code === 'price') {
-                        $qb->orderBy('product_price_indices.min_price', $sortOptions['order']);
+                        $qb->orderByRaw("MIN({$prefix}product_price_indices.min_price) {$sortDirection}");
                     } else {
                         $alias = 'sort_product_attribute_values';
 
@@ -477,11 +479,11 @@ class ProductRepository extends Repository
                                 }
                             }
                         })
-                            ->orderBy($alias.'.'.$attribute->column_name, $sortOptions['order']);
+                            ->orderByRaw("MIN({$prefix}{$alias}.{$attribute->column_name}) {$sortDirection}");
                     }
                 } else {
                     /* `created_at` is not an attribute so it will be in else case */
-                    $qb->orderBy('products.created_at', $sortOptions['order']);
+                    $qb->orderBy('products.created_at', $sortDirection);
                 }
             } else {
                 return $qb->inRandomOrder();
@@ -624,10 +626,14 @@ class ProductRepository extends Repository
                 ->where('product_price_indices.customer_group_id', $customerGroup->id);
 
             if (! empty($params['category_id'])) {
-                $query->where('product_categories.category_id', $params['category_id']);
+                $categoryIds = is_array($params['category_id'])
+                    ? $params['category_id']
+                    : explode(',', (string) $params['category_id']);
+
+                $query->whereIn('product_categories.category_id', $categoryIds);
             }
 
-            return $query->max('min_price') ?? 0;
+            return $query->max('product_price_indices.max_price') ?? 0;
         }
 
         $attribute = $this->attributeRepository->findOneByField('code', $attributeCode);
@@ -646,8 +652,12 @@ class ProductRepository extends Repository
             });
 
         if (! empty($params['category_id'])) {
+            $categoryIds = is_array($params['category_id'])
+                ? $params['category_id']
+                : explode(',', (string) $params['category_id']);
+
             $query->leftJoin('product_categories', 'products.id', 'product_categories.product_id')
-                ->where('product_categories.category_id', $params['category_id']);
+                ->whereIn('product_categories.category_id', $categoryIds);
         }
 
         return $query->max('attr_pav.float_value') ?? 0;

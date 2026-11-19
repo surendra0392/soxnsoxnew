@@ -69,13 +69,16 @@ class RefundController extends Controller
         $this->validate(request(), [
             'refund.items' => 'array',
             'refund.items.*' => 'required|numeric|min:0',
+            'refund.shipping' => 'nullable|numeric|min:0',
+            'refund.adjustment_refund' => 'nullable|numeric|min:0',
+            'refund.adjustment_fee' => 'nullable|numeric|min:0',
         ]);
 
         $data = request()->all();
 
-        if (! isset($data['refund']['shipping'])) {
-            $data['refund']['shipping'] = 0;
-        }
+        $data['refund']['shipping'] = (float) ($data['refund']['shipping'] ?: 0);
+        $data['refund']['adjustment_refund'] = (float) ($data['refund']['adjustment_refund'] ?: 0);
+        $data['refund']['adjustment_fee'] = (float) ($data['refund']['adjustment_fee'] ?: 0);
 
         try {
             $totals = $this->refundRepository->getOrderItemsRefundSummary($data['refund'], $orderId);
@@ -91,9 +94,9 @@ class RefundController extends Controller
 
         $maxRefundAmount = $totals['grand_total']['price'] - $order->refunds()->sum('base_adjustment_refund');
 
-        $refundAmount = $totals['grand_total']['price'] - $totals['shipping']['price'] + $data['refund']['shipping'] + $data['refund']['adjustment_refund'] - $data['refund']['adjustment_fee'];
+        $refundAmount = $totals['grand_total']['price'] - $totals['shipping']['price'] + $data['refund']['shipping'] + ($data['refund']['adjustment_refund'] ?? 0) - ($data['refund']['adjustment_fee'] ?? 0);
 
-        if (! $refundAmount) {
+        if ($refundAmount <= 0) {
             session()->flash('error', trans('admin::app.sales.refunds.create.invalid-refund-amount-error'));
 
             return redirect()->back();

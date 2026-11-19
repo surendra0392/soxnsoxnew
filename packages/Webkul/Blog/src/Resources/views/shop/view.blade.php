@@ -1,29 +1,29 @@
-<x-shop::layouts>
+@php
+    $blogCatSlug = \Illuminate\Support\Str::slug($blog->category ?: 'general');
+    $canonicalBlogUrl = route('shop.blogs.view', ['category_slug' => $blogCatSlug, 'url_key' => $blog->url_key]);
+    $rawBlogTitle = $blog->meta_title ?: $blog->name;
+    $blogSeoTitle = (stripos($rawBlogTitle, 'SOX N SOX') !== false || stripos($rawBlogTitle, 'SOXNSOX') !== false)
+        ? $rawBlogTitle
+        : $rawBlogTitle . ' | SOX N SOX';
+@endphp
+
+<x-shop::layouts :canonical="$canonicalBlogUrl">
     <x-slot:title>
-        {{ $blog->meta_title ?: $blog->name }} | SOX N SOX
+        {{ $blogSeoTitle }}
     </x-slot>
 
     @push('meta')
-        <meta name="title" content="{{ $blog->meta_title ?: $blog->name }} | SOX N SOX" />
+        <meta name="title" content="{{ $blogSeoTitle }}" />
         <meta name="description" content="{{ $blog->meta_description ?: $blog->short_description }}" />
         <meta name="keywords" content="{{ $blog->meta_keywords ?: 'bamboo socks, diabetic socks, foot health, SOX N SOX blog' }}" />
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        @php
-            $blogCatSlug = \Illuminate\Support\Str::slug($blog->category ?: 'general');
-            $canonicalBlogUrl = route('shop.blogs.view', ['category_slug' => $blogCatSlug, 'url_key' => $blog->url_key]);
-        @endphp
-        <link rel="canonical" href="{{ $canonicalBlogUrl }}" />
 
         <meta property="og:type" content="article" />
-        <meta property="og:site_name" content="SOX N SOX" />
-        <meta property="og:title" content="{{ $blog->meta_title ?: $blog->name }}" />
+        <meta property="og:title" content="{{ $blogSeoTitle }}" />
         <meta property="og:description" content="{{ $blog->meta_description ?: $blog->short_description }}" />
-        <meta property="og:url" content="{{ $canonicalBlogUrl }}" />
         <meta property="article:published_time" content="{{ $blog->published_at ? $blog->published_at->toIso8601String() : $blog->created_at->toIso8601String() }}" />
         <meta property="article:author" content="{{ $blog->author_name ?? 'SOX N SOX Footcare Team' }}" />
 
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="{{ $blog->meta_title ?: $blog->name }}" />
+        <meta name="twitter:title" content="{{ $blogSeoTitle }}" />
         <meta name="twitter:description" content="{{ $blog->meta_description ?: $blog->short_description }}" />
 
         @php
@@ -388,7 +388,7 @@
                     <!-- Copy Link -->
                     <button
                         type="button"
-                        onclick="navigator.clipboard.writeText('{{ $canonicalBlogUrl }}'); const el = this; el.classList.add('bg-[#2ca7a3]', 'text-white'); setTimeout(() => el.classList.remove('bg-[#2ca7a3]', 'text-white'), 2000);"
+                        onclick="if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(@js($canonicalBlogUrl)); } const el = this; el.classList.add('bg-[#2ca7a3]', 'text-white'); setTimeout(() => el.classList.remove('bg-[#2ca7a3]', 'text-white'), 2000);"
                         class="w-9 h-9 rounded-full bg-slate-100 hover:bg-[#2ca7a3] text-slate-600 hover:text-white flex items-center justify-center transition-all duration-200"
                         title="Copy Article Link"
                     >
@@ -567,7 +567,7 @@
                             </a>
                             <button
                                 type="button"
-                                onclick="navigator.clipboard.writeText('{{ $canonicalBlogUrl }}'); const el = this; el.classList.add('bg-[#2ca7a3]', 'text-white'); setTimeout(() => el.classList.remove('bg-[#2ca7a3]', 'text-white'), 2000);"
+                                onclick="if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(@js($canonicalBlogUrl)); } const el = this; el.classList.add('bg-[#2ca7a3]', 'text-white'); setTimeout(() => el.classList.remove('bg-[#2ca7a3]', 'text-white'), 2000);"
                                 class="w-8 h-8 rounded-full bg-slate-100 hover:bg-[#2ca7a3] text-slate-600 hover:text-white flex items-center justify-center transition-all"
                                 title="Copy Link"
                             >
@@ -644,7 +644,7 @@
                             $relCatSlug = \Illuminate\Support\Str::slug($relBlog->category ?: 'general');
                             $relBlogUrl = route('shop.blogs.view', ['category_slug' => $relCatSlug, 'url_key' => $relBlog->url_key]);
                         @endphp
-                        <article class="group flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-lg hover:border-[#2ca7a3]/60 hover:-translate-y-1 transition-all duration-300">
+                        <article class="group flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-lg hover:border-[#2ca7a3]/60 hover:-translate-y-1 transition-all duration-300">
                             <div>
                                 <a href="{{ $relBlogUrl }}" class="block relative aspect-[16/10] overflow-hidden bg-slate-100">
                                     @if ($relImgUrl)
@@ -660,7 +660,7 @@
                                         </div>
                                     @endif
                                     <div class="absolute top-3 left-3">
-                                        <a href="{{ route('shop.blogs.category', ['category_slug' => $relCatSlug]) }}" class="inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-xs border border-slate-200/80 hover:bg-[#2ca7a3] hover:text-white transition-colors">
+                                        <a href="{{ route('shop.blogs.category', ['category_slug' => $relCatSlug]) }}" class="inline-flex px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-sm border border-slate-200/80 hover:bg-[#2ca7a3] hover:text-white transition-colors">
                                             {{ $relBlog->category ?: 'Foot Care' }}
                                         </a>
                                     </div>

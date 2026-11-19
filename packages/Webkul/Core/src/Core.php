@@ -718,7 +718,7 @@ class Core
     {
         $collection = [];
 
-        $collection = $this->countryStateRepository->findByField(['country_code' => $countryCode, 'code' => $stateCode]);
+        $collection = $this->countryStateRepository->findWhere(['country_code' => $countryCode, 'code' => $stateCode]);
 
         if (count($collection)) {
             return $collection->first();

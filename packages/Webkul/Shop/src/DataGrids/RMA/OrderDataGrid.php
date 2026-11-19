@@ -5,6 +5,7 @@ namespace Webkul\Shop\DataGrids\RMA;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
+use Webkul\RMA\Enums\DefaultRMAStatusEnum;
 use Webkul\Sales\Models\Order;
 
 class OrderDataGrid extends DataGrid
@@ -19,8 +20,13 @@ class OrderDataGrid extends DataGrid
         $tablePrefix = DB::getTablePrefix();
 
         $rmaItemsSubquery = DB::table('rma_items')
-            ->select('order_item_id', DB::raw('SUM(quantity) as total_rma_qty'))
-            ->groupBy('order_item_id');
+            ->join('rma', 'rma.id', '=', 'rma_items.rma_id')
+            ->whereNotIn('rma.rma_status_id', [
+                DefaultRMAStatusEnum::DECLINED->value,
+                DefaultRMAStatusEnum::CANCELED->value,
+            ])
+            ->select('rma_items.order_item_id', DB::raw("SUM({$tablePrefix}rma_items.quantity) as total_rma_qty"))
+            ->groupBy('rma_items.order_item_id');
 
         $queryBuilder = DB::table('orders')
             ->select([
@@ -81,7 +87,7 @@ class OrderDataGrid extends DataGrid
             'sortable' => true,
             'filterable' => true,
             'closure' => function ($row) {
-                return '<span class="text-sm text-blue-500"><a href="'.route('shop.customers.account.orders.view', ['id' => $row->increment_id]).'">'.'#'.$row->increment_id.'</a></span>';
+                return '<span class="text-sm text-blue-500"><a href="'.route('shop.customers.account.orders.view', ['id' => $row->id]).'">'.'#'.e($row->increment_id).'</a></span>';
             },
         ]);
 

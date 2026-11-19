@@ -58,10 +58,13 @@ class WishlistController extends APIController
             ]);
         }
 
+        $customerId = auth()->guard('customer')->user()->id;
+        $channelId = core()->getCurrentChannel()->id;
+
         $data = [
-            'channel_id' => core()->getCurrentChannel()->id,
+            'channel_id' => $channelId,
             'product_id' => $product->id,
-            'customer_id' => auth()->guard()->user()->id,
+            'customer_id' => $customerId,
         ];
 
         if (! $this->wishlistRepository->findOneWhere($data)) {
@@ -76,10 +79,7 @@ class WishlistController extends APIController
             ]);
         }
 
-        $this->wishlistRepository->deleteWhere([
-            'product_id' => $product->id,
-            'customer_id' => auth()->guard()->user()->id,
-        ]);
+        $this->wishlistRepository->deleteWhere($data);
 
         return new JsonResource([
             'message' => trans('shop::app.customers.account.wishlist.removed'),
@@ -127,15 +127,23 @@ class WishlistController extends APIController
                 ]);
             }
 
+            $productUrl = route('shop.products.view', [
+                'category' => $wishlistItem->product->getPrimaryCategorySlug(),
+                'slug' => $wishlistItem->product->url_key,
+            ]);
+
             return new JsonResource([
                 'redirect' => true,
-                'data' => route('shop.products.view', $wishlistItem->product->url_key),
+                'data' => $productUrl,
                 'message' => trans('shop::app.checkout.cart.missing-options'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
                 'redirect' => true,
-                'data' => route('shop.products.view', $wishlistItem->product->url_key),
+                'data' => route('shop.products.view', [
+                    'category' => $wishlistItem->product->getPrimaryCategorySlug(),
+                    'slug' => $wishlistItem->product->url_key,
+                ]),
                 'message' => $exception->getMessage(),
             ]);
         }

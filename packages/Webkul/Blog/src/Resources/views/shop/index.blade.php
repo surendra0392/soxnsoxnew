@@ -1,26 +1,26 @@
-<x-shop::layouts>
+@php
+    $currentBlogUrl = ! empty($selectedCategorySlug) ? route('shop.blogs.category', ['category_slug' => $selectedCategorySlug]) : route('shop.blogs.index');
+    $blogIndexTitle = ! empty($selectedCategory)
+        ? $selectedCategory . ' Articles | SOX N SOX Journal'
+        : 'SOX N SOX Journal | Bamboo Fiber Science & Diabetic Foot Care Blog';
+@endphp
+
+<x-shop::layouts :canonical="$currentBlogUrl">
     <x-slot:title>
-        SOX N SOX Journal | Bamboo Fiber Science &amp; Diabetic Foot Care Blog
+        {{ $blogIndexTitle }}
     </x-slot>
 
     @push('meta')
-        <meta name="title" content="SOX N SOX Journal | Bamboo Fiber Science &amp; Diabetic Foot Care Blog" />
+        <meta name="title" content="{{ $blogIndexTitle }}" />
         <meta name="description" content="Evidence-based podiatry insights, bamboo fiber engineering, diabetic foot comfort, and practical guides to keep your feet blister-free and energized every step of the way." />
         <meta name="keywords" content="bamboo socks blog, diabetic foot care, blister prevention, seamless socks podiatry, SOX N SOX journal" />
-        @php
-            $currentBlogUrl = ! empty($selectedCategorySlug) ? route('shop.blogs.category', ['category_slug' => $selectedCategorySlug]) : route('shop.blogs.index');
-        @endphp
-        <link rel="canonical" href="{{ $currentBlogUrl }}" />
 
-        <meta property="og:type" content="blog" />
-        <meta property="og:site_name" content="SOX N SOX" />
-        <meta property="og:title" content="{{ ! empty($selectedCategory) ? $selectedCategory . ' Articles | SOX N SOX Journal' : 'SOX N SOX Journal | Bamboo Fiber Science &amp; Diabetic Foot Care Blog' }}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="{{ $blogIndexTitle }}" />
         <meta property="og:description" content="Evidence-based podiatry insights, bamboo fiber engineering, diabetic foot comfort, and practical guides." />
-        <meta property="og:url" content="{{ $currentBlogUrl }}" />
         <meta property="og:image" content="{{ asset('logo.png') }}" />
 
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="SOX N SOX Journal | Bamboo Fiber Science &amp; Diabetic Foot Care Blog" />
+        <meta name="twitter:title" content="{{ $blogIndexTitle }}" />
         <meta name="twitter:description" content="Evidence-based podiatry insights, bamboo fiber engineering, diabetic foot comfort, and practical guides." />
         <meta name="twitter:image" content="{{ asset('logo.png') }}" />
 
@@ -100,7 +100,7 @@
     <section class="relative bg-gradient-to-b from-[#f8fafc] via-white to-white pt-6 pb-12 sm:pt-10 sm:pb-16 border-b border-slate-100 overflow-hidden">
         <div class="site-container relative z-10 text-center">
             <!-- Eyebrow Pill -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2ca7a3]/10 border border-[#2ca7a3]/25 text-[#2ca7a3] text-xs font-bold uppercase tracking-[0.14em] mb-4 shadow-xs">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2ca7a3]/10 border border-[#2ca7a3]/25 text-[#2ca7a3] text-xs font-bold uppercase tracking-[0.14em] mb-4 shadow-sm">
                 <i class="fa-solid fa-book-open-reader text-xs"></i>
                 SOX N SOX Journal &amp; Wellness
             </div>
@@ -118,7 +118,7 @@
                 <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mt-8 pt-2">
                     <a
                         href="{{ route('shop.blogs.index') }}"
-                        class="px-4 py-2 rounded-full text-xs font-bold transition-all {{ empty($selectedCategory) ? 'bg-[#133b63] text-white shadow-md' : 'bg-white text-slate-600 hover:text-[#133b63] border border-slate-200 hover:border-slate-300 shadow-xs' }}"
+                        class="px-4 py-2 rounded-full text-xs font-bold transition-all {{ empty($selectedCategory) ? 'bg-[#133b63] text-white shadow-md' : 'bg-white text-slate-600 hover:text-[#133b63] border border-slate-200 hover:border-slate-300 shadow-sm' }}"
                     >
                         All Articles
                     </a>
@@ -129,7 +129,7 @@
                         @endphp
                         <a
                             href="{{ route('shop.blogs.category', ['category_slug' => $catSlug]) }}"
-                            class="px-4 py-2 rounded-full text-xs font-bold transition-all {{ $isActive ? 'bg-[#2ca7a3] text-white shadow-md' : 'bg-white text-slate-600 hover:text-[#2ca7a3] border border-slate-200 hover:border-slate-300 shadow-xs' }}"
+                            class="px-4 py-2 rounded-full text-xs font-bold transition-all {{ $isActive ? 'bg-[#2ca7a3] text-white shadow-md' : 'bg-white text-slate-600 hover:text-[#2ca7a3] border border-slate-200 hover:border-slate-300 shadow-sm' }}"
                         >
                             {{ $cat }}
                         </a>
@@ -285,7 +285,7 @@
                             $blogCatSlug = \Illuminate\Support\Str::slug($blog->category ?: 'general');
                             $blogUrl = route('shop.blogs.view', ['category_slug' => $blogCatSlug, 'url_key' => $blog->url_key]);
                         @endphp
-                        <article class="group flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:border-[#2ca7a3]/60 hover:-translate-y-1.5 transition-all duration-300">
+                        <article class="group flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-[#2ca7a3]/60 hover:-translate-y-1.5 transition-all duration-300">
                             <div>
                                 <!-- Image Stage -->
                                 <a href="{{ $blogUrl }}" class="block relative aspect-[16/10] overflow-hidden bg-slate-100">
@@ -304,7 +304,7 @@
 
                                     <!-- Category Pill -->
                                     <div class="absolute z-10" style="top: 14px; left: 14px;">
-                                        <a href="{{ route('shop.blogs.category', ['category_slug' => $blogCatSlug]) }}" class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-xs border border-slate-200/80 backdrop-blur-md hover:bg-[#2ca7a3] hover:text-white transition-colors">
+                                        <a href="{{ route('shop.blogs.category', ['category_slug' => $blogCatSlug]) }}" class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/95 text-[#133b63] shadow-sm border border-slate-200/80 backdrop-blur-md hover:bg-[#2ca7a3] hover:text-white transition-colors">
                                             {{ $blog->category ?: 'Foot Care' }}
                                         </a>
                                     </div>

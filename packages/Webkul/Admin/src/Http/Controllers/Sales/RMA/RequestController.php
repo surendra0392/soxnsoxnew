@@ -140,19 +140,20 @@ class RequestController extends Controller
      */
     public function sendMessage(): JsonResponse
     {
-        $this->validate(request(), [
-            'file' => 'nullable|file|mimetypes:'.core()->getConfigData('sales.rma.setting.allowed_file_extension'),
+        $validated = $this->validate(request(), [
+            'rma_id' => ['required', 'integer', 'exists:rma,id'],
+            'message' => ['nullable', 'string'],
+            'is_admin' => ['sometimes', 'boolean'],
+            'file' => ['nullable', 'file', ($ext = core()->getConfigData('sales.rma.setting.allowed_file_extension')) ? "mimetypes:{$ext}" : 'mimes:jpg,jpeg,png,webp,pdf'],
         ]);
 
-        $requestData = request()->input();
-
-        $storedMessage = $this->rmaMessageRepository->create($requestData);
+        $storedMessage = $this->rmaMessageRepository->create([
+            'rma_id' => $validated['rma_id'],
+            'message' => $validated['message'] ?? null,
+            'is_admin' => $validated['is_admin'] ?? 1,
+        ]);
 
         if (! empty($storedMessage)) {
-            $removedKeys = explode(',', request()->input('removed_key'));
-
-            array_shift($removedKeys);
-
             if (! empty(request()->file('file'))) {
                 $file = request()->file('file');
 
@@ -209,7 +210,7 @@ class RequestController extends Controller
             'rma_reason_id' => 'required',
             'information' => 'nullable|string',
             'images' => 'nullable|array|min:1',
-            'images.*' => 'nullable|file|mimetypes:'.core()->getConfigData('sales.rma.setting.allowed_file_extension'),
+            'images.*' => ['nullable', 'file', ($ext = core()->getConfigData('sales.rma.setting.allowed_file_extension')) ? "mimetypes:{$ext}" : 'mimes:jpg,jpeg,png,webp,pdf'],
         ]);
 
         $data = request()->only([
@@ -385,7 +386,9 @@ class RequestController extends Controller
      */
     public function updateStatus(int $id): JsonResponse
     {
-        $data = request()->input();
+        $data = $this->validate(request(), [
+            'rma_status_id' => ['required', 'integer', 'exists:rma_statuses,id'],
+        ]);
 
         $rma = $this->rmaRepository->findOrFail($id);
 
@@ -503,7 +506,7 @@ class RequestController extends Controller
                 $orderItem->parent->qty_canceled += $orderItem->parent->qty_to_cancel;
                 $orderItem->parent->save();
             }
-        } else {
+        } elseif ($orderItem->parent) {
             $orderItem->parent->qty_canceled += $orderItem->parent->qty_to_cancel;
             $orderItem->parent->save();
         }
@@ -610,7 +613,7 @@ class RequestController extends Controller
         $this->rmaMessageRepository->create([
             'message' => trans('admin::app.sales.rma.all-rma.view.status-message', [
                 'id' => $rma->id,
-                'status' => $rma->fresh()->status->title,
+                'status' => $rma->fresh()->status?->title ?? '',
             ]),
             'rma_id' => $rma->id,
             'is_admin' => 1,

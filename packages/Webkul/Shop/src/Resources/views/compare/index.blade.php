@@ -5,7 +5,7 @@
     <meta name="keywords" content="@lang('shop::app.compare.title')"/>
 @endPush
 
-<x-shop::layouts>
+<x-shop::layouts :noindex="true">
     <!-- Page Title -->
     <x-slot:title>
         @lang('shop::app.compare.title') | SOXNSOX
@@ -36,12 +36,12 @@
         </div>
 
         <!-- Compare Component -->
-        <main class="site-container pb-20">
+        <div class="site-container pb-20">
             <v-compare>
                 <!-- Shimmer Effect -->
                 <x-shop::shimmer.compare :attributeCount="count($comparableAttributes)" />
             </v-compare>
-        </main>
+        </div>
     </div>
 
     @pushOnce('scripts')
@@ -225,7 +225,9 @@
                                 if (! this.isCustomer) {
                                     const index = this.items.findIndex((item) => item.id === productId);
 
-                                    this.items.splice(index, 1);
+                                    if (index !== -1) {
+                                        this.items.splice(index, 1);
+                                    }
 
                                     let items = this.getStorageValue()
                                         .filter(item => item != productId);
@@ -240,13 +242,13 @@
                                         'product_id': productId,
                                     })
                                     .then(response => {
-                                        this.items = response.data.data;
+                                        this.items = response.data.data?.data ?? [];
 
-                                        this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
+                                        this.$emitter.emit('add-flash', { type: 'success', message: response.data.data?.message || response.data.message });
 
                                     })
                                     .catch(error => {
-                                        this.$emitter.emit('add-flash', { type: 'error', message: response.data.message });
+                                        this.$emitter.emit('add-flash', { type: 'error', message: error.response?.data?.message || 'Unable to remove item.' });
                                     });
                             }
                         });
@@ -285,7 +287,15 @@
                             return [];
                         }
 
-                        return JSON.parse(value);
+                        try {
+                            const parsed = JSON.parse(value);
+
+                            return Array.isArray(parsed) ? parsed : [];
+                        } catch (e) {
+                            localStorage.removeItem('compare_items');
+
+                            return [];
+                        }
                     },
                 }
             });

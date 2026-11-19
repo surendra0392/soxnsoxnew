@@ -137,6 +137,9 @@ Route::get('contact-us', [HomeController::class, 'contactUs'])
     ->name('shop.home.contact_us')
     ->middleware('cache.response');
 
+Route::get('offline', [HomeController::class, 'offline'])
+    ->name('shop.home.offline');
+
 Route::post('contact-us/send-mail', [HomeController::class, 'sendContactUsMail'])
     ->name('shop.home.contact_us.send_mail')
     ->middleware('cache.response');
@@ -156,7 +159,9 @@ Route::post('search/upload', [SearchController::class, 'upload'])->name('shop.se
 Route::controller(SubscriptionController::class)->group(function () {
     Route::post('subscription', 'store')->name('shop.subscription.store');
 
-    Route::get('subscription/{token}', 'destroy')->name('shop.subscription.destroy');
+    Route::get('subscription/{token}', 'unsubscribe')->name('shop.subscription.destroy');
+
+    Route::post('subscription/{token}', 'destroy')->name('shop.subscription.destroy.post');
 });
 
 /**

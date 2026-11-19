@@ -109,8 +109,8 @@ class UserController extends Controller
 
         if ($data instanceof RedirectResponse) {
             return new JsonResponse([
-                'message' => trans('admin::app.settings.users.update-success'),
-            ]);
+                'message' => session('error') ?: trans('admin::app.settings.users.cannot-change', ['name' => 'status']),
+            ], 422);
         }
 
         Event::dispatch('user.admin.update.before', $id);
@@ -211,7 +211,9 @@ class UserController extends Controller
 
         if (Hash::check($password, auth()->guard('admin')->user()->password)) {
             if ($this->adminRepository->count() == 1) {
-                session()->flash('error', trans('admin::app.settings.users.delete-last'));
+                return new JsonResponse([
+                    'message' => trans('admin::app.settings.users.last-delete-error'),
+                ], 400);
             } else {
                 $id = auth()->guard('admin')->user()->id;
 
@@ -229,7 +231,7 @@ class UserController extends Controller
         } else {
             return new JsonResponse([
                 'message' => trans('admin::app.settings.users.incorrect-password'),
-            ], 404);
+            ], 422);
         }
     }
 
@@ -243,12 +245,12 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        $user = $this->adminRepository->find($id);
+        $user = $this->adminRepository->findOrFail($id);
 
         /**
          * Password check.
          */
-        if (! $data['password']) {
+        if (empty($data['password'])) {
             unset($data['password']);
         } else {
             $data['password'] = bcrypt($data['password']);

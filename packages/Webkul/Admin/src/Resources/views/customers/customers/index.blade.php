@@ -172,7 +172,7 @@
                             </label>
                         @endif
 
-                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden border border-slate-200/80 shadow-2xs">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden border border-slate-200/80 shadow-sm">
                             <img
                                 :src="record.avatar_url || record.image_url || getSoxnsoxAvatar(record.full_name, 40)"
                                 class="h-full w-full object-cover"

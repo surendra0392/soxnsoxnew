@@ -44,19 +44,21 @@ Route::group(['prefix' => 'api'], function () {
     Route::controller(ReviewController::class)->prefix('product/{id}')->group(function () {
         Route::get('reviews', 'index')->name('shop.api.products.reviews.index');
 
-        Route::post('review', 'store')->name('shop.api.products.reviews.store');
+        Route::post('review', 'store')->middleware('throttle:15,1')->name('shop.api.products.reviews.store');
 
-        Route::get('reviews/{review_id}/translate', 'translate')->name('shop.api.products.reviews.translate');
+        Route::get('reviews/{review_id}/translate', 'translate')->middleware('throttle:60,1')->name('shop.api.products.reviews.translate');
     });
 
     Route::controller(CompareController::class)->prefix('compare-items')->group(function () {
         Route::get('', 'index')->name('shop.api.compare.index');
 
-        Route::post('', 'store')->name('shop.api.compare.store');
+        Route::middleware(['customer'])->group(function () {
+            Route::post('', 'store')->name('shop.api.compare.store');
 
-        Route::delete('', 'destroy')->name('shop.api.compare.destroy');
+            Route::delete('', 'destroy')->name('shop.api.compare.destroy');
 
-        Route::delete('all', 'destroyAll')->name('shop.api.compare.destroy_all');
+            Route::delete('all', 'destroyAll')->name('shop.api.compare.destroy_all');
+        });
     });
 
     Route::controller(CartController::class)->prefix('checkout/cart')->group(function () {
@@ -99,7 +101,7 @@ Route::group(['prefix' => 'api'], function () {
      * Login routes.
      */
     Route::controller(CustomerController::class)->prefix('customer')->group(function () {
-        Route::post('login', 'login')->name('shop.api.customers.session.create');
+        Route::post('login', 'login')->middleware('throttle:5,1')->name('shop.api.customers.session.create');
     });
 
     Route::group(['middleware' => ['customer'], 'prefix' => 'customer'], function () {

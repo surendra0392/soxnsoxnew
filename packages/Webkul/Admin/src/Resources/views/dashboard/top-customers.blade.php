@@ -38,7 +38,7 @@
                     >
                         <div class="flex items-center gap-3 min-w-0">
                             <!-- Profile avatar or placeholder icon -->
-                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full ring-1 ring-slate-200 overflow-hidden shadow-2xs">
+                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full ring-1 ring-slate-200 overflow-hidden shadow-sm">
                                 <img
                                     :src="customer.avatar_url || customer.image_url || getSoxnsoxAvatar(customer.full_name, 36)"
                                     class="h-full w-full object-cover"

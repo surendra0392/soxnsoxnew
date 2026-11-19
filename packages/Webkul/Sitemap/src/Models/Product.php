@@ -22,7 +22,10 @@ class Product extends BaseProduct implements Sitemapable
             return [];
         }
 
-        return Url::create(route('shop.products.view', $this->url_key))
+        return Url::create(route('shop.products.view', [
+            'category' => $this->getPrimaryCategorySlug(),
+            'slug' => $this->url_key,
+        ]))
             ->setLastModificationDate(Carbon::create($this->updated_at));
     }
 }

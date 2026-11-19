@@ -87,14 +87,21 @@ class CustomerRepository extends Repository
      */
     public function syncNewRegisteredCustomerInformation($customer)
     {
+        if (empty($customer->email)) {
+            return;
+        }
+
         /**
-         * Setting registered customer to orders.
+         * Setting registered customer to guest orders in the same channel.
          */
-        Order::where('customer_email', $customer->email)->update([
-            'is_guest' => 0,
-            'customer_id' => $customer->id,
-            'customer_type' => Customer::class,
-        ]);
+        Order::where('customer_email', $customer->email)
+            ->where('is_guest', 1)
+            ->where('channel_id', $customer->channel_id)
+            ->update([
+                'is_guest' => 0,
+                'customer_id' => $customer->id,
+                'customer_type' => Customer::class,
+            ]);
 
         /**
          * Grabbing orders by `customer_id`.

@@ -74,9 +74,13 @@
                     </template>
     
                     <template v-else>
-                        <template v-for="record in available.records">
-                            <div class="w-full p-4 border border-soxnsox-border/70 rounded-2xl bg-[#f8fafc] mb-3 last:mb-0 space-y-3">
-                                <a :href="record.actions[0].url" class="block space-y-2">
+                        <template v-if="available.records?.length">
+                            <div
+                                v-for="record in available.records"
+                                :key="record.id"
+                                class="w-full p-4 border border-soxnsox-border/70 rounded-2xl bg-[#f8fafc] mb-3 last:mb-0 space-y-3"
+                            >
+                                <a :href="record.actions?.[0]?.url || '#'" class="block space-y-2">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <p class="font-display text-sm font-bold text-[#133b63]">
@@ -99,6 +103,9 @@
                                 </a>
                             </div>
                         </template>
+                        <p v-else class="py-6 text-center text-sm text-soxnsox-muted">
+                            @lang('shop::app.components.datagrid.table.no-records-available')
+                        </p>
                     </template>
                 </template>
             </x-shop::datagrid>

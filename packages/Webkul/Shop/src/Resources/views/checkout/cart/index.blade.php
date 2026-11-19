@@ -2,10 +2,9 @@
 @push('meta')
     <meta name="title" content="@lang('shop::app.checkout.cart.index.cart') | SOXNSOX" />
     <meta name="description" content="Review and manage items in your SOXNSOX shopping cart." />
-    <meta name="robots" content="noindex, nofollow" />
 @endPush
 
-<x-shop::layouts>
+<x-shop::layouts :noindex="true">
     <!-- Page Title -->
     <x-slot:title>
         @lang('shop::app.checkout.cart.index.cart') | SOXNSOX
@@ -36,12 +35,12 @@
         </div>
 
         <!-- Cart Main Container -->
-        <main class="site-container pb-20">
+        <div class="site-container pb-20">
             <v-cart ref="vCart">
                 <!-- Cart Shimmer Effect -->
                 <x-shop::shimmer.checkout.cart :count="3" />
             </v-cart>
-        </main>
+        </div>
     </div>
 
     @if (core()->getConfigData('sales.checkout.shopping_cart.cross_sell'))
@@ -136,7 +135,7 @@
                                             @lang('shop::app.checkout.cart.index.remove')
                                         </button>
 
-                                        @if (auth()->guard()->check())
+                                        @if (auth()->guard('customer')->check())
                                             <span class="text-soxnsox-border">|</span>
 
                                             <button
@@ -180,7 +179,7 @@
                                                 class="shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#f8fafc] border border-soxnsox-border/70 overflow-hidden flex items-center justify-center"
                                             >
                                                 <img
-                                                    :src="item.base_image.small_image_url"
+                                                    :src="item.base_image?.small_image_url"
                                                     class="w-full h-full object-cover"
                                                     :alt="item.name"
                                                 />
@@ -223,23 +222,16 @@
                                                     </span>
                                                 </div>
 
-                                                <!-- Weight & Options Variations -->
-                                                <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[11px] text-[#4b5563]">
-                                                    <span
-                                                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium"
-                                                        v-if="item.formatted_weight"
-                                                    >
-                                                        <span class="text-[#9ca3af]">Weight:</span>
-                                                        <span class="font-semibold text-[#133b63]">@{{ item.formatted_weight }}</span>
-                                                    </span>
-
-                                                    <template v-if="item.options.length">
-                                                        <template v-for="attribute in item.options">
-                                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium">
-                                                                <span class="text-[#9ca3af]">@{{ attribute.attribute_name }}:</span>
-                                                                <span class="font-semibold text-[#133b63]">@{{ attribute.option_label }}</span>
-                                                            </span>
-                                                        </template>
+                                                <!-- Selected Options Variations -->
+                                                <div
+                                                    v-if="item.options?.length"
+                                                    class="flex flex-wrap items-center gap-1.5 pt-1 text-[11px] text-[#4b5563]"
+                                                >
+                                                    <template v-for="attribute in item.options">
+                                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f8fafc] border border-[#e5e7eb] font-medium">
+                                                            <span class="text-[#9ca3af]">@{{ attribute.attribute_name }}:</span>
+                                                            <span class="font-semibold text-[#133b63]">@{{ attribute.option_label }}</span>
+                                                        </span>
                                                     </template>
                                                 </div>
 
@@ -420,7 +412,8 @@
                             })
                             .catch(error => {
                                 this.isLoading = false;
-                                this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                                this.refreshKey++;
+                                this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || 'Unable to update cart.' });
                             });
                     },
 
@@ -441,7 +434,7 @@
                                     })
                                     .catch(error => {
                                         this.isLoading = false;
-                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || 'Unable to update cart.' });
                                     });
                             }
                         });
@@ -469,7 +462,7 @@
                                     })
                                     .catch(error => {
                                         this.isLoading = false;
-                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || 'Unable to update cart.' });
                                     });
                             }
                         });
@@ -492,7 +485,7 @@
                                         this.$emitter.emit('update-mini-cart', response.data.data);
                                     })
                                     .catch(error => {
-                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response.data.message });
+                                        this.$emitter.emit('add-flash', { type: 'warning', message: error.response?.data?.message || 'Unable to update cart.' });
                                     });
                             },
                         });

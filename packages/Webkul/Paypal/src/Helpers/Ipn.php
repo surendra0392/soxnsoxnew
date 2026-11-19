@@ -56,7 +56,7 @@ class Ipn
                 isset($this->post['txn_type'])
                 && $this->post['txn_type'] !== 'recurring_payment'
             ) {
-                $this->order = $this->orderRepository->findOneByField(['cart_id' => $this->post['invoice']]);
+                $this->order = $this->orderRepository->findOneWhere(['cart_id' => $this->post['invoice']]);
 
                 $this->processOrder();
             }
@@ -93,6 +93,10 @@ class Ipn
      */
     protected function processOrder()
     {
+        if (! $this->order) {
+            return;
+        }
+
         if ($this->post['payment_status'] == 'Completed') {
             if ($this->post['mc_gross'] != $this->order->grand_total) {
                 return;
@@ -107,7 +111,7 @@ class Ipn
                     'transaction_id' => $this->post['txn_id'],
                     'status' => $this->post['payment_status'],
                     'type' => $this->post['payment_type'] ?? 'instant',
-                    'payment_method' => $this->order->payment->method,
+                    'payment_method' => $this->order->payment?->method,
                     'order_id' => $this->order->id,
                     'invoice_id' => $invoice->id,
                     'data' => json_encode($this->post),

@@ -188,6 +188,7 @@ abstract class Repository extends BaseRepository implements CacheableInterface
 
         $sum = $this->model->sum($columns);
         $this->resetModel();
+        $this->resetScope();
 
         return $sum;
     }
@@ -205,6 +206,7 @@ abstract class Repository extends BaseRepository implements CacheableInterface
 
         $avg = $this->model->avg($columns);
         $this->resetModel();
+        $this->resetScope();
 
         return $avg;
     }

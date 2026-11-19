@@ -809,7 +809,7 @@
                                 || this.getAttachmentExtension === 'png'
                                 || this.getAttachmentExtension === 'gif'
                         )"
-                        :src="'{{ config('app.url') }}' + '/storage/' + messagePath"
+                        :src="'{{ rtrim(url('/'), '/') }}' + '/storage/' + messagePath"
                         class="min-h-[500px] min-w-[500px] max-h-[500px] max-w-[500px] rounded m-auto"
                     />
 
@@ -819,7 +819,7 @@
                             messagePath
                             && this.getAttachmentExtension === 'pdf'
                             "
-                        :src="'{{ config('app.url') }}' + '/storage/' + messagePath"
+                        :src="'{{ rtrim(url('/'), '/') }}' + '/storage/' + messagePath"
                         width="100%" height="500px"
                         type="application/pdf"
                     />
@@ -836,7 +836,7 @@
                         controls
                         class="w-full h-auto max-h-[500px] rounded m-auto"
                     >
-                        <source :src="'{{ config('app.url') }}' + '/storage/' + messagePath" />
+                        <source :src="'{{ rtrim(url('/'), '/') }}' + '/storage/' + messagePath" />
                     </video>
 
                     {!! view_render_event('bagisto.admin.sales.rma.requests.view.message.attachment.modal.content.after') !!}
@@ -1031,7 +1031,7 @@
                     },
 
                     downloadAttachment(messagePath) {
-                        const imageUrl = `{{ config('app.url') }}/storage/${messagePath}`;
+                        const imageUrl = `{{ rtrim(url('/'), '/') }}/storage/${messagePath}`;
 
                         const link = document.createElement('a');
 
@@ -1072,9 +1072,9 @@
 
                         attachmentPreview.innerHTML = '';
 
-                        const inputElement = event.target;
+                        const inputElement = $event.target;
 
-                        const files = event.target.files;
+                        const files = $event.target.files;
 
                         const fileNames = Array.from(files).map(file => file.name);
 
@@ -1089,8 +1089,6 @@
                                     message: "@lang('admin::app.configuration.index.sales.rma.allowed-file-types', ['allowed_types' => strtoupper(str_replace(['image/', ','], ['', ', '], core()->getConfigData('sales.rma.setting.allowed_file_extension')))])"
                                 });
 
-                                event.target.value = '';
-
                                 inputElement.value = '';
 
                                 return;
@@ -1103,7 +1101,7 @@
 
                         fileParagraph.classList.add('border', 'p-3', 'my-2', 'rounded-md');
 
-                        fileParagraph.innerHTML = fileNames;
+                        fileParagraph.textContent = fileNames.join(', ');
 
                         const removeButton = document.createElement('button');
 
@@ -1117,8 +1115,6 @@
 
                         removeButton.addEventListener('click', function() {
                             attachmentPreview.innerHTML = '';
-
-                            event.target.value = '';
 
                             inputElement.value = '';
                         });

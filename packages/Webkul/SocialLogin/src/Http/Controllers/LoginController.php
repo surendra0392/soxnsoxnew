@@ -54,7 +54,27 @@ class LoginController extends Controller
 
         $customer = $this->customerSocialAccountRepository->findOrCreateCustomer($user, $provider);
 
+        if (! $customer) {
+            session()->flash('error', trans('shop::app.customers.login-form.invalid-credentials'));
+
+            return redirect()->route('shop.customer.session.index');
+        }
+
+        if (! $customer->status) {
+            session()->flash('warning', trans('shop::app.customers.login-form.not-activated'));
+
+            return redirect()->route('shop.customer.session.index');
+        }
+
+        if ($customer->is_suspended) {
+            session()->flash('warning', trans('shop::app.checkout.cart.suspended-account-message'));
+
+            return redirect()->route('shop.customer.session.index');
+        }
+
         auth()->guard('customer')->login($customer, true);
+
+        request()->session()->regenerate();
 
         Event::dispatch('customer.after.login', $customer);
 

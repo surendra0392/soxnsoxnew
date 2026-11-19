@@ -43,6 +43,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
+            'phonepe/*',
+            'razorpay/*',
+            'paypal/*',
+            'payu/*',
         ]);
 
         $middleware->trustProxies(at: '*');

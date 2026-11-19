@@ -2240,7 +2240,7 @@
                         @lang('shop::app.customers.account.orders.view.payment-method')
 
                         <div class="mt-1 grid gap-2.5 text-xs text-black">
-                            {{ core()->getConfigData('sales.payment_methods.' . $order->payment->method . '.title') }}
+                            {{ ($order->payment?->method ? core()->getConfigData('sales.payment_methods.' . $order->payment->method . '.title') : null) ?? $order->payment?->method_title ?? 'Online Payment' }}
 
                             @if (! empty($additionalDetails))
                                 <div class="instructions">
@@ -2324,7 +2324,7 @@
                     </p>
 
                     <p class="text-sm">
-                        {{ core()->getConfigData('sales.payment_methods.' . $order->payment->method . '.title') }}
+                        {{ ($order->payment?->method ? core()->getConfigData('sales.payment_methods.' . $order->payment->method . '.title') : null) ?? $order->payment?->method_title ?? 'Online Payment' }}
                     </p>
 
                     @if (! empty($additionalDetails))

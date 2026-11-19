@@ -118,7 +118,7 @@
                 window.addEventListener('resize', this.updateScreenSize);
             },
 
-            beforeDestroy() {
+            beforeUnmount() {
                 window.removeEventListener('resize', this.updateScreenSize);
             },
 

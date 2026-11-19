@@ -80,9 +80,13 @@ class InvoiceRepository extends Repository
                     $qty = $orderItem->qty_to_invoice;
                 }
 
-                $taxAmount = (($orderItem->tax_amount / $orderItem->qty_ordered) * $qty);
+                $taxAmount = $orderItem->qty_ordered > 0
+                    ? (($orderItem->tax_amount / $orderItem->qty_ordered) * $qty)
+                    : 0;
 
-                $baseTaxAmount = (($orderItem->base_tax_amount / $orderItem->qty_ordered) * $qty);
+                $baseTaxAmount = $orderItem->qty_ordered > 0
+                    ? (($orderItem->base_tax_amount / $orderItem->qty_ordered) * $qty)
+                    : 0;
 
                 $invoiceItem = $this->invoiceItemRepository->create([
                     'invoice_id' => $invoice->id,

@@ -23,7 +23,7 @@
             <div class="flex items-center gap-3">
                 <a
                     href="{{ route('admin.configuration.index') }}"
-                    class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-900 hover:bg-slate-50 transition-all shadow-xs"
+                    class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-900 hover:bg-slate-50 transition-all shadow-sm"
                     title="@lang('admin::app.configuration.index.back-btn')"
                 >
                     <i class="fa-solid fa-chevron-left text-xs"></i>
@@ -46,7 +46,7 @@
             <div class="flex items-center gap-2.5">
                 <a
                     href="{{ route('admin.configuration.index') }}"
-                    class="transparent-button rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all shadow-xs"
+                    class="transparent-button rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
                 >
                     @lang('admin::app.configuration.index.back-btn')
                 </a>
@@ -68,7 +68,7 @@
                     <x-slot:toggle>
                         <button
                             type="button"
-                            class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 transition-all"
+                            class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all"
                         >
                             <span class="icon-store text-lg text-slate-500"></span>
 
@@ -102,7 +102,7 @@
                     <x-slot:toggle>
                         <button
                             type="button"
-                            class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 transition-all"
+                            class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all"
                         >
                             <span class="icon-language text-lg text-slate-500"></span>
 
@@ -149,7 +149,7 @@
                         @endif
                     </div>
 
-                    <div class="rounded-[16px] border border-slate-200 bg-white p-6 shadow-xs">
+                    <div class="rounded-[16px] border border-slate-200 bg-white p-6 shadow-sm">
                         @foreach ($child->getFields() as $field)
                             @if (
                                 $field->getType() == 'blade'
